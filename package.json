@@ -1,0 +1,14 @@
+{
+  "name"         : "ca-water-pricing",
+  "version"      : "0.0.1",
+  "description"  : "water prices and rates for California",
+  "main"         : "server.js",
+  "author"       : "videmsky",
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies" : {
+    "express"    : "~3.4.4",
+    "mongoose"   : "~3.6.2"
+  }
+}
