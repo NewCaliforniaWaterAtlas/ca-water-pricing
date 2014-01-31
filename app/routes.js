@@ -23,6 +23,8 @@ module.exports = function(app) {
 		// create a bill, information comes from AJAX request from Angular
 		Bill.create({
 			bill : req.body.bill,
+			used : req.body.used,
+			rate : req.body.rate,
 			done : false
 		}, function(err, bill) {
 			if (err)

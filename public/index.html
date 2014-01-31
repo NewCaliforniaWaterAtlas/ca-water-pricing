@@ -10,21 +10,14 @@
 	<title>Water Pricing</title>
 
 	<!-- SCROLLS -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"><!-- load bootstrap -->
+
 	<style>
 		html 					{ overflow-y:scroll; }
 		body 					{ padding-top:50px; }
-		#todo-list 				{ margin-bottom:30px; }
-		#todo-form 	 			{ margin-bottom:50px; }
+		#bill-list 				{ margin-bottom:30px; }
+		#bill-form 	 			{ margin-bottom:50px; }
 	</style>
-
-	<!-- SPELLS -->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script><!-- load angular 1.2.4 -->
-
-	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
-	<script src="js/services/todos.js"></script> <!-- load our todo service -->
-	<script src="js/core.js"></script> <!-- load our main application -->
 
 </head>
 <!-- SET THE CONTROLLER -->
@@ -37,36 +30,69 @@
 		</div>
 
 		<!-- BILL LIST -->
-		<div id="todo-list" class="row">
+		<div id="bill-list" class="row">
 			<div class="col-sm-4 col-sm-offset-4">
 
 				<!-- LOOP OVER THE BILLS IN $scope.todos -->
 				<div class="checkbox" ng-repeat="record in records">
 					<label>
-						<input type="checkbox" ng-click="deleteBill(record._id)"> {{ record.bill }}
+						<input type="checkbox" ng-click="deleteBill(record._id)"> Total Bill: ${{ record.bill }}
 					</label>
 				</div>
 
 			</div>
 		</div>
 
-		<!-- FORM TO CREATE BILLS -->
-		<div id="todo-form" class="row">
+		<div id="bill-form" class="row">
 			<div class="col-sm-8 col-sm-offset-2 text-center">
-				<form>
-					<div class="form-group">
-
-						<!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-						<input type="text" class="form-control input-lg text-center" placeholder="How much do you pay for water?" ng-model="formData.bill">
-					</div>
-
-					<!-- createToDo() WILL CREATE NEW BILLS -->
-					<button type="submit" class="btn btn-primary btn-lg" ng-click="createBill()">Add</button>
-				</form>
+				<h2>How much do you pay for water?</h2>
+				<button type="submit" class="btn btn-primary btn-lg" data-toggle="modal" data-target=".bs-modal-sm">Enter Your Bill</button>
 			</div>
 		</div>
+	
+		<div class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title">Modal title</h4>
+		      </div>
+		      <div class="modal-body">
 
-	</div>
+						<form role="form">
+						  <div class="form-group">
+						    <label for="InputBill">Total Water Bill</label>
+						    <input type="" class="form-control" id="InputBill" ng-model="formData.bill" placeholder="ex. $45.55">
+						  </div>
+						  <div class="form-group">
+						    <label for="InputUse">Total Water Used</label>
+						    <input type="" class="form-control" id="InputUse" ng-model="formData.used" placeholder="ex. 300 gal">
+						  </div>
+						  <div class="form-group">
+						    <label for="InputRate">Utility Rate</label>
+						    <input type="" class="form-control" id="InputRate" ng-model="formData.rate" placeholder="ex $3/gal">
+						  </div>
+
+
+						</form>
+
+		      </div><!-- .modal-body -->
+		      <div class="modal-footer">
+		        <button type="submit" class="btn btn-default" data-dismiss="modal" ng-click="createBill()">Submit</button>
+		      </div>
+		    </div><!-- .modal-content -->
+		  </div><!-- .modal-dialog -->
+		</div><!-- .modal -->
+	
+	</div> <!-- end .container -->
+	
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script><!-- load angular 1.2.4 -->
+	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
+	<script src="js/services/todos.js"></script> <!-- load our todo service -->
+	<script src="js/core.js"></script> <!-- load our main application -->
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 
 </body>
 </html>

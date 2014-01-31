@@ -3,8 +3,8 @@ var mongoose = require('mongoose');
 
 module.exports = mongoose.model ('Bill', {
   bill: {type: Number, required: true },
-  // used: {type: Number, required: true },
-  // rate: {type: Number, required: true },
+  used: {type: Number, required: true },
+  rate: {type: Number, required: true },
   // bdate: {type: String},
   // hsize: {type: Number, required: true },
   // city: {type: String, required: true },
