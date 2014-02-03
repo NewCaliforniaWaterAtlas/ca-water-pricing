@@ -79,12 +79,25 @@ angular.module('mapDirective', [])
 		    });
 		    tiles.addTo(map);
 
+				var circle = L.circle([], 500, {
+				    color: 'red',
+				    fillColor: '#f03',
+				    fillOpacity: 0.5
+				})
+
+
 		    // Read in the Location/Events file 
 		    Bills.get().success(function(data) {
 		    	console.log(data);	
 	        // Loop through the 'locations' and place markers on the map
 	        angular.forEach(data, function(data, key){
-	          var marker = L.marker([data.lat, data.lng]).addTo(map);
+	          // var marker = L.marker([data.lat, data.lng]).addTo(map);
+	          var circle = L.circle([data.lat, data.lng], 500, {
+					    color: 'red',
+					    fillColor: '#f03',
+					    fillOpacity: 0.5
+	          }).addTo(map);
+
 	        });
 		    });
 			
