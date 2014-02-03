@@ -9,7 +9,9 @@ module.exports = mongoose.model ('Bill', {
   // hsize: {type: Number, required: true },
   // city: {type: String, required: true },
   // zip: {type: Number, required: true },
-  // coords: {lat: Number, long: Number },
+  // coords: {lat: Number, lng: Number },
+  lat: {type: Number, required: true },
+  lng: {type: Number, required: true },
   // tstamp: {type: Date, default: Date.now },
   done : Boolean
 });

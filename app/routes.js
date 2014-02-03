@@ -25,6 +25,8 @@ module.exports = function(app) {
 			bill : req.body.bill,
 			used : req.body.used,
 			rate : req.body.rate,
+			lat : req.body.lat,
+			lng : req.body.lng,
 			done : false
 		}, function(err, bill) {
 			if (err)
