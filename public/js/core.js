@@ -1,7 +1,4 @@
-(function () {
-  
-  'use strict';
+'use strict';
 
-  angular.module('app', ['appControllers', 'billService', 'd3Directive', 'mapDirective']);
-
-}());
+// var app = angular.module('app', ["leaflet-directive"]);
+var app = angular.module('app', []);
