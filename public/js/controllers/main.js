@@ -96,5 +96,15 @@ app.controller('chartController', ['$scope', function($scope){
 
 
 
+app.controller("TestCtrl",function ($scope) {
+
+  $scope.result = '';
+  $scope.options = null;
+  $scope.details = '';
+
+
+});
+
+
 
 

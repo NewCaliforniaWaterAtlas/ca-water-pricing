@@ -10,17 +10,18 @@ app.directive('map', [ '$window','mapService', function ($window, mapService) {
       points:"="
     },
 		link: function(scope, element, attrs) {
-			
+
 			mapService.map().then(function(map) {
-		    
+
 				// watch for points changes and re-render
         scope.$watch('points', function (newData) {
           scope.render(newData);
         }, true);
 
         scope.render = function(points) {
-        	if (!points) return; 
 			    
+        	if (!points) return; 	
+
 			    var popup = L.popup();
 			    // var southWest = new L.LatLng(40.60092,-74.173508);
 			    // var northEast = new L.LatLng(40.874843,-73.825035);            
@@ -49,25 +50,22 @@ app.directive('map', [ '$window','mapService', function ($window, mapService) {
 			    tiles.addTo(map);
 
 			    var group = L.featureGroup();
-					group.addTo(map);
+						
+	        angular.forEach(points, function(p, key){
+	          // var marker = L.marker([d.lat, d.lng]).addTo(group);
+	          var circle = L.circle([p.lat, p.lng], 500, {
+					    color: 'red',
+					    fillColor: '#f03',
+					    fillOpacity: 0.5
+	          }).addTo(group);
+	        });
+	        group.addTo(map);
 
-			    // billService.get().success(function(points) {
-		        angular.forEach(points, function(p, key){
-		          // var marker = L.marker([d.lat, d.lng]).addTo(group);
-		          var circle = L.circle([p.lat, p.lng], 500, {
-						    color: 'red',
-						    fillColor: '#f03',
-						    fillOpacity: 0.5
-		          }).addTo(group);
-		        });
-			    // });
-				
 				}// scope.render
 			
 			});//end mapService
 
 			
-		
 		}//end link
 	}//end return
 }]);//end .directive
