@@ -68,4 +68,5 @@ app.directive('map', [ '$window','mapService', function ($window, mapService) {
 			
 		}//end link
 	}//end return
+
 }]);//end .directive

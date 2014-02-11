@@ -1,7 +1,5 @@
 'use strict';
 
-// var app = angular.module('appControllers', []);
-
 	
 // inject the Bills service factory into our controller
 app.controller('mainController', function ($scope, billService) {
@@ -50,36 +48,13 @@ app.controller('mainController', function ($scope, billService) {
 			});
 	};
 
-});
+// Bootstrap Modal ======================================================================	
 
-// app.controller("mapController", function ($scope, billService) {    
-	
-// 	angular.extend($scope, {
-// 		ca: {
-// 		   lat: 37.166111,
-// 		   lng: -119.449444,
-// 		   zoom: 6
-// 		},
-// 		tiles: {
-// 		   // url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-// 		   url: "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-// 		},
-// 		defaults: {
-// 		   scrollWheelZoom: false
-// 		},
-// 		markers: {
-//       // lat: $scope.lat,
-//       // lng: $scope.lng
-// 		}
-	
-// 	});
 
-// 	// $scope.$watch("cairo.zoom", function(zoom) {
-// 	// 	$scope.tiles.url = (zoom > 12) ? "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-// 	// 	: "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
-// 	// });
-// });
 
+
+
+}); // end mainController
 
 
 app.controller('chartController', ['$scope', function($scope){
@@ -95,16 +70,12 @@ app.controller('chartController', ['$scope', function($scope){
 }]);
 
 
+// app.controller("TestCtrl",function ($scope) {
 
-app.controller("TestCtrl",function ($scope) {
+//   $scope.result = '';
+//   $scope.options = null;
+//   $scope.details = '';
 
-  $scope.result = '';
-  $scope.options = null;
-  $scope.details = '';
-
-
-});
-
-
+// });
 
 

@@ -9,10 +9,9 @@
 
 		<title>Water Pricing</title>
 
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"><!-- load bootstrap -->
-		<!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css"> -->
-		<link href='//api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
-		<link rel="stylesheet" href="css/custom/style.css"><!-- custom styles -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"><!-- load bootstrap css -->
+		<link rel="stylesheet" href='//api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css'><!-- load mapbox css -->
+		<link rel="stylesheet" href="css/custom/style.css"><!-- custom css -->
 
 	</head>
 	<!-- SET THE CONTROLLER -->
@@ -25,20 +24,9 @@
 		    <p>Current Zoom Level: {{ cairo.zoom }}</p>
 			</div> -->
 
-
-
-
-
-
 			<div>
 				<div map id="map" points="points"></div>
 			</div>
-
-
-
-
-
-
 
 			<!-- HEADER AND BILL COUNT -->
 			<div class="jumbotron text-center">
@@ -62,13 +50,9 @@
 			<div id="bill-form" class="row">
 				<div class="col-sm-8 col-sm-offset-2 text-center">
 					<h2>How much do you pay for water?</h2>
-					<!-- <button type="submit" class="btn btn-primary btn-lg" data-toggle="modal" data-target=".bs-modal-sm">Enter Your Bill</button> -->
+					<!-- <button class="btn btn-primary btn-lg" ng-click="open()">Enter Your Bill</button> -->
 				</div>
 			</div>
-
-
-
-
 
 			<div class="row">
 				<div class="panel panel-default col-sm-6 col-sm-offset-3">
@@ -117,11 +101,6 @@
 				</div>
 			</div>
 
-
-
-
-
-
 			<div ng-controller="chartController">
 				<div class="columns large-12">
 					<div d3-bars data="data" on-click="onClick(item)" bar-height="40" bar-padding="5"></div>
@@ -134,26 +113,24 @@
 			  </div>
 		  </div>
 
-
-
 		</div> <!-- end .container -->
-
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script><!-- load angular 1.2.4 -->
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
-		<!-- <script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js"></script> -->
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-		<!-- <script src="/js/libs/angular-leaflet-directive.min.js"></script> -->
-		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 		
-		<script src="js/core.js"></script> <!-- load our main application -->
-		<script src="js/controllers/main.js"></script> <!-- load up our controller -->	
-		<script src="js/services/billservice.js"></script> <!-- load our bill service -->
-		<script src="js/services/mapservice.js"></script> <!-- load our map service -->
-		<script src="js/services/d3service.js"></script> <!-- load our d3 service -->
-		<script src="js/directives/d3chart.js"></script> <!-- load up our directive -->
-		<script src="js/directives/map.js"></script> <!-- load up our directive -->
-		<script src="js/directives/ngAutocomplete.js"></script> <!-- load up our directive -->
+		<!-- js files -->
+		<script type="text/javascript" src="components/angular/angular.min.js"></script><!-- load angular 1.2.4 -->
+		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+		<script type="text/javascript" src="js/core.js"></script> <!-- load our main application -->
+		
+		<script type="text/javascript" src="js/bundle.js"></script> <!-- load our browserify bundle (for production) -->
 
+		<!-- run browserify & uglify for includes below -->
+		<script type="text/javascript" src="js/directives/map.js"></script>
+		<script type="text/javascript" src="js/directives/d3chart.js"></script>
+		<script type="text/javascript" src="js/directives/ngautocomplete.js"></script>
+		<script type="text/javascript" src="js/controllers/maincontroller.js"></script>
+		<!-- <script type="text/javascript" src="js/controllers/billmodalcontroller.js"></script> -->
+		<script type="text/javascript" src="js/services/billservice.js"></script>
+		<script type="text/javascript" src="js/services/mapservice.js"></script>
+		<script type="text/javascript" src="js/services/d3service.js"></script>
 
 	</body>
 </html>
