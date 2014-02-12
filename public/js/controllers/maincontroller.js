@@ -2,7 +2,7 @@
 
 	
 // inject the Bills service factory into our controller
-app.controller('mainController', function ($scope, billService) {
+app.controller('mainController', function ($scope, billService, agencyService) {
 	$scope.formData = {};
 
 	// GET =====================================================================
@@ -15,25 +15,28 @@ app.controller('mainController', function ($scope, billService) {
 			$scope.points = data;
 		});
 
+	// agencyService.get()
+	// 	.success(function(data) {
+	// 		$scope.test = data;
+	// 	});
+
 	// CREATE ==================================================================
 	// when submitting the add form, send the text to the node API
 	$scope.createBill = function() {
 
-		// validate the formData to make sure that something is there
-		// if form is empty, nothing will happen
-		if (!$.isEmptyObject($scope.formData)) {
+		// todo: validate the formData to make sure that something is there
+		
+		// call the create function from our service (returns a promise object)
+		billService.create($scope.formData)
 
-			// call the create function from our service (returns a promise object)
-			billService.create($scope.formData)
-
-				// if successful creation, call our get function to get all the new records
-				.success(function(data) {
-					$scope.formData = {}; // clear the form so our user is ready to enter another
-					$scope.records = data; // assign our new list of records
-					$scope.data = data;
-					$scope.points = data;
-				});
-		}
+			// if successful creation, call our get function to get all the new records
+			.success(function(data) {
+				$scope.formData = {}; // clear the form so our user is ready to enter another
+				$scope.records = data; // assign our new list of records
+				$scope.data = data;
+				$scope.points = data;
+			});
+		
 	};
 
 	// DELETE ==================================================================
@@ -48,13 +51,12 @@ app.controller('mainController', function ($scope, billService) {
 			});
 	};
 
-// Bootstrap Modal ======================================================================	
-
-
-
-
-
 }); // end mainController
+
+
+
+
+
 
 
 app.controller('chartController', ['$scope', function($scope){
@@ -77,5 +79,4 @@ app.controller('chartController', ['$scope', function($scope){
 //   $scope.details = '';
 
 // });
-
 

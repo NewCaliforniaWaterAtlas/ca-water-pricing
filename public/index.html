@@ -6,121 +6,29 @@
 		<!-- META -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
-
+		<base href="/">
 		<title>Water Pricing</title>
 
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"><!-- load bootstrap css -->
-		<link rel="stylesheet" href='//api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css'><!-- load mapbox css -->
-		<link rel="stylesheet" href="css/custom/style.css"><!-- custom css -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+		<link rel="stylesheet" href='//api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css'>
+		<link rel="stylesheet" href="css/custom/style.css">
 
 	</head>
 	<!-- SET THE CONTROLLER -->
-	<body>
-		<div class="container" ng-controller="mainController">
-
-			<!-- <div ng-controller="mapController">
-		    <leaflet center="ca" tiles="tiles" defaults="defaults" markers="markers"></leaflet>
-		    <p>Current TileLayer Url: {{ tiles.url }}</p>
-		    <p>Current Zoom Level: {{ cairo.zoom }}</p>
-			</div> -->
-
-			<div>
-				<div map id="map" points="points"></div>
-			</div>
-
-			<!-- HEADER AND BILL COUNT -->
-			<div class="jumbotron text-center">
-				<h1>Water Pricing in CA <span class="label label-info">{{ records.length }}</span></h1>
-			</div>
-
-			<!-- BILL LIST -->
-			<div id="bill-list" class="row">
-				<div class="col-sm-4 col-sm-offset-4">
-
-					<!-- LOOP OVER THE BILLS IN $scope.bills -->
-					<div class="checkbox" ng-repeat="record in records">
-						<label>
-							<input type="checkbox" ng-click="deleteBill(record._id)"> Total Bill: ${{ record.bill }}
-						</label>
-					</div>
-
-				</div>
-			</div>
-
-			<div id="bill-form" class="row">
-				<div class="col-sm-8 col-sm-offset-2 text-center">
-					<h2>How much do you pay for water?</h2>
-					<!-- <button class="btn btn-primary btn-lg" ng-click="open()">Enter Your Bill</button> -->
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="panel panel-default col-sm-6 col-sm-offset-3">
-					<div class="panel-body">
-						<form role="form">
-						  <div class="form-group">
-						    <label for="InputBill">Total Water Bill</label>
-						    <input type="text" class="form-control" id="InputBill" ng-model="formData.bill" placeholder="ex. $45.55">
-						  </div>
-						  <div class="form-group">
-						    <label for="InputUse">Total Water Used</label>
-						    <input type="text" class="form-control" id="InputUse" ng-model="formData.used" placeholder="ex. 300 gal">
-						  </div>
-						  <div class="form-group">
-						    <label for="InputRate">Utility Rate</label>
-						    <input type="text" class="form-control" id="InputRate" ng-model="formData.rate" placeholder="ex $3/gal">
-						  </div>
-						  <!-- <div class="form-group">
-						    <label for="InputLat">Latitude</label>
-						    <input type="" class="form-control" id="InputLat" ng-model="formData.lat" placeholder="37.166111">
-						  </div>
-						  <div class="form-group">
-						    <label for="InputLng">Longitude</label>
-						    <input type="" class="form-control" id="InputLng" ng-model="formData.lng" placeholder="-119.449444">
-						  </div> -->
-						  <div class="form-group">
-					      <label for="InputZip">Zipcode</label>
-					      <input type="text" id="Autocomplete" class="form-control" ng-autocomplete="result" details="details" options="options"/>
-					      <div ng-model="formData.lat">{{details.geometry.location.d}}</div>
-					      <div ng-model="formData.lng">{{details.geometry.location.e}}</div>
-						  
-								<!-- <div class="form-group">
-							    <label for="InputLat">Latitude: {{details.geometry.location.d}}</label>
-							    <input type="text" class="form-control" id="InputLat" ng-model="formData.lat" placeholder="37.166111">
-							  </div>
-
-							  <div class="form-group">
-							    <label for="InputLat">Longitude: {{details.geometry.location.e}}</label>
-							    <input type="text" class="form-control" id="InputLat" ng-model="formData.lng" placeholder="-119.449444">
-							  </div> -->
-						  </div>
-						</form>
-						<button type="submit" class="btn btn-default" ng-click="createBill()">Submit</button>
-					</div>
-
-				</div>
-			</div>
-
-			<div ng-controller="chartController">
-				<div class="columns large-12">
-					<div d3-bars data="data" on-click="onClick(item)" bar-height="40" bar-padding="5"></div>
-				</div>
-
-				<div class="columns large-12 small-12" ng-show="showDetailPanel">
-			    <h3>Details</h3>
-			    <h3>Item: {{ detailItem._id }}</h4>
-			    <a ng-click="showDetailPanel=false">Hide</a>
-			  </div>
-		  </div>
-
+	<body ng-controller="mainController">
+		<div class="container">
+			<div ng-view></div>
 		</div> <!-- end .container -->
 		
 		<!-- js files -->
-		<script type="text/javascript" src="components/angular/angular.min.js"></script><!-- load angular 1.2.4 -->
+		<script type="text/javascript" src="components/angular/angular.min.js"></script> <!-- load angular v1.2.13 -->
+		<script type="text/javascript" src="components/angular-route/angular-route.min.js"></script>
+		<script type="text/javascript" src="components/angular-bootstrap/ui-bootstrap.js"></script>
 		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 		<script type="text/javascript" src="js/core.js"></script> <!-- load our main application -->
 		
-		<script type="text/javascript" src="js/bundle.js"></script> <!-- load our browserify bundle (for production) -->
+		<!-- <script type="text/javascript" src="js/bundle.js"></script> --> <!-- load our browserify bundle (for production) -->
 
 		<!-- run browserify & uglify for includes below -->
 		<script type="text/javascript" src="js/directives/map.js"></script>
@@ -129,6 +37,7 @@
 		<script type="text/javascript" src="js/controllers/maincontroller.js"></script>
 		<!-- <script type="text/javascript" src="js/controllers/billmodalcontroller.js"></script> -->
 		<script type="text/javascript" src="js/services/billservice.js"></script>
+		<script type="text/javascript" src="js/services/agencyservice.js"></script>
 		<script type="text/javascript" src="js/services/mapservice.js"></script>
 		<script type="text/javascript" src="js/services/d3service.js"></script>
 

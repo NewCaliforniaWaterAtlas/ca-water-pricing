@@ -12,6 +12,6 @@ module.exports = mongoose.model ('Bill', {
   // coords: {lat: Number, lng: Number },
   lat: {type: Number, required: false },
   lng: {type: Number, required: false },
-  // tstamp: {type: Date, default: Date.now },
+  tstamp: { type : Date, default: Date.now },
   done : Boolean
 });

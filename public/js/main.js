@@ -1,8 +1,8 @@
 // browserify main.js -o bundle.js
 // browserify main.js | uglifyjs > bundle.js
 
-var jquery = require('jquery');
-var bootstrap = require('../components/angular-bootstrap/ui-bootstrap-tpls');
+// var jquery = require('jquery');
+// var bootstrap = require('../components/angular-bootstrap/ui-bootstrap-tpls');
 
 // var mapdirective = require('./directives/map');
 // var d3directive = require('./directives/d3chart');
