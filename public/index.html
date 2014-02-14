@@ -7,18 +7,84 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
 		<base href="/">
-		<title>Water Pricing</title>
+		<title>New California Water Atlas: California Groundwater Levels</title>
 
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Questrial|Muli:300,400,400italic,300italic|Rosario:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href='//api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css'>
 		<link rel="stylesheet" href="css/custom/style.css">
 
 	</head>
 	<!-- SET THE CONTROLLER -->
+
+	<div class="ncwa-badge"><a href="http://ca.statewater.org"><img class="img-responsive" src="img/assets/ncwa-badge-diagonal.png" alt="New California Water Atlas"/></a></div>
+
 	<body ng-controller="mainController">
+		
 		<div class="container">
+
+		  <div class="row row-group">
+		    <div class="ncwa-logo"><a href="http://ca.statewater.org"><img class="img-responsive" src="img/assets/bio-boundaries.png" alt="New California Water Atlas"></a></div>
+		    <div class="title-wrap">
+		      <h1 class="title">California Water Pricing</h1>
+		      <h2 class="sub-title">How much do we pay for water?</h2>
+		    </div>
+		    
+		<!--         <h2 class="bar-title">What is the level of the water table?</h2> -->
+		    <div id="carousel-example-generic" class="carousel slide">
+		      <!-- <div class="carousel-bar"></div> -->
+		      <!-- Indicators -->
+		      <ol class="carousel-indicators">
+		        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+		        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+		<!--             <li data-target="#carousel-example-generic" data-slide-to="2"></li> -->
+		      </ol>
+		    
+		      <!-- Wrapper for slides -->
+		      <div class="carousel-inner">
+		        
+		        <div class="item active">
+		          <div class="carousel-caption">
+		            What is the level of the water table?
+		          </div>
+		          <a href="/levels"><img class="img-responsive" src="images/water-levels-slide.png" alt="Water Levels">
+		          </a>
+		        </div>
+		    
+		        <div class="item">
+		          <a href="/aquifers"><img class="img-responsive" src="http://placehold.it/1200x500" alt="Aquifers">
+		          <div class="carousel-caption">
+		            Where are aquifers in California?
+		          </div></a>
+		        </div><!-- end .item -->
+		    
+		<!--
+		        <div class="item">
+		          <img class="img-responsive" src="http://placehold.it/1200x500" alt="Aquifers">
+		          <div class="carousel-caption">
+		            <a href="/aquifers">Where are vulnerable aquifers in California?</a>
+		          </div>
+		        </div>
+		-->
+		      
+		      </div><!-- end .carousel-inner -->
+		    
+		      <!-- Controls -->
+		      <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+		        <span class="icon-prev"></span>
+		      </a>
+		      <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+		        <span class="icon-next"></span>
+		      </a>
+		    
+		    </div><!-- end .carousel -->
+		  </div><!-- end .row-group -->
+
+
 			<div ng-view></div>
+
+		
 		</div> <!-- end .container -->
 		
 		<!-- js files -->
@@ -40,6 +106,19 @@
 		<script type="text/javascript" src="js/services/agencyservice.js"></script>
 		<script type="text/javascript" src="js/services/mapservice.js"></script>
 		<script type="text/javascript" src="js/services/d3service.js"></script>
+
+    <script type="text/javascript">
+      // var _gaq = _gaq || [];
+      // _gaq.push(['_setAccount', 'UA-38509245-1']);
+      // _gaq.push(['_setDomainName', 'statewater.org']);
+      // _gaq.push(['_trackPageview']);
+    
+      // (function() {
+      //   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      //   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      //   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      // })();
+    </script>
 
 	</body>
 </html>

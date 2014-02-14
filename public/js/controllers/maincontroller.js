@@ -54,11 +54,6 @@ app.controller('mainController', function ($scope, billService, agencyService) {
 }); // end mainController
 
 
-
-
-
-
-
 app.controller('chartController', ['$scope', function($scope){
 
   $scope.onClick = function(item) {

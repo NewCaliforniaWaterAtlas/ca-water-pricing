@@ -5,10 +5,13 @@
   "main": "server.js",
   "author": "videmsky",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "bundle": "browserify /public/js/main.js -o bundle.js",
+    "launch": "npm run bundle && node server.js"
   },
   "dependencies": {
     "express": "~3.4.4",
-    "mongoose": "~3.6.2"
+    "mongoose": "~3.6.2",
+    "awsbox": "~0.7.0"
   }
 }
