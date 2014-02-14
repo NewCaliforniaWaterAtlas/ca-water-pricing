@@ -1,7 +1,7 @@
 var credentials = {
 
-user: 'watermaster',
-passwd: 'd3ltasm3lt'
+user: process.env.mongoHQUser,
+passwd: process.env.mongoHQPasswd
 
 };
 
