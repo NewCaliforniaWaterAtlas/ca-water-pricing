@@ -1,30 +1,32 @@
 'use strict';
 
-// var app = angular.module('app', ["leaflet-directive"]);
-var app = angular.module('app', ['ngRoute', 'ui.bootstrap']);
+var app = angular.module('app', ['ui.router', 'ui.bootstrap']);
 
-app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider){
-	$routeProvider
-		.when('/', 
+app.config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider){
+	$stateProvider
+		.state('index', 
 			{
+				url: '',
 				templateUrl: 'views/templates/home.html', 
 				controller: 'mainController'
 			})
 
-			.when('/search', 
+			.state('search', 
 				{
+					url: '/search',
 					templateUrl: 'views/templates/search.html', 
 					controller: 'mainController'
 				})
 
-			.when('/submit', 
+			.state('submit', 
 				{
+					url: '/submit',
 					templateUrl: 'views/templates/submit.html', 
 					controller: 'mainController'
 				});
 			// .otherwise({redirectTo: '/'});
 
 		// use the HTML5 History API
-		$locationProvider.html5Mode(true);
+		// $locationProvider.html5Mode(true);
 
 }]);

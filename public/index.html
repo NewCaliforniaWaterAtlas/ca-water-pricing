@@ -6,7 +6,7 @@
 		<!-- META -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
-		<base href="/">
+		<!-- <base href="/"> -->
 		<title>New California Water Atlas: California Groundwater Levels</title>
 
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
@@ -31,24 +31,23 @@
 		      <h2 class="sub-title">How much do we pay for water?</h2>
 		    </div>
 		    
-		<!--         <h2 class="bar-title">What is the level of the water table?</h2> -->
+
 		    <div id="carousel-example-generic" class="carousel slide">
 		      <!-- <div class="carousel-bar"></div> -->
 		      <!-- Indicators -->
 		      <ol class="carousel-indicators">
 		        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
 		        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-		<!--             <li data-target="#carousel-example-generic" data-slide-to="2"></li> -->
 		      </ol>
 		    
 		      <!-- Wrapper for slides -->
 		      <div class="carousel-inner">
 		        
-		        <div class="item active">
+		        <!-- <div class="item active">
 		          <div class="carousel-caption">
 		            What is the level of the water table?
 		          </div>
-		          <a href="/levels"><img class="img-responsive" src="images/water-levels-slide.png" alt="Water Levels">
+		          <a href="/levels"><img class="img-responsive" src="" alt="Water Levels">
 		          </a>
 		        </div>
 		    
@@ -57,39 +56,30 @@
 		          <div class="carousel-caption">
 		            Where are aquifers in California?
 		          </div></a>
-		        </div><!-- end .item -->
-		    
-		<!--
-		        <div class="item">
-		          <img class="img-responsive" src="http://placehold.it/1200x500" alt="Aquifers">
-		          <div class="carousel-caption">
-		            <a href="/aquifers">Where are vulnerable aquifers in California?</a>
-		          </div>
-		        </div>
-		-->
+		        </div> --><!-- end .item -->
 		      
 		      </div><!-- end .carousel-inner -->
 		    
 		      <!-- Controls -->
-		      <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+		      <!-- <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
 		        <span class="icon-prev"></span>
 		      </a>
 		      <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
 		        <span class="icon-next"></span>
-		      </a>
+		      </a> -->
 		    
 		    </div><!-- end .carousel -->
 		  </div><!-- end .row-group -->
 
 
-			<div ng-view></div>
+			<div ui-view></div>
 
 		
 		</div> <!-- end .container -->
 		
 		<!-- js files -->
 		<script type="text/javascript" src="components/angular/angular.min.js"></script> <!-- load angular v1.2.13 -->
-		<script type="text/javascript" src="components/angular-route/angular-route.min.js"></script>
+		<script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.js"></script>
 		<script type="text/javascript" src="components/angular-bootstrap/ui-bootstrap.js"></script>
 		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 		<script type="text/javascript" src="js/core.js"></script> <!-- load our main application -->
