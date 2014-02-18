@@ -7,73 +7,27 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
 		<!-- <base href="/"> -->
-		<title>New California Water Atlas: California Groundwater Levels</title>
+		<title>New California Water Atlas: California Water Pricing</title>
 
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <link href='http://fonts.googleapis.com/css?family=Questrial|Muli:300,400,400italic,300italic|Rosario:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Questrial|Muli:300,400,400italic,300italic|Rosario:400,700,400italic,700italic' type='text/css'>
 		<link rel="stylesheet" href='//api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css'>
 		<link rel="stylesheet" href="css/custom/style.css">
-
 	</head>
+
+	<div class="ncwa-badge">
+		<a href="http://ca.statewater.org">
+			<img class="img-responsive" src="img/assets/ncwa-badge-diagonal.png" alt="New California Water Atlas"/>
+		</a>
+	</div>
+	
 	<!-- SET THE CONTROLLER -->
-
-	<div class="ncwa-badge"><a href="http://ca.statewater.org"><img class="img-responsive" src="img/assets/ncwa-badge-diagonal.png" alt="New California Water Atlas"/></a></div>
-
 	<body ng-controller="mainController">
 		
 		<div class="container">
-
-		  <div class="row row-group">
-		    <div class="ncwa-logo"><a href="http://ca.statewater.org"><img class="img-responsive" src="img/assets/bio-boundaries.png" alt="New California Water Atlas"></a></div>
-		    <div class="title-wrap">
-		      <h1 class="title">California Water Pricing</h1>
-		      <h2 class="sub-title">How much do we pay for water?</h2>
-		    </div>
-		    
-
-		    <div id="carousel-example-generic" class="carousel slide">
-		      <!-- <div class="carousel-bar"></div> -->
-		      <!-- Indicators -->
-		      <ol class="carousel-indicators">
-		        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-		        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-		      </ol>
-		    
-		      <!-- Wrapper for slides -->
-		      <div class="carousel-inner">
-		        
-		        <!-- <div class="item active">
-		          <div class="carousel-caption">
-		            What is the level of the water table?
-		          </div>
-		          <a href="/levels"><img class="img-responsive" src="" alt="Water Levels">
-		          </a>
-		        </div>
-		    
-		        <div class="item">
-		          <a href="/aquifers"><img class="img-responsive" src="http://placehold.it/1200x500" alt="Aquifers">
-		          <div class="carousel-caption">
-		            Where are aquifers in California?
-		          </div></a>
-		        </div> --><!-- end .item -->
-		      
-		      </div><!-- end .carousel-inner -->
-		    
-		      <!-- Controls -->
-		      <!-- <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-		        <span class="icon-prev"></span>
-		      </a>
-		      <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-		        <span class="icon-next"></span>
-		      </a> -->
-		    
-		    </div><!-- end .carousel -->
-		  </div><!-- end .row-group -->
-
-
+	
 			<div ui-view></div>
-
 		
 		</div> <!-- end .container -->
 		
@@ -87,7 +41,8 @@
 		<!-- <script type="text/javascript" src="js/bundle.js"></script> --> <!-- load our browserify bundle (for production) -->
 
 		<!-- run browserify & uglify for includes below -->
-		<script type="text/javascript" src="js/directives/map.js"></script>
+		<script type="text/javascript" src="js/directives/map-user.js"></script>
+		<script type="text/javascript" src="js/directives/map-agency.js"></script>
 		<script type="text/javascript" src="js/directives/d3chart.js"></script>
 		<script type="text/javascript" src="js/directives/ngautocomplete.js"></script>
 		<script type="text/javascript" src="js/controllers/maincontroller.js"></script>

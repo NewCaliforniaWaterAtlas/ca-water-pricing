@@ -35,7 +35,13 @@
   width: 100%;
 }
 
+a.leaflet-popup-close-button {
+  display: none;
+}
 
+.leaflet-popup-tip {
+  display: none;
+}
 
 
 /*<!-- ============ Global / Content ============ -->*/

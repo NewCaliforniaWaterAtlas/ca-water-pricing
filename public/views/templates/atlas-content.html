@@ -1,0 +1,361 @@
+<!-- boilerplate partial general atlas info ================================================== -->    
+
+<div class="row row-group" id="get-data">
+  <h2 class="bar-title">Get Data</h2>
+
+  <ul class="nav nav-tabs nav-stacked col-md-6">
+    <li><a href="#api-intro" data-toggle="tab">Introduction</a></li>
+    <li><a href="#api-download" data-toggle="tab">API | Bulk Download</a></li>
+    <li><a href="#api-documentation" data-toggle="tab">Documentation</a></li>
+    <li><a href="#api-about" data-toggle="tab">About the dataset</a></li>
+  </ul>
+
+  <div class="tab-content col-md-6">
+    <div class="tab-pane active" id="api-intro">
+      <div class="teaser-text-fade lead">
+        <div class="teaser-text">
+          <h3>Introduction</h3>
+          <p>The California Water Table data contains 30 years of underground water table level readings from scientific research wells across the state. Some data is collected by the state, other data is collected by individuals.</p>
+              
+          <h3>Data Stats</h3>
+          <ul>
+            <li>56 counties</li>
+            <li>18996 research wells measuring the top position (depth) of groundwater</li>
+            <li>570,000+ measurements</li>
+            <li>515 distinct groundwater systems</li>
+            <li>431 groundwater basins</li>
+            <li>24 basins are subdivided to create an additional 108 subbasins</li>
+          </ul>
+        </div>
+        <p class="read-more"><a href="#">read more...</a></p>
+      </div><!-- end .teaser-text-fade -->
+    </div><!-- end .tab-pane -->
+
+    <div class="tab-pane" id="api-download">
+      <div class="teaser-text-fade lead">
+        <h3>API | Bulk Download</h3>
+        <p>[Endpoint: http://api.statewater.org/ca/watertable/v1] (parameters)
+          [MongoDB: http://dropbox.com/linky-linky], CSV, GeoJSON
+              
+          Technical: 30 years of CASGEM groundwater elevation level data, improved for use with modern web technologies. Intended primarly for exploratory visualizations. Updated quarterly. Last updated July 2013.</p>
+      </div>
+    </div><!-- end .tab-pane -->  
+
+    <div class="tab-pane" id="api-documentation">
+      <div class="teaser-text-fade lead">
+        <h3>API Documentation</h3>
+      </div>
+    </div><!-- end .tab-pane -->  
+
+    <div class="tab-pane" id="api-about">
+      <div class="teaser-text-fade lead">
+        <h3>About the Dataset</h3>
+        <p>What is being measured
+          (repurpose / shorten from blog posts)
+          Fields
+          Methods
+          [Data cleanup scripts]
+          Original Data Source
+          Roadmap</p>
+        <p>[Disclaimer | #disclaimer]</p>
+      </div><!-- end teaser-text-fade -->
+    </div><!-- end .tab-pane -->
+  </div><!-- end .tab-content -->
+</div><!-- end .row -->
+
+<div class="row row-group">
+  <h2 class="bar-title">How to Use the Data</h2>
+
+  <div class="teaser-text lead">
+    <p>This data is meant to support journalists, advocates, researchers and governments to understand and explain groundwater issues more effectively to a broad audience. Publishing this data is just the first step in transforming how we communicate about water. We invite you to lend your talents to this initiative to make California’s water system easier for everyone to understand.</p>
+  </div>
+
+  <ul class="nav nav-tabs nav-stacked col-md-6">
+    <li><a href="#use-examples" data-toggle="tab">Examples</a></li>
+    <li><a href="#use-projects" data-toggle="tab">Current projects</a></li>
+    <li><a href="#use-datasets" data-toggle="tab">Related datasets</a></li>
+    <li><a href="#use-technology" data-toggle="tab">Helpful technology</a></li>
+  </ul>
+
+  <div class="tab-content col-md-6">
+    <div class="tab-pane active" id="use-examples">
+      <div class="teaser-text-fade lead">
+        <h3>Examples</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla.</p>
+      </div>
+    </div><!-- end .tab-pane -->
+    
+    <div class="tab-pane" id="use-projects">
+      <div class="teaser-text-fade lead">
+        <h3>Current projects</h3>
+        <p>Aquifers of California [3 photos]
+          California Water Table [3 photos]
+          Groundwater is Pasos Robles [maybe?]
+          […]
+            
+          Citizen Questions
+          [People’s questions about groundwater]
+          We held a participatory design workshop at [Stamen | http://stamen.com] and invited participants to ask their questions about groundwater. Here is the list. [3 photos]
+          What do you want to know or see about groundwater?</p>
+      </div>
+    </div><!-- end .tab-pane -->
+    
+    <div class="tab-pane" id="use-datasets">
+      <div class="teaser-text-fade lead">
+        <h3>Related datasets</h3>
+        <p>[Wish List - What else could use use and why? ]
+              
+          Aquifers [github]
+          Superfund sites [link]
+          California Fracking [link github, fracktracker page]
+          Vulnerable Aquifers [link github]
+          Cities [link mapbox]
+          Water Quality [link to page on blog]
+          Dry Wells [link to crowdsourcing project - or simple form?]
+          GRACE Satellite  [link]
+          Permeable land surface Infrared (Modis // other) [link]
+          Rivers [link NHD]
+          Precipitation [caladapt]
+          DEM [link github/dropbox?]
+          Groundwater pumping electrical bills/reports [project idea]
+          Active Legislation -- Active Bills about groundwater [openstates? maplight?]
+          Organizations working on groundwater issues [list? get listed? googledoc]</p>
+      </div>
+    </div><!-- end .tab-pane -->
+    
+    <div class="tab-pane" id="use-technology">
+      <div class="teaser-text-fade lead">
+        <h3>Helpful technology</h3>
+        <p>We surveyed a number of mapping and visualization tools which can work with the water table data.
+          Mapbox
+          Tilemill
+          Google Fusion Tables
+          ESRI ArcGIS ArcHydro
+          QGIS
+          CartoDB
+          Mongo
+          Crossfilter
+          Cubism
+        </p>
+      </div>
+    </div><!-- end .tab-pane -->
+  </div><!-- end .tab-content -->
+</div><!-- end .row -->
+
+<div class="row row-group" id="contribute">
+
+  <h2 class="bar-title">Contribute</h2>
+  <ul class="nav nav-tabs  nav-stacked col-md-6">
+    <li class="active"><a href="#contribute-ncwa" data-toggle="tab">New California Water Atlas</a></li>
+    <li><a href="#contribute-get-involved" data-toggle="tab">Get Involved</a></li>
+    <li><a href="#contribute-improve" data-toggle="tab">Improve the data</a></li>
+    <li><a href="#contribute-donate" data-toggle="tab">Donate</a></li>
+  </ul>
+
+  <div class="tab-content col-md-6">
+    
+    <div class="tab-pane active" id="contribute-ncwa">
+      <div class="teaser-text-fade lead">
+        <h3>New California Water Atlas</h3>
+        <p>This project is the product of the New California Water Atlas Summer of Groundwater
+          (twitter, link, github, link blog/backstory)
+        </p>
+      </div>
+    </div><!-- end .tab-pane -->
+    
+    <div class="tab-pane" id="contribute-get-involved">
+      <div class="teaser-text-fade lead">
+        <h3>Get Involved</h3>
+        <div class="teaser-text">
+          <p>Make something awesome that will advance understanding of scarce water resources. We are building this for California, but the implications and lessons have global implications. This effort needs a variety of disciplines to be successful. Here some examples of tasks and roles that we think make sense:</p>
+          <ul>
+            <li>do UX research</li>
+            <li>add Spanish language support</li>
+            <li>code a web service to retrieve new agency data</li>
+            <li>reach out to local advocacy groups</li>
+            <li>code site to be accessible to screen-readers</li>
+            <li>write a blog/edit a blog post</li>
+            <li>make data beautiful</li>
+          </ul>
+        </div>
+        <p class="read-more"><a href="#">read more...</a></p>
+      </div>
+    </div><!-- end .tab-pane -->
+    
+    <div class="tab-pane" id="contribute-improve">
+      <h3>Improve the data</h3>
+    </div><!-- end .tab-pane -->
+    
+    <div class="tab-pane" id="contribute-donate">
+      <h3>Donate</h3>
+    </div><!-- end .tab-pane -->
+
+  </div><!-- end tab-content -->
+</div><!-- end .row -->
+
+<div class="row row-group">
+  <ul  class="nav nav-tabs nav-stacked col-md-6">
+    <li><a data-toggle="modal" href="#disclaimer" class="btn btn-primary btn-lg">Disclaimer</a></li>
+    <li><a data-toggle="modal" href="#faqs" class="btn btn-primary btn-lg">FAQs</a></li>
+    <li><a data-toggle="modal" href="#feedback" class="btn btn-primary btn-lg">Feedback & Questions</a></li>
+    <li><a data-toggle="modal" href="#sponsors" class="btn btn-primary btn-lg">Sponsors</a></li>
+    <li><a data-toggle="modal" href="#press" class="btn btn-primary btn-lg">Press</a></li>
+    <li><a data-toggle="modal" href="#support" class="btn btn-primary btn-lg">Support Us!</a></li>
+  </ul>
+</div>
+
+<div class="row row-group">
+  <footer class="col-md-12">
+    <p>cc-by <a href="http://ca.statewater.org">New California Water Atlas</a> 2014 
+    <a href="http://twitter.com/CAWATERATLAS">@CAWaterAtlas</a></p>
+  </footer>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="disclaimer" tabindex="-1" role="dialog" aria-labelledby="disclaimerLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Disclaimer</h4>
+      </div>
+      <div class="modal-body">
+
+        <p>We are re-publishing that information in an experimental format that can be more readily used by web programmers.
+        We make no assurances as to the accuracy of this data. We have described our methods of obtaining & transforming the data. We provide this data as a service to Californians who are interested in building maps and reporting on groundwater usage in the state.</p>
+        
+        <p>We have prepared data collected by the state and published through the CASGEM system into a format that works well with web-based visualization technologies so that citizens can more easily present visualizations telling important stories about the availability and health of our underground water. As our climate changes, we are developing our capacity to show what is happening with an invisible but vital resource. Unlike surface water, groundwater usage is not regulated in the state, so data is limited.</p>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="faqs" tabindex="-1" role="dialog" aria-labelledby="faqsLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">FAQs</h4>
+      </div>
+      <div class="modal-body">
+
+
+      <h3>Where the data comes from</h3>
+      The California Department of Water Resources maintains a system that collects and publishes groundwater research well data.
+      The data comes from scientific research wells, over 18,000 of them, which measure the levels of groundwater.
+      
+      
+      <h3>How often is the data updated?</h3>
+      
+      <h3>How deep is the water table?</h3>
+      This varies. We do not have information for the total volume or recharge rates of the aquifers. We do have the estimated storage amounts for aquifers, and are looking into making land surface permeability and precipitation data available and integrated with this presentation of California groundwater.
+      
+      It is actually quite expensive to drill wells deeper. What happens is that over time, groundwater fills back up from precipitation. Using too much water makes water unavailable, and requires that the water recharge. Intensive pumping, as happens in times of drought,
+      
+      <h3>Why is my well dry?</h3>
+      California has been in a drought. Agricultural and industrial use of water can deplete groundwater levels, effecting individual wells. We are interested to hear your stories of your dry wells, and to see if this map of groundwater can help to explain water availability and help advocate for fair usage of water in the state.
+      
+      <h3I want to know if the water is clean.</h3>
+      We chose to provide the best data about the aquifers in the state and availability of water. A next step is to identify important water quality data and make it easier for story-tellers to use the data to present this information back to Californians. We have a list of datasets that are needed, and if you want to help make this go faster, please consider volunteering.
+      
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="feedback" tabindex="-1" role="dialog" aria-labelledby="feedbackLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Feedback & Questions</h4>
+      </div>
+      <div class="modal-body">
+
+
+      <p>Contact us via email at info@statewater.org, or over Twitter @CAWaterAtlas.</p>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="sponsors" tabindex="-1" role="dialog" aria-labelledby="sponsorsLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Sponsors</h4>
+      </div>
+      <div class="modal-body">
+        New California Water Atlas
+        Resource Renewal Institute
+        Patagonia
+        Stamen
+        OpenShift
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="press" tabindex="-1" role="dialog" aria-labelledby="pressLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Press</h4>
+      </div>
+      <div class="modal-body">
+        fill in
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->  
+
+<!-- Modal -->
+<div class="modal fade" id="support" tabindex="-1" role="dialog" aria-labelledby="supportLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Support Us</h4>
+      </div>
+      <div class="modal-body">
+        <p>Like what we are doing? Support us!
+          
+          We open up, innovate and demonstrate the relevance of important public
+          datasets and give them back to our storytellers and advocates
+          to enhance our ability to understand water in our state.
+          
+          We are seeking support for our next project on water pricing
+          and for infrastructure and staff support for the NCWA.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

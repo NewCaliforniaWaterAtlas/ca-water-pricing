@@ -6,19 +6,17 @@ app.controller('mainController', function ($scope, billService, agencyService) {
 	$scope.formData = {};
 
 	// GET =====================================================================
-	// when landing on the page, get all records and show them
-	// use the service to get all the records
+	// when landing on the page, get all entries and show them
+	// use the service to get all the entries
 	billService.get()
 		.success(function(data) {
-			$scope.records = data;
-			$scope.data = data;
-			$scope.points = data;
+			$scope.entries = data;
 		});
 
-	// agencyService.get()
-	// 	.success(function(data) {
-	// 		$scope.test = data;
-	// 	});
+	agencyService.get()
+		.success(function(data) {
+			$scope.records = data;
+		});
 
 	// CREATE ==================================================================
 	// when submitting the add form, send the text to the node API
@@ -29,25 +27,21 @@ app.controller('mainController', function ($scope, billService, agencyService) {
 		// call the create function from our service (returns a promise object)
 		billService.create($scope.formData)
 
-			// if successful creation, call our get function to get all the new records
+			// if successful creation, call our get function to get all the new entries
 			.success(function(data) {
 				$scope.formData = {}; // clear the form so our user is ready to enter another
-				$scope.records = data; // assign our new list of records
-				$scope.data = data;
-				$scope.points = data;
+				$scope.entries = data; // assign our new list of entries
 			});
 		
 	};
 
 	// DELETE ==================================================================
-	// delete a record after checking it
+	// delete a entry after checking it
 	$scope.deleteBill = function(id) {
 		billService.delete(id)
-			// if successful creation, call our get function to get all the new records
+			// if successful creation, call our get function to get all the new entries
 			.success(function(data) {
-				$scope.records = data; // assign our new list of records
-				$scope.data = data;
-				$scope.points = data;
+				$scope.entries = data; // assign our new list of entries
 			});
 	};
 
@@ -74,4 +68,3 @@ app.controller('chartController', ['$scope', function($scope){
 //   $scope.details = '';
 
 // });
-

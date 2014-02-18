@@ -1,8 +1,6 @@
 'use strict';
 
-// angular.module('mapDirective',['leaflet-directive']);
-
-app.directive('map', [ '$window','mapService', function ($window, mapService) {
+app.directive('mapagency', [ '$window','mapService', function ($window, mapService) {
 	return {
 		restrict: 'A',
 		// replace: true,
@@ -21,7 +19,7 @@ app.directive('map', [ '$window','mapService', function ($window, mapService) {
         scope.render = function(points) {
 
 			    // check to see if points exist
-        	if (!points) return; 	
+        	if (!points) return;
 
 			    var popup = L.popup();
 			    // var southWest = new L.LatLng(40.60092,-74.173508);
@@ -60,13 +58,15 @@ app.directive('map', [ '$window','mapService', function ($window, mapService) {
 	          //extend marker properties
 						var customCircleMarker = L.CircleMarker.extend({
 							options: { 
-								bill: point.bill,
-								rate: point.rate
+								agency: point.agency,
+								quantity_rate: point.quantity_rate,
+								service_charge: point.service_charge,
+								flat_rate: point.flat_rate
 							}
 						});
 
 						var myMarker = new customCircleMarker([point.lat, point.lng], { 
-						  radius: point.rate * 3,
+						  radius: point.flat_rate * 0.15,
 						  color: "#fff",
 						  fillColor: "#1C75BC",
 						  fillOpacity: 0.9,
@@ -82,12 +82,12 @@ app.directive('map', [ '$window','mapService', function ($window, mapService) {
 					pointGroup.on('mouseover', function(e) {
 					  var popup = L.popup()
 							.setLatLng(e.latlng) 
-							.setContent("Rate: " + "$ " + e.layer.options.rate + "/gal.");	
+							.setContent("Flat Rate: " + "$ " + e.layer.options.flat_rate);
 						map.openPopup(popup);
-					})
-					.on('mouseout', function(e){
-						map.closePopup();
 					});
+					// .on('mouseout', function(e){
+					// 	map.closePopup();
+					// });
 
 				}// scope.render
 			
