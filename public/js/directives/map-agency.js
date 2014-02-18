@@ -84,10 +84,10 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 							.setLatLng(e.latlng) 
 							.setContent("Flat Rate: " + "$ " + e.layer.options.flat_rate);
 						map.openPopup(popup);
+					})
+					.on('mouseout', function(e){
+						map.closePopup();
 					});
-					// .on('mouseout', function(e){
-					// 	map.closePopup();
-					// });
 
 				}// scope.render
 			

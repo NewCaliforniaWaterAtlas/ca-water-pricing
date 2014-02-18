@@ -13,14 +13,23 @@
 
 <!-- BILL LIST -->
 <div id="bill-list" class="row row-group">
-	<div class="panel panel-default col-sm-4 col-sm-offset-4">
-		<h3>click to delete bill</h3>
+	<div class="panel panel-default col-sm-offset-1 col-sm-3">
+		<h4>click to delete bill</h4>
 		<!-- LOOP OVER THE BILLS IN $scope.bills -->
 		<div class="checkbox" ng-repeat="entry in entries">
 			<label>
 				<input type="checkbox" ng-click="deleteBill(entry._id)"> Total Bill: ${{ entry.bill }}
 			</label>
 		</div>
+	</div>
+
+	<div class="panel panel-default col-sm-offset-1 col-sm-7" ng-controller="chartController">
+		<div d3-bars data="entries" on-click="onClick(item)" bar-height="40" bar-padding="5"></div>
+		<div ng-show="showDetailPanel">
+	    <h3>Details</h3>
+	    <h3>Item: {{ detailItem._id }}</h4>
+	    <a ng-click="showDetailPanel=false">Hide</a>
+	  </div>
 	</div>
 </div>
 
@@ -91,19 +100,6 @@
 	</div>
 </section>
 
-<section>
-	<div ng-controller="chartController">
-		<div class="columns large-12">
-			<div d3-bars data="entries" on-click="onClick(item)" bar-height="40" bar-padding="5"></div>
-		</div>
-	
-		<div class="columns large-12 small-12" ng-show="showDetailPanel">
-	    <h3>Details</h3>
-	    <h3>Item: {{ detailItem._id }}</h4>
-	    <a ng-click="showDetailPanel=false">Hide</a>
-	  </div>
-	</div>
-</section>
 
 <div ng-include="'views/templates/nav-content.html'"></div>
 <div ng-include="'views/templates/explore-content.html'"></div>

@@ -89,7 +89,7 @@ app.directive('d3Bars', ['$window','d3Service', function ($window, d3Service) {
               })
               .attr('x', 25)
               .text(function(d) {
-                return d._id + " (rates: " + d.rate + ")";
+                return "bill: $" + d.bill + ",  rate: " + "$ " + d.rate + "/gal.";
               });
 
 
