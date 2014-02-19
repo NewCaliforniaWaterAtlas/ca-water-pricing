@@ -61,9 +61,13 @@
 				    <input type="text" class="form-control" id="InputUse" ng-model="formData.used" placeholder="ex. 300 gal">
 				  </div>
 				  <div class="form-group">
-				    <label for="InputUse">Bill Date //note: use date picker here//</label>
+				    <label for="InputUse">Billing Period //note: use date picker here//</label>
 				    <input type="text" class="form-control" id="InputUse" ng-model="formData.date" placeholder="leave blank for now">
 				  </div>
+				  <div class="form-group">
+				    <label for="InputUse">Household Size</label>
+				    <input type="text" class="form-control" id="InputHsize" ng-model="formData.hsize" placeholder="ex. 4">
+				  </div>				  
 				  <div class="form-group">
 			      <label for="InputZip">Zipcode //finish geocoder//</label>
 			      <input type="text" id="Autocomplete" class="form-control" ng-autocomplete="result" details="details" options="options"/>
