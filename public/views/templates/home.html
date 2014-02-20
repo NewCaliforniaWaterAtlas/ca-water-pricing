@@ -1,7 +1,67 @@
 <!-- home page ================================================== -->  	
-
 <div ng-include="'views/templates/head.html'"></div>
-<div ng-include="'views/templates/carousel-content.html'"></div>
-<div ng-include="'views/templates/nav-content.html'"></div>
-<div ng-include="'views/templates/explore-content.html'"></div>
-<div ng-include="'views/templates/atlas-content.html'"></div>
+
+<div class="row row-group">
+	<div class="panel panel-default col-sm-6 col-sm-offset-3">
+		<div class="panel-body">
+			<form name="formData" ng-submit="createBill()" novalidate>
+			  <div class="form-group">
+			    <label for="InputBill">Monthly Total (USD)</label>
+			    <input type="number" name="bill"	 class="form-control" id="InputBill" ng-model="formData.bill" placeholder="ex. $45.55">
+			  	<p ng-show="formData.bill.$invalid && !formData.bill.$pristine" class="help-block">Your Total is required.</p>
+			  </div>
+			  <div class="form-group">
+			    <label for="InputUse">Total Water Used (gallons)</label>
+			    <input type="number" name="used" class="form-control" id="InputUse" ng-model="formData.used" placeholder="ex. 300 gal">
+			  </div>
+			  <div class="form-group">
+			    <label for="InputUse">Billing Period //note: use date picker here//</label>
+			    <input type="text" name="date" class="form-control" id="InputUse" ng-model="formData.date" placeholder="leave blank for now">
+			  </div>
+			  <div class="form-group">
+			    <label for="InputUse">Household Size</label>
+			    <input type="number" name="hsize" class="form-control" id="InputHsize" ng-model="formData.hsize" placeholder="ex. 4">
+			  </div>				  
+			  <div class="form-group">
+		      <label for="InputZip">Zipcode //finish geocoder//</label>
+		      <input type="text" id="Autocomplete" class="form-control" ng-autocomplete="result" details="details" options="options">
+		      <div>{{details.geometry.location.d}}</div>
+		      <div>{{details.geometry.location.e}}</div>
+			  </div>
+			  <div class="form-group">
+			    <label for="InputLat">Latitude</label>
+			    <input type="number" name="lat" class="form-control" id="InputLat" ng-model="formData.lat" placeholder="37.166111">
+			  </div>
+			  <div class="form-group">
+			    <label for="InputLng">Longitude</label>
+			    <input type="number" name="lng" class="form-control" id="InputLng" ng-model="formData.lng" placeholder="-119.449444">
+			  </div>
+			  <div class="form-group">
+			    <label for="InputRate">Utility Rate //just a test value do not need//</label>
+			    <input type="number" name="rate" class="form-control" id="InputRate" ng-model="formData.rate" placeholder="ex $3/gal">
+			  </div>
+				<!-- <div class="form-group">
+			    <label for="InputLat">Latitude: {{details.geometry.location.d}}</label>
+			    <input type="text" class="form-control" id="InputLat" ng-model="formData.lat" placeholder="37.166111">
+			  </div>
+			  <div class="form-group">
+			    <label for="InputLat">Longitude: {{details.geometry.location.e}}</label>
+			    <input type="text" class="form-control" id="InputLat" ng-model="formData.lng" placeholder="-119.449444">
+			  </div> -->
+				<button type="submit" class="btn btn-default" ng-disabled="formData.$invalid">Submit</button>
+			</form>	
+		</div>
+
+	</div><!-- end .panel -->
+</div><!-- end .row -->
+
+<div class="row row-group">
+	<div class="col-sm-6 col-sm-offset-3">
+		<h2 class="bar-title">Crowdsourcing the Pricing of Water</h2>
+		<div mapuser id="map" userdata="entries"></div>
+		<!-- HEADER AND BILL COUNT -->
+		<div class="text-center">
+			<h1>Bills Submitted (test) <span class="label label-info">{{ entries.length }}</span></h1>
+		</div>
+	</div>
+</div>

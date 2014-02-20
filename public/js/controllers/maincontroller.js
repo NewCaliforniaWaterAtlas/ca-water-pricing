@@ -23,17 +23,19 @@ app.controller('mainController', function ($scope, billService, agencyService) {
 	$scope.createBill = function() {
 
 		// todo: validate the formData to make sure that something is there
-		
-		// call the create function from our service (returns a promise object)
-		billService.create($scope.formData)
+		if ($scope.formData.$valid) {
+			alert('our form is amazing');
+			// call the create function from our service (returns a promise object)
+			billService.create($scope.formData)
 
-			// if successful creation, call our get function to get all the new entries
-			.success(function(data) {
-				$scope.formData = {}; // clear the form so our user is ready to enter another
-				$scope.entries = data; // assign our new list of entries
-			});
-		
+				// if successful creation, call our get function to get all the new entries
+				.success(function(data) {
+					$scope.formData = {}; // clear the form so our user is ready to enter another
+					$scope.entries = data; // assign our new list of entries
+				});
+		}
 	};
+
 
 	// DELETE ==================================================================
 	// delete a entry after checking it
