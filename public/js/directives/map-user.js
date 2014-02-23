@@ -56,6 +56,7 @@ app.directive('mapuser', [ '$window','mapService', function ($window, mapService
 			    // loop through points
 	        angular.forEach(userdata, function(point, key){
 	          //extend marker properties
+	          console.log(point);	
 						var customCircleMarker = L.CircleMarker.extend({
 							options: { 
 								bill: point.bill,

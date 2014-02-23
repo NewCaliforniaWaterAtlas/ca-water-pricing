@@ -18,6 +18,7 @@ app.controller('mainController', function ($scope, billService, agencyService) {
 			$scope.records = data;
 		});
 
+
 	// CREATE ==================================================================
 	// when submitting the add form, send the text to the node API
 	$scope.createBill = function() {
@@ -61,12 +62,3 @@ app.controller('chartController', ['$scope', function($scope){
   };
 
 }]);
-
-
-// app.controller("TestCtrl",function ($scope) {
-
-//   $scope.result = '';
-//   $scope.options = null;
-//   $scope.details = '';
-
-// });

@@ -33,14 +33,17 @@
 		
 		<!-- js files -->
 		<script type="text/javascript" src="components/angular/angular.min.js"></script> <!-- load angular v1.2.13 -->
-		<script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.js"></script>
-		<script type="text/javascript" src="components/angular-bootstrap/ui-bootstrap.js"></script>
+		<script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.min.js"></script>
+		<script type="text/javascript" src="components/lodash/dist/lodash.min.js"></script>
+		<script type="text/javascript" src="components/angular-bootstrap/ui-bootstrap.min.js"></script>
 		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+		<script type="text/javascript" src="components/autofill-event/src/autofill-event.js"></script>
 		<script type="text/javascript" src="js/core.js"></script> <!-- load our main application -->
 		
 		<!-- <script type="text/javascript" src="js/bundle.js"></script> --> <!-- load our browserify bundle (for production) -->
 
 		<!-- run browserify & uglify for includes below -->
+		<script type="text/javascript" src="js/directives/ngfocus.js"></script>
 		<script type="text/javascript" src="js/directives/map-user.js"></script>
 		<script type="text/javascript" src="js/directives/map-agency.js"></script>
 		<script type="text/javascript" src="js/directives/d3chart.js"></script>

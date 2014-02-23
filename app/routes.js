@@ -38,11 +38,17 @@ module.exports = function(app) {
 
 		// create a bill, information comes from AJAX request from Angular
 		Bill.create({
+			addr : req.body.addr,
+			hsize : req.body.hsize,
+			util : req.body.util,
 			bill : req.body.bill,
+			period : req.body.period,
 			used : req.body.used,
-			rate : req.body.rate,
+			units : req.body.units,
 			lat : req.body.lat,
 			lng : req.body.lng,
+			rate : req.body.rate,
+			tstamp : req.body.tstamp,
 			done : false
 		}, function(err, bill) {
 			if (err)

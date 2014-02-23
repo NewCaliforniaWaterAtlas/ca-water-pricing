@@ -1,9 +1,4 @@
-<!-- home page ================================================== -->  	
-<div ng-include="'views/templates/head.html'"></div>
-
-<!-- <div ng-include="'views/templates/form.html'"></div> -->
-
-<div class="row row-group">
+<div class="row row-group" ng-controller="mainController">
 	<div class="panel panel-default col-sm-6 col-sm-offset-3">
 		<div class="panel-body">
 
@@ -19,7 +14,7 @@
 						  	name="addr"
 						  	class="form-control" 
 						  	id="InputAddr"
-						  	ng-model="formData.addr"
+						  	ng-model="addr"
 						  	placeholder="93406"
 						  	required
 								ng-focus
@@ -36,7 +31,7 @@
 						  	name="hsize"
 						  	class="form-control"
 						  	id="InputHsize"
-						  	ng-model="formData.hsize"
+						  	ng-model="hsize"
 						  	placeholder="4"
 						  	required
 						  	ng-focus>
@@ -55,7 +50,7 @@
 						  	name="util"
 						  	class="form-control" 
 						  	id="InputUtil"
-						  	ng-model="formData.util"
+						  	ng-model="util"
 						  	placeholder="SWA"
 						  	required
 								ng-focus>
@@ -69,7 +64,7 @@
 						  	name="bill"
 						  	class="form-control"
 						  	id="InputBill"
-						  	ng-model="formData.bill"
+						  	ng-model="bill"
 						  	placeholder="45.55"
 						  	required
 						  	ng-focus>
@@ -83,8 +78,8 @@
 						  	name="period"
 						  	class="form-control"
 						  	id="InputPeriod"
-						  	ng-model="formData.period"
-						  	placeholder="31"
+						  	ng-model="period"
+						  	placeholder=""
 						  	required
 						  	ng-focus>
 						  <p ng-show="formData2.period.$invalid && !formData2.period.$pristine && !formData2.period.$focused" class="help-block">Your Billing Period is required.</p>
@@ -97,7 +92,7 @@
 						  	name="used"
 						  	class="form-control"
 						  	id="InputUsed"
-						  	ng-model="formData.used"
+						  	ng-model="used"
 						  	placeholder="101"
 						  	required
 						  	ng-focus>
@@ -111,7 +106,7 @@
 						  	name="units"
 						  	class="form-control"
 						  	id="InputUnits"
-						  	ng-model="formData.units"
+						  	ng-model="units"
 						  	placeholder="gal/gal or ccf/1,000"
 						  	required
 						  	ng-focus>
@@ -131,7 +126,7 @@
 						  	name="lat"
 						  	class="form-control" 
 						  	id="InputLat"
-						  	ng-model="formData.lat"
+						  	ng-model="lat"
 						  	placeholder="37.166111"
 						  	required
 								ng-focus>
@@ -145,27 +140,12 @@
 						  	name="lng"
 						  	class="form-control"
 						  	id="InputLng"
-						  	ng-model="formData.lng"
+						  	ng-model="lng"
 						  	placeholder="-119.449444"
 						  	required
 						  	ng-focus>
 						  <p ng-show="formData3.lng.$invalid && !formData3.lng.$pristine && !formData3.lng.$focused" class="help-block">Your Lng is required.</p>
 						</div>
-						
-						<div class="form-group" ng-class="{ 'has-error' : formData3.rate.$invalid && !formData3.rate.$pristine && !formData3.rate.$focused }">
-						  <label for="InputRate">Rate TEST</label>
-						  <input 
-						  	type="number"
-						  	name="rate"
-						  	class="form-control"
-						  	id="InputRate"
-						  	ng-model="formData.rate"
-						  	placeholder="9"
-						  	required
-						  	ng-focus>
-						  <p ng-show="formData3.rate.$invalid && !formData3.rate.$pristine && !formData3.rate.$focused" class="help-block">Your Rate is required.</p>
-						</div>
-
 					</div>
 					
 					<div>{{details.geometry.location.d}}</div>
@@ -180,53 +160,3 @@
 		</div><!-- .panel-body -->
 	</div><!-- .panel -->
 </div><!-- .row-group -->
-
-
-
-<div class="row row-group">
-	
-	<div class="panel panel-default col-sm-6 col-sm-offset-3">
-		<div class="col-sm-6">
-		    <h4>Validation status:</h4>
-		    <p><strong>Step1 valid?</strong> {{formData1.$valid}}</p>
-		    <p><strong>Step2 valid?</strong> {{formData2.$valid}}</p>
-		    <p><strong>Step3 valid?</strong> {{formData3.$valid}}</p>
-		    <p><strong>Whole form valid?</strong> {{formData.$valid}}</p>		
-		</div>
-		
-		<div class="col-sm-6">
-			<h4>click to delete bill</h4>
-			<!-- LOOP OVER THE BILLS IN $scope.bills -->
-			<div class="checkbox" ng-repeat="entry in entries">
-				<label>
-					<input type="checkbox" ng-click="deleteBill(entry._id)"> Total Bill: ${{ entry.bill }}
-				</label>
-			</div>
-		</div>
-	</div>
-
-</div>
-
-<div class="row row-group">
-	<div class="col-sm-6 col-sm-offset-3">
-		<h2 class="bar-title">Crowdsourcing the Pricing of Water</h2>
-		<div mapuser id="map" userdata="entries"></div>
-		<!-- HEADER AND BILL COUNT -->
-		<div class="text-center">
-			<h1>Bills Submitted (test) <span class="label label-info">{{ entries.length }}</span></h1>
-		</div>
-	</div>
-</div>
-
-<!-- BILL LIST -->
-<div id="bill-list" class="row row-group">
-
-	<div class="panel panel-default col-sm-offset-1 col-sm-7" ng-controller="chartController">
-		<div d3-bars data="entries" on-click="onClick(item)" bar-height="40" bar-padding="5"></div>
-		<div ng-show="showDetailPanel">
-	    <h3>Details</h3>
-	    <h3>Item: {{ detailItem._id }}</h4>
-	    <a ng-click="showDetailPanel=false">Hide</a>
-	  </div>
-	</div>
-</div>
