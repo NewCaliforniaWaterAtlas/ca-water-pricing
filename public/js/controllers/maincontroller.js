@@ -26,6 +26,9 @@ app.controller('mainController', function ($scope, billService, agencyService) {
 		// todo: validate the formData to make sure that something is there
 		if ($scope.formData.$valid) {
 			alert('our form is amazing');
+			$scope.formData.addr = $scope.result;
+			$scope.formData.lat = $scope.details.geometry.location.d;
+			$scope.formData.lng = $scope.details.geometry.location.e;
 			// call the create function from our service (returns a promise object)
 			billService.create($scope.formData)
 
@@ -48,6 +51,58 @@ app.controller('mainController', function ($scope, billService, agencyService) {
 			});
 	};
 
+
+		// Date Picker ==================================================================
+
+	  $scope.today = function() {
+	    $scope.formData.sdate = new Date();
+	  };
+	  $scope.today();
+
+	  $scope.showWeeks = true;
+	  $scope.toggleWeeks = function () {
+	    $scope.showWeeks = ! $scope.showWeeks;
+	  };
+
+	  $scope.clear = function () {
+	    $scope.formData.sdate = null;
+	    $scope.formData.edate = null;
+	  };
+
+	  // Disable weekend selection
+	  $scope.disabled = function(date, mode) {
+	    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+	  };
+
+	  $scope.toggleMin = function() {
+	    $scope.minDate = ( $scope.minDate ) ? null : new Date();
+	  };
+	  $scope.toggleMin();
+
+	  $scope.open1 = function($event) {
+	    $event.preventDefault();
+	    $event.stopPropagation();
+
+	    $scope.opened1 = true;
+	  };
+
+	  $scope.open2 = function($event) {
+	    $event.preventDefault();
+	    $event.stopPropagation();
+
+	    $scope.opened2 = true;
+	  };
+
+	  $scope.dateOptions = {
+	    'year-format': "'yy'",
+	    'starting-day': 1
+	  };
+
+	  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
+	  $scope.format = $scope.formats[0];
+
+
+
 }); // end mainController
 
 
@@ -62,3 +117,46 @@ app.controller('chartController', ['$scope', function($scope){
   };
 
 }]);
+
+// app.controller('datePicker', ['$scope', function($scope){
+
+//   $scope.today = function() {
+//     $scope.dt = new Date();
+//   };
+//   $scope.today();
+
+//   $scope.showWeeks = true;
+//   $scope.toggleWeeks = function () {
+//     $scope.showWeeks = ! $scope.showWeeks;
+//   };
+
+//   $scope.clear = function () {
+//     $scope.dt = null;
+//   };
+
+//   // Disable weekend selection
+//   $scope.disabled = function(date, mode) {
+//     return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+//   };
+
+//   $scope.toggleMin = function() {
+//     $scope.minDate = ( $scope.minDate ) ? null : new Date();
+//   };
+//   $scope.toggleMin();
+
+//   $scope.open = function($event) {
+//     $event.preventDefault();
+//     $event.stopPropagation();
+
+//     $scope.opened = true;
+//   };
+
+//   $scope.dateOptions = {
+//     'year-format': "'yy'",
+//     'starting-day': 1
+//   };
+
+//   $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
+//   $scope.format = $scope.formats[0];
+
+// }]);

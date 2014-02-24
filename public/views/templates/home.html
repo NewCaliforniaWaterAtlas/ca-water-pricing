@@ -4,7 +4,13 @@
 <!-- <div ng-include="'views/templates/form.html'"></div> -->
 
 <div class="row row-group">
-	<div class="panel panel-default col-sm-6 col-sm-offset-3">
+	
+	<div id="hook-box" class="col-sm-offset-1 col-sm-5">
+    <span class="">Compare your water use to your neighbors. Find out what others are paying for water.</span>
+	
+	</div>
+
+	<div class="panel panel-default col-sm-5">
 		<div class="panel-body">
 
 			<div ng-form name="formData" ng-init="step = 1" novalidate>
@@ -25,7 +31,7 @@
 								ng-focus
 								ng-autocomplete="result"
 								details="details"
-								options="options">
+								options="{country: 'us'}">
 							<p ng-show="formData1.addr.$invalid && !formData1.addr.$pristine && !formData1.addr.$focused" class="help-block">Your Location is required.</p>
 						</div>
 
@@ -76,18 +82,54 @@
 						  <p ng-show="formData2.bill.$invalid && !formData2.bill.$pristine && !formData2.bill.$focused" class="help-block">Your Total Bill is required.</p>
 						</div>
 
-						<div class="form-group" ng-class="{ 'has-error' : formData2.period.$invalid && !formData2.period.$pristine && !formData2.period.$focused }">
-						  <label for="InputPeriod">Billing Period: Days</label>
-						  <input 
-						  	type="number"
-						  	name="period"
-						  	class="form-control"
-						  	id="InputPeriod"
-						  	ng-model="formData.period"
-						  	placeholder="31"
-						  	required
-						  	ng-focus>
-						  <p ng-show="formData2.period.$invalid && !formData2.period.$pristine && !formData2.period.$focused" class="help-block">Your Billing Period is required.</p>
+						<div class="form-group inline col-sm-6" ng-class="{ 'has-error' : formData2.sdate.$invalid && !formData2.sdate.$pristine && !formData2.sdate.$focused }">
+						  <label for="InputSdate">Billing Start Date</label>
+              <div class="input-group">
+              	<input 
+              		type="text"
+              		name="sdate"
+              		class="form-control"
+              		id="InputSdate"
+              		datepicker-popup="{{format}}"
+              		ng-model="formData.sdate"
+              		is-open="opened1" min="minDate"
+              		max="'2015-06-22'"
+              		datepicker-options="dateOptions"
+              		date-disabled="disabled(date, mode)"
+              		placeholder="DD-Month-YYYY"
+              		ng-required="true"
+              		close-text="Close"
+              		ng-focus/>
+              	<span class="input-group-btn">
+              	  <button class="btn btn-default" ng-click="open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              	</span>
+              </div>
+						  <p ng-show="formData2.sdate.$invalid && !formData2.sdate.$pristine && !formData2.sdate.$focused" class="help-block">Your Billing Start Date is required.</p>
+						</div>
+
+						<div class="form-group inline col-sm-6" ng-class="{ 'has-error' : formData2.edate.$invalid && !formData2.edate.$pristine && !formData2.edate.$focused }">
+						  <label for="InputEdate">Billing End Date</label>
+              <div class="input-group">
+              	<input 
+              		type="text"
+              		name="edate"
+              		class="form-control"
+              		id="InputSdate"
+              		datepicker-popup="{{format}}"
+              		ng-model="formData.edate"
+              		is-open="opened2" min="minDate"
+              		max="'2015-01-01'"
+              		datepicker-options="dateOptions"
+              		date-disabled="disabled(date, mode)"
+              		placeholder="DD-Month-YYYY"
+              		ng-required="true"
+              		close-text="Close"
+              		ng-focus/>
+              	<span class="input-group-btn">
+              	  <button class="btn btn-default" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              	</span>
+              </div>
+						  <p ng-show="formData2.edate.$invalid && !formData2.edate.$pristine && !formData2.edate.$focused" class="help-block">Your Billing End Date is required.</p>
 						</div>
 
 						<div class="form-group" ng-class="{ 'has-error' : formData2.used.$invalid && !formData2.used.$pristine && !formData2.used.$focused }">
@@ -124,7 +166,7 @@
 
 			  <div ng-show="step==3">
 					<div ng-form='formData3'>
-						<div class="form-group" ng-class="{ 'has-error' : formData3.lat.$invalid && !formData3.lat.$pristine && !formData3.lat.$focused}">
+						<!-- <div class="form-group" ng-class="{ 'has-error' : formData3.lat.$invalid && !formData3.lat.$pristine && !formData3.lat.$focused}">
 						  <label for="InputLat">Latitude</label>
 						  <input 
 						  	type="number"
@@ -150,7 +192,7 @@
 						  	required
 						  	ng-focus>
 						  <p ng-show="formData3.lng.$invalid && !formData3.lng.$pristine && !formData3.lng.$focused" class="help-block">Your Lng is required.</p>
-						</div>
+						</div> -->
 						
 						<div class="form-group" ng-class="{ 'has-error' : formData3.rate.$invalid && !formData3.rate.$pristine && !formData3.rate.$focused }">
 						  <label for="InputRate">Rate TEST</label>
@@ -183,7 +225,7 @@
 
 
 
-<div class="row row-group">
+<!-- <div class="row row-group">
 	
 	<div class="panel panel-default col-sm-6 col-sm-offset-3">
 		<div class="col-sm-6">
@@ -196,7 +238,6 @@
 		
 		<div class="col-sm-6">
 			<h4>click to delete bill</h4>
-			<!-- LOOP OVER THE BILLS IN $scope.bills -->
 			<div class="checkbox" ng-repeat="entry in entries">
 				<label>
 					<input type="checkbox" ng-click="deleteBill(entry._id)"> Total Bill: ${{ entry.bill }}
@@ -205,21 +246,20 @@
 		</div>
 	</div>
 
-</div>
+</div> -->
 
-<div class="row row-group">
+<!-- <div class="row row-group">
 	<div class="col-sm-6 col-sm-offset-3">
 		<h2 class="bar-title">Crowdsourcing the Pricing of Water</h2>
 		<div mapuser id="map" userdata="entries"></div>
-		<!-- HEADER AND BILL COUNT -->
 		<div class="text-center">
 			<h1>Bills Submitted (test) <span class="label label-info">{{ entries.length }}</span></h1>
 		</div>
 	</div>
-</div>
+</div> -->
 
-<!-- BILL LIST -->
-<div id="bill-list" class="row row-group">
+
+<!-- <div id="bill-list" class="row row-group">
 
 	<div class="panel panel-default col-sm-offset-1 col-sm-7" ng-controller="chartController">
 		<div d3-bars data="entries" on-click="onClick(item)" bar-height="40" bar-padding="5"></div>
@@ -229,4 +269,4 @@
 	    <a ng-click="showDetailPanel=false">Hide</a>
 	  </div>
 	</div>
-</div>
+</div> -->

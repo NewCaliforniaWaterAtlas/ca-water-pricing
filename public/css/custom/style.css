@@ -1,49 +1,3 @@
-
-#bill-list {
-	margin-bottom:30px;
-}
-
-
-#bill-form {
-	margin-bottom:50px;
-}
-
-.chart {
-    background: #eee;
-    padding: 3px;
-}
-
-.chart div {
-  width: 0;
-  transition: all 1s ease-out;
-  -moz-transition: all 1s ease-out;
-  -webkit-transition: all 1s ease-out;
-}
-
-.chart div {
-  font: 10px sans-serif;
-  background-color: #5bc0de;
-  text-align: right;
-  padding: 3px;
-  margin: 5px;
-  color: white;
-  box-shadow: 2px 2px 2px #666;
-}
-
-#map {
-  height: 480px;
-  width: 100%;
-}
-
-a.leaflet-popup-close-button {
-  display: none;
-}
-
-.leaflet-popup-tip {
-  display: none;
-}
-
-
 /*<!-- ============ Global / Content ============ -->*/
 
 
@@ -121,7 +75,9 @@ h3,h4,h5,h6 {
 
 /*<!-- ============ Custom Styling ============ -->*/
 
-
+/*#front-page {
+  background-color: rgb(183,175,162);
+}*/
 
 .ncwa-badge {
   position: fixed;
@@ -194,6 +150,10 @@ h2.bar {
   margin-top: 75px;
 }
 
+/*
+ *  teaser 
+ */ 
+
 .teaser-text-fade {
   max-height: 300px;
   position: relative;
@@ -226,6 +186,10 @@ h2.bar {
   margin: 250px auto;
 }
 
+/*
+ *  tabs
+ */ 
+
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
   background-color: #d8a271;
 
@@ -239,6 +203,10 @@ ul.nav-tabs>li>a.btn.btn-primary.btn-lg{
 ul.nav-tabs>li.active>a, ul.nav-tabs>li.active>a:hover, ul.nav-tabs>li.active>a:focus {
   color: #fffff;
 }
+
+/*
+ *  carousel
+ */ 
 
 .carousel {
   margin-top: 25px;
@@ -276,4 +244,65 @@ ol.carousel-indicators {
   margin-left: 35%;
   text-align: center;
   list-style: none;
+}
+
+#bill-list {
+  margin-bottom:30px;
+}
+
+
+#bill-form {
+  margin-bottom:50px;
+}
+
+.chart {
+  background: #eee;
+  padding: 3px;
+}
+
+.chart div {
+  width: 0;
+  transition: all 1s ease-out;
+  -moz-transition: all 1s ease-out;
+  -webkit-transition: all 1s ease-out;
+}
+
+.chart div {
+  font: 10px sans-serif;
+  background-color: #5bc0de;
+  text-align: right;
+  padding: 3px;
+  margin: 5px;
+  color: white;
+  box-shadow: 2px 2px 2px #666;
+}
+
+#map {
+  height: 480px;
+  width: 100%;
+}
+
+a.leaflet-popup-close-button {
+  display: none;
+}
+
+.leaflet-popup-tip {
+  display: none;
+}
+
+#hook-box {
+  /*color: white;*/
+  font-size: 3em;
+  font-weight: lighter;
+  line-height: 1.25em;
+}
+
+.highlight {
+  background-color: rgba(0, 0, 0, .75);
+  margin: 10px 0 0 0;
+  padding: 0px 5px 0px 5px;
+}
+
+.inline {
+  display: inline-block;
 }
