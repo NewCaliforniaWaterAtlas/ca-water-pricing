@@ -75,7 +75,21 @@ h3,h4,h5,h6 {
   margin-right: 100px;
 }
 
+label {
+  font-size: 1.2em;
+}
 
+.form-control {
+  font-size: 1.1em;
+}
+
+/*hide spin box for numerical inputs*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
 
 /*<!-- ============ Custom Styling ============ -->*/
 
@@ -319,4 +333,17 @@ a.leaflet-popup-close-button {
 
 .inline {
   display: inline-block;
+}
+
+.right-inner-addon {
+  position: relative;
+}
+.right-inner-addon input {
+  padding-right: 30px;    
+}
+.right-inner-addon i {
+  position: absolute;
+  right: 0px;
+  padding: 10px 12px;
+  pointer-events: none;
 }

@@ -4,7 +4,7 @@
 <div id="submit-block" class="row row-group">
 	
 	<div id="hook-box" class="col-sm-offset-1 col-sm-5">
-    <span class="">Compare your water bill with your neighbors. Submit your bill to see fees and usage.</span>
+    <span class="">Compare your water bill with your neighbors. Submit your bill to explore prices and usage.</span>
 	</div>
 	
 	<div class="panel panel-default col-sm-5">
@@ -15,76 +15,88 @@
 			  <div ng-show="step==1">
 					<div ng-form='formData1'>
 						<div class="form-title">
-							<h3>About You</h3>
+							<h2>About You</h2>
 						</div>
-						<div class="form-group" ng-class="{ 'has-error' : formData1.addr.$invalid && !formData1.addr.$pristine && !formData1.addr.$focused}">
+						<div class="form-group" ng-class="{ 'has-error' : formData1.addr.$invalid && !formData1.addr.$pristine && !formData1.addr.$focused , 'has-success' : formData1.addr.$valid && !formData1.addr.$pristine && !formData1.addr.$focused }"
 						  <label for="InputAddr">Location</label>
-						  <input 
-						  	type="text"
-						  	name="addr"
-						  	class="form-control" 
-						  	id="InputAddr"
-						  	ng-model="formData.addr"
-						  	placeholder="93406"
-						  	required
-								ng-focus
-								ng-autocomplete="result"
-								details="details"
-								options="{country: 'us'}">
+						  <div class="right-inner-addon">
+						  	<i ng-show="formData1.addr.$valid && !formData1.addr.$pristine && !formData1.addr.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
+						  	<input 
+						  		type="text"
+						  		name="addr"
+						  		class="form-control" 
+						  		id="InputAddr"
+						  		ng-model="formData.addr"
+						  		placeholder="93406"
+						  		required
+						  		ng-focus
+						  		ng-autocomplete="result"
+						  		details="details"
+						  		options="{country: 'us'}">
+						  </div>
 							<p ng-show="formData1.addr.$invalid && !formData1.addr.$pristine && !formData1.addr.$focused" class="help-block">Your Location is required.</p>
 						</div>
 
-						<div class="form-group" ng-class="{ 'has-error' : formData1.hsize.$invalid && !formData1.hsize.$pristine && !formData1.hsize.$focused }">
+						<div class="form-group" ng-class="{ 'has-error' : formData1.hsize.$invalid && !formData1.hsize.$pristine && !formData1.hsize.$focused , 'has-success' : formData1.hsize.$valid && !formData1.hsize.$pristine && !formData1.hsize.$focused }">
 						  <label for="InputUse">Number of people in your household</label>
-						  <input 
-						  	type="number"
-						  	name="hsize"
-						  	class="form-control"
-						  	id="InputHsize"
-						  	ng-model="formData.hsize"
-						  	placeholder="4"
-						  	required
-						  	ng-focus>
+						  <div class="right-inner-addon">
+						  	<i ng-show="formData1.hsize.$valid && !formData1.hsize.$pristine && !formData1.hsize.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
+						  	<input 
+						  		type="number"
+						  		name="hsize"
+						  		class="form-control"
+						  		id="InputHsize"
+						  		ng-model="formData.hsize"
+						  		placeholder="4"
+						  		required
+						  		ng-focus>
+						  </div>
 						  <p ng-show="formData1.hsize.$invalid && !formData1.hsize.$pristine && !formData1.hsize.$focused" class="help-block">Your Household size is required.</p>
 						</div>
 					</div>
-			    <button type="button" class="btn btn-default" ng-disabled="formData1.$invalid" ng-click="step = 2">Next</button>
+			    <button type="button" class="btn btn-default btn-lg" ng-disabled="formData1.$invalid" ng-click="step = 2">Next</button>
 			  </div>
 
 			  <div ng-show="step==2">
 					<div ng-form='formData2'>
 						<div class="form-title">
-							<h3>Your Water Bill</h3>
+							<h2>Your Water Bill</h2>
 						</div>
-						<div class="form-group" ng-class="{ 'has-error' : formData2.util.$invalid && !formData2.util.$pristine && !formData2.util.$focused}">
+						<div class="form-group" ng-class="{ 'has-error' : formData2.util.$invalid && !formData2.util.$pristine && !formData2.util.$focused  , 'has-success' : formData2.util.$valid && !formData2.util.$pristine && !formData2.util.$focused }">
 						  <label for="InputUtil">Water Provider</label>
-						  <input 
-						  	type="text"
-						  	name="util"
-						  	class="form-control" 
-						  	id="InputUtil"
-						  	ng-model="formData.util"
-						  	placeholder="SWA"
-						  	required
-								ng-focus>
+						  <div class="right-inner-addon">
+						  	<i ng-show="formData2.util.$valid && !formData2.util.$pristine && !formData2.util.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
+						  	<input 
+						  		type="text"
+						  		name="util"
+						  		class="form-control" 
+						  		id="InputUtil"
+						  		ng-model="formData.util"
+						  		placeholder="SWA"
+						  		required
+						  		ng-focus>
+						  </div>
 							<p ng-show="formData2.util.$invalid && !formData2.util.$pristine && !formData2.util.$focused" class="help-block">Your Water Provider is required.</p>
 						</div>
 						
-						<div class="form-group" ng-class="{ 'has-error' : formData2.bill.$invalid && !formData2.bill.$pristine && !formData2.bill.$focused }">
+						<div class="form-group" ng-class="{ 'has-error' : formData2.bill.$invalid && !formData2.bill.$pristine && !formData2.bill.$focused , 'has-success' : formData2.bill.$valid && !formData2.bill.$pristine && !formData2.bill.$focused }">
 						  <label for="InputBill">Total Bill: $</label>
-						  <input 
-						  	type="number"
-						  	name="bill"
-						  	class="form-control"
-						  	id="InputBill"
-						  	ng-model="formData.bill"
-						  	placeholder="45.55"
-						  	required
-						  	ng-focus>
+						  <div class="right-inner-addon">
+						  	<i ng-show="formData2.bill.$valid && !formData2.bill.$pristine && !formData2.bill.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
+						  	<input 
+						  		type="number"
+						  		name="bill"
+						  		class="form-control"
+						  		id="InputBill"
+						  		ng-model="formData.bill"
+						  		placeholder="45.55"
+						  		required
+						  		ng-focus>
+						  </div>
 						  <p ng-show="formData2.bill.$invalid && !formData2.bill.$pristine && !formData2.bill.$focused" class="help-block">Your Total Bill is required.</p>
 						</div>
 
-						<div class="form-group inline col-sm-6" ng-class="{ 'has-error' : formData2.sdate.$invalid && !formData2.sdate.$pristine && !formData2.sdate.$focused }">
+						<div class="form-group inline col-sm-6" ng-class="{ 'has-error' : formData2.sdate.$invalid && !formData2.sdate.$pristine && !formData2.sdate.$focused , 'has-success' : formData2.sdate.$valid && !formData2.sdate.$pristine && !formData2.sdate.$focused }">
 						  <label for="InputSdate">Billing Start Date</label>
               <div class="input-group">
               	<input 
@@ -109,7 +121,7 @@
 						  <p ng-show="formData2.sdate.$invalid && !formData2.sdate.$pristine && !formData2.sdate.$focused" class="help-block">Your Billing Start Date is required.</p>
 						</div>
 
-						<div class="form-group inline col-sm-6" ng-class="{ 'has-error' : formData2.edate.$invalid && !formData2.edate.$pristine && !formData2.edate.$focused }">
+						<div class="form-group inline col-sm-6" ng-class="{ 'has-error' : formData2.edate.$invalid && !formData2.edate.$pristine && !formData2.edate.$focused , 'has-success' : formData2.edate.$valid && !formData2.edate.$pristine && !formData2.edate.$focused }">
 						  <label for="InputEdate">Billing End Date</label>
               <div class="input-group">
               	<input 
@@ -134,36 +146,42 @@
 						  <p ng-show="formData2.edate.$invalid && !formData2.edate.$pristine && !formData2.edate.$focused" class="help-block">Your Billing End Date is required.</p>
 						</div>
 
-						<div class="form-group" ng-class="{ 'has-error' : formData2.used.$invalid && !formData2.used.$pristine && !formData2.used.$focused }">
+						<div class="form-group" ng-class="{ 'has-error' : formData2.used.$invalid && !formData2.used.$pristine && !formData2.used.$focused  , 'has-success' : formData2.used.$valid && !formData2.used.$pristine && !formData2.used.$focused }">
 						  <label for="InputUsed">Metered Water Consumption</label>
-						  <input 
-						  	type="number"
-						  	name="used"
-						  	class="form-control"
-						  	id="InputUsed"
-						  	ng-model="formData.used"
-						  	placeholder="101"
-						  	required
-						  	ng-focus>
+						  <div class="right-inner-addon">
+						  	<i ng-show="formData2.used.$valid && !formData2.used.$pristine && !formData2.used.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
+						  	<input 
+						  		type="number"
+						  		name="used"
+						  		class="form-control"
+						  		id="InputUsed"
+						  		ng-model="formData.used"
+						  		placeholder="101"
+						  		required
+						  		ng-focus>
+						  </div>
 						  <p ng-show="formData2.used.$invalid && !formData2.used.$pristine && !formData2.used.$focused" class="help-block">Your Metered Water Consumption is required.</p>
 						</div>
 
-						<div class="form-group" ng-class="{ 'has-error' : formData2.units.$invalid && !formData2.units.$pristine && !formData2.units.$focused }">
+						<div class="form-group" ng-class="{ 'has-error' : formData2.units.$invalid && !formData2.units.$pristine && !formData2.units.$focused , 'has-success' : formData2.units.$valid && !formData2.units.$pristine && !formData2.units.$focused }">
 						  <label for="InputUnits">Consumption Units</label>
-						  <input 
-						  	type="text"
-						  	name="units"
-						  	class="form-control"
-						  	id="InputUnits"
-						  	ng-model="formData.units"
-						  	placeholder="gal/gal or ccf/1,000"
-						  	required
-						  	ng-focus>
+						  <div class="right-inner-addon">
+						  	<i ng-show="formData2.units.$valid && !formData2.units.$pristine && !formData2.units.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
+						  	<input 
+						  		type="text"
+						  		name="units"
+						  		class="form-control"
+						  		id="InputUnits"
+						  		ng-model="formData.units"
+						  		placeholder="gal/gal or ccf/1,000"
+						  		required
+						  		ng-focus>
+						  </div>
 						  <p ng-show="formData2.units.$invalid && !formData2.units.$pristine && !formData2.units.$focused" class="help-block">Your Unit type is required.</p>
 						</div>
 					</div>
-			    <button type="button" class="btn btn-default" ng-click="step = 1">Back</button>
-			    <a type="submit" class="btn btn-success" ng-disabled="formData.$invalid" ng-click="createBill()" ng-href="#/participate" role="button">Submit</a>
+			    <button type="button" class="btn btn-default btn-lg" ng-click="step = 1">Back</button>
+			    <a type="submit" class="btn btn-success btn-lg" ng-disabled="formData.$invalid" ng-click="createBill()" ng-href="#/participate" role="button">Submit</a>
 			  </div>
 
 			  <!-- <div ng-show="step==3">
