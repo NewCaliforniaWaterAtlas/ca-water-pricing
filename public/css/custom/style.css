@@ -2,7 +2,7 @@
 
 
 body {
-  font-family: 'Questrial', sans-serif;
+  font-family: 'Muli', sans-serif;
   font-size: 16px;
   margin-top: 0px;
   color: #0c0c0a;
@@ -36,6 +36,10 @@ h2 {
   font-family: 'Rosario', sans-serif;
   font-size: 1.5em;
   line-height: 1.5em;
+}
+
+p {
+  font-family: 'Muli', sans-serif;
 }
 
 .nav > li > a {
@@ -290,10 +294,14 @@ a.leaflet-popup-close-button {
   display: none;
 }
 
+#submit-block{
+  margin-top: 100px;
+}
+
 #hook-box {
   /*color: white;*/
   font-size: 3em;
-  font-weight: lighter;
+  font-family: 'Muli', sans-serif;
   line-height: 1.25em;
 }
 
@@ -301,6 +309,12 @@ a.leaflet-popup-close-button {
   background-color: rgba(0, 0, 0, .75);
   margin: 10px 0 0 0;
   padding: 0px 5px 0px 5px;
+}
+
+.form-title {
+  text-align: center;
+  color: #bbb;
+  font-weight: 700;
 }
 
 .inline {

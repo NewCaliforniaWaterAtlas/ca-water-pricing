@@ -12,7 +12,7 @@ module.exports = mongoose.model ('Bill', {
   units: {type: String, required: false},
   lat: {type: Number, required: false },
   lng: {type: Number, required: false },
-  rate: {type: Number, required: false},
+  rate: {type: Number, required: false, default: 3},
   // zip: {type: Number, required: false },
   // coords: {lat: Number, lng: Number },
   tstamp: { type : Date, default: Date.now },

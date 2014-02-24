@@ -1,12 +1,10 @@
 <!-- home page ================================================== -->  	
 <div ng-include="'views/templates/head.html'"></div>
 
-<!-- <div ng-include="'views/templates/form.html'"></div> -->
-
-<div class="row row-group">
+<div id="submit-block" class="row row-group">
 	
 	<div id="hook-box" class="col-sm-offset-1 col-sm-5">
-    <span class="">Compare your water use to your neighbors. Find out what others are paying for water.</span>
+    <span class="">Compare your water use to your neighbors, & find out what others are paying for water.</span>
 	
 	</div>
 
@@ -17,7 +15,9 @@
 
 			  <div ng-show="step==1">
 					<div ng-form='formData1'>
-						
+						<div class="form-title">
+							<h3>About You</h3>
+						</div>
 						<div class="form-group" ng-class="{ 'has-error' : formData1.addr.$invalid && !formData1.addr.$pristine && !formData1.addr.$focused}">
 						  <label for="InputAddr">Location</label>
 						  <input 
@@ -54,6 +54,9 @@
 
 			  <div ng-show="step==2">
 					<div ng-form='formData2'>
+						<div class="form-title">
+							<h3>Your Water Bill</h3>
+						</div>
 						<div class="form-group" ng-class="{ 'has-error' : formData2.util.$invalid && !formData2.util.$pristine && !formData2.util.$focused}">
 						  <label for="InputUtil">Water Provider</label>
 						  <input 
@@ -166,7 +169,17 @@
 
 			  <div ng-show="step==3">
 					<div ng-form='formData3'>
-						<!-- <div class="form-group" ng-class="{ 'has-error' : formData3.lat.$invalid && !formData3.lat.$pristine && !formData3.lat.$focused}">
+
+						<div class="form-title">
+							<h3>Thank You!</h3>
+						</div>
+
+					<button type="submit" class="btn btn-success" ng-disabled="formData.$invalid" ng-click="createBill()" ng-href="#/participate">Submit</button> 
+			  </div>
+
+			  <!-- <div ng-show="step==3">
+					<div ng-form='formData3'>
+						<div class="form-group" ng-class="{ 'has-error' : formData3.lat.$invalid && !formData3.lat.$pristine && !formData3.lat.$focused}">
 						  <label for="InputLat">Latitude</label>
 						  <input 
 						  	type="number"
@@ -192,7 +205,7 @@
 						  	required
 						  	ng-focus>
 						  <p ng-show="formData3.lng.$invalid && !formData3.lng.$pristine && !formData3.lng.$focused" class="help-block">Your Lng is required.</p>
-						</div> -->
+						</div>
 						
 						<div class="form-group" ng-class="{ 'has-error' : formData3.rate.$invalid && !formData3.rate.$pristine && !formData3.rate.$focused }">
 						  <label for="InputRate">Rate TEST</label>
@@ -215,7 +228,7 @@
 					
 					<button type="button" class="btn btn-default" ng-click="step = 2">Back</button>
 					<button type="submit" class="btn btn-success" ng-disabled="formData.$invalid" ng-click="createBill()">Submit</button> 
-			  </div>
+			  </div> -->
 
 			</div><!-- ng-form -->
 		
@@ -246,9 +259,9 @@
 		</div>
 	</div>
 
-</div> -->
+</div>
 
-<!-- <div class="row row-group">
+<div class="row row-group">
 	<div class="col-sm-6 col-sm-offset-3">
 		<h2 class="bar-title">Crowdsourcing the Pricing of Water</h2>
 		<div mapuser id="map" userdata="entries"></div>
@@ -256,10 +269,10 @@
 			<h1>Bills Submitted (test) <span class="label label-info">{{ entries.length }}</span></h1>
 		</div>
 	</div>
-</div> -->
+</div>
 
 
-<!-- <div id="bill-list" class="row row-group">
+<div id="bill-list" class="row row-group">
 
 	<div class="panel panel-default col-sm-offset-1 col-sm-7" ng-controller="chartController">
 		<div d3-bars data="entries" on-click="onClick(item)" bar-height="40" bar-padding="5"></div>
