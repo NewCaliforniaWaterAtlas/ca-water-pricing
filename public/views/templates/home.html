@@ -4,10 +4,9 @@
 <div id="submit-block" class="row row-group">
 	
 	<div id="hook-box" class="col-sm-offset-1 col-sm-5">
-    <span class="">Compare your water use to your neighbors, & find out what others are paying for water.</span>
-	
+    <span class="">Compare your water bill with your neighbors. Submit your bill to see fees and usage.</span>
 	</div>
-
+	
 	<div class="panel panel-default col-sm-5">
 		<div class="panel-body">
 
@@ -164,17 +163,7 @@
 						</div>
 					</div>
 			    <button type="button" class="btn btn-default" ng-click="step = 1">Back</button>
-			    <button type="button" class="btn btn-default" ng-disabled="formData2.$invalid" ng-click="step = 3">Next</button>
-			  </div>
-
-			  <div ng-show="step==3">
-					<div ng-form='formData3'>
-
-						<div class="form-title">
-							<h3>Thank You!</h3>
-						</div>
-
-					<button type="submit" class="btn btn-success" ng-disabled="formData.$invalid" ng-click="createBill()" ng-href="#/participate">Submit</button> 
+			    <a type="submit" class="btn btn-success" ng-disabled="formData.$invalid" ng-click="createBill()" ng-href="#/participate" role="button">Submit</a>
 			  </div>
 
 			  <!-- <div ng-show="step==3">

@@ -25,7 +25,7 @@ app.controller('mainController', function ($scope, billService, agencyService) {
 
 		// todo: validate the formData to make sure that something is there
 		if ($scope.formData.$valid) {
-			alert('our form is amazing');
+			alert('Thank You!');
 			$scope.formData.addr = $scope.result;
 			$scope.formData.lat = $scope.details.geometry.location.d;
 			$scope.formData.lng = $scope.details.geometry.location.e;

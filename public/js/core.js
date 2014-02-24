@@ -18,7 +18,7 @@ app.config(['$stateProvider', '$locationProvider', function ($stateProvider, $lo
 
 		.state('participate', {
 			url: '/participate',
-			templateUrl: 'views/templates/submit.html', 
+			templateUrl: 'views/templates/participate.html', 
 			controller: 'mainController'
 		});
 		// .otherwise({redirectTo: '/'});
