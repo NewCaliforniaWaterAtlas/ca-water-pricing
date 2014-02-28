@@ -3,10 +3,21 @@
 <div ng-include="'views/templates/head.html'"></div>
 
 <div class="row row-group">
-	<h2 class="bar-title">Crowdsourcing the Pricing of Water</h2>
-	<div mapuser id="map" userdata="entries"></div>
-</div>
+	<div id="map-wrap" class="col-sm-9">
+		<h2 class="bar-title">Crowdsourcing the Pricing of Water</h2>
+		<div mapuser id="map" userdata="entries"></div>
+	</div>
+	
+	<div id="graph-wrap" class="col-sm-3" ng-controller="chartController">
+		<div d3-bars id="chartContainer" data="entries" on-click="onClick(item)" bar-height="40" bar-padding="5"></div>
+		<div ng-show="showDetailPanel">
+	    <h3>Details</h3>
+	    <h3>Item: {{ detailItem._id }}</h4>
+	    <a ng-click="showDetailPanel=false">Hide</a>
+	  </div>
+	</div>
 
+</div>
 
 <div ng-include="'views/templates/nav-content.html'"></div>
 <div ng-include="'views/templates/explore-content.html'"></div>

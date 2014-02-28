@@ -1,10 +1,21 @@
 {
-  "name": "bower-package",
-  "version": "0.0.0",
+  "name": "ca-water-pricing",
+  "version": "0.0.1",
   "authors": [
-    "videmsky <stuffaccounts@gmail.com>"
+    "New California Water Atlas"
+  ],
+  "description": "Informing Californians about prices and rates for residential water.",
+  "main": "server.js",
+  "keywords": [
+    "california",
+    "water",
+    "prices",
+    "atlas",
+    "rates"
   ],
   "license": "MIT",
+  "homepage": "http://ca.statewater.org/",
+  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
@@ -16,7 +27,7 @@
   "dependencies": {
     "angular-bootstrap": "~0.10.0",
     "angular-ui-router": "0.2.8-bowratic-tedium",
-    "autofill-event": "~1.0.0",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "angular-leaflet-directive": "~0.7.5"
   }
 }

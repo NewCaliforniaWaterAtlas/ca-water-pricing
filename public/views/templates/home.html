@@ -4,7 +4,7 @@
 <div id="submit-block" class="row row-group">
 	
 	<div id="hook-box" class="col-sm-offset-1 col-sm-5">
-    <span class="">Compare your water bill with your neighbors. Submit your bill to explore prices and usage.</span>
+    <span class="">Compare your water bill with other Californians in two easy steps.</span>
 	</div>
 	
 	<div class="panel panel-default col-sm-5">
@@ -17,7 +17,7 @@
 						<div class="form-title">
 							<h2>About You</h2>
 						</div>
-						<div class="form-group" ng-class="{ 'has-error' : formData1.addr.$invalid && !formData1.addr.$pristine && !formData1.addr.$focused , 'has-success' : formData1.addr.$valid && !formData1.addr.$pristine && !formData1.addr.$focused }"
+						<div class="form-group" ng-class="{ 'has-error' : formData1.addr.$invalid && !formData1.addr.$pristine && !formData1.addr.$focused , 'has-success' : formData1.addr.$valid && !formData1.addr.$pristine && !formData1.addr.$focused }" >
 						  <label for="InputAddr">Location</label>
 						  <div class="right-inner-addon">
 						  	<i ng-show="formData1.addr.$valid && !formData1.addr.$pristine && !formData1.addr.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
@@ -27,7 +27,7 @@
 						  		class="form-control" 
 						  		id="InputAddr"
 						  		ng-model="formData.addr"
-						  		placeholder="93406"
+						  		placeholder="example: 94705 or Berkeley"
 						  		required
 						  		ng-focus
 						  		ng-autocomplete="result"
@@ -47,7 +47,7 @@
 						  		class="form-control"
 						  		id="InputHsize"
 						  		ng-model="formData.hsize"
-						  		placeholder="4"
+						  		placeholder="example: 3 or 4"
 						  		required
 						  		ng-focus>
 						  </div>
@@ -72,7 +72,7 @@
 						  		class="form-control" 
 						  		id="InputUtil"
 						  		ng-model="formData.util"
-						  		placeholder="SWA"
+						  		placeholder="example: San Miguel Water Company"
 						  		required
 						  		ng-focus>
 						  </div>
@@ -80,7 +80,7 @@
 						</div>
 						
 						<div class="form-group" ng-class="{ 'has-error' : formData2.bill.$invalid && !formData2.bill.$pristine && !formData2.bill.$focused , 'has-success' : formData2.bill.$valid && !formData2.bill.$pristine && !formData2.bill.$focused }">
-						  <label for="InputBill">Total Bill: $</label>
+						  <label for="InputBill">Total Bill</label>
 						  <div class="right-inner-addon">
 						  	<i ng-show="formData2.bill.$valid && !formData2.bill.$pristine && !formData2.bill.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
 						  	<input 
@@ -89,7 +89,7 @@
 						  		class="form-control"
 						  		id="InputBill"
 						  		ng-model="formData.bill"
-						  		placeholder="45.55"
+						  		placeholder="example: 45.55"
 						  		required
 						  		ng-focus>
 						  </div>
@@ -145,7 +145,7 @@
               </div>
 						  <p ng-show="formData2.edate.$invalid && !formData2.edate.$pristine && !formData2.edate.$focused" class="help-block">Your Billing End Date is required.</p>
 						</div>
-
+						
 						<div class="form-group" ng-class="{ 'has-error' : formData2.used.$invalid && !formData2.used.$pristine && !formData2.used.$focused  , 'has-success' : formData2.used.$valid && !formData2.used.$pristine && !formData2.used.$focused }">
 						  <label for="InputUsed">Metered Water Consumption</label>
 						  <div class="right-inner-addon">
@@ -156,7 +156,7 @@
 						  		class="form-control"
 						  		id="InputUsed"
 						  		ng-model="formData.used"
-						  		placeholder="101"
+						  		placeholder="example: 101"
 						  		required
 						  		ng-focus>
 						  </div>
@@ -184,65 +184,11 @@
 			    <a type="submit" class="btn btn-success btn-lg" ng-disabled="formData.$invalid" ng-click="createBill()" ng-href="#/participate" role="button">Submit</a>
 			  </div>
 
-			  <!-- <div ng-show="step==3">
-					<div ng-form='formData3'>
-						<div class="form-group" ng-class="{ 'has-error' : formData3.lat.$invalid && !formData3.lat.$pristine && !formData3.lat.$focused}">
-						  <label for="InputLat">Latitude</label>
-						  <input 
-						  	type="number"
-						  	name="lat"
-						  	class="form-control" 
-						  	id="InputLat"
-						  	ng-model="formData.lat"
-						  	placeholder="37.166111"
-						  	required
-								ng-focus>
-							<p ng-show="formData3.lat.$invalid && !formData3.lat.$pristine && !formData3.lat.$focused" class="help-block">Your Lat is required.</p>
-						</div>
-						
-						<div class="form-group" ng-class="{ 'has-error' : formData3.lng.$invalid && !formData3.lng.$pristine && !formData3.lng.$focused }">
-						  <label for="InputUse">Longitude</label>
-						  <input 
-						  	type="number"
-						  	name="lng"
-						  	class="form-control"
-						  	id="InputLng"
-						  	ng-model="formData.lng"
-						  	placeholder="-119.449444"
-						  	required
-						  	ng-focus>
-						  <p ng-show="formData3.lng.$invalid && !formData3.lng.$pristine && !formData3.lng.$focused" class="help-block">Your Lng is required.</p>
-						</div>
-						
-						<div class="form-group" ng-class="{ 'has-error' : formData3.rate.$invalid && !formData3.rate.$pristine && !formData3.rate.$focused }">
-						  <label for="InputRate">Rate TEST</label>
-						  <input 
-						  	type="number"
-						  	name="rate"
-						  	class="form-control"
-						  	id="InputRate"
-						  	ng-model="formData.rate"
-						  	placeholder="9"
-						  	required
-						  	ng-focus>
-						  <p ng-show="formData3.rate.$invalid && !formData3.rate.$pristine && !formData3.rate.$focused" class="help-block">Your Rate is required.</p>
-						</div>
-
-					</div>
-					
-					<div>{{details.geometry.location.d}}</div>
-	      	<div>{{details.geometry.location.e}}</div>
-					
-					<button type="button" class="btn btn-default" ng-click="step = 2">Back</button>
-					<button type="submit" class="btn btn-success" ng-disabled="formData.$invalid" ng-click="createBill()">Submit</button> 
-			  </div> -->
-
 			</div><!-- ng-form -->
 		
 		</div><!-- .panel-body -->
 	</div><!-- .panel -->
 </div><!-- .row-group -->
-
 
 
 <!-- <div class="row row-group">
@@ -266,27 +212,4 @@
 		</div>
 	</div>
 
-</div>
-
-<div class="row row-group">
-	<div class="col-sm-6 col-sm-offset-3">
-		<h2 class="bar-title">Crowdsourcing the Pricing of Water</h2>
-		<div mapuser id="map" userdata="entries"></div>
-		<div class="text-center">
-			<h1>Bills Submitted (test) <span class="label label-info">{{ entries.length }}</span></h1>
-		</div>
-	</div>
-</div>
-
-
-<div id="bill-list" class="row row-group">
-
-	<div class="panel panel-default col-sm-offset-1 col-sm-7" ng-controller="chartController">
-		<div d3-bars data="entries" on-click="onClick(item)" bar-height="40" bar-padding="5"></div>
-		<div ng-show="showDetailPanel">
-	    <h3>Details</h3>
-	    <h3>Item: {{ detailItem._id }}</h4>
-	    <a ng-click="showDetailPanel=false">Hide</a>
-	  </div>
-	</div>
 </div> -->

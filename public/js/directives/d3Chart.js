@@ -91,8 +91,6 @@ app.directive('d3Bars', ['$window','d3Service', function ($window, d3Service) {
               .text(function(d) {
                 return "bill: $" + d.bill + ",  rate: " + "$ " + d.rate + "/gal.";
               });
-
-
         }
       
       });
