@@ -44,6 +44,7 @@ module.exports = function(app) {
 			bill : req.body.bill,
 			sdate : req.body.sdate,
 			edate : req.body.edate,
+			billtype : req.body.billtype,
 			used : req.body.used,
 			units : req.body.units,
 			lat : req.body.lat,

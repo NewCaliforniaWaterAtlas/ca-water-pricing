@@ -96,93 +96,130 @@
 						  <p ng-show="formData2.bill.$invalid && !formData2.bill.$pristine && !formData2.bill.$focused" class="help-block">Your Total Bill is required.</p>
 						</div>
 
-						<div class="form-group inline col-sm-6" ng-class="{ 'has-error' : formData2.sdate.$invalid && !formData2.sdate.$pristine && !formData2.sdate.$focused , 'has-success' : formData2.sdate.$valid && !formData2.sdate.$pristine && !formData2.sdate.$focused }">
-						  <label for="InputSdate">Billing Start Date</label>
-              <div class="input-group">
-              	<input 
-              		type="text"
-              		name="sdate"
-              		class="form-control"
-              		id="InputSdate"
-              		datepicker-popup="{{format}}"
-              		ng-model="formData.sdate"
-              		is-open="opened1" min="minDate"
-              		max="'2015-06-22'"
-              		datepicker-options="dateOptions"
-              		date-disabled="disabled(date, mode)"
-              		placeholder="DD-Month-YYYY"
-              		ng-required="true"
-              		close-text="Close"
-              		ng-focus/>
-              	<span class="input-group-btn">
-              	  <button class="btn btn-default" ng-click="open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-              	</span>
-              </div>
-						  <p ng-show="formData2.sdate.$invalid && !formData2.sdate.$pristine && !formData2.sdate.$focused" class="help-block">Your Billing Start Date is required.</p>
-						</div>
-
-						<div class="form-group inline col-sm-6" ng-class="{ 'has-error' : formData2.edate.$invalid && !formData2.edate.$pristine && !formData2.edate.$focused , 'has-success' : formData2.edate.$valid && !formData2.edate.$pristine && !formData2.edate.$focused }">
-						  <label for="InputEdate">Billing End Date</label>
-              <div class="input-group">
-              	<input 
-              		type="text"
-              		name="edate"
-              		class="form-control"
-              		id="InputSdate"
-              		datepicker-popup="{{format}}"
-              		ng-model="formData.edate"
-              		is-open="opened2" min="minDate"
-              		max="'2015-01-01'"
-              		datepicker-options="dateOptions"
-              		date-disabled="disabled(date, mode)"
-              		placeholder="DD-Month-YYYY"
-              		ng-required="true"
-              		close-text="Close"
-              		ng-focus/>
-              	<span class="input-group-btn">
-              	  <button class="btn btn-default" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-              	</span>
-              </div>
-						  <p ng-show="formData2.edate.$invalid && !formData2.edate.$pristine && !formData2.edate.$focused" class="help-block">Your Billing End Date is required.</p>
-						</div>
-						
-						<div class="form-group" ng-class="{ 'has-error' : formData2.used.$invalid && !formData2.used.$pristine && !formData2.used.$focused  , 'has-success' : formData2.used.$valid && !formData2.used.$pristine && !formData2.used.$focused }">
-						  <label for="InputUsed">Metered Water Consumption</label>
-						  <div class="right-inner-addon">
-						  	<i ng-show="formData2.used.$valid && !formData2.used.$pristine && !formData2.used.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
-						  	<input 
-						  		type="number"
-						  		name="used"
-						  		class="form-control"
-						  		id="InputUsed"
-						  		ng-model="formData.used"
-						  		placeholder="example: 101"
-						  		required
-						  		ng-focus>
-						  </div>
-						  <p ng-show="formData2.used.$invalid && !formData2.used.$pristine && !formData2.used.$focused" class="help-block">Your Metered Water Consumption is required.</p>
-						</div>
-
-						<div class="form-group" ng-class="{ 'has-error' : formData2.units.$invalid && !formData2.units.$pristine && !formData2.units.$focused , 'has-success' : formData2.units.$valid && !formData2.units.$pristine && !formData2.units.$focused }">
-						  <label for="InputUnits">Consumption Units</label>
-						  <div class="right-inner-addon">
-						  	<i ng-show="formData2.units.$valid && !formData2.units.$pristine && !formData2.units.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
-						  	<input 
-						  		type="text"
+						<div class="row">
+							<div class="form-group inline col-sm-6" ng-class="{ 'has-error' : formData2.sdate.$invalid && !formData2.sdate.$pristine && !formData2.sdate.$focused , 'has-success' : formData2.sdate.$valid && !formData2.sdate.$pristine && !formData2.sdate.$focused }">
+							  <label for="InputSdate">Billing Start Date</label>
+		              <div class="input-group">
+	              	<input 
+	              		type="text"
+	              		name="sdate"
+	              		class="form-control"
+	              		id="InputSdate"
+	              		datepicker-popup="shortDate"
+	              		ng-model="formData.sdate"
+	              		is-open="opened1" 
+	              		min="minDate"
+	              		show-weeks="false"
+	              		max="'2015-06-22'"
+	              		datepicker-options="dateOptions"
+	              		show-button-bar="false"
+	              		placeholder="MM/DD/YY"
+	              		ng-required="true"
+	              		close-text="Close"
+	              		ng-focus/>
+	              	<span class="input-group-btn">
+	              	  <button class="btn btn-default" ng-click="open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+	              	</span>
+		              </div>
+							  <p ng-show="formData2.sdate.$invalid && !formData2.sdate.$pristine && !formData2.sdate.$focused" class="help-block">Your Billing Start Date is required.</p>
+							</div>
+							
+							<div class="form-group inline col-sm-6" ng-class="{ 'has-error' : formData2.edate.$invalid && !formData2.edate.$pristine && !formData2.edate.$focused , 'has-success' : formData2.edate.$valid && !formData2.edate.$pristine && !formData2.edate.$focused }">
+							  <label for="InputEdate">Billing End Date</label>
+	              <div class="input-group">
+	              	<input 
+	              		type="text"
+	              		name="edate"
+	              		class="form-control"
+	              		id="InputSdate"
+	              		datepicker-popup="shortDate"
+	              		ng-model="formData.edate"
+	              		is-open="opened2"
+	              		min="minDate"
+	              		show-weeks="false"
+	              		max="'2015-01-01'"
+	              		datepicker-options="dateOptions"
+	              		show-button-bar="false"
+	              		placeholder="MM/DD/YY"
+	              		ng-required="true"
+	              		close-text="Close"
+	              		ng-focus/>
+	              	<span class="input-group-btn">
+	              	  <button class="btn btn-default" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+	              	</span>
+	              </div>
+							  <p ng-show="formData2.edate.$invalid && !formData2.edate.$pristine && !formData2.edate.$focused" class="help-block">Your Billing End Date is required.</p>
+							</div>
+						</div>.<!-- row -->
+				
+						<div class="row">
+							<div class="form-group">
+								<label for="InputPaytype">Bill Type</label>
+							</div>
+							<div class="form-group inline col-sm-6">
+								<label class="radio-inline">
+								  <input
+								  	type="radio"
+								  	id="inlineRadio1"
+								  	name="billtype"
+								  	ng-model="formData.billtype"
+								  	value="frate"
+								  	required> Flat Rate Bill
+								</label>
+							</div>
+							
+							<div class="form-group inline col-sm-6">
+								<label class="radio-inline">
+								  <input 
+								  	type="radio"
+								  	id="inlineRadio2"
+								  	name="billtype"
+								  	ng-model="formData.billtype"
+								  	value="mrate"
+								  	required> Metered Bill
+								</label>
+							</div>
+							
+							<div ng-show="formData.billtype == 'mrate'"	class="form-group inline col-sm-8" ng-class="{ 'has-error' : formData2.used.$invalid && !formData2.used.$pristine && !formData2.used.$focused  , 'has-success' : formData2.used.$valid && !formData2.used.$pristine && !formData2.used.$focused }">
+							  <label for="InputUsed">Water Consumption</label>
+							  <div class="right-inner-addon">
+							  	<i ng-show="formData2.used.$valid && !formData2.used.$pristine && !formData2.used.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
+							  	<input 
+							  		type="number"
+							  		name="used"
+							  		class="form-control"
+							  		id="InputUsed"
+							  		ng-model="formData.used"
+							  		placeholder="example: 132"
+							  		ng-required="formData.billtype == 'mrate'"
+							  		ng-focus>
+							  </div>
+							  <p ng-show="formData2.used.$invalid && !formData2.used.$pristine && !formData2.used.$focused" class="help-block">Your Water Consumption is required.</p>
+							</div>
+							
+							<div ng-show="formData.billtype == 'mrate'" class="form-group inline col-sm-4" ng-class="{ 'has-error' : formData2.units.$invalid && !formData2.units.$pristine && !formData2.units.$focused , 'has-success' : formData2.units.$valid && !formData2.units.$pristine && !formData2.units.$focused }">
+							  <label for="InputUnits">Units</label>
+						  	<select 
 						  		name="units"
 						  		class="form-control"
 						  		id="InputUnits"
 						  		ng-model="formData.units"
-						  		placeholder="gal/gal or ccf/1,000"
-						  		required
+						  		ng-required="formData.billtype == 'mrate'"
 						  		ng-focus>
-						  </div>
-						  <p ng-show="formData2.units.$invalid && !formData2.units.$pristine && !formData2.units.$focused" class="help-block">Your Unit type is required.</p>
-						</div>
-					</div>
-			    <button type="button" class="btn btn-default btn-lg" ng-click="step = 1">Back</button>
-			    <a type="submit" class="btn btn-success btn-lg" ng-disabled="formData.$invalid" ng-click="createBill()" ng-href="#/participate" role="button">Submit</a>
-			  </div>
+						  	<option>gal</option>
+						  	<option>ccf</option>
+						  	</select>
+						  
+						  	<p ng-show="formData2.units.$invalid && !formData2.units.$pristine && !formData2.units.$focused" class="help-block">Your Unit type is required.</p>
+							</div>
+						</div><!-- .row -->					
+					</div><!-- formData2 -->
+			    
+			    <div class="row">
+			    	<button type="button" class="btn btn-default btn-lg" ng-click="step = 1">Back</button>
+			    	<a type="submit" class="btn btn-success btn-lg" ng-disabled="formData.$invalid" ng-click="createBill()" ng-href="#/participate" role="button">Submit</a>
+			    </div><!-- .row -->
+			  </div><!-- step==2 -->
 
 			</div><!-- ng-form -->
 		

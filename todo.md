@@ -2,12 +2,12 @@ Todo
 ------
 
 * swap out google geocoder for map quest: http://open.mapquestapi.com/geocoding/
-* form validation: regexs for input fields
-* form validation: serverside validation
-* unit picker for water used
+* form validation: regexs for input fields "Water Provider" & "Total Bill"
+* form validation: serverside
 * reformat lat lng for mongo: laci has python script
-* debug map data-binding
-* search filters: rates, county, city,
-* cleanup UI & markup
+* bind map and d3 viz
+* format map tooltips
+* filters for map and d3 viz: rates & usage
+* cleanup UI & markup for webpage
 * write copy
 * add capcha?

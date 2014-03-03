@@ -28,6 +28,7 @@
     "angular-bootstrap": "~0.10.0",
     "angular-ui-router": "0.2.8-bowratic-tedium",
     "lodash": "~2.4.1",
-    "angular-leaflet-directive": "~0.7.5"
+    "angular-leaflet-directive": "~0.7.5",
+    "d3": "~3.4.3"
   }
 }
