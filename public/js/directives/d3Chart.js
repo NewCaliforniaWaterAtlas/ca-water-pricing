@@ -45,16 +45,16 @@ app.directive('d3Bars', ['$window','d3Service', function ($window, d3Service) {
           if (!data) return; 
           // setup variables
           var width = d3.select(element[0]).node().offsetWidth - margin,
-              // calculate the height
-              height = scope.data.length * (barHeight + barPadding),
-              // Use the category20() scale function for multicolor support
-              color = d3.scale.category20(),
-              // our xScale
-              xScale = d3.scale.linear()
-                .domain([0, d3.max(data, function(d) {
-                  return d.rate;
-                })])
-                .range([0, width]);
+          // calculate the height
+          height = scope.data.length * (barHeight + barPadding),
+          // Use the category20() scale function for multicolor support
+          color = d3.scale.category20(),
+          // our xScale
+          xScale = d3.scale.linear()
+            .domain([0, d3.max(data, function(d) {
+              return d.rate;
+            })])
+            .range([0, width]);
 
           // set the height based on the calculations above
           svg.attr('height', height);
