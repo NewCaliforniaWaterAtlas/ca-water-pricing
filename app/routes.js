@@ -25,12 +25,25 @@ module.exports = function(app) {
 		Agency.find(function(err, agencies) {
 
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
-			if (err)
+			if (err) {
 				res.send(err)
-
-			res.json(agencies); // return all bills in JSON format
+				console.log(err);	
+			} else {
+				res.json(agencies)// return all bills in JSON format				
+			}
 		});
 	});
+
+
+exports.findAll = function(req, res) {	
+	Rating.findAllStatic(req, function(err, docs){
+		if (!err) {
+			res.json(docs);
+		} else {
+			console.log(err);
+		}
+	});
+}
 
 
 	// create bill and send back all bills after creation
