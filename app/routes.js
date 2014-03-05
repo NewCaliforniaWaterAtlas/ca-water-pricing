@@ -23,27 +23,20 @@ module.exports = function(app) {
 
 		// use mongoose to get all bills in the database
 		Agency.find(function(err, agencies) {
-
+			var output = [];
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
 			if (err) {
-				res.send(err)
-				console.log(err);	
+				// res.send(err)
+				return next(err)
 			} else {
-				res.json(agencies)// return all bills in JSON format				
+				agencies.forEach (function(a){
+					// console.log(a);
+					output.push(a);
+				})			
 			}
+			res.json(output)// return all bills in JSON format
 		});
 	});
-
-
-exports.findAll = function(req, res) {	
-	Rating.findAllStatic(req, function(err, docs){
-		if (!err) {
-			res.json(docs);
-		} else {
-			console.log(err);
-		}
-	});
-}
 
 
 	// create bill and send back all bills after creation
