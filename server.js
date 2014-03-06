@@ -9,10 +9,11 @@ var database = require('./config/database'); 			// load the database config
 mongoose.connect(database.dbPath); 	// connect to mongoDB database
 
 app.configure(function() {
-	app.use(express.static(__dirname + '/public')); 		// set the static files location /public/img will be /img for users
-	app.use(express.logger('dev')); 						// log every request to the console
-	app.use(express.bodyParser()); 							// pull information from html in POST
-	app.use(express.methodOverride()); 						// simulate DELETE and PUT
+	app.use(express.compress()); // gzip compression
+	app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be /img for users
+	app.use(express.logger('dev')); // log every request to the console
+	app.use(express.bodyParser()); // pull information from html in POST
+	app.use(express.methodOverride()); // simulate DELETE and PUT
 });
 
 // routes ======================================================================

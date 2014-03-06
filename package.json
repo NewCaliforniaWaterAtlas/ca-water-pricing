@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "~3.4.4",
     "mongoose": "~3.6.2",
-    "awsbox": "~0.7.0"
+    "awsbox": "~0.7.0",
+    "apicache": "0.0.12"
   }
 }

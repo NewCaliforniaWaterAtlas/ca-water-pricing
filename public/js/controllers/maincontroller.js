@@ -16,8 +16,10 @@ app.controller('mainController', function ($scope, billService, agencyService) {
 	agencyService.get()
 		.success(function(data) {
 			$scope.records = data;
-		});
-
+		})
+		.error(function (data,status,headers,config){
+       console.log('API CALL ERROR'+status);
+    });
 
 	// CREATE ==================================================================
 	// when submitting the add form, send the text to the node API

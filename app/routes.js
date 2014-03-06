@@ -1,5 +1,6 @@
 var Bill = require('./models/bill');
 var Agency = require('./models/agency.js')
+var apicache = require('apicache').options({ debug: true }).middleware;
 
 module.exports = function(app) {
 
@@ -19,22 +20,18 @@ module.exports = function(app) {
 	});
 	
 	// get all agency data
-	app.get('/v1/api/agency', function(req, res) {
+	app.get('/v1/api/agency', apicache('5 minutes'), function(req, res, next) {
 
 		// use mongoose to get all bills in the database
 		Agency.find(function(err, agencies) {
-			var output = [];
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
 			if (err) {
 				// res.send(err)
-				return next(err)
+				res.send(err)
 			} else {
-				agencies.forEach (function(a){
-					// console.log(a);
-					output.push(a);
-				})			
+				res.json(agencies)// return all bills in JSON format
 			}
-			res.json(output)// return all bills in JSON format
+			
 		});
 	});
 
