@@ -10,7 +10,7 @@ var credentials = require('../credentials');
 // 	dbPath : "mongodb://" + credentials.user + ":" + credentials.passwd + "@troup.mongohq.com:10031/db-ca-water-pricing"
 // }
 
-production
+// production
 module.exports = {
 	dbPath : "mongodb://" + credentials.user + ":" + credentials.passwd + "@emma.mongohq.com:10009/db-ca-water-pricing_production"
 }

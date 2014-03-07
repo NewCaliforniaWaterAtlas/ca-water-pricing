@@ -6,7 +6,6 @@ var regex2 = [/^[a-zA-Z ]+$/]; // alpha numeric chars and spaces
 var billType = 'frate mrate'.split(' ');
 var unitType = 'gal ccf'.split(' ');
 
-
 module.exports = mongoose.model ('Bill', {
   addr: {type: String, required: true },
   hsize: {type: Number, min: 1, max: 12, required: true },
@@ -24,24 +23,3 @@ module.exports = mongoose.model ('Bill', {
   // coords: {lat: Number, lng: Number },
   done : Boolean
 });
-
-
-// var match = [ /\.html$/, "That file doesn't end in .html ({VALUE})" ];
-// var s = new Schema({ file: { type: String, match: match }})
-
-// var s = new Schema({ name: { type: String, match: /^a/, required: true }})
-
-      // addr : req.body.addr,
-      // hsize : req.body.hsize,
-      // util : req.body.util,
-      // bill : req.body.bill,
-      // sdate : req.body.sdate,
-      // edate : req.body.edate,
-      // billtype : req.body.billtype,
-      // used : req.body.used,
-      // units : req.body.units,
-      // lat : req.body.lat,
-      // lng : req.body.lng,
-      // rate : req.body.rate,
-      // tstamp : req.body.tstamp,
-      // done : false
