@@ -1,5 +1,5 @@
 <!-- home page ================================================== -->  	
-<div ng-include="'views/templates/head.html'"></div>
+<!-- <div ng-include="'views/templates/head.html'"></div> -->
 
 <div id="submit-block" class="row row-group">
 	
@@ -48,6 +48,7 @@
 						  		id="InputHsize"
 						  		ng-model="formData.hsize"
 						  		placeholder="example: 3 or 4"
+						  		ng-pattern="/^([1-9]|1[0-2])$/"
 						  		required
 						  		ng-focus>
 						  </div>
@@ -73,6 +74,7 @@
 						  		id="InputUtil"
 						  		ng-model="formData.util"
 						  		placeholder="example: San Miguel Water Company"
+						  		ng-pattern="/^[a-zA-Z ]+$/"
 						  		required
 						  		ng-focus>
 						  </div>
@@ -90,6 +92,7 @@
 						  		id="InputBill"
 						  		ng-model="formData.bill"
 						  		placeholder="example: 45.55"
+						  		ng-pattern="/(?=.)^\$?(([1-9][0-9]{0,2}(,[0-9]{3})*)|[0-9]+)?(\.[0-9]{1,2})?$/"
 						  		required
 						  		ng-focus>
 						  </div>
