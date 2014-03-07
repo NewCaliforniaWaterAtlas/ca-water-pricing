@@ -7,26 +7,23 @@ module.exports = function(app) {
 	// api ---------------------------------------------------------------------
 	// get all bills
 	app.get('/v1/api/prices', function(req, res) {
-
 		// use mongoose to get all bills in the database
 		Bill.find(function(err, bills) {
-
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
-			if (err)
+			if (err) {
 				res.send(err)
-
-			res.json(bills); // return all bills in JSON format
+			} else {
+				res.json(bills); // return all bills in JSON format
+			}
 		});
 	});
 	
 	// get all agency data
 	app.get('/v1/api/agency', apicache('5 minutes'), function(req, res, next) {
-
 		// use mongoose to get all bills in the database
 		Agency.find(function(err, agencies) {
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
 			if (err) {
-				// res.send(err)
 				res.send(err)
 			} else {
 				res.json(agencies)// return all bills in JSON format
