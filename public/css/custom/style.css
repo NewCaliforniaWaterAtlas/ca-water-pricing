@@ -42,28 +42,6 @@ p {
   font-family: 'Muli', sans-serif;
 }
 
-.nav > li > a {
-  font-family: 'Questrial', sans-serif;
-  font-size: 1.30em;
-  line-height: 1.30em;
-/*   background-color: #dbd7ca; */
-  background-color: #edeae2;
-  padding: 6px;
-  padding-left: 12px;
-  margin: 5px 0;
-  border: none;
-  border-left: solid 3px #a2a18f;
-  border-radius: 0;
-  color: #0c0c0a;
-}
-
-.nav > li > a:hover {
-  border: none;
-  border-color: none;
-  background-color: #d8a271;
-  border-left: solid 3px #a05725;
-}
-
 h3,h4,h5,h6 {
   font-family: 'Rosario', sans-serif;
   font-size: 1.4em;
@@ -120,10 +98,6 @@ input::-webkit-inner-spin-button {
   margin-top: 35px;
 }
 
-ul.nav-tabs {
-  border-bottom: none;
-}
-
 h1.title {
   line-height: 0em;
 }
@@ -138,7 +112,7 @@ h1.title {
 }*/
 
 .carousel-caption,
-h2.bar-title {
+.bar-title {
   font-family: 'Rosario', sans-serif;  
   font-size: 1.5em;
   line-height: 1.5em;
@@ -169,48 +143,34 @@ h2.bar {
 }
 
 /*
- *  teaser 
- */ 
-
-.teaser-text-fade {
-  max-height: 300px;
-  position: relative;
-  overflow: hidden;
-}
-
-.teaser-text {
-  padding: 15px;
-}
-
-.teaser-text-fade .read-more { 
-  position: absolute;
-  bottom: 0; 
-  height: 275px;
-  width: 100%; 
-  text-align: center; 
-  margin: 0px;  
-  
-  /* "transparent" only works here because == rgba(0,0,0,0) */ 
-  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, transparent),color-stop(1, white));
-  background-image: -webkit-linear-gradient(top, transparent, white);
-  background-image: -moz-linear-gradient(top, transparent, white);
-  background-image: -ms-linear-gradient(top, transparent, white);
-  background-image: -o-linear-gradient(top, transparent, white);
-}
-
-.read-more a {
-  position: relative;
-  display: block;
-  margin: 250px auto;
-}
-
-/*
  *  tabs
- */ 
+ */
+
+
+.nav > li > a {
+  font-family: 'Questrial', sans-serif;
+  font-size: 1.30em;
+  line-height: 1.30em;
+/*   background-color: #dbd7ca; */
+  background-color: #edeae2;
+  padding: 6px;
+  padding-left: 12px;
+  margin: 5px 0;
+  border: none;
+  border-left: solid 3px #a2a18f;
+  border-radius: 0;
+  color: #0c0c0a;
+}
+
+.nav > li > a:hover {
+  border: none;
+  border-color: none;
+  background-color: #d8a271;
+  border-left: solid 3px #a05725;
+} 
 
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
   background-color: #d8a271;
-
   border-left: solid 3px #545348;
 }
 
@@ -221,6 +181,16 @@ ul.nav-tabs>li>a.btn.btn-primary.btn-lg{
 ul.nav-tabs>li.active>a, ul.nav-tabs>li.active>a:hover, ul.nav-tabs>li.active>a:focus {
   color: #fffff;
 }
+
+ul.nav-tabs {
+  border-bottom: none;
+}
+
+.nav-tabs.nav-justified>li>a {
+   border-bottom: none; 
+  border-radius: 0px 0px 0 0;
+}
+
 
 /*
  *  carousel
@@ -264,6 +234,46 @@ ol.carousel-indicators {
   list-style: none;
 }
 
+/*
+ *  teaser 
+ */ 
+
+.teaser-text-fade {
+  max-height: 300px;
+  position: relative;
+  overflow: hidden;
+}
+
+.teaser-text {
+  padding: 15px;
+}
+
+.teaser-text-fade .read-more { 
+  position: absolute;
+  bottom: 0; 
+  height: 275px;
+  width: 100%; 
+  text-align: center; 
+  margin: 0px;  
+  
+  /* "transparent" only works here because == rgba(0,0,0,0) */ 
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, transparent),color-stop(1, white));
+  background-image: -webkit-linear-gradient(top, transparent, white);
+  background-image: -moz-linear-gradient(top, transparent, white);
+  background-image: -ms-linear-gradient(top, transparent, white);
+  background-image: -o-linear-gradient(top, transparent, white);
+}
+
+.read-more a {
+  position: relative;
+  display: block;
+  margin: 250px auto;
+}
+
+
+
+
+
 #bill-list {
   margin-bottom:30px;
 }
@@ -298,6 +308,21 @@ ol.carousel-indicators {
 #map {
   height: 480px;
   width: 100%;
+}
+
+.counters {
+  color: #fff;
+  margin-right: 5px;
+  padding-right: 13px;
+  padding-left: 13px;
+}
+
+#counter1 {
+  background-color: #be5e24;
+}
+
+#counter2 {
+  background-color: #e4aa46;
 }
 
 a.leaflet-popup-close-button {
@@ -372,7 +397,18 @@ a.leaflet-popup-close-button {
 }
 
 .x.axis path {
-  display: none;
+  /*display: none;*/
 }
 
+/*
+ *  donut chart
+ */ 
 
+#graph-wrap1 {
+  /*margin-top: 20px;*/
+}
+
+donut-chart {
+  width: 100%;
+  height: 100%;
+}

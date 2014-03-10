@@ -37,7 +37,7 @@ app.directive('d3Bars', ['$window','d3Service', function ($window, d3Service) {
         }, true);
 
         scope.render = function(data) {
- 
+          console.log(data);  
           // remove all previous items before render
           svg.selectAll('*').remove();
 

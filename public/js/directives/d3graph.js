@@ -2,7 +2,7 @@
 
 app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) {
   return {
-    restrict: 'A',
+    restrict: 'E',
     scope: {
       data: '=', // bi-directional data-binding
       onClick: '&'  // parent execution binding
@@ -12,8 +12,8 @@ app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) 
       d3Service.d3().then(function(d3) {
         
         var margin = {t:30, r:20, b:20, l:40 },
-          w = 300 - margin.l - margin.r,
-          h = 500 - margin.t - margin.b,
+          w = 500 - margin.l - margin.r,
+          h = 300 - margin.t - margin.b,
           x = d3.scale.linear().range([0, w]),
           y = d3.scale.linear().range([h - 60, 0]),
           //colors that will reflect geographical regions
@@ -72,7 +72,7 @@ app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) 
             // console.log(data)
 
             var x0 = Math.max(-d3.min(data, function(d) { return d.hsize; }), d3.max(data, function(d) { return d.hsize; }));
-            x.domain([0, 10]);
+            x.domain([0, 12]);
             y.domain([0, 500])
 
             // style the circles, set their locations based on data
@@ -187,7 +187,7 @@ app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) 
               .attr("y", 45)
               .attr("dy", ".75em")
               .attr("transform", "rotate(-90)")
-              .text("Total Water Bill");
+              .text("Total Water Bill (USD)");
 
           }
         }

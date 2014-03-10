@@ -2,7 +2,7 @@
 
 	
 // inject the Bills service factory into our controller
-app.controller('mainController', function ($scope, billService, agencyService) {
+app.controller('mainController', [ '$scope', 'billService', 'agencyService', function ($scope, billService, agencyService) {
 	$scope.formData = {};
 
 	// GET =====================================================================
@@ -17,7 +17,7 @@ app.controller('mainController', function ($scope, billService, agencyService) {
 		.success(function(data) {
 			$scope.records = data;
 		})
-		.error(function (data,status,headers,config){
+		.error(function (data, status, headers, config){
        console.log('API CALL ERROR'+status);
     });
 
@@ -105,10 +105,10 @@ app.controller('mainController', function ($scope, billService, agencyService) {
 
 
 
-}); // end mainController
+}]); // end mainController
 
 
-app.controller('chartController', ['$scope', function($scope){
+app.controller('barsController1', ['$scope', function ($scope){
 
   $scope.onClick = function(item) {
     $scope.$apply(function() {
@@ -117,5 +117,32 @@ app.controller('chartController', ['$scope', function($scope){
       $scope.detailItem = item;
     });
   };
+
+}]);
+
+app.controller('submitCounter1', ['$scope', 'billService', function ($scope, billService){
+	
+	billService.get()
+		.success(function(data) {
+			// $scope.entries = data;
+
+		  $scope.frate = 0;
+		  $scope.mrate = 0;
+		  
+		  // loop through scope.data
+		  angular.forEach(data, function(entry, key){
+		    // console.log(entry.billtype);
+		    if (entry.billtype === "frate"){
+		      $scope.frate++;
+		    }
+		    else if (entry.billtype === "mrate"){
+		      $scope.mrate++;
+		    }
+		    else {
+		      return;
+		    }
+		  });	
+
+		});
 
 }]);

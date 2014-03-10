@@ -2,21 +2,60 @@
 
 <div ng-include="'views/templates/head.html'"></div>
 
-<div class="row row-group">
+<div class="row row-group" ng-controller="submitCounter1">
 	
 	<div id="map-wrap" class="col-sm-9">
-		<h2 class="bar-title">Crowdsourcing the Pricing of Water</h2>
+		
+		<!-- <div class="row" ng-controller="submitCounter1">
+			<div class="col-sm-10">
+				<h2 class="bar-title">Crowdsourcing the Pricing of Water</h2>
+			</div>
+			<div class="col-sm-1">
+				<h2 class="bar-title">{{mrate}}</h2>
+			</div>
+			<div class="col-sm-1">
+				<h2 class="bar-title">{{frate}}</h2>
+			</div>
+		</div> -->
+
+		<h2 class="bar-title">Crowdsourcing the Pricing of Water
+			<span id="counter1"	class="counters pull-right">{{mrate}}</span>
+			<span id="counter2" class="counters pull-right">{{frate}}</span>
+		</h2>
+
 		<div mapuser id="map" userdata="entries"></div>
 	</div>
 	
-	<div id="graph-wrap" class="col-sm-3" ng-controller="chartController">
+	<!-- <div id="graph-wrap1" class="col-sm-3" ng-controller="barsController1">	  
+		<h2 class="bar-title">Water Bills</h2>
 		<div d3-bars id="chartContainer" data="entries" on-click="onClick(item)" bar-height="40" bar-padding="5"></div>
 		<div ng-show="showDetailPanel">
 	    <h3>Details</h3>
 	    <h3>Item: {{ detailItem._id }}</h4>
 	    <a ng-click="showDetailPanel=false">Hide</a>
 	  </div>
-	  <div d3-graph id="chartContainer" data="entries"></div>
+	</div> -->
+
+	<div id="graph-wrap1" class="col-sm-3">	  
+		<h2 class="bar-title">Details</h2>
+	  <tabset justified="true">
+	    <tab heading="Water Bill">additional data on recrords here</tab>
+	    <tab heading="Search">search input here</tab>
+	  </tabset>
+
+	</div>
+
+
+	<div class="row">
+		<div id="graph-wrap2" class="col-sm-4">
+		  <d3-graph id="chartContainer" data="entries"></d3-graph>
+		</div>
+		
+		<div id="graph-wrap3" class="col-sm-4">
+		  <d3-donut data="[82, 62, 10, 32]"></d3-donut>
+		  <!-- <d3-donut data="entries"></d3-donut> -->
+		</div>
+
 	</div>
 
 </div>
