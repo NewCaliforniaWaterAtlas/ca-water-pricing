@@ -7,7 +7,13 @@ var billType = 'frate mrate'.split(' ');
 var unitType = 'gal ccf'.split(' ');
 
 module.exports = mongoose.model ('Bill', {
-  addr: {type: String, required: true },
+  userloc: {type: String, required: true },
+  streetaddr: {type: String, required: false },
+  city: {type: String, required: false },
+  county: {type: String, required: false },
+  state: {type: String, required: false },
+  country: {type: String, required: false },
+  postal: {type: Number, required: false },
   hsize: {type: Number, min: 1, max: 12, required: true },
   util: {type: String, match: regex2, required: true },
   bill: {type: Number, required: true },
@@ -16,8 +22,8 @@ module.exports = mongoose.model ('Bill', {
   billtype: {type: String, enum: billType, required: true},  
   used: {type: Number, required: false },  
   units: {type: String, enum: unitType, required: false},
-  lat: {type: Number, required: true },
-  lng: {type: Number, required: true },
+  lat: {type: Number, required: false },
+  lng: {type: Number, required: false },
   rate: {type: Number, required: false, default: 3},
   tstamp: { type : Date, default: Date.now },
   // coords: {lat: Number, lng: Number },

@@ -17,25 +17,27 @@
 						<div class="form-title">
 							<h2>About You</h2>
 						</div>
-						<div class="form-group" ng-class="{ 'has-error' : formData1.addr.$invalid && !formData1.addr.$pristine && !formData1.addr.$focused , 'has-success' : formData1.addr.$valid && !formData1.addr.$pristine && !formData1.addr.$focused }" >
+						<div class="form-group" ng-class="{ 'has-error' : formData1.userloc.$invalid && !formData1.userloc.$pristine && !formData1.userloc.$focused , 'has-success' : formData1.userloc.$valid && !formData1.userloc.$pristine && !formData1.userloc.$focused }" >
 						  <label for="InputAddr">Location</label>
 						  <div class="right-inner-addon">
-						  	<i ng-show="formData1.addr.$valid && !formData1.addr.$pristine && !formData1.addr.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
+						  	<i ng-show="formData1.userloc.$valid && !formData1.userloc.$pristine && !formData1.userloc.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
 						  	<input 
 						  		type="text"
-						  		name="addr"
+						  		ng-autocomplete
+						  		name="userloc"
 						  		class="form-control" 
 						  		id="InputAddr"
-						  		ng-model="formData.addr"
+						  		ng-model="formData.userloc"
 						  		placeholder="example: 94705 or Berkeley"
 						  		required
 						  		ng-focus
-						  		ng-autocomplete="result"
 						  		details="details"
 						  		options="{country: 'us'}">
 						  </div>
-							<p ng-show="formData1.addr.$invalid && !formData1.addr.$pristine && !formData1.addr.$focused" class="help-block">Your Location is required.</p>
+							<p ng-show="formData1.userloc.$invalid && !formData1.userloc.$pristine && !formData1.userloc.$focused" class="help-block">Your Location is required.</p>
 						</div>
+						<!-- <div>lat: {{details.geometry.location.k}}</div>
+						<div>lng: {{details.geometry.location.A}}</div> -->
 
 						<div class="form-group" ng-class="{ 'has-error' : formData1.hsize.$invalid && !formData1.hsize.$pristine && !formData1.hsize.$focused , 'has-success' : formData1.hsize.$valid && !formData1.hsize.$pristine && !formData1.hsize.$focused }">
 						  <label for="InputUse">Number of people in your household</label>

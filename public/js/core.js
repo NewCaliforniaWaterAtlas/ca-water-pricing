@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'leaflet-directive']);
+var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'leaflet-directive', 'ngAutocomplete']);
 
 app.config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider){
 	$stateProvider

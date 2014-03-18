@@ -31,7 +31,7 @@ app.directive('mapuser', [ '$window','mapService', function ($window, mapService
 		    map.attributionControl.setPrefix('');
 
 		    // create the tile layer with correct attribution
-		    var tilesURL='http://tile.stamen.com/terrain/{z}/{x}/{y}.png';
+		    var tilesURL='http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png';
 		    var tilesAttrib='Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
 		    var tiles = new L.TileLayer(tilesURL, {
 	        attribution: tilesAttrib, 

@@ -28,9 +28,14 @@ app.controller('mainController', [ '$scope', 'billService', 'agencyService', fun
 		// todo: validate the formData to make sure that something is there
 		if ($scope.formData.$valid) {
 			alert('Thank You!');
-			$scope.formData.addr = $scope.result;
-			$scope.formData.lat = $scope.details.geometry.location.d;
-			$scope.formData.lng = $scope.details.geometry.location.e;
+			$scope.formData.streetaddr = $scope.details.formatted_address;
+			$scope.formData.city = $scope.details.address_components[1].long_name;
+			$scope.formData.county = $scope.details.address_components[2].short_name;
+			$scope.formData.state = $scope.details.address_components[3].short_name;
+			$scope.formData.country = $scope.details.address_components[4].short_name;
+			$scope.formData.postal = $scope.details.address_components[5].long_name;
+			$scope.formData.lat = $scope.details.geometry.location.k;
+			$scope.formData.lng = $scope.details.geometry.location.A;
 			// call the create function from our service (returns a promise object)
 			billService.create($scope.formData)
 

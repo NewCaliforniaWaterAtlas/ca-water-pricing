@@ -32,13 +32,18 @@ module.exports = function(app) {
 		});
 	});
 
-
 	// create bill and send back all bills after creation
 	app.post('/v1/api/prices', function(req, res) {
 
 		// create a bill, information comes from AJAX request from Angular
 		Bill.create({
-			addr : req.body.addr,
+			userloc : req.body.userloc,
+			streetaddr : req.body.streetaddr,
+			city : req.body.city,
+			county : req.body.county,
+			state : req.body.state,
+			country : req.body.country,
+			postal : req.body.postal,
 			hsize : req.body.hsize,
 			util : req.body.util,
 			bill : req.body.bill,

@@ -29,6 +29,7 @@
     "angular-ui-router": "0.2.8-bowratic-tedium",
     "lodash": "~2.4.1",
     "angular-leaflet-directive": "~0.7.5",
-    "d3": "~3.4.3"
+    "d3": "~3.4.3",
+    "ngAutocomplete": "~1.0.0"
   }
 }
