@@ -32,12 +32,13 @@
 						  		required
 						  		ng-focus
 						  		details="details"
-						  		options="{country: 'us'}">
+						  		options="{country: 'us', types: 'geocode'}">
 						  </div>
 							<p ng-show="formData1.userloc.$invalid && !formData1.userloc.$pristine && !formData1.userloc.$focused" class="help-block">Your Location is required.</p>
 						</div>
-						<!-- <div>lat: {{details.geometry.location.k}}</div>
-						<div>lng: {{details.geometry.location.A}}</div> -->
+						
+						<!-- <div>lat: {{details.geometry.location.lat()}}</div>
+						<div>lng: {{details.geometry.location.lng()}}</div> -->
 
 						<div class="form-group" ng-class="{ 'has-error' : formData1.hsize.$invalid && !formData1.hsize.$pristine && !formData1.hsize.$focused , 'has-success' : formData1.hsize.$valid && !formData1.hsize.$pristine && !formData1.hsize.$focused }">
 						  <label for="InputUse">Number of people in your household</label>

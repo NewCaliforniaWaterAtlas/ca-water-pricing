@@ -30,6 +30,7 @@
     "lodash": "~2.4.1",
     "angular-leaflet-directive": "~0.7.5",
     "d3": "~3.4.3",
-    "ngAutocomplete": "~1.0.0"
+    "ngAutocomplete": "~1.0.0",
+    "esri-leaflet": "~0.0.1-beta.4-patch-1"
   }
 }

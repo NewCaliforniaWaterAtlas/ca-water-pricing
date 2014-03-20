@@ -1,3 +1,5 @@
+
+
 app.factory('mapService', ['$document', '$window', '$q', '$rootScope',
   
   function($document, $window, $q, $rootScope) {
@@ -14,12 +16,14 @@ app.factory('mapService', ['$document', '$window', '$q', '$rootScope',
         d.resolve($window.map);
       });
   }
-    
-  var scriptTag = $document[0].createElement('script');
+   
+  var scriptTag = $document[0].createElement('script'); 
   scriptTag.type = 'text/javascript'; 
   scriptTag.async = true;
-  scriptTag.src = 'http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js';
-
+  // scriptTag.src = 'http://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js';
+  // scriptTag.src = '../components/leaflet-dist/leaflet.js';
+  scriptTag.src = '../js/maplibs-bundle.js';
+   
   scriptTag.onreadystatechange = function () {
     if (this.readyState == 'complete') onScriptLoad();
   }

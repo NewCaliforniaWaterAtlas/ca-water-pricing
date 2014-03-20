@@ -34,8 +34,8 @@ app.controller('mainController', [ '$scope', 'billService', 'agencyService', fun
 			$scope.formData.state = $scope.details.address_components[3].short_name;
 			$scope.formData.country = $scope.details.address_components[4].short_name;
 			$scope.formData.postal = $scope.details.address_components[5].long_name;
-			$scope.formData.lat = $scope.details.geometry.location.k;
-			$scope.formData.lng = $scope.details.geometry.location.A;
+			$scope.formData.lat = $scope.details.geometry.location.lat();
+			$scope.formData.lng = $scope.details.geometry.location.lng();
 			// call the create function from our service (returns a promise object)
 			billService.create($scope.formData)
 

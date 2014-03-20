@@ -43,6 +43,45 @@ app.directive('mapuser', [ '$window','mapService', function ($window, mapService
 		    });
 		    tiles.addTo(map);
 
+	      L.esri.featureLayer("/v1/api/features/palmerdrought", {
+	       style: function (feature) {
+	          return { color: "#70ca49", weight: 2 };
+	        }
+	        
+	      }).addTo(map);
+
+
+
+
+				// var droughtmon = L.tileLayer.wms("http://torka.unl.edu:8080/cgi-bin/mapserv.exe?map=/ms4w/apps/dm/service/usdm_current_wms.map&TRANSPARENT=true&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=usdm_current&STYLES=default&TRANSPARENT=true&BGCOLOR=0x000000&SRS=EPSG:4326&CRS=EPSG:4326&FORMAT=image/png&WIDTH=1379&HEIGHT=802&BBOX=-125.17822265625,17.666015625,-64.57763671875,52.91015625", {
+				// }).addTo(map);	
+
+
+				// var droughtmon = L.tileLayer.wms("http://torka.unl.edu:8080/cgi-bin/mapserv.exe?map=/ms4w/apps/dm/service/usdm140311_wms.map", {
+			 //    // map: '/ms4w/apps/dm/service/usdm140311_wms.map',
+			 //    layers: 'usdm140311',
+			 //    transparent: true,
+			 //    // service: 'wms',
+			 //    version: '1.1.1',
+			 //    // request: 'GetMap',
+			 //    styles: '',
+			 //    format: 'image/png'
+			 //    // srs: 'EPSG:3A900913',
+			 //    // bbox: -9348884.573048,1469108.0536408,-4339507.488048,6478485.1386408,
+			 //    // height: 256,
+			 //    // width: 256
+				// }).addTo(map);	
+				// droughtmon.setOpacity(0.25);
+				// console.log(droughtmon);	
+				
+
+				// var temperature = L.tileLayer.wms("http://gis.srh.noaa.gov/arcgis/services/NDFDTemps/MapServer/WMSServer", {
+			 //    format: 'img/png',
+			 //    transparent: true,
+			 //    layers: 16
+				// }).addTo(map);
+				// console.log(temperature);	    
+
 				// watch for points changes and re-render
         scope.$watch('userdata', function (newData) {
           scope.render(newData);

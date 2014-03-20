@@ -1,36 +1,69 @@
 var Bill = require('./models/bill');
 var Agency = require('./models/agency.js')
 var apicache = require('apicache').options({ debug: true }).middleware;
+var request = require('request');
 
 module.exports = function(app) {
 
 	// api ---------------------------------------------------------------------
-	// get all bills
+	// get all user submitted entries
 	app.get('/v1/api/prices', function(req, res) {
-		// use mongoose to get all bills in the database
+		// use mongoose to get all entries in the database
 		Bill.find(function(err, bills) {
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
 			if (err) {
-				res.send(err)
+				res.send(err);
 			} else {
 				res.json(bills); // return all bills in JSON format
 			}
 		});
 	});
+
 	
 	// get all agency data
 	app.get('/v1/api/agency', apicache('5 minutes'), function(req, res, next) {
-		// use mongoose to get all bills in the database
+		// use mongoose to get all records in the database
 		Agency.find(function(err, agencies) {
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
 			if (err) {
-				res.send(err)
+				res.send(err);
 			} else {
-				res.json(agencies)// return all bills in JSON format
+				res.json(agencies); // return agency data in JSON format
 			}
 			
 		});
 	});
+
+
+	// get NOAA Palmer Drought Severity Index data
+	app.get('/v1/api/features/palmerdrought', apicache('5 minutes'), function(req, res, next) {
+
+	  request.get({ 
+	    url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2?f=pjson'
+	    }, function(err,resp,body) {
+	    	if (err) {
+	    		console.log(err);
+	    	} else {
+	    		var obj = JSON.parse(body);
+	    	}
+	  }).pipe(res);
+
+	});
+
+
+	// // get NOAA Palmer Drought Severity Index data
+	// app.get('/v1/api/features/palmerdrought', apicache('5 minutes'), function(req, res, next) {
+
+	//   var url = "http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2?f=pjson'";
+
+	//   request(url, function(err, resp, body) {
+ //      body = JSON.parse(body);
+	//     // pass back the results to client side
+	//     res.send(body);
+	//   });
+
+	// });
+
 
 	// create bill and send back all bills after creation
 	app.post('/v1/api/prices', function(req, res) {
@@ -71,6 +104,7 @@ module.exports = function(app) {
 
 	});
 
+
 	// delete a bill
 	app.delete('/v1/api/prices/:bill_id', function(req, res) {
 		Bill.remove({
@@ -87,6 +121,7 @@ module.exports = function(app) {
 			});
 		});
 	});
+
 
 	// application -------------------------------------------------------------
 	app.get('*', function(req, res) {
