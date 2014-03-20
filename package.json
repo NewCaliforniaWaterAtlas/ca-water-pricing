@@ -14,6 +14,7 @@
     "mongoose": "~3.6.2",
     "awsbox": "~0.7.0",
     "apicache": "0.0.12",
-    "request": "~2.34.0"
+    "request": "~2.34.0",
+    "geoservices": "~0.1.3"
   }
 }

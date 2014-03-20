@@ -3,6 +3,9 @@ var Agency = require('./models/agency.js')
 var apicache = require('apicache').options({ debug: true }).middleware;
 var request = require('request');
 
+var geoservices = require('geoservices');
+var gs = new geoservices();
+
 module.exports = function(app) {
 
 	// api ---------------------------------------------------------------------
@@ -35,26 +38,10 @@ module.exports = function(app) {
 	});
 
 
-	// get NOAA Palmer Drought Severity Index data
-	app.get('/v1/api/features/palmerdrought', apicache('5 minutes'), function(req, res, next) {
-
-	  request.get({ 
-	    url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2?f=pjson'
-	    }, function(err,resp,body) {
-	    	if (err) {
-	    		console.log(err);
-	    	} else {
-	    		var obj = JSON.parse(body);
-	    	}
-	  }).pipe(res);
-
-	});
-
-
 	// // get NOAA Palmer Drought Severity Index data
 	// app.get('/v1/api/features/palmerdrought', apicache('5 minutes'), function(req, res, next) {
 
-	//   var url = "http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2?f=pjson'";
+	//   var url = "http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2?f=pjson";
 
 	//   request(url, function(err, resp, body) {
  //      body = JSON.parse(body);
@@ -63,6 +50,34 @@ module.exports = function(app) {
 	//   });
 
 	// });
+
+
+	// get NOAA Palmer Drought Severity Index data
+	app.get('/v1/api/features/palmerdrought', apicache('5 minutes'), function(req, res, next) {
+
+		var params = {
+		  url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2'
+		};
+
+		var query_params = {
+		  f: 'json',
+		  returnGeometry: true,
+		  where: '1=1',
+		  outSR: '4326'
+		};
+
+		var fs = new gs.featureservice( params , function(err, data){
+		  fs.query(query_params, function( err, result ){
+		    if (err) {
+		      console.error("Error: " + err);
+		    } else {
+		      console.log("Features: ", result );
+		      res.json(result);
+		    }
+		  });
+		});
+
+	});
 
 
 	// create bill and send back all bills after creation
