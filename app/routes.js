@@ -1,10 +1,13 @@
 var Bill = require('./models/bill');
 var Agency = require('./models/agency.js')
+
 var apicache = require('apicache').options({ debug: true }).middleware;
 var request = require('request');
+var schedule = require('node-schedule');
 
 var geoservices = require('geoservices');
 var gs = new geoservices();
+var GeoJSON = require('geojson');
 
 module.exports = function(app) {
 
@@ -35,48 +38,6 @@ module.exports = function(app) {
 			}
 			
 		});
-	});
-
-
-	// // get NOAA Palmer Drought Severity Index data
-	// app.get('/v1/api/features/palmerdrought', apicache('5 minutes'), function(req, res, next) {
-
-	//   var url = "http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2?f=pjson";
-
-	//   request(url, function(err, resp, body) {
- //      body = JSON.parse(body);
-	//     // pass back the results to client side
-	//     res.send(body);
-	//   });
-
-	// });
-
-
-	// get NOAA Palmer Drought Severity Index data
-	app.get('/v1/api/features/palmerdrought', apicache('5 minutes'), function(req, res, next) {
-
-		var params = {
-		  url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2'
-		};
-
-		var query_params = {
-		  f: 'json',
-		  returnGeometry: true,
-		  where: '1=1',
-		  outSR: '4326'
-		};
-
-		var fs = new gs.featureservice( params , function(err, data){
-		  fs.query(query_params, function( err, result ){
-		    if (err) {
-		      console.error("Error: " + err);
-		    } else {
-		      console.log("Features: ", result );
-		      res.json(result);
-		    }
-		  });
-		});
-
 	});
 
 
@@ -142,4 +103,107 @@ module.exports = function(app) {
 	app.get('*', function(req, res) {
 		res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 	});
+
+
+
+	// var j = schedule.scheduleJob({hour: 15, minute: 0, dayOfWeek: 4}, function(){
+	(function() {
+
+	  	
+		var params = {
+		  url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2'
+		};
+
+		var query_params = {
+		  f: 'json',
+		  returnGeometry: true,
+		  where: '1=1'
+		};
+
+		var fs = new gs.featureservice( params , function(err, data){
+		  fs.query(query_params, function( err, result ){
+		    if (err) {
+		      // console.error("Error: " + err);
+		      console.log("fail!!!");	
+		    } else {
+		    	console.log("Features: ", result );
+					
+					var str = '';
+					result.on('data', function(chunk) {
+					  str += chunk;
+					});
+					result.on('end', function() {
+
+						// var myObject = GeoJSON.parse(str, {'Polygon': 'polygon'}, function(geojson){
+						//   JSON.stringify(geojson);
+						// });
+
+						// console.log(myObject);	
+					  // db.collection('noaapalmerdsi').save(myObject, function(err, records) {
+					  //   if (err) throw err;
+					  //   console.log("record added");
+
+
+					});
+
+
+		    }
+		  });
+		});	
+
+	  console.log('saved new palmer drought index feature');
+	
+	})();
+	// });
+
+
+	// // get NOAA Palmer Drought Severity Index data
+	// app.get('/v1/api/features/palmerdrought', apicache('5 minutes'), function(req, res, next) {
+
+	//   var url = "http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2?f=pjson";
+
+	//   request(url, function(err, resp, body) {
+ //      body = JSON.parse(body);
+	//     // pass back the results to client side
+	//     res.send(body);
+	//   });
+
+	// });
+
+
+	// // get NOAA Palmer Drought Severity Index data
+	// app.get('/v1/api/features/palmerdrought', apicache('5 minutes'), function(req, res, next) {
+
+	// 	var params = {
+	// 	  url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2'
+	// 	};
+
+	// 	var query_params = {
+	// 	  f: 'json',
+	// 	  returnGeometry: true,
+	// 	  where: '1=1'
+	// 	};
+
+	// 	var fs = new gs.featureservice( params , function(err, data){
+	// 	  fs.query(query_params, function( err, result ){
+	// 	    if (err) {
+	// 	      console.error("Error: " + err);
+	// 	    } else {
+	// 	      console.log("Features: ", result );
+	// 	      // res.json(result);
+
+	// 				// GeoJSON.parse(result, {'Polygon': 'polygon'}, function(geojson){
+	// 				//   res.json(JSON.stringify(geojson));
+	// 				// });
+
+	// 	    }
+	// 	  });
+	// 	});	
+
+	// });
+
+
+
+
 };
+

@@ -43,15 +43,12 @@ app.directive('mapuser', [ '$window','mapService', function ($window, mapService
 		    });
 		    tiles.addTo(map);
 
-	      L.esri.featureLayer("/v1/api/features/palmerdrought", {
-	       style: function (feature) {
-	          return { color: "#70ca49", weight: 2 };
-	        }
+	      // L.esri.featureLayer("/v1/api/features/palmerdrought", {
+	      //  style: function (feature) {
+	      //     return { color: "#70ca49", weight: 2 };
+	      //   }
 	        
-	      }).addTo(map);
-
-
-
+	      // }).addTo(map);
 
 				// var droughtmon = L.tileLayer.wms("http://torka.unl.edu:8080/cgi-bin/mapserv.exe?map=/ms4w/apps/dm/service/usdm_current_wms.map&TRANSPARENT=true&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=usdm_current&STYLES=default&TRANSPARENT=true&BGCOLOR=0x000000&SRS=EPSG:4326&CRS=EPSG:4326&FORMAT=image/png&WIDTH=1379&HEIGHT=802&BBOX=-125.17822265625,17.666015625,-64.57763671875,52.91015625", {
 				// }).addTo(map);	
