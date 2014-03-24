@@ -4,7 +4,6 @@
 // inject the Bills service factory into our controller
 app.controller('mainController', [ '$scope', 'billService', 'agencyService', function ($scope, billService, agencyService) {
 	$scope.formData = {};
-
 	// GET =====================================================================
 	// when landing on the page, get all entries and show them
 	// use the service to get all the entries
@@ -28,14 +27,45 @@ app.controller('mainController', [ '$scope', 'billService', 'agencyService', fun
 		// todo: validate the formData to make sure that something is there
 		if ($scope.formData.$valid) {
 			alert('Thank You!');
+
+			var components = $scope.details.address_components;
+			// console.log(components);	
+			
+			var city = null;
+			var county = null;
+			var state = null;
+			var country = null;
+			var postal = null;
+
+			for (var i = 0, component; component = components[i]; i++) {
+        
+        if (component.types[0] == 'locality') {
+          city = component['long_name'];
+        }
+        if (component.types[0] == 'administrative_area_level_2') {
+          county = component['short_name'];
+        }
+        if (component.types[0] == 'administrative_area_level_1') {
+          state = component['short_name'];
+        }
+        if (component.types[0] == 'country') {
+          country = component['short_name'];
+        }
+        if (component.types[0] == 'postal_code') {
+          postal = component['short_name'];
+        }
+			}
+
 			$scope.formData.streetaddr = $scope.details.formatted_address;
-			$scope.formData.city = $scope.details.address_components[1].long_name;
-			$scope.formData.county = $scope.details.address_components[2].short_name;
-			$scope.formData.state = $scope.details.address_components[3].short_name;
-			$scope.formData.country = $scope.details.address_components[4].short_name;
-			$scope.formData.postal = $scope.details.address_components[5].long_name;
+			$scope.formData.city = city;
+			$scope.formData.county = county;
+			$scope.formData.state = state;
+			$scope.formData.country = country;
+			$scope.formData.postal = postal;
 			$scope.formData.lat = $scope.details.geometry.location.lat();
 			$scope.formData.lng = $scope.details.geometry.location.lng();
+
+
 			// call the create function from our service (returns a promise object)
 			billService.create($scope.formData)
 
@@ -107,8 +137,6 @@ app.controller('mainController', [ '$scope', 'billService', 'agencyService', fun
 
 	  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
 	  $scope.format = $scope.formats[0];
-
-
 
 }]); // end mainController
 

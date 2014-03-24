@@ -1,5 +1,7 @@
 var Bill = require('./models/bill');
-var Agency = require('./models/agency.js')
+var Agency = require('./models/agency.js');
+var MongoClient = require('mongodb').MongoClient;
+var database = require('../config/database');
 
 var apicache = require('apicache').options({ debug: true }).middleware;
 var request = require('request');
@@ -7,7 +9,7 @@ var schedule = require('node-schedule');
 
 var geoservices = require('geoservices');
 var gs = new geoservices();
-var GeoJSON = require('geojson');
+var jsonConv = require('../config/jsonConverters.js').esriConverter();
 
 module.exports = function(app) {
 
@@ -72,10 +74,13 @@ module.exports = function(app) {
 
 			// get and return all the bills after you create another
 			Bill.find(function(err, bills) {
-				if (err)
-					res.send(err)
-				res.json(bills);
+				if (err) {
+					res.send(err);
+				} else {
+					res.json(bills);
+				}
 			});
+		
 		});
 
 	});
@@ -86,15 +91,19 @@ module.exports = function(app) {
 		Bill.remove({
 			_id : req.params.bill_id
 		}, function(err, bill) {
-			if (err)
+			if (err) {
 				res.send(err);
+			}
 
 			// get and return all the bills after you create another
 			Bill.find(function(err, bills) {
-				if (err)
-					res.send(err)
+				if (err) {
+					res.send(err);
+				} else {
 				res.json(bills);
+				}
 			});
+		
 		});
 	});
 
@@ -107,101 +116,38 @@ module.exports = function(app) {
 
 
 	// var j = schedule.scheduleJob({hour: 15, minute: 0, dayOfWeek: 4}, function(){
-	(function() {
+	// (function() {
 
-	  	
-		var params = {
-		  url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2'
-		};
+	//   request.get({ 
+	//     // url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/1/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=*&returnGeometry=true'
+	//     url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/1/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=NAME&returnGeometry=true'
+	//     }, function(err,resp,body){
+	  		
+	//   		if (!err && resp.statusCode == 200) {
 
-		var query_params = {
-		  f: 'json',
-		  returnGeometry: true,
-		  where: '1=1'
-		};
+	// 	      var outjson = JSON.parse(body);
+	// 	      var geojson = jsonConv.toGeoJson(outjson);
+	// 	      // console.log(geojson);	
 
-		var fs = new gs.featureservice( params , function(err, data){
-		  fs.query(query_params, function( err, result ){
-		    if (err) {
-		      // console.error("Error: " + err);
-		      console.log("fail!!!");	
-		    } else {
-		    	console.log("Features: ", result );
-					
-					var str = '';
-					result.on('data', function(chunk) {
-					  str += chunk;
-					});
-					result.on('end', function() {
+	// 					MongoClient.connect(database.dbPath, function(err, db) {
+	// 					  if(err) { return console.dir(err); }
+	// 						db.createCollection('noaapalmerdsi', function(err, collection) {});
+						
+	// 					  db.collection('noaapalmerdsi').save(outjson, function(err, records) {
+	// 					    if (err) throw err;
+	// 					    console.log("record added");
+	// 					  });
 
-						// var myObject = GeoJSON.parse(str, {'Polygon': 'polygon'}, function(geojson){
-						//   JSON.stringify(geojson);
-						// });
+	// 					});
 
-						// console.log(myObject);	
-					  // db.collection('noaapalmerdsi').save(myObject, function(err, records) {
-					  //   if (err) throw err;
-					  //   console.log("record added");
+	//   		} else {
+	//   			console.error("Error: " + err);
+	//   		}
 
-
-					});
-
-
-		    }
-		  });
-		});	
-
-	  console.log('saved new palmer drought index feature');
-	
-	})();
-	// });
-
-
-	// // get NOAA Palmer Drought Severity Index data
-	// app.get('/v1/api/features/palmerdrought', apicache('5 minutes'), function(req, res, next) {
-
-	//   var url = "http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2?f=pjson";
-
-	//   request(url, function(err, resp, body) {
- //      body = JSON.parse(body);
-	//     // pass back the results to client side
-	//     res.send(body);
 	//   });
-
+	
+	// })();
 	// });
-
-
-	// // get NOAA Palmer Drought Severity Index data
-	// app.get('/v1/api/features/palmerdrought', apicache('5 minutes'), function(req, res, next) {
-
-	// 	var params = {
-	// 	  url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2'
-	// 	};
-
-	// 	var query_params = {
-	// 	  f: 'json',
-	// 	  returnGeometry: true,
-	// 	  where: '1=1'
-	// 	};
-
-	// 	var fs = new gs.featureservice( params , function(err, data){
-	// 	  fs.query(query_params, function( err, result ){
-	// 	    if (err) {
-	// 	      console.error("Error: " + err);
-	// 	    } else {
-	// 	      console.log("Features: ", result );
-	// 	      // res.json(result);
-
-	// 				// GeoJSON.parse(result, {'Polygon': 'polygon'}, function(geojson){
-	// 				//   res.json(JSON.stringify(geojson));
-	// 				// });
-
-	// 	    }
-	// 	  });
-	// 	});	
-
-	// });
-
 
 
 

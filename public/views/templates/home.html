@@ -36,9 +36,20 @@
 						  </div>
 							<p ng-show="formData1.userloc.$invalid && !formData1.userloc.$pristine && !formData1.userloc.$focused" class="help-block">Your Location is required.</p>
 						</div>
+						<div>full: {{details.formatted_address}}</div>
+						<div>city: {{details.address_components[0].short_name}}</div>
+						<div>county: {{details.address_components[1].short_name}}</div>
+						<div>state: {{details.address_components[2].short_name}}</div>
+						<div>country: {{details.address_components[3].short_name}}</div>
+						<div>zip: {{details.address_components[4].short_name}}</div>
+
 						
-						<!-- <div>lat: {{details.geometry.location.lat()}}</div>
-						<div>lng: {{details.geometry.location.lng()}}</div> -->
+						<div>lat: {{details.geometry.location.lat()}}</div>
+						<div>lng: {{details.geometry.location.lng()}}</div>
+						
+						<div>params: {{details.address_components}}</div>
+
+
 
 						<div class="form-group" ng-class="{ 'has-error' : formData1.hsize.$invalid && !formData1.hsize.$pristine && !formData1.hsize.$focused , 'has-success' : formData1.hsize.$valid && !formData1.hsize.$pristine && !formData1.hsize.$focused }">
 						  <label for="InputUse">Number of people in your household</label>
