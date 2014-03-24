@@ -7,8 +7,6 @@ var apicache = require('apicache').options({ debug: true }).middleware;
 var request = require('request');
 var schedule = require('node-schedule');
 
-var geoservices = require('geoservices');
-var gs = new geoservices();
 var jsonConv = require('../config/jsonConverters.js').esriConverter();
 
 module.exports = function(app) {
@@ -113,41 +111,44 @@ module.exports = function(app) {
 		res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 	});
 
-
-
-	// var j = schedule.scheduleJob({hour: 15, minute: 0, dayOfWeek: 4}, function(){
-	// (function() {
-
-	//   request.get({ 
-	//     // url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/1/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=*&returnGeometry=true'
-	//     url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/1/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=NAME&returnGeometry=true'
-	//     }, function(err,resp,body){
-	  		
-	//   		if (!err && resp.statusCode == 200) {
-
-	// 	      var outjson = JSON.parse(body);
-	// 	      var geojson = jsonConv.toGeoJson(outjson);
-	// 	      // console.log(geojson);	
-
-	// 					MongoClient.connect(database.dbPath, function(err, db) {
-	// 					  if(err) { return console.dir(err); }
-	// 						db.createCollection('noaapalmerdsi', function(err, collection) {});
-						
-	// 					  db.collection('noaapalmerdsi').save(outjson, function(err, records) {
-	// 					    if (err) throw err;
-	// 					    console.log("record added");
-	// 					  });
-
-	// 					});
-
-	//   		} else {
-	//   			console.error("Error: " + err);
-	//   		}
-
-	//   });
+	// schedule request to NOAA REST API & return Palmer Drought Serverity Index
+	// get JSON & convert to geoJSON and store in mongo collection
+	// todo: parse JSON and pull "."s out of field names
+	var j = schedule.scheduleJob({hour: 15, minute: 0, dayOfWeek: 4}, function(){
 	
-	// })();
-	// });
+	  request.get({ 
+	    // url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/1/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=*&returnGeometry=true'
+	    url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/1/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=NAME&returnGeometry=true'
+	    }, function(err,resp,body){
+	  		
+	  		if (!err && resp.statusCode == 200) {
+
+		      var outjson = JSON.parse(body);
+		      var geojson = jsonConv.toGeoJson(outjson);
+		      // console.log(geojson);	
+
+						MongoClient.connect(database.dbPath, function(err, db) {
+						  if(err) { return console.dir(err); }
+							db.createCollection('noaapalmerdsi', function(err, collection) {});
+						
+						  db.collection('noaapalmerdsi').save(outjson, function(err, records) {
+						    if (err) throw err;
+						    console.log("record added");
+						  });
+
+						});
+
+	  		} else {
+	  			console.error("Error: " + err);
+	  		}
+
+	  });
+		var date = new Date();
+		console.log('retrieved NOAA Palmer DSI JSON: ' + date);
+
+	});
+
+
 
 
 
