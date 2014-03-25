@@ -22,6 +22,7 @@ MongoClient.connect(database.dbPath, function(err, database) {
 module.exports = function(app) {
 
 	// api ---------------------------------------------------------------------
+	
 	// get all user submitted entries
 	app.get('/v1/api/prices', function(req, res) {
 		// use mongoose to get all entries in the database
@@ -116,12 +117,6 @@ module.exports = function(app) {
 	});
 
 
-	// application -------------------------------------------------------------
-	app.get('*', function(req, res) {
-		res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
-	});
-
-
 	// feature layers -------------------------------------------------------------
 	
 	// get NOAA Palmer Drought Severity Index data
@@ -147,6 +142,12 @@ module.exports = function(app) {
 		// 	res.json(data);
 		// });
 
+	});
+	
+
+	// application -------------------------------------------------------------
+	app.get('*', function(req, res) {
+		res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 	});
 
 	// schedule request to NOAA REST API & return Palmer Drought Serverity Index

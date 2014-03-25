@@ -21,13 +21,13 @@ app.config(['$stateProvider', '$locationProvider', function ($stateProvider, $lo
 			url: '/participate',
 			templateUrl: 'views/templates/participate.html', 
 			controller: 'mainController'
-		})
-
-		.state('test', {
-			url: '/test',
-			templateUrl: 'views/templates/test.html', 
-			controller: 'mapController'
 		});
+
+		// .state('test', {
+		// 	url: '/test',
+		// 	templateUrl: 'views/templates/test.html', 
+		// 	controller: 'mapController'
+		// });
 		// .otherwise({redirectTo: '/'});
 
 		// use the HTML5 History API
