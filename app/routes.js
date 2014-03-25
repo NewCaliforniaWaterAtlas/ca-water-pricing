@@ -1,13 +1,23 @@
 var Bill = require('./models/bill');
-var Agency = require('./models/agency.js');
-var MongoClient = require('mongodb').MongoClient;
-var database = require('../config/database');
+var Agency = require('./models/agency');
 
 var apicache = require('apicache').options({ debug: true }).middleware;
 var request = require('request');
 var schedule = require('node-schedule');
 
-var jsonConv = require('../config/jsonConverters.js').esriConverter();
+var jsonConv = require('../config/jsonConverters').esriConverter();
+
+var database = require('../config/database');
+var mongodb = require('mongodb');
+var MongoClient = mongodb.MongoClient;
+
+// connect to native mongo client ---------------------------------------------------------------------
+var db;
+
+MongoClient.connect(database.dbPath, function(err, database) {
+  db = database;
+})
+
 
 module.exports = function(app) {
 
@@ -111,9 +121,38 @@ module.exports = function(app) {
 		res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 	});
 
+
+	// feature layers -------------------------------------------------------------
+	
+	// get NOAA Palmer Drought Severity Index data
+	app.get('/v1/api/features/palmerdrought', apicache('5 minutes'), function(req, res) {
+
+		var stream = db.collection('noaapalmerdsi').find().stream();
+		
+		stream.on("error", function(err) {
+			console.error("Error: " + err);	
+		});
+
+		var items = [];
+		stream.on("data", function(data) {
+			items.push(data);			
+		});
+
+		stream.on("end", function() {
+			console.log("stream end");
+			res.json(items);
+		});
+
+		// db.collection('noaapalmerdsi').find({}).toArray(function(err, data) {
+		// 	res.json(data);
+		// });
+
+	});
+
 	// schedule request to NOAA REST API & return Palmer Drought Serverity Index
 	// get JSON & convert to geoJSON and store in mongo collection
-	// todo: parse JSON and pull "."s out of field names
+	// todo: parse JSON and pull "."s out of field names and return "outFields=*", query latest record in where=YEARMONTH
+	
 	var j = schedule.scheduleJob({hour: 15, minute: 0, dayOfWeek: 4}, function(){
 	
 	  request.get({ 
@@ -125,18 +164,14 @@ module.exports = function(app) {
 
 		      var outjson = JSON.parse(body);
 		      var geojson = jsonConv.toGeoJson(outjson);
-		      // console.log(geojson);	
+		      // console.log(geojson);
 
-						MongoClient.connect(database.dbPath, function(err, db) {
-						  if(err) { return console.dir(err); }
-							db.createCollection('noaapalmerdsi', function(err, collection) {});
-						
-						  db.collection('noaapalmerdsi').save(outjson, function(err, records) {
-						    if (err) throw err;
-						    console.log("record added");
-						  });
-
-						});
+					db.createCollection('noaapalmerdsi', function(err, collection) {});
+				
+				  db.collection('noaapalmerdsi').save(outjson, function(err, records) {
+				    if (err) throw err;
+				    console.log("record added");
+				  });
 
 	  		} else {
 	  			console.error("Error: " + err);
@@ -147,8 +182,6 @@ module.exports = function(app) {
 		console.log('retrieved NOAA Palmer DSI JSON: ' + date);
 
 	});
-
-
 
 
 
