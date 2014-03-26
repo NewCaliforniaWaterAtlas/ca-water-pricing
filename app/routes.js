@@ -24,7 +24,7 @@ module.exports = function(app) {
 	// api ---------------------------------------------------------------------
 	
 	// get all user submitted entries
-	app.get('/v1/api/prices', function(req, res) {
+	app.get('/v1/api/bills', function(req, res) {
 		// use mongoose to get all entries in the database
 		Bill.find(function(err, bills) {
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
@@ -53,7 +53,7 @@ module.exports = function(app) {
 
 
 	// create bill and send back all bills after creation
-	app.post('/v1/api/prices', function(req, res) {
+	app.post('/v1/api/bills', function(req, res) {
 
 		// create a bill, information comes from AJAX request from Angular
 		Bill.create({
@@ -96,7 +96,7 @@ module.exports = function(app) {
 
 
 	// delete a bill
-	app.delete('/v1/api/prices/:bill_id', function(req, res) {
+	app.delete('/v1/api/bills/:bill_id', function(req, res) {
 		Bill.remove({
 			_id : req.params.bill_id
 		}, function(err, bill) {
@@ -155,10 +155,11 @@ module.exports = function(app) {
 	// todo: parse JSON and pull "."s out of field names and return "outFields=*", query latest record in where=YEARMONTH
 	
 	var j = schedule.scheduleJob({hour: 15, minute: 0, dayOfWeek: 4}, function(){
-	
+	// (function() {
+
 	  request.get({ 
 	    // url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/1/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=*&returnGeometry=true'
-	    url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/1/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=NAME&returnGeometry=true'
+	    url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=ST,DIV,PDSI,DIV_CODE,NAME,YEARMONTH&returnGeometry=true'
 	    }, function(err,resp,body){
 	  		
 	  		if (!err && resp.statusCode == 200) {
@@ -169,7 +170,7 @@ module.exports = function(app) {
 
 					db.createCollection('noaapalmerdsi', function(err, collection) {});
 				
-				  db.collection('noaapalmerdsi').save(outjson, function(err, records) {
+				  db.collection('noaapalmerdsi').save(geojson, function(err, records) {
 				    if (err) throw err;
 				    console.log("record added");
 				  });
@@ -182,6 +183,7 @@ module.exports = function(app) {
 		var date = new Date();
 		console.log('retrieved NOAA Palmer DSI JSON: ' + date);
 
+	// })();		
 	});
 
 

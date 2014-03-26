@@ -2,7 +2,7 @@
 
 	
 // inject the Bills service factory into our controller
-app.controller('mainController', [ '$scope', 'billService', 'agencyService', function ($scope, billService, agencyService) {
+app.controller('mainController', [ '$scope', 'billService', 'agencyService', 'palmerFeature', function ($scope, billService, agencyService, palmerFeature) {
 	$scope.formData = {};
 	// GET =====================================================================
 	// when landing on the page, get all entries and show them
@@ -17,7 +17,15 @@ app.controller('mainController', [ '$scope', 'billService', 'agencyService', fun
 			$scope.records = data;
 		})
 		.error(function (data, status, headers, config){
-       console.log('API CALL ERROR'+status);
+       console.log('API CALL ERROR ' +status);
+    });
+
+	palmerFeature.get()
+		.success(function(data) {
+			$scope.palmer = data;		
+		})
+		.error(function (data, status, headers, config){
+       console.log('API CALL ERROR ' +status);
     });
 
 	// CREATE ==================================================================
