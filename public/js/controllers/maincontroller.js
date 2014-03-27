@@ -1,16 +1,7 @@
 'use strict';
 
-	
-// inject the Bills service factory into our controller
 app.controller('mainController', [ '$scope', 'billService', 'agencyService', 'palmerFeature', function ($scope, billService, agencyService, palmerFeature) {
 	$scope.formData = {};
-	// GET =====================================================================
-	// when landing on the page, get all entries and show them
-	// use the service to get all the entries
-	billService.get()
-		.success(function(data) {
-			$scope.entries = data;
-		});
 
 	agencyService.get()
 		.success(function(data) {
@@ -20,13 +11,13 @@ app.controller('mainController', [ '$scope', 'billService', 'agencyService', 'pa
        console.log('API CALL ERROR ' +status);
     });
 
-	palmerFeature.get()
-		.success(function(data) {
-			$scope.palmer = data;		
-		})
-		.error(function (data, status, headers, config){
-       console.log('API CALL ERROR ' +status);
-    });
+	// palmerFeature.get()
+	// 	.success(function(data) {
+	// 		$scope.palmer = data;		
+	// 	})
+	// 	.error(function (data, status, headers, config){
+ //       console.log('API CALL ERROR ' +status);
+ //    });
 
 	// CREATE ==================================================================
 	// when submitting the add form, send the text to the node API
@@ -34,7 +25,6 @@ app.controller('mainController', [ '$scope', 'billService', 'agencyService', 'pa
 
 		// todo: validate the formData to make sure that something is there
 		if ($scope.formData.$valid) {
-			alert('Thank You!');
 
 			var components = $scope.details.address_components;
 			// console.log(components);	
@@ -83,6 +73,7 @@ app.controller('mainController', [ '$scope', 'billService', 'agencyService', 'pa
 					$scope.entries = data; // assign our new list of entries
 				});
 		}
+		alert('Thank You!');
 	};
 
 
@@ -148,6 +139,17 @@ app.controller('mainController', [ '$scope', 'billService', 'agencyService', 'pa
 
 }]); // end mainController
 
+app.controller('billsController', ['$scope', 'billService', function ($scope, billService){
+
+	// GET =====================================================================
+	// when landing on the page, get all entries and show them
+	// use the service to get all the entries
+	billService.get()
+		.success(function(data) {
+			$scope.entries = data;
+		});	
+
+}]);
 
 app.controller('barsController1', ['$scope', function ($scope){
 

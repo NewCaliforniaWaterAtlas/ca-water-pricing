@@ -6,6 +6,7 @@ var request = require('request');
 var schedule = require('node-schedule');
 
 var jsonConv = require('../config/jsonConverters').esriConverter();
+var topojson = require("topojson");
 
 var database = require('../config/database');
 var mongodb = require('mongodb');
@@ -159,7 +160,7 @@ module.exports = function(app) {
 
 	  request.get({ 
 	    // url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/1/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=*&returnGeometry=true'
-	    url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=ST,DIV,PDSI,DIV_CODE,NAME,YEARMONTH&returnGeometry=true'
+	    url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=ST,PDSI,NAME&returnGeometry=true'
 	    }, function(err,resp,body){
 	  		
 	  		if (!err && resp.statusCode == 200) {
@@ -167,6 +168,10 @@ module.exports = function(app) {
 		      var outjson = JSON.parse(body);
 		      var geojson = jsonConv.toGeoJson(outjson);
 		      // console.log(geojson);
+
+					// var collection = {type: "FeatureCollection", features: [geojson]}; // GeoJSON
+					// var topology = topojson.topology({collection: collection}); // convert to TopoJSON
+					// console.log(topology.objects.collection); // inspect TopoJSON
 
 					db.createCollection('noaapalmerdsi', function(err, collection) {});
 				

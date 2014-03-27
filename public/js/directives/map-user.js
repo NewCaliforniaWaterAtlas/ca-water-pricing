@@ -1,12 +1,12 @@
 'use strict';
 
-app.directive('mapuser', [ '$window','mapService', function ($window, mapService) {
+app.directive('mapuser', [ '$window','mapService', 'timeService', function ($window, mapService, timeService) {
 	return {
 		restrict: 'A',
 		// replace: true,
 		scope:{
-      userdata:"=",
-      layerone:"="
+      userdata:"="
+      // layerone:"="
     },
 		link: function(scope, element, attrs) {
 
@@ -48,130 +48,143 @@ app.directive('mapuser', [ '$window','mapService', function ($window, mapService
 
 				//  Palmer DSI Data from NOAA ======================================================================	
 
-        scope.$watch('layerone', function (newVals, oldVals) {
-					scope.load(newVals);
-        }, true);
+     //    scope.$watch('layerone', function (newVals, oldVals) {
+					// scope.load(newVals);
+     //    }, true);
 
-        scope.load = function(layerone) {
-        	// console.log(layerone);
+     //    scope.load = function(layerone) {
+     //    	// console.log(layerone);
 
-          // If we don't pass any data, return out of the element
-          if (!layerone) return; 
+     //      // If we don't pass any data, return out of the element
+     //      if (!layerone) return; 
 
-					// control that shows state info on hover
-					var InfoControl = L.Control.extend({
+					// // control that shows state info on hover
+					// var InfoControl = L.Control.extend({
 
-						onAdd: function (map) {
-							this._div = L.DomUtil.create('div', 'info');
-							this.update();
-							return this._div;
-						},
+					// 	onAdd: function (map) {
+					// 		this._div = L.DomUtil.create('div', 'info');
+					// 		this.update();
+					// 		return this._div;
+					// 	},
 
-						update: function (props) {
-							this._div.innerHTML = '<h4>Region: </h4>' + (props ? '<b>' + props.NAME + '</b><br /><h4>Drought Severity Index: </h4><b>' + props.PDSI + '<b>':'');
-						}
-					});
+					// 	update: function (props) {
+					// 		this._div.innerHTML = '<h4>Region: </h4>' + (props ? '<b>' + props.NAME + '</b><br /><h4>Drought Severity Index: </h4><b>' + props.PDSI + '<b>':'');
+					// 	}
+					// });
 
-					var info = new InfoControl();
-					info.addTo(map);
+					// var info = new InfoControl();
+					// info.addTo(map);
 
-					function getColor(d) {
-				    return d < -4     ? '#8c510a' :
-				           d < -3     ? '#bf812d' :
-				           d < -2     ? '#dfc27d' :
-				           d < -1     ? '#f6e8c3' :
-				           d > 1      ? '#c7eae5' :
-				           d > 2      ? '#80cdc1' :
-				           d > 3      ? '#35978f' :
-				           d > 4      ? '#01665e' :
-				           							'#f5f5f5' ;				                        
-					}
+					// function getColor(d) {
+				 //    return d < -4     ? '#8c510a' :
+				 //           d < -3     ? '#bf812d' :
+				 //           d < -2     ? '#dfc27d' :
+				 //           d < -1     ? '#f6e8c3' :
+				 //           d > 1      ? '#c7eae5' :
+				 //           d > 2      ? '#80cdc1' :
+				 //           d > 3      ? '#35978f' :
+				 //           d > 4      ? '#01665e' :
+				 //           							'#f5f5f5' ;				                        
+					// }
 
-					function style(feature) {
-						return {
-							weight: 2,
-							opacity: 1,
-							color: "#fff",
-							dashArray: '4',
-							fillOpacity: 0.7,
-							fillColor: getColor(feature.properties.PDSI)
-						};
-					}        	
+					// function style(feature) {
+					// 	return {
+					// 		weight: 2,
+					// 		opacity: 1,
+					// 		color: "#fff",
+					// 		dashArray: '4',
+					// 		fillOpacity: 0.7,
+					// 		fillColor: getColor(feature.properties.PDSI)
+					// 	};
+					// }        	
 
-        	// highlight on hover
-					function highlightFeature(e) {
-					  var layer = e.target;
+     //    	// highlight on hover
+					// function highlightFeature(e) {
+					//   var layer = e.target;
 
-					  layer.setStyle({
-					    weight: 5,
-					    color: "#1c75bc",
-					    dashArray: '',
-					    fillOpacity: 0.7,
-					    opacity: 0.5
-					  });
+					//   layer.setStyle({
+					//     weight: 5,
+					//     color: "#1c75bc",
+					//     dashArray: '',
+					//     fillOpacity: 0.7,
+					//     opacity: 0.5
+					//   });
 
-					  if (!L.Browser.ie && !L.Browser.opera) {
-					    layer.bringToFront();
-					  }
-					  info.update(layer.feature.properties);
-					}
+					//   if (!L.Browser.ie && !L.Browser.opera) {
+					//     layer.bringToFront();
+					//   }
+					//   info.update(layer.feature.properties);
+					// }
 					
-					var geojson;
+					// var geojson;
 
-					function resetHighlight(e) {
-						geojson.resetStyle(e.target);
-						info.update();
-					}
+					// function resetHighlight(e) {
+					// 	geojson.resetStyle(e.target);
+					// 	info.update();
+					// }
 
-					function zoomToFeature(e) {
-						map.fitBounds(e.target.getBounds());
-					}
+					// function zoomToFeature(e) {
+					// 	map.fitBounds(e.target.getBounds());
+					// }
 
-					function onEachFeature(feature, layer) {
-						layer.on({
-							mouseover: highlightFeature,
-							mouseout: resetHighlight,
-							click: zoomToFeature
-						});
-					}
+					// function onEachFeature(feature, layer) {
+					// 	layer.on({
+					// 		mouseover: highlightFeature,
+					// 		mouseout: resetHighlight,
+					// 		click: zoomToFeature
+					// 	});
+					// }
+
+
+					// // var layer = omnivore.topojson(layerone)
+					// //     .on('ready', function() {
+					// //         // when this is fired, the layer
+					// //         // is done being initialized
+					// //     })
+					// //     .on('error', function() {
+					// //         // fired if the layer can't be loaded over AJAX
+					// //         // or can't be parsed
+					// //     })
+					// //     .addTo(map);
+
 			
-        	geojson = L.geoJson(layerone, {
-						style: style,
-						onEachFeature: onEachFeature
-        	}).addTo(map);
+     //    	geojson = L.geoJson(layerone, {
+					// 	style: style,
+					// 	onEachFeature: onEachFeature
+     //    	}).addTo(map);
 
-					var legend = L.control({position: 'bottomright'});
+					// var legend = L.control({position: 'bottomright'});
 
-					legend.onAdd = function (map) {
+					// legend.onAdd = function (map) {
 
-						var div = L.DomUtil.create('div', 'info legend');
-						var grades = [-20, -4, -3, -2, 0, 2, 3, 4, 20];
-						var labels = [];
-						var from; 
-						var to;
+					// 	var div = L.DomUtil.create('div', 'info legend');
+					// 	var grades = [-20, -4, -3, -2, 0, 2, 3, 4, 20];
+					// 	var labels = [];
+					// 	var from; 
+					// 	var to;
 
-						for (var i = 0; i < grades.length; i++) {
-							from = grades[i];
-							to = grades[i + 1];
+					// 	for (var i = 0; i < grades.length; i++) {
+					// 		from = grades[i];
+					// 		to = grades[i + 1];
 
-							labels.push(
-								'<i style="background:' + getColor(from + 1) + '"></i> ' +
-								from + (to ? '  &ndash;  ' + to : '+'));
-						}
+					// 		labels.push(
+					// 			'<i style="background:' + getColor(from + 1) + '"></i> ' +
+					// 			from + (to ? '  &ndash;  ' + to : '+'));
+					// 	}
 
-						div.innerHTML = labels.join('<br>');
-						return div;
-					};
+					// 	div.innerHTML = labels.join('<br>');
+					// 	return div;
+					// };
 
-					legend.addTo(map);
+					// legend.addTo(map);
 
-        } // end scope.load
+     //    } // end scope.load
 
 
         //  Markers ======================================================================
 				
 				// watch for points changes and re-render
-        scope.$watch('userdata', function (newData, oldData) {
+        scope.$watch('userdata', function (newData) {
           scope.render(newData);
         }, true);
 
@@ -193,46 +206,96 @@ app.directive('mapuser', [ '$window','mapService', function ($window, mapService
 			    // loop through f points
 	        angular.forEach(f, function(f, key){
 
-	          //extend marker properties
-						var customCircleMarker = L.CircleMarker.extend({
-							options: { 
-								bill: f.bill,
-								rate: f.rate
-							}
-						});				
+	        	timeService.time().then(function () {	
+							
+							var end  = f.edate;
+							var start = f.sdate;
+							var fdiff = moment.utc(moment(end).diff(moment(start))).format('D');
 
-						var flatMarker = new customCircleMarker([f.lat, f.lng], { 
-						  radius: f.rate * 3,
-						  color: "#fff",
-						  fillColor: "#e4aa46",
-						  fillOpacity: 0.9,
-						  opacity: 1,
-						  weight: 3
-						});
-	          flatMarker.addTo(pointGroup);
+							var fpday = (f.bill/fdiff).toFixed();
+							
+		          //extend marker properties
+							var customCircleMarker = L.CircleMarker.extend({
+								options: { 
+									streetaddr: f.streetaddr,
+									city: f.city,
+									county: f.county,
+									state: f.state,
+									country: f.country,
+									postal: f.postal,
+									hsize: f.hsize,
+									util: f.util,
+									bill: f.bill,
+									sdate: start,
+									edate: end,
+									billtype: f.billtype,
+									used: f.used,
+									units: f.units,
+									rate: f.rate,
+									tstamp: f.tstamp,
+									pday: fpday
+								}
+							});				
 
+							var flatMarker = new customCircleMarker([f.lat, f.lng], { 
+							  radius: fpday * 1.5,
+							  color: "#fff",
+							  fillColor: "#a4ad50",
+							  fillOpacity: 0.95,
+							  opacity: 1,
+							  weight: 3
+							});
+		          flatMarker.addTo(pointGroup);
+	          
+	          });
+	        
 	        });
 
 			    // loop through m points
 	        angular.forEach(m, function(m, key){
 
-	          //extend marker properties
-						var customCircleMarker = L.CircleMarker.extend({
-							options: { 
-								bill: m.bill,
-								rate: m.rate
-							}
-						});
+	        	timeService.time().then(function () {	
+							
+							var end  = m.edate;
+							var start = m.sdate;
+							var mdiff = moment.utc(moment(end).diff(moment(start))).format('D');
 
-						var meterMarker = new customCircleMarker([m.lat, m.lng], { 
-						  radius: m.rate * 3,
-						  color: "#fff",
-						  fillColor: "#be5e24",
-						  fillOpacity: 0.9,
-						  opacity: 1,
-						  weight: 3
-						});
-	          meterMarker.addTo(pointGroup);
+							var mpday = (m.bill/mdiff).toFixed();
+
+		          //extend marker properties
+							var customCircleMarker = L.CircleMarker.extend({
+								options: { 
+									streetaddr: m.streetaddr,
+									city: m.city,
+									county: m.county,
+									state: m.state,
+									country: m.country,
+									postal: m.postal,
+									hsize: m.hsize,
+									util: m.util,
+									bill: m.bill,
+									sdate: start,
+									edate: end,
+									billtype: m.billtype,
+									used: m.used,
+									units: m.units,
+									rate: m.rate,
+									tstamp: m.tstamp,
+									pday: mpday
+								}
+							});
+
+							var meterMarker = new customCircleMarker([m.lat, m.lng], { 
+							  radius: mpday * 1.5,
+							  color: "#fff",
+							  fillColor: "#a9c9c4",
+							  fillOpacity: 0.95,
+							  opacity: 1,
+							  weight: 3
+							});
+		          meterMarker.addTo(pointGroup);
+
+		        });
 
 	        });
 
@@ -240,10 +303,18 @@ app.directive('mapuser', [ '$window','mapService', function ($window, mapService
 	        pointGroup.addTo(map);
 	        //setup popups to trigger on mouseovers
 					pointGroup.on('mouseover', function(e) {
-					  var popup = L.popup()
-							.setLatLng(e.latlng) 
-							.setContent("Rate: " + "$ " + e.layer.options.rate + "/gal.");	
-						map.openPopup(popup);
+						if (e.layer.options.billtype == "frate") {
+							// console.log("frate");
+						  var popup = L.popup()
+								.setLatLng(e.latlng)
+								.setContent("<span class='tt-title'>" + e.layer.options.streetaddr + ": " + "</span>" +  "<span id='ctrfrate' class='tt-highlight counters'>$ " + e.layer.options.pday + " /day" + "</span>");	
+							map.openPopup(popup);
+						}	else {
+						  var popup = L.popup()
+								.setLatLng(e.latlng)
+								.setContent("<span class='tt-title'>" + e.layer.options.streetaddr + ": " + "</span>" +  "<span id='ctrmrate' class='tt-highlight counters'>$ " + e.layer.options.pday + " /day" + "</span>");	
+							map.openPopup(popup);
+						}
 					})
 					.on('mouseout', function(e){
 						map.closePopup();

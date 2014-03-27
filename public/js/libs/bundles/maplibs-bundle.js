@@ -37,11 +37,3236 @@ return new o.LatLng(u*i,a)}},o.CRS.EPSG3395=o.extend({},o.CRS,{code:"EPSG:3395",
 },_animatePathZoom:function(t){var e=this.getZoomScale(t.zoom),i=this._getCenterOffset(t.center)._multiplyBy(-e)._add(this._pathViewport.min);this._pathRoot.style[o.DomUtil.TRANSFORM]=o.DomUtil.getTranslateString(i)+" scale("+e+") ",this._pathZooming=!0},_endPathZoom:function(){this._pathZooming=!1},_updateSvgViewport:function(){if(!this._pathZooming){this._updatePathViewport();var t=this._pathViewport,e=t.min,i=t.max,n=i.x-e.x,s=i.y-e.y,a=this._pathRoot,r=this._panes.overlayPane;o.Browser.mobileWebkit&&r.removeChild(a),o.DomUtil.setPosition(a,e),a.setAttribute("width",n),a.setAttribute("height",s),a.setAttribute("viewBox",[e.x,e.y,n,s].join(" ")),o.Browser.mobileWebkit&&r.appendChild(a)}}}),o.Path.include({bindPopup:function(t,e){return t instanceof o.Popup?this._popup=t:((!this._popup||e)&&(this._popup=new o.Popup(e,this)),this._popup.setContent(t)),this._popupHandlersAdded||(this.on("click",this._openPopup,this).on("remove",this.closePopup,this),this._popupHandlersAdded=!0),this},unbindPopup:function(){return this._popup&&(this._popup=null,this.off("click",this._openPopup).off("remove",this.closePopup),this._popupHandlersAdded=!1),this},openPopup:function(t){return this._popup&&(t=t||this._latlng||this._latlngs[Math.floor(this._latlngs.length/2)],this._openPopup({latlng:t})),this},closePopup:function(){return this._popup&&this._popup._close(),this},_openPopup:function(t){this._popup.setLatLng(t.latlng),this._map.openPopup(this._popup)}}),o.Browser.vml=!o.Browser.svg&&function(){try{var t=e.createElement("div");t.innerHTML='<v:shape adj="1"/>';var i=t.firstChild;return i.style.behavior="url(#default#VML)",i&&"object"==typeof i.adj}catch(n){return!1}}(),o.Path=o.Browser.svg||!o.Browser.vml?o.Path:o.Path.extend({statics:{VML:!0,CLIP_PADDING:.02},_createElement:function(){try{return e.namespaces.add("lvml","urn:schemas-microsoft-com:vml"),function(t){return e.createElement("<lvml:"+t+' class="lvml">')}}catch(t){return function(t){return e.createElement("<"+t+' xmlns="urn:schemas-microsoft.com:vml" class="lvml">')}}}(),_initPath:function(){var t=this._container=this._createElement("shape");o.DomUtil.addClass(t,"leaflet-vml-shape"+(this.options.className?" "+this.options.className:"")),this.options.clickable&&o.DomUtil.addClass(t,"leaflet-clickable"),t.coordsize="1 1",this._path=this._createElement("path"),t.appendChild(this._path),this._map._pathRoot.appendChild(t)},_initStyle:function(){this._updateStyle()},_updateStyle:function(){var t=this._stroke,e=this._fill,i=this.options,n=this._container;n.stroked=i.stroke,n.filled=i.fill,i.stroke?(t||(t=this._stroke=this._createElement("stroke"),t.endcap="round",n.appendChild(t)),t.weight=i.weight+"px",t.color=i.color,t.opacity=i.opacity,t.dashStyle=i.dashArray?o.Util.isArray(i.dashArray)?i.dashArray.join(" "):i.dashArray.replace(/( *, *)/g," "):"",i.lineCap&&(t.endcap=i.lineCap.replace("butt","flat")),i.lineJoin&&(t.joinstyle=i.lineJoin)):t&&(n.removeChild(t),this._stroke=null),i.fill?(e||(e=this._fill=this._createElement("fill"),n.appendChild(e)),e.color=i.fillColor||i.color,e.opacity=i.fillOpacity):e&&(n.removeChild(e),this._fill=null)},_updatePath:function(){var t=this._container.style;t.display="none",this._path.v=this.getPathString()+" ",t.display=""}}),o.Map.include(o.Browser.svg||!o.Browser.vml?{}:{_initPathRoot:function(){if(!this._pathRoot){var t=this._pathRoot=e.createElement("div");t.className="leaflet-vml-container",this._panes.overlayPane.appendChild(t),this.on("moveend",this._updatePathViewport),this._updatePathViewport()}}}),o.Browser.canvas=function(){return!!e.createElement("canvas").getContext}(),o.Path=o.Path.SVG&&!t.L_PREFER_CANVAS||!o.Browser.canvas?o.Path:o.Path.extend({statics:{CANVAS:!0,SVG:!1},redraw:function(){return this._map&&(this.projectLatlngs(),this._requestUpdate()),this},setStyle:function(t){return o.setOptions(this,t),this._map&&(this._updateStyle(),this._requestUpdate()),this},onRemove:function(t){t.off("viewreset",this.projectLatlngs,this).off("moveend",this._updatePath,this),this.options.clickable&&(this._map.off("click",this._onClick,this),this._map.off("mousemove",this._onMouseMove,this)),this._requestUpdate(),this._map=null},_requestUpdate:function(){this._map&&!o.Path._updateRequest&&(o.Path._updateRequest=o.Util.requestAnimFrame(this._fireMapMoveEnd,this._map))},_fireMapMoveEnd:function(){o.Path._updateRequest=null,this.fire("moveend")},_initElements:function(){this._map._initPathRoot(),this._ctx=this._map._canvasCtx},_updateStyle:function(){var t=this.options;t.stroke&&(this._ctx.lineWidth=t.weight,this._ctx.strokeStyle=t.color),t.fill&&(this._ctx.fillStyle=t.fillColor||t.color)},_drawPath:function(){var t,e,i,n,s,a;for(this._ctx.beginPath(),t=0,i=this._parts.length;i>t;t++){for(e=0,n=this._parts[t].length;n>e;e++)s=this._parts[t][e],a=(0===e?"move":"line")+"To",this._ctx[a](s.x,s.y);this instanceof o.Polygon&&this._ctx.closePath()}},_checkIfEmpty:function(){return!this._parts.length},_updatePath:function(){if(!this._checkIfEmpty()){var t=this._ctx,e=this.options;this._drawPath(),t.save(),this._updateStyle(),e.fill&&(t.globalAlpha=e.fillOpacity,t.fill()),e.stroke&&(t.globalAlpha=e.opacity,t.stroke()),t.restore()}},_initEvents:function(){this.options.clickable&&(this._map.on("mousemove",this._onMouseMove,this),this._map.on("click",this._onClick,this))},_onClick:function(t){this._containsPoint(t.layerPoint)&&this.fire("click",t)},_onMouseMove:function(t){this._map&&!this._map._animatingZoom&&(this._containsPoint(t.layerPoint)?(this._ctx.canvas.style.cursor="pointer",this._mouseInside=!0,this.fire("mouseover",t)):this._mouseInside&&(this._ctx.canvas.style.cursor="",this._mouseInside=!1,this.fire("mouseout",t)))}}),o.Map.include(o.Path.SVG&&!t.L_PREFER_CANVAS||!o.Browser.canvas?{}:{_initPathRoot:function(){var t,i=this._pathRoot;i||(i=this._pathRoot=e.createElement("canvas"),i.style.position="absolute",t=this._canvasCtx=i.getContext("2d"),t.lineCap="round",t.lineJoin="round",this._panes.overlayPane.appendChild(i),this.options.zoomAnimation&&(this._pathRoot.className="leaflet-zoom-animated",this.on("zoomanim",this._animatePathZoom),this.on("zoomend",this._endPathZoom)),this.on("moveend",this._updateCanvasViewport),this._updateCanvasViewport())},_updateCanvasViewport:function(){if(!this._pathZooming){this._updatePathViewport();var t=this._pathViewport,e=t.min,i=t.max.subtract(e),n=this._pathRoot;o.DomUtil.setPosition(n,e),n.width=i.x,n.height=i.y,n.getContext("2d").translate(-e.x,-e.y)}}}),o.LineUtil={simplify:function(t,e){if(!e||!t.length)return t.slice();var i=e*e;return t=this._reducePoints(t,i),t=this._simplifyDP(t,i)},pointToSegmentDistance:function(t,e,i){return Math.sqrt(this._sqClosestPointOnSegment(t,e,i,!0))},closestPointOnSegment:function(t,e,i){return this._sqClosestPointOnSegment(t,e,i)},_simplifyDP:function(t,e){var n=t.length,o=typeof Uint8Array!=i+""?Uint8Array:Array,s=new o(n);s[0]=s[n-1]=1,this._simplifyDPStep(t,s,e,0,n-1);var a,r=[];for(a=0;n>a;a++)s[a]&&r.push(t[a]);return r},_simplifyDPStep:function(t,e,i,n,o){var s,a,r,h=0;for(a=n+1;o-1>=a;a++)r=this._sqClosestPointOnSegment(t[a],t[n],t[o],!0),r>h&&(s=a,h=r);h>i&&(e[s]=1,this._simplifyDPStep(t,e,i,n,s),this._simplifyDPStep(t,e,i,s,o))},_reducePoints:function(t,e){for(var i=[t[0]],n=1,o=0,s=t.length;s>n;n++)this._sqDist(t[n],t[o])>e&&(i.push(t[n]),o=n);return s-1>o&&i.push(t[s-1]),i},clipSegment:function(t,e,i,n){var o,s,a,r=n?this._lastCode:this._getBitCode(t,i),h=this._getBitCode(e,i);for(this._lastCode=h;;){if(!(r|h))return[t,e];if(r&h)return!1;o=r||h,s=this._getEdgeIntersection(t,e,o,i),a=this._getBitCode(s,i),o===r?(t=s,r=a):(e=s,h=a)}},_getEdgeIntersection:function(t,e,i,n){var s=e.x-t.x,a=e.y-t.y,r=n.min,h=n.max;return 8&i?new o.Point(t.x+s*(h.y-t.y)/a,h.y):4&i?new o.Point(t.x+s*(r.y-t.y)/a,r.y):2&i?new o.Point(h.x,t.y+a*(h.x-t.x)/s):1&i?new o.Point(r.x,t.y+a*(r.x-t.x)/s):void 0},_getBitCode:function(t,e){var i=0;return t.x<e.min.x?i|=1:t.x>e.max.x&&(i|=2),t.y<e.min.y?i|=4:t.y>e.max.y&&(i|=8),i},_sqDist:function(t,e){var i=e.x-t.x,n=e.y-t.y;return i*i+n*n},_sqClosestPointOnSegment:function(t,e,i,n){var s,a=e.x,r=e.y,h=i.x-a,l=i.y-r,u=h*h+l*l;return u>0&&(s=((t.x-a)*h+(t.y-r)*l)/u,s>1?(a=i.x,r=i.y):s>0&&(a+=h*s,r+=l*s)),h=t.x-a,l=t.y-r,n?h*h+l*l:new o.Point(a,r)}},o.Polyline=o.Path.extend({initialize:function(t,e){o.Path.prototype.initialize.call(this,e),this._latlngs=this._convertLatLngs(t)},options:{smoothFactor:1,noClip:!1},projectLatlngs:function(){this._originalPoints=[];for(var t=0,e=this._latlngs.length;e>t;t++)this._originalPoints[t]=this._map.latLngToLayerPoint(this._latlngs[t])},getPathString:function(){for(var t=0,e=this._parts.length,i="";e>t;t++)i+=this._getPathPartStr(this._parts[t]);return i},getLatLngs:function(){return this._latlngs},setLatLngs:function(t){return this._latlngs=this._convertLatLngs(t),this.redraw()},addLatLng:function(t){return this._latlngs.push(o.latLng(t)),this.redraw()},spliceLatLngs:function(){var t=[].splice.apply(this._latlngs,arguments);return this._convertLatLngs(this._latlngs,!0),this.redraw(),t},closestLayerPoint:function(t){for(var e,i,n=1/0,s=this._parts,a=null,r=0,h=s.length;h>r;r++)for(var l=s[r],u=1,c=l.length;c>u;u++){e=l[u-1],i=l[u];var d=o.LineUtil._sqClosestPointOnSegment(t,e,i,!0);n>d&&(n=d,a=o.LineUtil._sqClosestPointOnSegment(t,e,i))}return a&&(a.distance=Math.sqrt(n)),a},getBounds:function(){return new o.LatLngBounds(this.getLatLngs())},_convertLatLngs:function(t,e){var i,n,s=e?t:[];for(i=0,n=t.length;n>i;i++){if(o.Util.isArray(t[i])&&"number"!=typeof t[i][0])return;s[i]=o.latLng(t[i])}return s},_initEvents:function(){o.Path.prototype._initEvents.call(this)},_getPathPartStr:function(t){for(var e,i=o.Path.VML,n=0,s=t.length,a="";s>n;n++)e=t[n],i&&e._round(),a+=(n?"L":"M")+e.x+" "+e.y;return a},_clipPoints:function(){var t,e,i,n=this._originalPoints,s=n.length;if(this.options.noClip)return void(this._parts=[n]);this._parts=[];var a=this._parts,r=this._map._pathViewport,h=o.LineUtil;for(t=0,e=0;s-1>t;t++)i=h.clipSegment(n[t],n[t+1],r,t),i&&(a[e]=a[e]||[],a[e].push(i[0]),(i[1]!==n[t+1]||t===s-2)&&(a[e].push(i[1]),e++))},_simplifyPoints:function(){for(var t=this._parts,e=o.LineUtil,i=0,n=t.length;n>i;i++)t[i]=e.simplify(t[i],this.options.smoothFactor)},_updatePath:function(){this._map&&(this._clipPoints(),this._simplifyPoints(),o.Path.prototype._updatePath.call(this))}}),o.polyline=function(t,e){return new o.Polyline(t,e)},o.PolyUtil={},o.PolyUtil.clipPolygon=function(t,e){var i,n,s,a,r,h,l,u,c,d=[1,4,2,8],p=o.LineUtil;for(n=0,l=t.length;l>n;n++)t[n]._code=p._getBitCode(t[n],e);for(a=0;4>a;a++){for(u=d[a],i=[],n=0,l=t.length,s=l-1;l>n;s=n++)r=t[n],h=t[s],r._code&u?h._code&u||(c=p._getEdgeIntersection(h,r,u,e),c._code=p._getBitCode(c,e),i.push(c)):(h._code&u&&(c=p._getEdgeIntersection(h,r,u,e),c._code=p._getBitCode(c,e),i.push(c)),i.push(r));t=i}return t},o.Polygon=o.Polyline.extend({options:{fill:!0},initialize:function(t,e){o.Polyline.prototype.initialize.call(this,t,e),this._initWithHoles(t)},_initWithHoles:function(t){var e,i,n;if(t&&o.Util.isArray(t[0])&&"number"!=typeof t[0][0])for(this._latlngs=this._convertLatLngs(t[0]),this._holes=t.slice(1),e=0,i=this._holes.length;i>e;e++)n=this._holes[e]=this._convertLatLngs(this._holes[e]),n[0].equals(n[n.length-1])&&n.pop();t=this._latlngs,t.length>=2&&t[0].equals(t[t.length-1])&&t.pop()},projectLatlngs:function(){if(o.Polyline.prototype.projectLatlngs.call(this),this._holePoints=[],this._holes){var t,e,i,n;for(t=0,i=this._holes.length;i>t;t++)for(this._holePoints[t]=[],e=0,n=this._holes[t].length;n>e;e++)this._holePoints[t][e]=this._map.latLngToLayerPoint(this._holes[t][e])}},setLatLngs:function(t){return t&&o.Util.isArray(t[0])&&"number"!=typeof t[0][0]?(this._initWithHoles(t),this.redraw()):o.Polyline.prototype.setLatLngs.call(this,t)},_clipPoints:function(){var t=this._originalPoints,e=[];if(this._parts=[t].concat(this._holePoints),!this.options.noClip){for(var i=0,n=this._parts.length;n>i;i++){var s=o.PolyUtil.clipPolygon(this._parts[i],this._map._pathViewport);s.length&&e.push(s)}this._parts=e}},_getPathPartStr:function(t){var e=o.Polyline.prototype._getPathPartStr.call(this,t);return e+(o.Browser.svg?"z":"x")}}),o.polygon=function(t,e){return new o.Polygon(t,e)},function(){function t(t){return o.FeatureGroup.extend({initialize:function(t,e){this._layers={},this._options=e,this.setLatLngs(t)},setLatLngs:function(e){var i=0,n=e.length;for(this.eachLayer(function(t){n>i?t.setLatLngs(e[i++]):this.removeLayer(t)},this);n>i;)this.addLayer(new t(e[i++],this._options));return this},getLatLngs:function(){var t=[];return this.eachLayer(function(e){t.push(e.getLatLngs())}),t}})}o.MultiPolyline=t(o.Polyline),o.MultiPolygon=t(o.Polygon),o.multiPolyline=function(t,e){return new o.MultiPolyline(t,e)},o.multiPolygon=function(t,e){return new o.MultiPolygon(t,e)}}(),o.Rectangle=o.Polygon.extend({initialize:function(t,e){o.Polygon.prototype.initialize.call(this,this._boundsToLatLngs(t),e)},setBounds:function(t){this.setLatLngs(this._boundsToLatLngs(t))},_boundsToLatLngs:function(t){return t=o.latLngBounds(t),[t.getSouthWest(),t.getNorthWest(),t.getNorthEast(),t.getSouthEast()]}}),o.rectangle=function(t,e){return new o.Rectangle(t,e)},o.Circle=o.Path.extend({initialize:function(t,e,i){o.Path.prototype.initialize.call(this,i),this._latlng=o.latLng(t),this._mRadius=e},options:{fill:!0},setLatLng:function(t){return this._latlng=o.latLng(t),this.redraw()},setRadius:function(t){return this._mRadius=t,this.redraw()},projectLatlngs:function(){var t=this._getLngRadius(),e=this._latlng,i=this._map.latLngToLayerPoint([e.lat,e.lng-t]);this._point=this._map.latLngToLayerPoint(e),this._radius=Math.max(this._point.x-i.x,1)},getBounds:function(){var t=this._getLngRadius(),e=this._mRadius/40075017*360,i=this._latlng;return new o.LatLngBounds([i.lat-e,i.lng-t],[i.lat+e,i.lng+t])},getLatLng:function(){return this._latlng},getPathString:function(){var t=this._point,e=this._radius;return this._checkIfEmpty()?"":o.Browser.svg?"M"+t.x+","+(t.y-e)+"A"+e+","+e+",0,1,1,"+(t.x-.1)+","+(t.y-e)+" z":(t._round(),e=Math.round(e),"AL "+t.x+","+t.y+" "+e+","+e+" 0,23592600")},getRadius:function(){return this._mRadius},_getLatRadius:function(){return this._mRadius/40075017*360},_getLngRadius:function(){return this._getLatRadius()/Math.cos(o.LatLng.DEG_TO_RAD*this._latlng.lat)},_checkIfEmpty:function(){if(!this._map)return!1;var t=this._map._pathViewport,e=this._radius,i=this._point;return i.x-e>t.max.x||i.y-e>t.max.y||i.x+e<t.min.x||i.y+e<t.min.y}}),o.circle=function(t,e,i){return new o.Circle(t,e,i)},o.CircleMarker=o.Circle.extend({options:{radius:10,weight:2},initialize:function(t,e){o.Circle.prototype.initialize.call(this,t,null,e),this._radius=this.options.radius},projectLatlngs:function(){this._point=this._map.latLngToLayerPoint(this._latlng)},_updateStyle:function(){o.Circle.prototype._updateStyle.call(this),this.setRadius(this.options.radius)},setLatLng:function(t){return o.Circle.prototype.setLatLng.call(this,t),this._popup&&this._popup._isOpen&&this._popup.setLatLng(t),this},setRadius:function(t){return this.options.radius=this._radius=t,this.redraw()},getRadius:function(){return this._radius}}),o.circleMarker=function(t,e){return new o.CircleMarker(t,e)},o.Polyline.include(o.Path.CANVAS?{_containsPoint:function(t,e){var i,n,s,a,r,h,l,u=this.options.weight/2;for(o.Browser.touch&&(u+=10),i=0,a=this._parts.length;a>i;i++)for(l=this._parts[i],n=0,r=l.length,s=r-1;r>n;s=n++)if((e||0!==n)&&(h=o.LineUtil.pointToSegmentDistance(t,l[s],l[n]),u>=h))return!0;return!1}}:{}),o.Polygon.include(o.Path.CANVAS?{_containsPoint:function(t){var e,i,n,s,a,r,h,l,u=!1;if(o.Polyline.prototype._containsPoint.call(this,t,!0))return!0;for(s=0,h=this._parts.length;h>s;s++)for(e=this._parts[s],a=0,l=e.length,r=l-1;l>a;r=a++)i=e[a],n=e[r],i.y>t.y!=n.y>t.y&&t.x<(n.x-i.x)*(t.y-i.y)/(n.y-i.y)+i.x&&(u=!u);return u}}:{}),o.Circle.include(o.Path.CANVAS?{_drawPath:function(){var t=this._point;this._ctx.beginPath(),this._ctx.arc(t.x,t.y,this._radius,0,2*Math.PI,!1)},_containsPoint:function(t){var e=this._point,i=this.options.stroke?this.options.weight/2:0;return t.distanceTo(e)<=this._radius+i}}:{}),o.CircleMarker.include(o.Path.CANVAS?{_updateStyle:function(){o.Path.prototype._updateStyle.call(this)}}:{}),o.GeoJSON=o.FeatureGroup.extend({initialize:function(t,e){o.setOptions(this,e),this._layers={},t&&this.addData(t)},addData:function(t){var e,i,n,s=o.Util.isArray(t)?t:t.features;if(s){for(e=0,i=s.length;i>e;e++)n=s[e],(n.geometries||n.geometry||n.features||n.coordinates)&&this.addData(s[e]);return this}var a=this.options;if(!a.filter||a.filter(t)){var r=o.GeoJSON.geometryToLayer(t,a.pointToLayer,a.coordsToLatLng,a);return r.feature=o.GeoJSON.asFeature(t),r.defaultOptions=r.options,this.resetStyle(r),a.onEachFeature&&a.onEachFeature(t,r),this.addLayer(r)}},resetStyle:function(t){var e=this.options.style;e&&(o.Util.extend(t.options,t.defaultOptions),this._setLayerStyle(t,e))},setStyle:function(t){this.eachLayer(function(e){this._setLayerStyle(e,t)},this)},_setLayerStyle:function(t,e){"function"==typeof e&&(e=e(t.feature)),t.setStyle&&t.setStyle(e)}}),o.extend(o.GeoJSON,{geometryToLayer:function(t,e,i,n){var s,a,r,h,l="Feature"===t.type?t.geometry:t,u=l.coordinates,c=[];switch(i=i||this.coordsToLatLng,l.type){case"Point":return s=i(u),e?e(t,s):new o.Marker(s);case"MultiPoint":for(r=0,h=u.length;h>r;r++)s=i(u[r]),c.push(e?e(t,s):new o.Marker(s));return new o.FeatureGroup(c);case"LineString":return a=this.coordsToLatLngs(u,0,i),new o.Polyline(a,n);case"Polygon":if(2===u.length&&!u[1].length)throw new Error("Invalid GeoJSON object.");return a=this.coordsToLatLngs(u,1,i),new o.Polygon(a,n);case"MultiLineString":return a=this.coordsToLatLngs(u,1,i),new o.MultiPolyline(a,n);case"MultiPolygon":return a=this.coordsToLatLngs(u,2,i),new o.MultiPolygon(a,n);case"GeometryCollection":for(r=0,h=l.geometries.length;h>r;r++)c.push(this.geometryToLayer({geometry:l.geometries[r],type:"Feature",properties:t.properties},e,i,n));return new o.FeatureGroup(c);default:throw new Error("Invalid GeoJSON object.")}},coordsToLatLng:function(t){return new o.LatLng(t[1],t[0],t[2])},coordsToLatLngs:function(t,e,i){var n,o,s,a=[];for(o=0,s=t.length;s>o;o++)n=e?this.coordsToLatLngs(t[o],e-1,i):(i||this.coordsToLatLng)(t[o]),a.push(n);return a},latLngToCoords:function(t){var e=[t.lng,t.lat];return t.alt!==i&&e.push(t.alt),e},latLngsToCoords:function(t){for(var e=[],i=0,n=t.length;n>i;i++)e.push(o.GeoJSON.latLngToCoords(t[i]));return e},getFeature:function(t,e){return t.feature?o.extend({},t.feature,{geometry:e}):o.GeoJSON.asFeature(e)},asFeature:function(t){return"Feature"===t.type?t:{type:"Feature",properties:{},geometry:t}}});var a={toGeoJSON:function(){return o.GeoJSON.getFeature(this,{type:"Point",coordinates:o.GeoJSON.latLngToCoords(this.getLatLng())})}};o.Marker.include(a),o.Circle.include(a),o.CircleMarker.include(a),o.Polyline.include({toGeoJSON:function(){return o.GeoJSON.getFeature(this,{type:"LineString",coordinates:o.GeoJSON.latLngsToCoords(this.getLatLngs())})}}),o.Polygon.include({toGeoJSON:function(){var t,e,i,n=[o.GeoJSON.latLngsToCoords(this.getLatLngs())];if(n[0].push(n[0][0]),this._holes)for(t=0,e=this._holes.length;e>t;t++)i=o.GeoJSON.latLngsToCoords(this._holes[t]),i.push(i[0]),n.push(i);return o.GeoJSON.getFeature(this,{type:"Polygon",coordinates:n})}}),function(){function t(t){return function(){var e=[];return this.eachLayer(function(t){e.push(t.toGeoJSON().geometry.coordinates)}),o.GeoJSON.getFeature(this,{type:t,coordinates:e})}}o.MultiPolyline.include({toGeoJSON:t("MultiLineString")}),o.MultiPolygon.include({toGeoJSON:t("MultiPolygon")}),o.LayerGroup.include({toGeoJSON:function(){var e,i=this.feature&&this.feature.geometry,n=[];if(i&&"MultiPoint"===i.type)return t("MultiPoint").call(this);var s=i&&"GeometryCollection"===i.type;return this.eachLayer(function(t){t.toGeoJSON&&(e=t.toGeoJSON(),n.push(s?e.geometry:o.GeoJSON.asFeature(e)))}),s?o.GeoJSON.getFeature(this,{geometries:n,type:"GeometryCollection"}):{type:"FeatureCollection",features:n}}})}(),o.geoJson=function(t,e){return new o.GeoJSON(t,e)},o.DomEvent={addListener:function(t,e,i,n){var s,a,r,h=o.stamp(i),l="_leaflet_"+e+h;return t[l]?this:(s=function(e){return i.call(n||t,e||o.DomEvent._getEvent())},o.Browser.pointer&&0===e.indexOf("touch")?this.addPointerListener(t,e,s,h):(o.Browser.touch&&"dblclick"===e&&this.addDoubleTapListener&&this.addDoubleTapListener(t,s,h),"addEventListener"in t?"mousewheel"===e?(t.addEventListener("DOMMouseScroll",s,!1),t.addEventListener(e,s,!1)):"mouseenter"===e||"mouseleave"===e?(a=s,r="mouseenter"===e?"mouseover":"mouseout",s=function(e){return o.DomEvent._checkMouse(t,e)?a(e):void 0},t.addEventListener(r,s,!1)):"click"===e&&o.Browser.android?(a=s,s=function(t){return o.DomEvent._filterClick(t,a)},t.addEventListener(e,s,!1)):t.addEventListener(e,s,!1):"attachEvent"in t&&t.attachEvent("on"+e,s),t[l]=s,this))},removeListener:function(t,e,i){var n=o.stamp(i),s="_leaflet_"+e+n,a=t[s];return a?(o.Browser.pointer&&0===e.indexOf("touch")?this.removePointerListener(t,e,n):o.Browser.touch&&"dblclick"===e&&this.removeDoubleTapListener?this.removeDoubleTapListener(t,n):"removeEventListener"in t?"mousewheel"===e?(t.removeEventListener("DOMMouseScroll",a,!1),t.removeEventListener(e,a,!1)):"mouseenter"===e||"mouseleave"===e?t.removeEventListener("mouseenter"===e?"mouseover":"mouseout",a,!1):t.removeEventListener(e,a,!1):"detachEvent"in t&&t.detachEvent("on"+e,a),t[s]=null,this):this},stopPropagation:function(t){return t.stopPropagation?t.stopPropagation():t.cancelBubble=!0,o.DomEvent._skipped(t),this},disableScrollPropagation:function(t){var e=o.DomEvent.stopPropagation;return o.DomEvent.on(t,"mousewheel",e).on(t,"MozMousePixelScroll",e)},disableClickPropagation:function(t){for(var e=o.DomEvent.stopPropagation,i=o.Draggable.START.length-1;i>=0;i--)o.DomEvent.on(t,o.Draggable.START[i],e);return o.DomEvent.on(t,"click",o.DomEvent._fakeStop).on(t,"dblclick",e)},preventDefault:function(t){return t.preventDefault?t.preventDefault():t.returnValue=!1,this},stop:function(t){return o.DomEvent.preventDefault(t).stopPropagation(t)},getMousePosition:function(t,e){if(!e)return new o.Point(t.clientX,t.clientY);var i=e.getBoundingClientRect();return new o.Point(t.clientX-i.left-e.clientLeft,t.clientY-i.top-e.clientTop)},getWheelDelta:function(t){var e=0;return t.wheelDelta&&(e=t.wheelDelta/120),t.detail&&(e=-t.detail/3),e},_skipEvents:{},_fakeStop:function(t){o.DomEvent._skipEvents[t.type]=!0},_skipped:function(t){var e=this._skipEvents[t.type];return this._skipEvents[t.type]=!1,e},_checkMouse:function(t,e){var i=e.relatedTarget;if(!i)return!0;try{for(;i&&i!==t;)i=i.parentNode}catch(n){return!1}return i!==t},_getEvent:function(){var e=t.event;if(!e)for(var i=arguments.callee.caller;i&&(e=i.arguments[0],!e||t.Event!==e.constructor);)i=i.caller;return e},_filterClick:function(t,e){var i=t.timeStamp||t.originalEvent.timeStamp,n=o.DomEvent._lastClick&&i-o.DomEvent._lastClick;return n&&n>100&&1e3>n||t.target._simulatedClick&&!t._simulated?void o.DomEvent.stop(t):(o.DomEvent._lastClick=i,e(t))}},o.DomEvent.on=o.DomEvent.addListener,o.DomEvent.off=o.DomEvent.removeListener,o.Draggable=o.Class.extend({includes:o.Mixin.Events,statics:{START:o.Browser.touch?["touchstart","mousedown"]:["mousedown"],END:{mousedown:"mouseup",touchstart:"touchend",pointerdown:"touchend",MSPointerDown:"touchend"},MOVE:{mousedown:"mousemove",touchstart:"touchmove",pointerdown:"touchmove",MSPointerDown:"touchmove"}},initialize:function(t,e){this._element=t,this._dragStartTarget=e||t},enable:function(){if(!this._enabled){for(var t=o.Draggable.START.length-1;t>=0;t--)o.DomEvent.on(this._dragStartTarget,o.Draggable.START[t],this._onDown,this);this._enabled=!0}},disable:function(){if(this._enabled){for(var t=o.Draggable.START.length-1;t>=0;t--)o.DomEvent.off(this._dragStartTarget,o.Draggable.START[t],this._onDown,this);this._enabled=!1,this._moved=!1}},_onDown:function(t){if(this._moved=!1,!(t.shiftKey||1!==t.which&&1!==t.button&&!t.touches||(o.DomEvent.stopPropagation(t),o.Draggable._disabled||(o.DomUtil.disableImageDrag(),o.DomUtil.disableTextSelection(),this._moving)))){var i=t.touches?t.touches[0]:t;this._startPoint=new o.Point(i.clientX,i.clientY),this._startPos=this._newPos=o.DomUtil.getPosition(this._element),o.DomEvent.on(e,o.Draggable.MOVE[t.type],this._onMove,this).on(e,o.Draggable.END[t.type],this._onUp,this)}},_onMove:function(t){if(t.touches&&t.touches.length>1)return void(this._moved=!0);var i=t.touches&&1===t.touches.length?t.touches[0]:t,n=new o.Point(i.clientX,i.clientY),s=n.subtract(this._startPoint);(s.x||s.y)&&(o.DomEvent.preventDefault(t),this._moved||(this.fire("dragstart"),this._moved=!0,this._startPos=o.DomUtil.getPosition(this._element).subtract(s),o.DomUtil.addClass(e.body,"leaflet-dragging"),o.DomUtil.addClass(t.target||t.srcElement,"leaflet-drag-target")),this._newPos=this._startPos.add(s),this._moving=!0,o.Util.cancelAnimFrame(this._animRequest),this._animRequest=o.Util.requestAnimFrame(this._updatePosition,this,!0,this._dragStartTarget))},_updatePosition:function(){this.fire("predrag"),o.DomUtil.setPosition(this._element,this._newPos),this.fire("drag")},_onUp:function(t){o.DomUtil.removeClass(e.body,"leaflet-dragging"),o.DomUtil.removeClass(t.target||t.srcElement,"leaflet-drag-target");for(var i in o.Draggable.MOVE)o.DomEvent.off(e,o.Draggable.MOVE[i],this._onMove).off(e,o.Draggable.END[i],this._onUp);o.DomUtil.enableImageDrag(),o.DomUtil.enableTextSelection(),this._moved&&this._moving&&(o.Util.cancelAnimFrame(this._animRequest),this.fire("dragend",{distance:this._newPos.distanceTo(this._startPos)})),this._moving=!1}}),o.Handler=o.Class.extend({initialize:function(t){this._map=t},enable:function(){this._enabled||(this._enabled=!0,this.addHooks())},disable:function(){this._enabled&&(this._enabled=!1,this.removeHooks())},enabled:function(){return!!this._enabled}}),o.Map.mergeOptions({dragging:!0,inertia:!o.Browser.android23,inertiaDeceleration:3400,inertiaMaxSpeed:1/0,inertiaThreshold:o.Browser.touch?32:18,easeLinearity:.25,worldCopyJump:!1}),o.Map.Drag=o.Handler.extend({addHooks:function(){if(!this._draggable){var t=this._map;this._draggable=new o.Draggable(t._mapPane,t._container),this._draggable.on({dragstart:this._onDragStart,drag:this._onDrag,dragend:this._onDragEnd},this),t.options.worldCopyJump&&(this._draggable.on("predrag",this._onPreDrag,this),t.on("viewreset",this._onViewReset,this),t.whenReady(this._onViewReset,this))}this._draggable.enable()},removeHooks:function(){this._draggable.disable()},moved:function(){return this._draggable&&this._draggable._moved},_onDragStart:function(){var t=this._map;t._panAnim&&t._panAnim.stop(),t.fire("movestart").fire("dragstart"),t.options.inertia&&(this._positions=[],this._times=[])},_onDrag:function(){if(this._map.options.inertia){var t=this._lastTime=+new Date,e=this._lastPos=this._draggable._newPos;this._positions.push(e),this._times.push(t),t-this._times[0]>200&&(this._positions.shift(),this._times.shift())}this._map.fire("move").fire("drag")},_onViewReset:function(){var t=this._map.getSize()._divideBy(2),e=this._map.latLngToLayerPoint([0,0]);this._initialWorldOffset=e.subtract(t).x,this._worldWidth=this._map.project([0,180]).x},_onPreDrag:function(){var t=this._worldWidth,e=Math.round(t/2),i=this._initialWorldOffset,n=this._draggable._newPos.x,o=(n-e+i)%t+e-i,s=(n+e+i)%t-e-i,a=Math.abs(o+i)<Math.abs(s+i)?o:s;this._draggable._newPos.x=a},_onDragEnd:function(t){var e=this._map,i=e.options,n=+new Date-this._lastTime,s=!i.inertia||n>i.inertiaThreshold||!this._positions[0];if(e.fire("dragend",t),s)e.fire("moveend");else{var a=this._lastPos.subtract(this._positions[0]),r=(this._lastTime+n-this._times[0])/1e3,h=i.easeLinearity,l=a.multiplyBy(h/r),u=l.distanceTo([0,0]),c=Math.min(i.inertiaMaxSpeed,u),d=l.multiplyBy(c/u),p=c/(i.inertiaDeceleration*h),_=d.multiplyBy(-p/2).round();_.x&&_.y?(_=e._limitOffset(_,e.options.maxBounds),o.Util.requestAnimFrame(function(){e.panBy(_,{duration:p,easeLinearity:h,noMoveStart:!0})})):e.fire("moveend")}}}),o.Map.addInitHook("addHandler","dragging",o.Map.Drag),o.Map.mergeOptions({doubleClickZoom:!0}),o.Map.DoubleClickZoom=o.Handler.extend({addHooks:function(){this._map.on("dblclick",this._onDoubleClick,this)},removeHooks:function(){this._map.off("dblclick",this._onDoubleClick,this)},_onDoubleClick:function(t){var e=this._map,i=e.getZoom()+(t.originalEvent.shiftKey?-1:1);"center"===e.options.doubleClickZoom?e.setZoom(i):e.setZoomAround(t.containerPoint,i)}}),o.Map.addInitHook("addHandler","doubleClickZoom",o.Map.DoubleClickZoom),o.Map.mergeOptions({scrollWheelZoom:!0}),o.Map.ScrollWheelZoom=o.Handler.extend({addHooks:function(){o.DomEvent.on(this._map._container,"mousewheel",this._onWheelScroll,this),o.DomEvent.on(this._map._container,"MozMousePixelScroll",o.DomEvent.preventDefault),this._delta=0},removeHooks:function(){o.DomEvent.off(this._map._container,"mousewheel",this._onWheelScroll),o.DomEvent.off(this._map._container,"MozMousePixelScroll",o.DomEvent.preventDefault)},_onWheelScroll:function(t){var e=o.DomEvent.getWheelDelta(t);this._delta+=e,this._lastMousePos=this._map.mouseEventToContainerPoint(t),this._startTime||(this._startTime=+new Date);var i=Math.max(40-(+new Date-this._startTime),0);clearTimeout(this._timer),this._timer=setTimeout(o.bind(this._performZoom,this),i),o.DomEvent.preventDefault(t),o.DomEvent.stopPropagation(t)},_performZoom:function(){var t=this._map,e=this._delta,i=t.getZoom();e=e>0?Math.ceil(e):Math.floor(e),e=Math.max(Math.min(e,4),-4),e=t._limitZoom(i+e)-i,this._delta=0,this._startTime=null,e&&("center"===t.options.scrollWheelZoom?t.setZoom(i+e):t.setZoomAround(this._lastMousePos,i+e))}}),o.Map.addInitHook("addHandler","scrollWheelZoom",o.Map.ScrollWheelZoom),o.extend(o.DomEvent,{_touchstart:o.Browser.msPointer?"MSPointerDown":o.Browser.pointer?"pointerdown":"touchstart",_touchend:o.Browser.msPointer?"MSPointerUp":o.Browser.pointer?"pointerup":"touchend",addDoubleTapListener:function(t,i,n){function s(t){var e;if(o.Browser.pointer?(_.push(t.pointerId),e=_.length):e=t.touches.length,!(e>1)){var i=Date.now(),n=i-(r||i);h=t.touches?t.touches[0]:t,l=n>0&&u>=n,r=i}}function a(t){if(o.Browser.pointer){var e=_.indexOf(t.pointerId);if(-1===e)return;_.splice(e,1)}if(l){if(o.Browser.pointer){var n,s={};for(var a in h)n=h[a],s[a]="function"==typeof n?n.bind(h):n;h=s}h.type="dblclick",i(h),r=null}}var r,h,l=!1,u=250,c="_leaflet_",d=this._touchstart,p=this._touchend,_=[];t[c+d+n]=s,t[c+p+n]=a;var m=o.Browser.pointer?e.documentElement:t;return t.addEventListener(d,s,!1),m.addEventListener(p,a,!1),o.Browser.pointer&&m.addEventListener(o.DomEvent.POINTER_CANCEL,a,!1),this},removeDoubleTapListener:function(t,i){var n="_leaflet_";return t.removeEventListener(this._touchstart,t[n+this._touchstart+i],!1),(o.Browser.pointer?e.documentElement:t).removeEventListener(this._touchend,t[n+this._touchend+i],!1),o.Browser.pointer&&e.documentElement.removeEventListener(o.DomEvent.POINTER_CANCEL,t[n+this._touchend+i],!1),this}}),o.extend(o.DomEvent,{POINTER_DOWN:o.Browser.msPointer?"MSPointerDown":"pointerdown",POINTER_MOVE:o.Browser.msPointer?"MSPointerMove":"pointermove",POINTER_UP:o.Browser.msPointer?"MSPointerUp":"pointerup",POINTER_CANCEL:o.Browser.msPointer?"MSPointerCancel":"pointercancel",_pointers:[],_pointerDocumentListener:!1,addPointerListener:function(t,e,i,n){switch(e){case"touchstart":return this.addPointerListenerStart(t,e,i,n);case"touchend":return this.addPointerListenerEnd(t,e,i,n);case"touchmove":return this.addPointerListenerMove(t,e,i,n);default:throw"Unknown touch event type"}},addPointerListenerStart:function(t,i,n,s){var a="_leaflet_",r=this._pointers,h=function(t){o.DomEvent.preventDefault(t);for(var e=!1,i=0;i<r.length;i++)if(r[i].pointerId===t.pointerId){e=!0;break}e||r.push(t),t.touches=r.slice(),t.changedTouches=[t],n(t)};if(t[a+"touchstart"+s]=h,t.addEventListener(this.POINTER_DOWN,h,!1),!this._pointerDocumentListener){var l=function(t){for(var e=0;e<r.length;e++)if(r[e].pointerId===t.pointerId){r.splice(e,1);
 break}};e.documentElement.addEventListener(this.POINTER_UP,l,!1),e.documentElement.addEventListener(this.POINTER_CANCEL,l,!1),this._pointerDocumentListener=!0}return this},addPointerListenerMove:function(t,e,i,n){function o(t){if(t.pointerType!==t.MSPOINTER_TYPE_MOUSE&&"mouse"!==t.pointerType||0!==t.buttons){for(var e=0;e<a.length;e++)if(a[e].pointerId===t.pointerId){a[e]=t;break}t.touches=a.slice(),t.changedTouches=[t],i(t)}}var s="_leaflet_",a=this._pointers;return t[s+"touchmove"+n]=o,t.addEventListener(this.POINTER_MOVE,o,!1),this},addPointerListenerEnd:function(t,e,i,n){var o="_leaflet_",s=this._pointers,a=function(t){for(var e=0;e<s.length;e++)if(s[e].pointerId===t.pointerId){s.splice(e,1);break}t.touches=s.slice(),t.changedTouches=[t],i(t)};return t[o+"touchend"+n]=a,t.addEventListener(this.POINTER_UP,a,!1),t.addEventListener(this.POINTER_CANCEL,a,!1),this},removePointerListener:function(t,e,i){var n="_leaflet_",o=t[n+e+i];switch(e){case"touchstart":t.removeEventListener(this.POINTER_DOWN,o,!1);break;case"touchmove":t.removeEventListener(this.POINTER_MOVE,o,!1);break;case"touchend":t.removeEventListener(this.POINTER_UP,o,!1),t.removeEventListener(this.POINTER_CANCEL,o,!1)}return this}}),o.Map.mergeOptions({touchZoom:o.Browser.touch&&!o.Browser.android23,bounceAtZoomLimits:!0}),o.Map.TouchZoom=o.Handler.extend({addHooks:function(){o.DomEvent.on(this._map._container,"touchstart",this._onTouchStart,this)},removeHooks:function(){o.DomEvent.off(this._map._container,"touchstart",this._onTouchStart,this)},_onTouchStart:function(t){var i=this._map;if(t.touches&&2===t.touches.length&&!i._animatingZoom&&!this._zooming){var n=i.mouseEventToLayerPoint(t.touches[0]),s=i.mouseEventToLayerPoint(t.touches[1]),a=i._getCenterLayerPoint();this._startCenter=n.add(s)._divideBy(2),this._startDist=n.distanceTo(s),this._moved=!1,this._zooming=!0,this._centerOffset=a.subtract(this._startCenter),i._panAnim&&i._panAnim.stop(),o.DomEvent.on(e,"touchmove",this._onTouchMove,this).on(e,"touchend",this._onTouchEnd,this),o.DomEvent.preventDefault(t)}},_onTouchMove:function(t){var e=this._map;if(t.touches&&2===t.touches.length&&this._zooming){var i=e.mouseEventToLayerPoint(t.touches[0]),n=e.mouseEventToLayerPoint(t.touches[1]);this._scale=i.distanceTo(n)/this._startDist,this._delta=i._add(n)._divideBy(2)._subtract(this._startCenter),1!==this._scale&&(e.options.bounceAtZoomLimits||!(e.getZoom()===e.getMinZoom()&&this._scale<1||e.getZoom()===e.getMaxZoom()&&this._scale>1))&&(this._moved||(o.DomUtil.addClass(e._mapPane,"leaflet-touching"),e.fire("movestart").fire("zoomstart"),this._moved=!0),o.Util.cancelAnimFrame(this._animRequest),this._animRequest=o.Util.requestAnimFrame(this._updateOnMove,this,!0,this._map._container),o.DomEvent.preventDefault(t))}},_updateOnMove:function(){var t=this._map,e=this._getScaleOrigin(),i=t.layerPointToLatLng(e),n=t.getScaleZoom(this._scale);t._animateZoom(i,n,this._startCenter,this._scale,this._delta)},_onTouchEnd:function(){if(!this._moved||!this._zooming)return void(this._zooming=!1);var t=this._map;this._zooming=!1,o.DomUtil.removeClass(t._mapPane,"leaflet-touching"),o.Util.cancelAnimFrame(this._animRequest),o.DomEvent.off(e,"touchmove",this._onTouchMove).off(e,"touchend",this._onTouchEnd);var i=this._getScaleOrigin(),n=t.layerPointToLatLng(i),s=t.getZoom(),a=t.getScaleZoom(this._scale)-s,r=a>0?Math.ceil(a):Math.floor(a),h=t._limitZoom(s+r),l=t.getZoomScale(h)/this._scale;t._animateZoom(n,h,i,l)},_getScaleOrigin:function(){var t=this._centerOffset.subtract(this._delta).divideBy(this._scale);return this._startCenter.add(t)}}),o.Map.addInitHook("addHandler","touchZoom",o.Map.TouchZoom),o.Map.mergeOptions({tap:!0,tapTolerance:15}),o.Map.Tap=o.Handler.extend({addHooks:function(){o.DomEvent.on(this._map._container,"touchstart",this._onDown,this)},removeHooks:function(){o.DomEvent.off(this._map._container,"touchstart",this._onDown,this)},_onDown:function(t){if(t.touches){if(o.DomEvent.preventDefault(t),this._fireClick=!0,t.touches.length>1)return this._fireClick=!1,void clearTimeout(this._holdTimeout);var i=t.touches[0],n=i.target;this._startPos=this._newPos=new o.Point(i.clientX,i.clientY),n.tagName&&"a"===n.tagName.toLowerCase()&&o.DomUtil.addClass(n,"leaflet-active"),this._holdTimeout=setTimeout(o.bind(function(){this._isTapValid()&&(this._fireClick=!1,this._onUp(),this._simulateEvent("contextmenu",i))},this),1e3),o.DomEvent.on(e,"touchmove",this._onMove,this).on(e,"touchend",this._onUp,this)}},_onUp:function(t){if(clearTimeout(this._holdTimeout),o.DomEvent.off(e,"touchmove",this._onMove,this).off(e,"touchend",this._onUp,this),this._fireClick&&t&&t.changedTouches){var i=t.changedTouches[0],n=i.target;n&&n.tagName&&"a"===n.tagName.toLowerCase()&&o.DomUtil.removeClass(n,"leaflet-active"),this._isTapValid()&&this._simulateEvent("click",i)}},_isTapValid:function(){return this._newPos.distanceTo(this._startPos)<=this._map.options.tapTolerance},_onMove:function(t){var e=t.touches[0];this._newPos=new o.Point(e.clientX,e.clientY)},_simulateEvent:function(i,n){var o=e.createEvent("MouseEvents");o._simulated=!0,n.target._simulatedClick=!0,o.initMouseEvent(i,!0,!0,t,1,n.screenX,n.screenY,n.clientX,n.clientY,!1,!1,!1,!1,0,null),n.target.dispatchEvent(o)}}),o.Browser.touch&&!o.Browser.pointer&&o.Map.addInitHook("addHandler","tap",o.Map.Tap),o.Map.mergeOptions({boxZoom:!0}),o.Map.BoxZoom=o.Handler.extend({initialize:function(t){this._map=t,this._container=t._container,this._pane=t._panes.overlayPane,this._moved=!1},addHooks:function(){o.DomEvent.on(this._container,"mousedown",this._onMouseDown,this)},removeHooks:function(){o.DomEvent.off(this._container,"mousedown",this._onMouseDown),this._moved=!1},moved:function(){return this._moved},_onMouseDown:function(t){return this._moved=!1,!t.shiftKey||1!==t.which&&1!==t.button?!1:(o.DomUtil.disableTextSelection(),o.DomUtil.disableImageDrag(),this._startLayerPoint=this._map.mouseEventToLayerPoint(t),void o.DomEvent.on(e,"mousemove",this._onMouseMove,this).on(e,"mouseup",this._onMouseUp,this).on(e,"keydown",this._onKeyDown,this))},_onMouseMove:function(t){this._moved||(this._box=o.DomUtil.create("div","leaflet-zoom-box",this._pane),o.DomUtil.setPosition(this._box,this._startLayerPoint),this._container.style.cursor="crosshair",this._map.fire("boxzoomstart"));var e=this._startLayerPoint,i=this._box,n=this._map.mouseEventToLayerPoint(t),s=n.subtract(e),a=new o.Point(Math.min(n.x,e.x),Math.min(n.y,e.y));o.DomUtil.setPosition(i,a),this._moved=!0,i.style.width=Math.max(0,Math.abs(s.x)-4)+"px",i.style.height=Math.max(0,Math.abs(s.y)-4)+"px"},_finish:function(){this._moved&&(this._pane.removeChild(this._box),this._container.style.cursor=""),o.DomUtil.enableTextSelection(),o.DomUtil.enableImageDrag(),o.DomEvent.off(e,"mousemove",this._onMouseMove).off(e,"mouseup",this._onMouseUp).off(e,"keydown",this._onKeyDown)},_onMouseUp:function(t){this._finish();var e=this._map,i=e.mouseEventToLayerPoint(t);if(!this._startLayerPoint.equals(i)){var n=new o.LatLngBounds(e.layerPointToLatLng(this._startLayerPoint),e.layerPointToLatLng(i));e.fitBounds(n),e.fire("boxzoomend",{boxZoomBounds:n})}},_onKeyDown:function(t){27===t.keyCode&&this._finish()}}),o.Map.addInitHook("addHandler","boxZoom",o.Map.BoxZoom),o.Map.mergeOptions({keyboard:!0,keyboardPanOffset:80,keyboardZoomOffset:1}),o.Map.Keyboard=o.Handler.extend({keyCodes:{left:[37],right:[39],down:[40],up:[38],zoomIn:[187,107,61,171],zoomOut:[189,109,173]},initialize:function(t){this._map=t,this._setPanOffset(t.options.keyboardPanOffset),this._setZoomOffset(t.options.keyboardZoomOffset)},addHooks:function(){var t=this._map._container;-1===t.tabIndex&&(t.tabIndex="0"),o.DomEvent.on(t,"focus",this._onFocus,this).on(t,"blur",this._onBlur,this).on(t,"mousedown",this._onMouseDown,this),this._map.on("focus",this._addHooks,this).on("blur",this._removeHooks,this)},removeHooks:function(){this._removeHooks();var t=this._map._container;o.DomEvent.off(t,"focus",this._onFocus,this).off(t,"blur",this._onBlur,this).off(t,"mousedown",this._onMouseDown,this),this._map.off("focus",this._addHooks,this).off("blur",this._removeHooks,this)},_onMouseDown:function(){if(!this._focused){var i=e.body,n=e.documentElement,o=i.scrollTop||n.scrollTop,s=i.scrollLeft||n.scrollLeft;this._map._container.focus(),t.scrollTo(s,o)}},_onFocus:function(){this._focused=!0,this._map.fire("focus")},_onBlur:function(){this._focused=!1,this._map.fire("blur")},_setPanOffset:function(t){var e,i,n=this._panKeys={},o=this.keyCodes;for(e=0,i=o.left.length;i>e;e++)n[o.left[e]]=[-1*t,0];for(e=0,i=o.right.length;i>e;e++)n[o.right[e]]=[t,0];for(e=0,i=o.down.length;i>e;e++)n[o.down[e]]=[0,t];for(e=0,i=o.up.length;i>e;e++)n[o.up[e]]=[0,-1*t]},_setZoomOffset:function(t){var e,i,n=this._zoomKeys={},o=this.keyCodes;for(e=0,i=o.zoomIn.length;i>e;e++)n[o.zoomIn[e]]=t;for(e=0,i=o.zoomOut.length;i>e;e++)n[o.zoomOut[e]]=-t},_addHooks:function(){o.DomEvent.on(e,"keydown",this._onKeyDown,this)},_removeHooks:function(){o.DomEvent.off(e,"keydown",this._onKeyDown,this)},_onKeyDown:function(t){var e=t.keyCode,i=this._map;if(e in this._panKeys){if(i._panAnim&&i._panAnim._inProgress)return;i.panBy(this._panKeys[e]),i.options.maxBounds&&i.panInsideBounds(i.options.maxBounds)}else{if(!(e in this._zoomKeys))return;i.setZoom(i.getZoom()+this._zoomKeys[e])}o.DomEvent.stop(t)}}),o.Map.addInitHook("addHandler","keyboard",o.Map.Keyboard),o.Handler.MarkerDrag=o.Handler.extend({initialize:function(t){this._marker=t},addHooks:function(){var t=this._marker._icon;this._draggable||(this._draggable=new o.Draggable(t,t)),this._draggable.on("dragstart",this._onDragStart,this).on("drag",this._onDrag,this).on("dragend",this._onDragEnd,this),this._draggable.enable(),o.DomUtil.addClass(this._marker._icon,"leaflet-marker-draggable")},removeHooks:function(){this._draggable.off("dragstart",this._onDragStart,this).off("drag",this._onDrag,this).off("dragend",this._onDragEnd,this),this._draggable.disable(),o.DomUtil.removeClass(this._marker._icon,"leaflet-marker-draggable")},moved:function(){return this._draggable&&this._draggable._moved},_onDragStart:function(){this._marker.closePopup().fire("movestart").fire("dragstart")},_onDrag:function(){var t=this._marker,e=t._shadow,i=o.DomUtil.getPosition(t._icon),n=t._map.layerPointToLatLng(i);e&&o.DomUtil.setPosition(e,i),t._latlng=n,t.fire("move",{latlng:n}).fire("drag")},_onDragEnd:function(t){this._marker.fire("moveend").fire("dragend",t)}}),o.Control=o.Class.extend({options:{position:"topright"},initialize:function(t){o.setOptions(this,t)},getPosition:function(){return this.options.position},setPosition:function(t){var e=this._map;return e&&e.removeControl(this),this.options.position=t,e&&e.addControl(this),this},getContainer:function(){return this._container},addTo:function(t){this._map=t;var e=this._container=this.onAdd(t),i=this.getPosition(),n=t._controlCorners[i];return o.DomUtil.addClass(e,"leaflet-control"),-1!==i.indexOf("bottom")?n.insertBefore(e,n.firstChild):n.appendChild(e),this},removeFrom:function(t){var e=this.getPosition(),i=t._controlCorners[e];return i.removeChild(this._container),this._map=null,this.onRemove&&this.onRemove(t),this},_refocusOnMap:function(){this._map&&this._map.getContainer().focus()}}),o.control=function(t){return new o.Control(t)},o.Map.include({addControl:function(t){return t.addTo(this),this},removeControl:function(t){return t.removeFrom(this),this},_initControlPos:function(){function t(t,s){var a=i+t+" "+i+s;e[t+s]=o.DomUtil.create("div",a,n)}var e=this._controlCorners={},i="leaflet-",n=this._controlContainer=o.DomUtil.create("div",i+"control-container",this._container);t("top","left"),t("top","right"),t("bottom","left"),t("bottom","right")},_clearControlPos:function(){this._container.removeChild(this._controlContainer)}}),o.Control.Zoom=o.Control.extend({options:{position:"topleft",zoomInText:"+",zoomInTitle:"Zoom in",zoomOutText:"-",zoomOutTitle:"Zoom out"},onAdd:function(t){var e="leaflet-control-zoom",i=o.DomUtil.create("div",e+" leaflet-bar");return this._map=t,this._zoomInButton=this._createButton(this.options.zoomInText,this.options.zoomInTitle,e+"-in",i,this._zoomIn,this),this._zoomOutButton=this._createButton(this.options.zoomOutText,this.options.zoomOutTitle,e+"-out",i,this._zoomOut,this),this._updateDisabled(),t.on("zoomend zoomlevelschange",this._updateDisabled,this),i},onRemove:function(t){t.off("zoomend zoomlevelschange",this._updateDisabled,this)},_zoomIn:function(t){this._map.zoomIn(t.shiftKey?3:1)},_zoomOut:function(t){this._map.zoomOut(t.shiftKey?3:1)},_createButton:function(t,e,i,n,s,a){var r=o.DomUtil.create("a",i,n);r.innerHTML=t,r.href="#",r.title=e;var h=o.DomEvent.stopPropagation;return o.DomEvent.on(r,"click",h).on(r,"mousedown",h).on(r,"dblclick",h).on(r,"click",o.DomEvent.preventDefault).on(r,"click",s,a).on(r,"click",this._refocusOnMap,a),r},_updateDisabled:function(){var t=this._map,e="leaflet-disabled";o.DomUtil.removeClass(this._zoomInButton,e),o.DomUtil.removeClass(this._zoomOutButton,e),t._zoom===t.getMinZoom()&&o.DomUtil.addClass(this._zoomOutButton,e),t._zoom===t.getMaxZoom()&&o.DomUtil.addClass(this._zoomInButton,e)}}),o.Map.mergeOptions({zoomControl:!0}),o.Map.addInitHook(function(){this.options.zoomControl&&(this.zoomControl=new o.Control.Zoom,this.addControl(this.zoomControl))}),o.control.zoom=function(t){return new o.Control.Zoom(t)},o.Control.Attribution=o.Control.extend({options:{position:"bottomright",prefix:'<a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>'},initialize:function(t){o.setOptions(this,t),this._attributions={}},onAdd:function(t){this._container=o.DomUtil.create("div","leaflet-control-attribution"),o.DomEvent.disableClickPropagation(this._container);for(var e in t._layers)t._layers[e].getAttribution&&this.addAttribution(t._layers[e].getAttribution());return t.on("layeradd",this._onLayerAdd,this).on("layerremove",this._onLayerRemove,this),this._update(),this._container},onRemove:function(t){t.off("layeradd",this._onLayerAdd).off("layerremove",this._onLayerRemove)},setPrefix:function(t){return this.options.prefix=t,this._update(),this},addAttribution:function(t){return t?(this._attributions[t]||(this._attributions[t]=0),this._attributions[t]++,this._update(),this):void 0},removeAttribution:function(t){return t?(this._attributions[t]&&(this._attributions[t]--,this._update()),this):void 0},_update:function(){if(this._map){var t=[];for(var e in this._attributions)this._attributions[e]&&t.push(e);var i=[];this.options.prefix&&i.push(this.options.prefix),t.length&&i.push(t.join(", ")),this._container.innerHTML=i.join(" | ")}},_onLayerAdd:function(t){t.layer.getAttribution&&this.addAttribution(t.layer.getAttribution())},_onLayerRemove:function(t){t.layer.getAttribution&&this.removeAttribution(t.layer.getAttribution())}}),o.Map.mergeOptions({attributionControl:!0}),o.Map.addInitHook(function(){this.options.attributionControl&&(this.attributionControl=(new o.Control.Attribution).addTo(this))}),o.control.attribution=function(t){return new o.Control.Attribution(t)},o.Control.Scale=o.Control.extend({options:{position:"bottomleft",maxWidth:100,metric:!0,imperial:!0,updateWhenIdle:!1},onAdd:function(t){this._map=t;var e="leaflet-control-scale",i=o.DomUtil.create("div",e),n=this.options;return this._addScales(n,e,i),t.on(n.updateWhenIdle?"moveend":"move",this._update,this),t.whenReady(this._update,this),i},onRemove:function(t){t.off(this.options.updateWhenIdle?"moveend":"move",this._update,this)},_addScales:function(t,e,i){t.metric&&(this._mScale=o.DomUtil.create("div",e+"-line",i)),t.imperial&&(this._iScale=o.DomUtil.create("div",e+"-line",i))},_update:function(){var t=this._map.getBounds(),e=t.getCenter().lat,i=6378137*Math.PI*Math.cos(e*Math.PI/180),n=i*(t.getNorthEast().lng-t.getSouthWest().lng)/180,o=this._map.getSize(),s=this.options,a=0;o.x>0&&(a=n*(s.maxWidth/o.x)),this._updateScales(s,a)},_updateScales:function(t,e){t.metric&&e&&this._updateMetric(e),t.imperial&&e&&this._updateImperial(e)},_updateMetric:function(t){var e=this._getRoundNum(t);this._mScale.style.width=this._getScaleWidth(e/t)+"px",this._mScale.innerHTML=1e3>e?e+" m":e/1e3+" km"},_updateImperial:function(t){var e,i,n,o=3.2808399*t,s=this._iScale;o>5280?(e=o/5280,i=this._getRoundNum(e),s.style.width=this._getScaleWidth(i/e)+"px",s.innerHTML=i+" mi"):(n=this._getRoundNum(o),s.style.width=this._getScaleWidth(n/o)+"px",s.innerHTML=n+" ft")},_getScaleWidth:function(t){return Math.round(this.options.maxWidth*t)-10},_getRoundNum:function(t){var e=Math.pow(10,(Math.floor(t)+"").length-1),i=t/e;return i=i>=10?10:i>=5?5:i>=3?3:i>=2?2:1,e*i}}),o.control.scale=function(t){return new o.Control.Scale(t)},o.Control.Layers=o.Control.extend({options:{collapsed:!0,position:"topright",autoZIndex:!0},initialize:function(t,e,i){o.setOptions(this,i),this._layers={},this._lastZIndex=0,this._handlingClick=!1;for(var n in t)this._addLayer(t[n],n);for(n in e)this._addLayer(e[n],n,!0)},onAdd:function(t){return this._initLayout(),this._update(),t.on("layeradd",this._onLayerChange,this).on("layerremove",this._onLayerChange,this),this._container},onRemove:function(t){t.off("layeradd",this._onLayerChange).off("layerremove",this._onLayerChange)},addBaseLayer:function(t,e){return this._addLayer(t,e),this._update(),this},addOverlay:function(t,e){return this._addLayer(t,e,!0),this._update(),this},removeLayer:function(t){var e=o.stamp(t);return delete this._layers[e],this._update(),this},_initLayout:function(){var t="leaflet-control-layers",e=this._container=o.DomUtil.create("div",t);e.setAttribute("aria-haspopup",!0),o.Browser.touch?o.DomEvent.on(e,"click",o.DomEvent.stopPropagation):o.DomEvent.disableClickPropagation(e).disableScrollPropagation(e);var i=this._form=o.DomUtil.create("form",t+"-list");if(this.options.collapsed){o.Browser.android||o.DomEvent.on(e,"mouseover",this._expand,this).on(e,"mouseout",this._collapse,this);var n=this._layersLink=o.DomUtil.create("a",t+"-toggle",e);n.href="#",n.title="Layers",o.Browser.touch?o.DomEvent.on(n,"click",o.DomEvent.stop).on(n,"click",this._expand,this):o.DomEvent.on(n,"focus",this._expand,this),o.DomEvent.on(i,"click",function(){setTimeout(o.bind(this._onInputClick,this),0)},this),this._map.on("click",this._collapse,this)}else this._expand();this._baseLayersList=o.DomUtil.create("div",t+"-base",i),this._separator=o.DomUtil.create("div",t+"-separator",i),this._overlaysList=o.DomUtil.create("div",t+"-overlays",i),e.appendChild(i)},_addLayer:function(t,e,i){var n=o.stamp(t);this._layers[n]={layer:t,name:e,overlay:i},this.options.autoZIndex&&t.setZIndex&&(this._lastZIndex++,t.setZIndex(this._lastZIndex))},_update:function(){if(this._container){this._baseLayersList.innerHTML="",this._overlaysList.innerHTML="";var t,e,i=!1,n=!1;for(t in this._layers)e=this._layers[t],this._addItem(e),n=n||e.overlay,i=i||!e.overlay;this._separator.style.display=n&&i?"":"none"}},_onLayerChange:function(t){var e=this._layers[o.stamp(t.layer)];if(e){this._handlingClick||this._update();var i=e.overlay?"layeradd"===t.type?"overlayadd":"overlayremove":"layeradd"===t.type?"baselayerchange":null;i&&this._map.fire(i,e)}},_createRadioElement:function(t,i){var n='<input type="radio" class="leaflet-control-layers-selector" name="'+t+'"';i&&(n+=' checked="checked"'),n+="/>";var o=e.createElement("div");return o.innerHTML=n,o.firstChild},_addItem:function(t){var i,n=e.createElement("label"),s=this._map.hasLayer(t.layer);t.overlay?(i=e.createElement("input"),i.type="checkbox",i.className="leaflet-control-layers-selector",i.defaultChecked=s):i=this._createRadioElement("leaflet-base-layers",s),i.layerId=o.stamp(t.layer),o.DomEvent.on(i,"click",this._onInputClick,this);var a=e.createElement("span");a.innerHTML=" "+t.name,n.appendChild(i),n.appendChild(a);var r=t.overlay?this._overlaysList:this._baseLayersList;return r.appendChild(n),n},_onInputClick:function(){var t,e,i,n=this._form.getElementsByTagName("input"),o=n.length;for(this._handlingClick=!0,t=0;o>t;t++)e=n[t],i=this._layers[e.layerId],e.checked&&!this._map.hasLayer(i.layer)?this._map.addLayer(i.layer):!e.checked&&this._map.hasLayer(i.layer)&&this._map.removeLayer(i.layer);this._handlingClick=!1,this._refocusOnMap()},_expand:function(){o.DomUtil.addClass(this._container,"leaflet-control-layers-expanded")},_collapse:function(){this._container.className=this._container.className.replace(" leaflet-control-layers-expanded","")}}),o.control.layers=function(t,e,i){return new o.Control.Layers(t,e,i)},o.PosAnimation=o.Class.extend({includes:o.Mixin.Events,run:function(t,e,i,n){this.stop(),this._el=t,this._inProgress=!0,this._newPos=e,this.fire("start"),t.style[o.DomUtil.TRANSITION]="all "+(i||.25)+"s cubic-bezier(0,0,"+(n||.5)+",1)",o.DomEvent.on(t,o.DomUtil.TRANSITION_END,this._onTransitionEnd,this),o.DomUtil.setPosition(t,e),o.Util.falseFn(t.offsetWidth),this._stepTimer=setInterval(o.bind(this._onStep,this),50)},stop:function(){this._inProgress&&(o.DomUtil.setPosition(this._el,this._getPos()),this._onTransitionEnd(),o.Util.falseFn(this._el.offsetWidth))},_onStep:function(){var t=this._getPos();return t?(this._el._leaflet_pos=t,void this.fire("step")):void this._onTransitionEnd()},_transformRe:/([-+]?(?:\d*\.)?\d+)\D*, ([-+]?(?:\d*\.)?\d+)\D*\)/,_getPos:function(){var e,i,n,s=this._el,a=t.getComputedStyle(s);if(o.Browser.any3d){if(n=a[o.DomUtil.TRANSFORM].match(this._transformRe),!n)return;e=parseFloat(n[1]),i=parseFloat(n[2])}else e=parseFloat(a.left),i=parseFloat(a.top);return new o.Point(e,i,!0)},_onTransitionEnd:function(){o.DomEvent.off(this._el,o.DomUtil.TRANSITION_END,this._onTransitionEnd,this),this._inProgress&&(this._inProgress=!1,this._el.style[o.DomUtil.TRANSITION]="",this._el._leaflet_pos=this._newPos,clearInterval(this._stepTimer),this.fire("step").fire("end"))}}),o.Map.include({setView:function(t,e,n){if(e=e===i?this._zoom:this._limitZoom(e),t=this._limitCenter(o.latLng(t),e,this.options.maxBounds),n=n||{},this._panAnim&&this._panAnim.stop(),this._loaded&&!n.reset&&n!==!0){n.animate!==i&&(n.zoom=o.extend({animate:n.animate},n.zoom),n.pan=o.extend({animate:n.animate},n.pan));var s=this._zoom!==e?this._tryAnimatedZoom&&this._tryAnimatedZoom(t,e,n.zoom):this._tryAnimatedPan(t,n.pan);if(s)return clearTimeout(this._sizeTimer),this}return this._resetView(t,e),this},panBy:function(t,e){if(t=o.point(t).round(),e=e||{},!t.x&&!t.y)return this;if(this._panAnim||(this._panAnim=new o.PosAnimation,this._panAnim.on({step:this._onPanTransitionStep,end:this._onPanTransitionEnd},this)),e.noMoveStart||this.fire("movestart"),e.animate!==!1){o.DomUtil.addClass(this._mapPane,"leaflet-pan-anim");var i=this._getMapPanePos().subtract(t);this._panAnim.run(this._mapPane,i,e.duration||.25,e.easeLinearity)}else this._rawPanBy(t),this.fire("move").fire("moveend");return this},_onPanTransitionStep:function(){this.fire("move")},_onPanTransitionEnd:function(){o.DomUtil.removeClass(this._mapPane,"leaflet-pan-anim"),this.fire("moveend")},_tryAnimatedPan:function(t,e){var i=this._getCenterOffset(t)._floor();return(e&&e.animate)===!0||this.getSize().contains(i)?(this.panBy(i,e),!0):!1}}),o.PosAnimation=o.DomUtil.TRANSITION?o.PosAnimation:o.PosAnimation.extend({run:function(t,e,i,n){this.stop(),this._el=t,this._inProgress=!0,this._duration=i||.25,this._easeOutPower=1/Math.max(n||.5,.2),this._startPos=o.DomUtil.getPosition(t),this._offset=e.subtract(this._startPos),this._startTime=+new Date,this.fire("start"),this._animate()},stop:function(){this._inProgress&&(this._step(),this._complete())},_animate:function(){this._animId=o.Util.requestAnimFrame(this._animate,this),this._step()},_step:function(){var t=+new Date-this._startTime,e=1e3*this._duration;e>t?this._runFrame(this._easeOut(t/e)):(this._runFrame(1),this._complete())},_runFrame:function(t){var e=this._startPos.add(this._offset.multiplyBy(t));o.DomUtil.setPosition(this._el,e),this.fire("step")},_complete:function(){o.Util.cancelAnimFrame(this._animId),this._inProgress=!1,this.fire("end")},_easeOut:function(t){return 1-Math.pow(1-t,this._easeOutPower)}}),o.Map.mergeOptions({zoomAnimation:!0,zoomAnimationThreshold:4}),o.DomUtil.TRANSITION&&o.Map.addInitHook(function(){this._zoomAnimated=this.options.zoomAnimation&&o.DomUtil.TRANSITION&&o.Browser.any3d&&!o.Browser.android23&&!o.Browser.mobileOpera,this._zoomAnimated&&o.DomEvent.on(this._mapPane,o.DomUtil.TRANSITION_END,this._catchTransitionEnd,this)}),o.Map.include(o.DomUtil.TRANSITION?{_catchTransitionEnd:function(t){this._animatingZoom&&t.propertyName.indexOf("transform")>=0&&this._onZoomTransitionEnd()},_nothingToAnimate:function(){return!this._container.getElementsByClassName("leaflet-zoom-animated").length},_tryAnimatedZoom:function(t,e,i){if(this._animatingZoom)return!0;if(i=i||{},!this._zoomAnimated||i.animate===!1||this._nothingToAnimate()||Math.abs(e-this._zoom)>this.options.zoomAnimationThreshold)return!1;var n=this.getZoomScale(e),o=this._getCenterOffset(t)._divideBy(1-1/n),s=this._getCenterLayerPoint()._add(o);return i.animate===!0||this.getSize().contains(o)?(this.fire("movestart").fire("zoomstart"),this._animateZoom(t,e,s,n,null,!0),!0):!1},_animateZoom:function(t,e,i,n,s,a){this._animatingZoom=!0,o.DomUtil.addClass(this._mapPane,"leaflet-zoom-anim"),this._animateToCenter=t,this._animateToZoom=e,o.Draggable&&(o.Draggable._disabled=!0),this.fire("zoomanim",{center:t,zoom:e,origin:i,scale:n,delta:s,backwards:a})},_onZoomTransitionEnd:function(){this._animatingZoom=!1,o.DomUtil.removeClass(this._mapPane,"leaflet-zoom-anim"),this._resetView(this._animateToCenter,this._animateToZoom,!0,!0),o.Draggable&&(o.Draggable._disabled=!1)}}:{}),o.TileLayer.include({_animateZoom:function(t){this._animating||(this._animating=!0,this._prepareBgBuffer());var e=this._bgBuffer,i=o.DomUtil.TRANSFORM,n=t.delta?o.DomUtil.getTranslateString(t.delta):e.style[i],s=o.DomUtil.getScaleString(t.scale,t.origin);e.style[i]=t.backwards?s+" "+n:n+" "+s},_endZoomAnim:function(){var t=this._tileContainer,e=this._bgBuffer;t.style.visibility="",t.parentNode.appendChild(t),o.Util.falseFn(e.offsetWidth),this._animating=!1},_clearBgBuffer:function(){var t=this._map;!t||t._animatingZoom||t.touchZoom._zooming||(this._bgBuffer.innerHTML="",this._bgBuffer.style[o.DomUtil.TRANSFORM]="")},_prepareBgBuffer:function(){var t=this._tileContainer,e=this._bgBuffer,i=this._getLoadedTilesPercentage(e),n=this._getLoadedTilesPercentage(t);return e&&i>.5&&.5>n?(t.style.visibility="hidden",void this._stopLoadingImages(t)):(e.style.visibility="hidden",e.style[o.DomUtil.TRANSFORM]="",this._tileContainer=e,e=this._bgBuffer=t,this._stopLoadingImages(e),void clearTimeout(this._clearBgBufferTimer))},_getLoadedTilesPercentage:function(t){var e,i,n=t.getElementsByTagName("img"),o=0;for(e=0,i=n.length;i>e;e++)n[e].complete&&o++;return o/i},_stopLoadingImages:function(t){var e,i,n,s=Array.prototype.slice.call(t.getElementsByTagName("img"));for(e=0,i=s.length;i>e;e++)n=s[e],n.complete||(n.onload=o.Util.falseFn,n.onerror=o.Util.falseFn,n.src=o.Util.emptyImageUrl,n.parentNode.removeChild(n))}}),o.Map.include({_defaultLocateOptions:{watch:!1,setView:!1,maxZoom:1/0,timeout:1e4,maximumAge:0,enableHighAccuracy:!1},locate:function(t){if(t=this._locateOptions=o.extend(this._defaultLocateOptions,t),!navigator.geolocation)return this._handleGeolocationError({code:0,message:"Geolocation not supported."}),this;var e=o.bind(this._handleGeolocationResponse,this),i=o.bind(this._handleGeolocationError,this);return t.watch?this._locationWatchId=navigator.geolocation.watchPosition(e,i,t):navigator.geolocation.getCurrentPosition(e,i,t),this},stopLocate:function(){return navigator.geolocation&&navigator.geolocation.clearWatch(this._locationWatchId),this._locateOptions&&(this._locateOptions.setView=!1),this},_handleGeolocationError:function(t){var e=t.code,i=t.message||(1===e?"permission denied":2===e?"position unavailable":"timeout");this._locateOptions.setView&&!this._loaded&&this.fitWorld(),this.fire("locationerror",{code:e,message:"Geolocation error: "+i+"."})},_handleGeolocationResponse:function(t){var e=t.coords.latitude,i=t.coords.longitude,n=new o.LatLng(e,i),s=180*t.coords.accuracy/40075017,a=s/Math.cos(o.LatLng.DEG_TO_RAD*e),r=o.latLngBounds([e-s,i-a],[e+s,i+a]),h=this._locateOptions;if(h.setView){var l=Math.min(this.getBoundsZoom(r),h.maxZoom);this.setView(n,l)}var u={latlng:n,bounds:r,timestamp:t.timestamp};for(var c in t.coords)"number"==typeof t.coords[c]&&(u[c]=t.coords[c]);this.fire("locationfound",u)}})}(window,document);
 },{}],3:[function(require,module,exports){
+(function (global){!function(e){if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else{var o;"undefined"!=typeof window?o=window:"undefined"!=typeof global?o=global:"undefined"!=typeof self&&(o=self),o.omnivore=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
+var xhr = _dereq_('corslite'),
+    csv2geojson = _dereq_('csv2geojson'),
+    wellknown = _dereq_('wellknown'),
+    topojson = _dereq_('topojson'),
+    toGeoJSON = _dereq_('togeojson');
+
+module.exports.geojson = geojsonLoad;
+
+module.exports.topojson = topojsonLoad;
+module.exports.topojson.parse = topojsonParse;
+
+module.exports.csv = csvLoad;
+module.exports.csv.parse = csvParse;
+
+module.exports.gpx = gpxLoad;
+module.exports.gpx.parse = gpxParse;
+
+module.exports.kml = kmlLoad;
+module.exports.kml.parse = kmlParse;
+
+module.exports.wkt = wktLoad;
+module.exports.wkt.parse = wktParse;
+
+function geojsonLoad(url, options) {
+    var layer = L.geoJson();
+    xhr(url, function(err, response) {
+        if (err) return layer.fire('error', { error: err });
+        layer.addData(JSON.parse(response.responseText));
+        layer.fire('ready');
+    });
+    return layer;
+}
+
+function topojsonLoad(url, options) {
+    var layer = L.geoJson();
+    xhr(url, onload);
+    function onload(err, response) {
+        if (err) return layer.fire('error', { error: err });
+        layer.addData(topojsonParse(response.responseText));
+        layer.fire('ready');
+    }
+    return layer;
+}
+
+function topojsonParse(data) {
+    var o = typeof data === 'string' ?
+        JSON.parse(data) : data;
+    var features = [];
+    for (var i in o.objects) {
+        var ft = topojson.feature(o, o.objects[i]);
+        if (ft.features) features = features.concat(ft.features);
+        else features = features.concat([ft]);
+    }
+    return features;
+}
+
+function csvLoad(url, options) {
+    var layer = L.geoJson();
+    xhr(url, onload);
+    function onload(err, response) {
+        var error;
+        if (err) return layer.fire('error', { error: err });
+        function avoidReady() {
+            error = true;
+        }
+        layer.on('error', avoidReady);
+        csvParse(response.responseText, options, layer);
+        layer.off('error', avoidReady);
+        if (!error) layer.fire('ready');
+    }
+    return layer;
+}
+
+function csvParse(csv, options, layer) {
+    layer = layer || L.geoJson();
+    options = options || {};
+    csv2geojson.csv2geojson(csv, options, onparse);
+    function onparse(err, geojson) {
+        if (err) return layer.fire('error', { error: err });
+        layer.addData(geojson);
+    }
+    return layer;
+}
+
+function gpxLoad(url, options) {
+    var layer = L.geoJson();
+    xhr(url, onload);
+    function onload(err, response) {
+        var error;
+        if (err) return layer.fire('error', { error: err });
+        function avoidReady() {
+            error = true;
+        }
+        layer.on('error', avoidReady);
+        gpxParse(response.responseXML || response.responseText, options, layer);
+        layer.off('error', avoidReady);
+        if (!error) layer.fire('ready');
+    }
+    return layer;
+}
+
+function gpxParse(gpx, options, layer) {
+    var xml = parseXML(gpx);
+    if (!xml) return layer.fire('error', {
+        error: 'Could not parse GPX'
+    });
+    layer = layer || L.geoJson();
+    var geojson = toGeoJSON.gpx(xml);
+    layer.addData(geojson);
+    return layer;
+}
+
+function kmlLoad(url, options) {
+    var layer = L.geoJson();
+    xhr(url, onload);
+    function onload(err, response) {
+        var error;
+        if (err) return layer.fire('error', { error: err });
+        function avoidReady() {
+            error = true;
+        }
+        layer.on('error', avoidReady);
+        kmlParse(response.responseXML || response.responseText, options, layer);
+        layer.off('error', avoidReady);
+        if (!error) layer.fire('ready');
+    }
+    return layer;
+}
+
+function kmlParse(gpx, options, layer) {
+    var xml = parseXML(gpx);
+    if (!xml) return layer.fire('error', {
+        error: 'Could not parse GPX'
+    });
+    layer = layer || L.geoJson();
+    var geojson = toGeoJSON.kml(xml);
+    layer.addData(geojson);
+    return layer;
+}
+
+function wktLoad(url, options) {
+    var layer = L.geoJson();
+    xhr(url, onload);
+    function onload(err, response) {
+        if (err) return layer.fire('error', { error: err });
+        wktParse(response.responseText, options, layer);
+        layer.fire('ready');
+    }
+    return layer;
+}
+
+function wktParse(wkt, options, layer) {
+    layer = layer || L.geoJson();
+    var geojson = wellknown(wkt);
+    layer.addData(geojson);
+    return layer;
+}
+
+function parseXML(str) {
+    if (typeof str === 'string') {
+        return (new DOMParser()).parseFromString(str, 'text/xml');
+    } else {
+        return str;
+    }
+}
+
+},{"corslite":5,"csv2geojson":6,"togeojson":9,"topojson":10,"wellknown":38}],2:[function(_dereq_,module,exports){
+
+},{}],3:[function(_dereq_,module,exports){
+module.exports=_dereq_(2)
+},{}],4:[function(_dereq_,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+
+process.nextTick = (function () {
+    var canSetImmediate = typeof window !== 'undefined'
+    && window.setImmediate;
+    var canPost = typeof window !== 'undefined'
+    && window.postMessage && window.addEventListener
+    ;
+
+    if (canSetImmediate) {
+        return function (f) { return window.setImmediate(f) };
+    }
+
+    if (canPost) {
+        var queue = [];
+        window.addEventListener('message', function (ev) {
+            var source = ev.source;
+            if ((source === window || source === null) && ev.data === 'process-tick') {
+                ev.stopPropagation();
+                if (queue.length > 0) {
+                    var fn = queue.shift();
+                    fn();
+                }
+            }
+        }, true);
+
+        return function nextTick(fn) {
+            queue.push(fn);
+            window.postMessage('process-tick', '*');
+        };
+    }
+
+    return function nextTick(fn) {
+        setTimeout(fn, 0);
+    };
+})();
+
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+}
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+
+},{}],5:[function(_dereq_,module,exports){
+function xhr(url, callback, cors) {
+    var sent = false;
+
+    if (typeof window.XMLHttpRequest === 'undefined') {
+        return callback(Error('Browser not supported'));
+    }
+
+    if (typeof cors === 'undefined') {
+        var m = url.match(/^\s*https?:\/\/[^\/]*/);
+        cors = m && (m[0] !== location.protocol + '//' + location.domain +
+                (location.port ? ':' + location.port : ''));
+    }
+
+    var x;
+
+    function isSuccessful(status) {
+        return status >= 200 && status < 300 || status === 304;
+    }
+
+    if (cors && (
+        // IE7-9 Quirks & Compatibility
+        typeof window.XDomainRequest === 'object' ||
+        // IE9 Standards mode
+        typeof window.XDomainRequest === 'function'
+    )) {
+        // IE8-10
+        x = new window.XDomainRequest();
+
+        // Ensure callback is never called synchronously, i.e., before
+        // x.send() returns (this has been observed in the wild).
+        // See https://github.com/mapbox/mapbox.js/issues/472
+        var original = callback;
+        callback = function() {
+            if (sent) {
+                original.apply(this, arguments);
+            } else {
+                var that = this, args = arguments;
+                setTimeout(function() {
+                    original.apply(that, args);
+                }, 0);
+            }
+        }
+    } else {
+        x = new window.XMLHttpRequest();
+    }
+
+    function loaded() {
+        if (
+            // XDomainRequest
+            x.status === undefined ||
+            // modern browsers
+            isSuccessful(x.status)) callback.call(x, null, x);
+        else callback.call(x, x, null);
+    }
+
+    // Both `onreadystatechange` and `onload` can fire. `onreadystatechange`
+    // has [been supported for longer](http://stackoverflow.com/a/9181508/229001).
+    if ('onload' in x) {
+        x.onload = loaded;
+    } else {
+        x.onreadystatechange = function readystate() {
+            if (x.readyState === 4) {
+                loaded();
+            }
+        };
+    }
+
+    // Call the callback with the XMLHttpRequest object as an error and prevent
+    // it from ever being called again by reassigning it to `noop`
+    x.onerror = function error(evt) {
+        // XDomainRequest provides no evt parameter
+        callback.call(this, evt || true, null);
+        callback = function() { };
+    };
+
+    // IE9 must have onprogress be set to a unique function.
+    x.onprogress = function() { };
+
+    x.ontimeout = function(evt) {
+        callback.call(this, evt, null);
+        callback = function() { };
+    };
+
+    x.onabort = function(evt) {
+        callback.call(this, evt, null);
+        callback = function() { };
+    };
+
+    // GET is the only supported HTTP Verb by XDomainRequest and is the
+    // only one supported here.
+    x.open('GET', url, true);
+
+    // Send the request. Sending data is not supported.
+    x.send(null);
+    sent = true;
+
+    return x;
+}
+
+if (typeof module !== 'undefined') module.exports = xhr;
+
+},{}],6:[function(_dereq_,module,exports){
+var dsv = _dereq_('dsv'),
+    sexagesimal = _dereq_('sexagesimal');
+
+function isLat(f) { return !!f.match(/(Lat)(itude)?/gi); }
+function isLon(f) { return !!f.match(/(L)(on|ng)(gitude)?/i); }
+
+function keyCount(o) {
+    return (typeof o == 'object') ? Object.keys(o).length : 0;
+}
+
+function autoDelimiter(x) {
+    var delimiters = [',', ';', '\t', '|'];
+    var results = [];
+
+    delimiters.forEach(function(delimiter) {
+        var res = dsv(delimiter).parse(x);
+        if (res.length >= 1) {
+            var count = keyCount(res[0]);
+            for (var i = 0; i < res.length; i++) {
+                if (keyCount(res[i]) !== count) return;
+            }
+            results.push({
+                delimiter: delimiter,
+                arity: Object.keys(res[0]).length,
+            });
+        }
+    });
+
+    if (results.length) {
+        return results.sort(function(a, b) {
+            return b.arity - a.arity;
+        })[0].delimiter;
+    } else {
+        return null;
+    }
+}
+
+function auto(x) {
+    var delimiter = autoDelimiter(x);
+    if (!delimiter) return null;
+    return dsv(delimiter).parse(x);
+}
+
+function csv2geojson(x, options, callback) {
+
+    if (!callback) {
+        callback = options;
+        options = {};
+    }
+
+    options.delimiter = options.delimiter || ',';
+
+    var latfield = options.latfield || '',
+        lonfield = options.lonfield || '';
+
+    var features = [],
+        featurecollection = { type: 'FeatureCollection', features: features };
+
+    if (options.delimiter === 'auto' && typeof x == 'string') {
+        options.delimiter = autoDelimiter(x);
+        if (!options.delimiter) return callback({
+            type: 'Error',
+            message: 'Could not autodetect delimiter'
+        });
+    }
+
+    var parsed = (typeof x == 'string') ? dsv(options.delimiter).parse(x) : x;
+
+    if (!parsed.length) return callback(null, featurecollection);
+
+    if (!latfield || !lonfield) {
+        for (var f in parsed[0]) {
+            if (!latfield && isLat(f)) latfield = f;
+            if (!lonfield && isLon(f)) lonfield = f;
+        }
+        if (!latfield || !lonfield) {
+            var fields = [];
+            for (var k in parsed[0]) fields.push(k);
+            return callback({
+                type: 'Error',
+                message: 'Latitude and longitude fields not present',
+                data: parsed,
+                fields: fields
+            });
+        }
+    }
+
+    var errors = [];
+
+    for (var i = 0; i < parsed.length; i++) {
+        if (parsed[i][lonfield] !== undefined &&
+            parsed[i][lonfield] !== undefined) {
+
+            var lonk = parsed[i][lonfield],
+                latk = parsed[i][latfield],
+                lonf, latf,
+                a;
+
+            a = sexagesimal(lonk, 'EW');
+            if (a) lonk = a;
+            a = sexagesimal(latk, 'NS');
+            if (a) latk = a;
+
+            lonf = parseFloat(lonk);
+            latf = parseFloat(latk);
+
+            if (isNaN(lonf) ||
+                isNaN(latf)) {
+                errors.push({
+                    message: 'A row contained an invalid value for latitude or longitude',
+                    row: parsed[i]
+                });
+            } else {
+                if (!options.includeLatLon) {
+                    delete parsed[i][lonfield];
+                    delete parsed[i][latfield];
+                }
+
+                features.push({
+                    type: 'Feature',
+                    properties: parsed[i],
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [
+                            parseFloat(lonf),
+                            parseFloat(latf)
+                        ]
+                    }
+                });
+            }
+        }
+    }
+
+    callback(errors.length ? errors: null, featurecollection);
+}
+
+function toLine(gj) {
+    var features = gj.features;
+    var line = {
+        type: 'Feature',
+        geometry: {
+            type: 'LineString',
+            coordinates: []
+        }
+    };
+    for (var i = 0; i < features.length; i++) {
+        line.geometry.coordinates.push(features[i].geometry.coordinates);
+    }
+    line.properties = features[0].properties;
+    return {
+        type: 'FeatureCollection',
+        features: [line]
+    };
+}
+
+function toPolygon(gj) {
+    var features = gj.features;
+    var poly = {
+        type: 'Feature',
+        geometry: {
+            type: 'Polygon',
+            coordinates: [[]]
+        }
+    };
+    for (var i = 0; i < features.length; i++) {
+        poly.geometry.coordinates[0].push(features[i].geometry.coordinates);
+    }
+    poly.properties = features[0].properties;
+    return {
+        type: 'FeatureCollection',
+        features: [poly]
+    };
+}
+
+module.exports = {
+    isLon: isLon,
+    isLat: isLat,
+    csv: dsv.csv.parse,
+    tsv: dsv.tsv.parse,
+    dsv: dsv,
+    auto: auto,
+    csv2geojson: csv2geojson,
+    toLine: toLine,
+    toPolygon: toPolygon
+};
+
+},{"dsv":7,"sexagesimal":8}],7:[function(_dereq_,module,exports){
+var fs = _dereq_("fs");
+
+module.exports = new Function("dsv.version = \"0.0.3\";\n\ndsv.tsv = dsv(\"\\t\");\ndsv.csv = dsv(\",\");\n\nfunction dsv(delimiter) {\n  var dsv = {},\n      reFormat = new RegExp(\"[\\\"\" + delimiter + \"\\n]\"),\n      delimiterCode = delimiter.charCodeAt(0);\n\n  dsv.parse = function(text, f) {\n    var o;\n    return dsv.parseRows(text, function(row, i) {\n      if (o) return o(row, i - 1);\n      var a = new Function(\"d\", \"return {\" + row.map(function(name, i) {\n        return JSON.stringify(name) + \": d[\" + i + \"]\";\n      }).join(\",\") + \"}\");\n      o = f ? function(row, i) { return f(a(row), i); } : a;\n    });\n  };\n\n  dsv.parseRows = function(text, f) {\n    var EOL = {}, // sentinel value for end-of-line\n        EOF = {}, // sentinel value for end-of-file\n        rows = [], // output rows\n        N = text.length,\n        I = 0, // current character index\n        n = 0, // the current line number\n        t, // the current token\n        eol; // is the current token followed by EOL?\n\n    function token() {\n      if (I >= N) return EOF; // special case: end of file\n      if (eol) return eol = false, EOL; // special case: end of line\n\n      // special case: quotes\n      var j = I;\n      if (text.charCodeAt(j) === 34) {\n        var i = j;\n        while (i++ < N) {\n          if (text.charCodeAt(i) === 34) {\n            if (text.charCodeAt(i + 1) !== 34) break;\n            ++i;\n          }\n        }\n        I = i + 2;\n        var c = text.charCodeAt(i + 1);\n        if (c === 13) {\n          eol = true;\n          if (text.charCodeAt(i + 2) === 10) ++I;\n        } else if (c === 10) {\n          eol = true;\n        }\n        return text.substring(j + 1, i).replace(/\"\"/g, \"\\\"\");\n      }\n\n      // common case: find next delimiter or newline\n      while (I < N) {\n        var c = text.charCodeAt(I++), k = 1;\n        if (c === 10) eol = true; // \\n\n        else if (c === 13) { eol = true; if (text.charCodeAt(I) === 10) ++I, ++k; } // \\r|\\r\\n\n        else if (c !== delimiterCode) continue;\n        return text.substring(j, I - k);\n      }\n\n      // special case: last token before EOF\n      return text.substring(j);\n    }\n\n    while ((t = token()) !== EOF) {\n      var a = [];\n      while (t !== EOL && t !== EOF) {\n        a.push(t);\n        t = token();\n      }\n      if (f && !(a = f(a, n++))) continue;\n      rows.push(a);\n    }\n\n    return rows;\n  };\n\n  dsv.format = function(rows) {\n    if (Array.isArray(rows[0])) return dsv.formatRows(rows); // deprecated; use formatRows\n    var fieldSet = {}, fields = [];\n\n    // Compute unique fields in order of discovery.\n    rows.forEach(function(row) {\n      for (var field in row) {\n        if (!(field in fieldSet)) {\n          fields.push(fieldSet[field] = field);\n        }\n      }\n    });\n\n    return [fields.map(formatValue).join(delimiter)].concat(rows.map(function(row) {\n      return fields.map(function(field) {\n        return formatValue(row[field]);\n      }).join(delimiter);\n    })).join(\"\\n\");\n  };\n\n  dsv.formatRows = function(rows) {\n    return rows.map(formatRow).join(\"\\n\");\n  };\n\n  function formatRow(row) {\n    return row.map(formatValue).join(delimiter);\n  }\n\n  function formatValue(text) {\n    return reFormat.test(text) ? \"\\\"\" + text.replace(/\\\"/g, \"\\\"\\\"\") + \"\\\"\" : text;\n  }\n\n  return dsv;\n}\n" + ";return dsv")();
+
+},{"fs":2}],8:[function(_dereq_,module,exports){
+module.exports = function(x, dims) {
+    if (!dims) dims = 'NSEW';
+    if (typeof x !== 'string') return null;
+    var r = /^([0-9.]+)°? *(?:([0-9.]+)['’′‘] *)?(?:([0-9.]+)(?:''|"|”|″) *)?([NSEW])?/,
+        m = x.match(r);
+    if (!m) return null;
+    else if (m[4] && dims.indexOf(m[4]) === -1) return null;
+    else return (((m[1]) ? parseFloat(m[1]) : 0) +
+        ((m[2] ? parseFloat(m[2]) / 60 : 0)) +
+        ((m[3] ? parseFloat(m[3]) / 3600 : 0))) *
+        ((m[4] && m[4] === 'S' || m[4] === 'W') ? -1 : 1);
+};
+
+},{}],9:[function(_dereq_,module,exports){
+(function (process){toGeoJSON = (function() {
+    'use strict';
+
+    var removeSpace = (/\s*/g),
+        trimSpace = (/^\s*|\s*$/g),
+        splitSpace = (/\s+/);
+    // generate a short, numeric hash of a string
+    function okhash(x) {
+        if (!x || !x.length) return 0;
+        for (var i = 0, h = 0; i < x.length; i++) {
+            h = ((h << 5) - h) + x.charCodeAt(i) | 0;
+        } return h;
+    }
+    // all Y children of X
+    function get(x, y) { return x.getElementsByTagName(y); }
+    function attr(x, y) { return x.getAttribute(y); }
+    function attrf(x, y) { return parseFloat(attr(x, y)); }
+    // one Y child of X, if any, otherwise null
+    function get1(x, y) { var n = get(x, y); return n.length ? n[0] : null; }
+    // https://developer.mozilla.org/en-US/docs/Web/API/Node.normalize
+    function norm(el) { if (el.normalize) { el.normalize(); } return el; }
+    // cast array x into numbers
+    function numarray(x) {
+        for (var j = 0, o = []; j < x.length; j++) o[j] = parseFloat(x[j]);
+        return o;
+    }
+    function clean(x) {
+        var o = {};
+        for (var i in x) if (x[i]) o[i] = x[i];
+        return o;
+    }
+    // get the content of a text node, if any
+    function nodeVal(x) { if (x) {norm(x);} return x && x.firstChild && x.firstChild.nodeValue; }
+    // get one coordinate from a coordinate array, if any
+    function coord1(v) { return numarray(v.replace(removeSpace, '').split(',')); }
+    // get all coordinates from a coordinate array as [[],[]]
+    function coord(v) {
+        var coords = v.replace(trimSpace, '').split(splitSpace),
+            o = [];
+        for (var i = 0; i < coords.length; i++) {
+            o.push(coord1(coords[i]));
+        }
+        return o;
+    }
+    function coordPair(x) {
+        var ll = [attrf(x, 'lon'), attrf(x, 'lat')],
+            ele = get1(x, 'ele');
+        if (ele) ll.push(parseFloat(nodeVal(ele)));
+        return ll;
+    }
+
+    // create a new feature collection parent object
+    function fc() {
+        return {
+            type: 'FeatureCollection',
+            features: []
+        };
+    }
+
+    var serializer;
+    if (typeof XMLSerializer !== 'undefined') {
+        serializer = new XMLSerializer();
+    // only require xmldom in a node environment
+    } else if (typeof exports === 'object' && typeof process === 'object' && !process.browser) {
+        serializer = new (_dereq_('xmldom').XMLSerializer)();
+    }
+    function xml2str(str) { return serializer.serializeToString(str); }
+
+    var t = {
+        kml: function(doc, o) {
+            o = o || {};
+
+            var gj = fc(),
+                // styleindex keeps track of hashed styles in order to match features
+                styleIndex = {},
+                // atomic geospatial types supported by KML - MultiGeometry is
+                // handled separately
+                geotypes = ['Polygon', 'LineString', 'Point', 'Track'],
+                // all root placemarks in the file
+                placemarks = get(doc, 'Placemark'),
+                styles = get(doc, 'Style');
+
+            for (var k = 0; k < styles.length; k++) {
+                styleIndex['#' + attr(styles[k], 'id')] = okhash(xml2str(styles[k])).toString(16);
+            }
+            for (var j = 0; j < placemarks.length; j++) {
+                gj.features = gj.features.concat(getPlacemark(placemarks[j]));
+            }
+            function gxCoord(v) { return numarray(v.split(' ')); }
+            function gxCoords(root) {
+                var elems = get(root, 'coord', 'gx'), coords = [];
+                for (var i = 0; i < elems.length; i++) coords.push(gxCoord(nodeVal(elems[i])));
+                return coords;
+            }
+            function getGeometry(root) {
+                var geomNode, geomNodes, i, j, k, geoms = [];
+                if (get1(root, 'MultiGeometry')) return getGeometry(get1(root, 'MultiGeometry'));
+                if (get1(root, 'MultiTrack')) return getGeometry(get1(root, 'MultiTrack'));
+                for (i = 0; i < geotypes.length; i++) {
+                    geomNodes = get(root, geotypes[i]);
+                    if (geomNodes) {
+                        for (j = 0; j < geomNodes.length; j++) {
+                            geomNode = geomNodes[j];
+                            if (geotypes[i] == 'Point') {
+                                geoms.push({
+                                    type: 'Point',
+                                    coordinates: coord1(nodeVal(get1(geomNode, 'coordinates')))
+                                });
+                            } else if (geotypes[i] == 'LineString') {
+                                geoms.push({
+                                    type: 'LineString',
+                                    coordinates: coord(nodeVal(get1(geomNode, 'coordinates')))
+                                });
+                            } else if (geotypes[i] == 'Polygon') {
+                                var rings = get(geomNode, 'LinearRing'),
+                                    coords = [];
+                                for (k = 0; k < rings.length; k++) {
+                                    coords.push(coord(nodeVal(get1(rings[k], 'coordinates'))));
+                                }
+                                geoms.push({
+                                    type: 'Polygon',
+                                    coordinates: coords
+                                });
+                            } else if (geotypes[i] == 'Track') {
+                                geoms.push({
+                                    type: 'LineString',
+                                    coordinates: gxCoords(geomNode)
+                                });
+                            }
+                        }
+                    }
+                }
+                return geoms;
+            }
+            function getPlacemark(root) {
+                var geoms = getGeometry(root), i, properties = {},
+                    name = nodeVal(get1(root, 'name')),
+                    styleUrl = nodeVal(get1(root, 'styleUrl')),
+                    description = nodeVal(get1(root, 'description')),
+                    timeSpan = get1(root, 'TimeSpan'),
+                    extendedData = get1(root, 'ExtendedData');
+
+                if (!geoms.length) return [];
+                if (name) properties.name = name;
+                if (styleUrl && styleIndex[styleUrl]) {
+                    properties.styleUrl = styleUrl;
+                    properties.styleHash = styleIndex[styleUrl];
+                }
+                if (description) properties.description = description;
+                if (timeSpan) {
+                    var begin = nodeVal(get1(timeSpan, 'begin'));
+                    var end = nodeVal(get1(timeSpan, 'end'));
+                    properties.timespan = { begin: begin, end: end };
+                }
+                if (extendedData) {
+                    var datas = get(extendedData, 'Data'),
+                        simpleDatas = get(extendedData, 'SimpleData');
+
+                    for (i = 0; i < datas.length; i++) {
+                        properties[datas[i].getAttribute('name')] = nodeVal(get1(datas[i], 'value'));
+                    }
+                    for (i = 0; i < simpleDatas.length; i++) {
+                        properties[simpleDatas[i].getAttribute('name')] = nodeVal(simpleDatas[i]);
+                    }
+                }
+                return [{
+                    type: 'Feature',
+                    geometry: (geoms.length === 1) ? geoms[0] : {
+                        type: 'GeometryCollection',
+                        geometries: geoms
+                    },
+                    properties: properties
+                }];
+            }
+            return gj;
+        },
+        gpx: function(doc, o) {
+            var i,
+                tracks = get(doc, 'trk'),
+                routes = get(doc, 'rte'),
+                waypoints = get(doc, 'wpt'),
+                // a feature collection
+                gj = fc();
+            for (i = 0; i < tracks.length; i++) {
+                gj.features.push(getLinestring(tracks[i], 'trkpt'));
+            }
+            for (i = 0; i < routes.length; i++) {
+                gj.features.push(getLinestring(routes[i], 'rtept'));
+            }
+            for (i = 0; i < waypoints.length; i++) {
+                gj.features.push(getPoint(waypoints[i]));
+            }
+            function getLinestring(node, pointname) {
+                var j, pts = get(node, pointname), line = [];
+                for (j = 0; j < pts.length; j++) {
+                    line.push(coordPair(pts[j]));
+                }
+                return {
+                    type: 'Feature',
+                    properties: getProperties(node),
+                    geometry: {
+                        type: 'LineString',
+                        coordinates: line
+                    }
+                };
+            }
+            function getPoint(node) {
+                var prop = getProperties(node);
+                prop.sym = nodeVal(get1(node, 'sym'));
+                return {
+                    type: 'Feature',
+                    properties: prop,
+                    geometry: {
+                        type: 'Point',
+                        coordinates: coordPair(node)
+                    }
+                };
+            }
+            function getProperties(node) {
+                var meta = ['name', 'desc', 'author', 'copyright', 'link',
+                            'time', 'keywords'],
+                    prop = {},
+                    k;
+                for (k = 0; k < meta.length; k++) {
+                    prop[meta[k]] = nodeVal(get1(node, meta[k]));
+                }
+                return clean(prop);
+            }
+            return gj;
+        }
+    };
+    return t;
+})();
+
+if (typeof module !== 'undefined') module.exports = toGeoJSON;
+}).call(this,_dereq_("/Users/tmcw/src/leaflet-omnivore/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"))
+},{"/Users/tmcw/src/leaflet-omnivore/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":4,"xmldom":3}],10:[function(_dereq_,module,exports){
+var topojson = module.exports = _dereq_("./topojson");
+topojson.topology = _dereq_("./lib/topojson/topology");
+topojson.simplify = _dereq_("./lib/topojson/simplify");
+topojson.clockwise = _dereq_("./lib/topojson/clockwise");
+topojson.filter = _dereq_("./lib/topojson/filter");
+topojson.prune = _dereq_("./lib/topojson/prune");
+topojson.bind = _dereq_("./lib/topojson/bind");
+
+},{"./lib/topojson/bind":11,"./lib/topojson/clockwise":14,"./lib/topojson/filter":18,"./lib/topojson/prune":21,"./lib/topojson/simplify":23,"./lib/topojson/topology":26,"./topojson":37}],11:[function(_dereq_,module,exports){
+var type = _dereq_("./type"),
+    topojson = _dereq_("../../");
+
+module.exports = function(topology, propertiesById) {
+  var bind = type({
+    geometry: function(geometry) {
+      var properties0 = geometry.properties,
+          properties1 = propertiesById[geometry.id];
+      if (properties1) {
+        if (properties0) for (var k in properties1) properties0[k] = properties1[k];
+        else for (var k in properties1) { geometry.properties = properties1; break; }
+      }
+      this.defaults.geometry.call(this, geometry);
+    },
+    LineString: noop,
+    MultiLineString: noop,
+    Point: noop,
+    MultiPoint: noop,
+    Polygon: noop,
+    MultiPolygon: noop
+  });
+
+  for (var key in topology.objects) {
+    bind.object(topology.objects[key]);
+  }
+};
+
+function noop() {}
+
+},{"../../":10,"./type":36}],12:[function(_dereq_,module,exports){
+
+// Computes the bounding box of the specified hash of GeoJSON objects.
+module.exports = function(objects) {
+  var x0 = Infinity,
+      y0 = Infinity,
+      x1 = -Infinity,
+      y1 = -Infinity;
+
+  function boundGeometry(geometry) {
+    if (geometry && boundGeometryType.hasOwnProperty(geometry.type)) boundGeometryType[geometry.type](geometry);
+  }
+
+  var boundGeometryType = {
+    GeometryCollection: function(o) { o.geometries.forEach(boundGeometry); },
+    Point: function(o) { boundPoint(o.coordinates); },
+    MultiPoint: function(o) { o.coordinates.forEach(boundPoint); },
+    LineString: function(o) { boundLine(o.coordinates); },
+    MultiLineString: function(o) { o.coordinates.forEach(boundLine); },
+    Polygon: function(o) { o.coordinates.forEach(boundLine); },
+    MultiPolygon: function(o) { o.coordinates.forEach(boundMultiLine); }
+  };
+
+  function boundPoint(coordinates) {
+    var x = coordinates[0],
+        y = coordinates[1];
+    if (x < x0) x0 = x;
+    if (x > x1) x1 = x;
+    if (y < y0) y0 = y;
+    if (y > y1) y1 = y;
+  }
+
+  function boundLine(coordinates) {
+    coordinates.forEach(boundPoint);
+  }
+
+  function boundMultiLine(coordinates) {
+    coordinates.forEach(boundLine);
+  }
+
+  for (var key in objects) {
+    boundGeometry(objects[key]);
+  }
+
+  return [x0, y0, x1, y1];
+};
+
+},{}],13:[function(_dereq_,module,exports){
+exports.name = "cartesian";
+exports.formatDistance = formatDistance;
+exports.ringArea = ringArea;
+exports.absoluteArea = Math.abs;
+exports.triangleArea = triangleArea;
+exports.distance = distance;
+
+function formatDistance(d) {
+  return d.toString();
+}
+
+function ringArea(ring) {
+  var i = 0,
+      n = ring.length,
+      area = ring[n - 1][1] * ring[0][0] - ring[n - 1][0] * ring[0][1];
+  while (++i < n) {
+    area += ring[i - 1][1] * ring[i][0] - ring[i - 1][0] * ring[i][1];
+  }
+  return -area * .5; // ensure clockwise pixel areas are positive
+}
+
+function triangleArea(triangle) {
+  return Math.abs(
+    (triangle[0][0] - triangle[2][0]) * (triangle[1][1] - triangle[0][1])
+    - (triangle[0][0] - triangle[1][0]) * (triangle[2][1] - triangle[0][1])
+  );
+}
+
+function distance(x0, y0, x1, y1) {
+  var dx = x0 - x1, dy = y0 - y1;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+},{}],14:[function(_dereq_,module,exports){
+var type = _dereq_("./type"),
+    systems = _dereq_("./coordinate-systems"),
+    topojson = _dereq_("../../");
+
+module.exports = function(object, options) {
+  if (object.type === "Topology") clockwiseTopology(object, options);
+  else clockwiseGeometry(object, options);
+};
+
+function clockwiseGeometry(object, options) {
+  var system = null;
+
+  if (options)
+    "coordinate-system" in options && (system = systems[options["coordinate-system"]]);
+
+  var clockwisePolygon = clockwisePolygonSystem(system.ringArea, reverse);
+
+  type({
+    LineString: noop,
+    MultiLineString: noop,
+    Point: noop,
+    MultiPoint: noop,
+    Polygon: function(polygon) { clockwisePolygon(polygon.coordinates); },
+    MultiPolygon: function(multiPolygon) { multiPolygon.coordinates.forEach(clockwisePolygon); }
+  }).object(object);
+
+  function reverse(array) { array.reverse(); }
+}
+
+function clockwiseTopology(topology, options) {
+  var system = null;
+
+  if (options)
+    "coordinate-system" in options && (system = systems[options["coordinate-system"]]);
+
+  var clockwisePolygon = clockwisePolygonSystem(ringArea, reverse);
+
+  var clockwise = type({
+    LineString: noop,
+    MultiLineString: noop,
+    Point: noop,
+    MultiPoint: noop,
+    Polygon: function(polygon) { clockwisePolygon(polygon.arcs); },
+    MultiPolygon: function(multiPolygon) { multiPolygon.arcs.forEach(clockwisePolygon); }
+  });
+
+  for (var key in topology.objects) {
+    clockwise.object(topology.objects[key]);
+  }
+
+  function ringArea(ring) {
+    return system.ringArea(topojson.feature(topology, {type: "Polygon", arcs: [ring]}).geometry.coordinates[0]);
+  }
+
+  // TODO It might be slightly more compact to reverse the arc.
+  function reverse(ring) {
+    var i = -1, n = ring.length;
+    ring.reverse();
+    while (++i < n) ring[i] = ~ring[i];
+  }
+};
+
+function clockwisePolygonSystem(ringArea, reverse) {
+  return function(rings) {
+    if (!(n = rings.length)) return;
+    var n,
+        areas = new Array(n),
+        max = -Infinity,
+        best,
+        area,
+        t;
+    // Find the largest absolute ring area; this should be the exterior ring.
+    for (var i = 0; i < n; ++i) {
+      var area = Math.abs(areas[i] = ringArea(rings[i]));
+      if (area > max) max = area, best = i;
+    }
+    // Ensure the largest ring appears first.
+    if (best) {
+      t = rings[best], rings[best] = rings[0], rings[0] = t;
+      t = areas[best], areas[best] = areas[0], areas[0] = t;
+    }
+    if (areas[0] < 0) reverse(rings[0]);
+    for (var i = 1; i < n; ++i) {
+      if (areas[i] > 0) reverse(rings[i]);
+    }
+  };
+}
+
+function noop() {}
+
+},{"../../":10,"./coordinate-systems":16,"./type":36}],15:[function(_dereq_,module,exports){
+// Given a hash of GeoJSON objects and an id function, invokes the id function
+// to compute a new id for each object that is a feature. The function is passed
+// the feature and is expected to return the new feature id, or null if the
+// feature should not have an id.
+module.exports = function(objects, id) {
+  if (arguments.length < 2) id = function(d) { return d.id; };
+
+  function idObject(object) {
+    if (object && idObjectType.hasOwnProperty(object.type)) idObjectType[object.type](object);
+  }
+
+  function idFeature(feature) {
+    var i = id(feature);
+    if (i == null) delete feature.id;
+    else feature.id = i;
+  }
+
+  var idObjectType = {
+    Feature: idFeature,
+    FeatureCollection: function(collection) { collection.features.forEach(idFeature); }
+  };
+
+  for (var key in objects) {
+    idObject(objects[key]);
+  }
+
+  return objects;
+};
+
+},{}],16:[function(_dereq_,module,exports){
+module.exports = {
+  cartesian: _dereq_("./cartesian"),
+  spherical: _dereq_("./spherical")
+};
+
+},{"./cartesian":13,"./spherical":24}],17:[function(_dereq_,module,exports){
+// Given a TopoJSON topology in absolute (quantized) coordinates,
+// converts to fixed-point delta encoding.
+// This is a destructive operation that modifies the given topology!
+module.exports = function(topology) {
+  var arcs = topology.arcs,
+      i = -1,
+      n = arcs.length;
+
+  while (++i < n) {
+    var arc = arcs[i],
+        j = 0,
+        m = arc.length,
+        point = arc[0],
+        x0 = point[0],
+        y0 = point[1],
+        x1,
+        y1;
+    while (++j < m) {
+      point = arc[j];
+      x1 = point[0];
+      y1 = point[1];
+      arc[j] = [x1 - x0, y1 - y0];
+      x0 = x1;
+      y0 = y1;
+    }
+  }
+
+  return topology;
+};
+
+},{}],18:[function(_dereq_,module,exports){
+var type = _dereq_("./type"),
+    prune = _dereq_("./prune"),
+    clockwise = _dereq_("./clockwise"),
+    systems = _dereq_("./coordinate-systems"),
+    topojson = _dereq_("../../");
+
+module.exports = function(topology, options) {
+  var system = null,
+      forceClockwise = true, // force exterior rings to be clockwise?
+      minimumArea;
+
+  if (options)
+    "coordinate-system" in options && (system = systems[options["coordinate-system"]]),
+    "minimum-area" in options && (minimumArea = +options["minimum-area"]),
+    "force-clockwise" in options && (forceClockwise = !!options["force-clockwise"]);
+
+  if (forceClockwise) clockwise(topology, options); // deprecated; for backwards-compatibility
+
+  if (!(minimumArea > 0)) minimumArea = Number.MIN_VALUE;
+
+  var filter = type({
+    LineString: noop, // TODO remove empty lines
+    MultiLineString: noop,
+    Point: noop,
+    MultiPoint: noop,
+    Polygon: function(polygon) {
+      polygon.arcs = polygon.arcs.filter(ringArea);
+      if (!polygon.arcs.length) {
+        polygon.type = null;
+        delete polygon.arcs;
+      }
+    },
+    MultiPolygon: function(multiPolygon) {
+      multiPolygon.arcs = multiPolygon.arcs.map(function(polygon) {
+        return polygon.filter(ringArea);
+      }).filter(function(polygon) {
+        return polygon.length;
+      });
+      if (!multiPolygon.arcs.length) {
+        multiPolygon.type = null;
+        delete multiPolygon.arcs;
+      }
+    },
+    GeometryCollection: function(collection) {
+      this.defaults.GeometryCollection.call(this, collection);
+      collection.geometries = collection.geometries.filter(function(geometry) { return geometry.type != null; });
+      if (!collection.geometries.length) {
+        collection.type = null;
+        delete collection.geometries;
+      }
+    }
+  });
+
+  for (var key in topology.objects) {
+    filter.object(topology.objects[key]);
+  }
+
+  prune(topology, options);
+
+  function ringArea(ring) {
+    var topopolygon = {type: "Polygon", arcs: [ring]},
+        geopolygon = topojson.feature(topology, topopolygon),
+        exterior = geopolygon.geometry.coordinates[0],
+        exteriorArea = system.absoluteArea(system.ringArea(exterior));
+    return exteriorArea >= minimumArea;
+  }
+};
+
+function noop() {}
+
+},{"../../":10,"./clockwise":14,"./coordinate-systems":16,"./prune":21,"./type":36}],19:[function(_dereq_,module,exports){
+// Given a hash of GeoJSON objects, replaces Features with geometry objects.
+// This is a destructive operation that modifies the input objects!
+module.exports = function(objects) {
+
+  function geomifyObject(object) {
+    return (object && geomifyObjectType.hasOwnProperty(object.type)
+        ? geomifyObjectType[object.type]
+        : geomifyGeometry)(object);
+  }
+
+  function geomifyFeature(feature) {
+    var geometry = feature.geometry;
+    if (geometry == null) {
+      feature.type = null;
+    } else {
+      geomifyGeometry(geometry);
+      feature.type = geometry.type;
+      if (geometry.geometries) feature.geometries = geometry.geometries;
+      else if (geometry.coordinates) feature.coordinates = geometry.coordinates;
+    }
+    delete feature.geometry;
+    return feature;
+  }
+
+  function geomifyGeometry(geometry) {
+    if (!geometry) return {type: null};
+    if (geomifyGeometryType.hasOwnProperty(geometry.type)) geomifyGeometryType[geometry.type](geometry);
+    return geometry;
+  }
+
+  var geomifyObjectType = {
+    Feature: geomifyFeature,
+    FeatureCollection: function(collection) {
+      collection.type = "GeometryCollection";
+      collection.geometries = collection.features;
+      collection.features.forEach(geomifyFeature);
+      delete collection.features;
+      return collection;
+    }
+  };
+
+  var geomifyGeometryType = {
+    GeometryCollection: function(o) {
+      var geometries = o.geometries, i = -1, n = geometries.length;
+      while (++i < n) geometries[i] = geomifyGeometry(geometries[i]);
+    },
+    MultiPoint: function(o) {
+      if (!o.coordinates.length) {
+        o.type = null;
+        delete o.coordinates;
+      } else if (o.coordinates.length < 2) {
+        o.type = "Point";
+        o.coordinates = o.coordinates[0];
+      }
+    },
+    LineString: function(o) {
+      if (!o.coordinates.length) {
+        o.type = null;
+        delete o.coordinates;
+      }
+    },
+    MultiLineString: function(o) {
+      for (var lines = o.coordinates, i = 0, N = 0, n = lines.length; i < n; ++i) {
+        var line = lines[i];
+        if (line.length) lines[N++] = line;
+      }
+      if (!N) {
+        o.type = null;
+        delete o.coordinates;
+      } else if (N < 2) {
+        o.type = "LineString";
+        o.coordinates = lines[0];
+      } else {
+        o.coordinates.length = N;
+      }
+    },
+    Polygon: function(o) {
+      for (var rings = o.coordinates, i = 0, N = 0, n = rings.length; i < n; ++i) {
+        var ring = rings[i];
+        if (ring.length) rings[N++] = ring;
+      }
+      if (!N) {
+        o.type = null;
+        delete o.coordinates;
+      } else {
+        o.coordinates.length = N;
+      }
+    },
+    MultiPolygon: function(o) {
+      for (var polygons = o.coordinates, j = 0, M = 0, m = polygons.length; j < m; ++j) {
+        for (var rings = polygons[j], i = 0, N = 0, n = rings.length; i < n; ++i) {
+          var ring = rings[i];
+          if (ring.length) rings[N++] = ring;
+        }
+        if (N) {
+          rings.length = N;
+          polygons[M++] = rings;
+        }
+      }
+      if (!M) {
+        o.type = null;
+        delete o.coordinates;
+      } else if (M < 2) {
+        o.type = "Polygon";
+        o.coordinates = polygons[0];
+      } else {
+        polygons.length = M;
+      }
+    }
+  };
+
+  for (var key in objects) {
+    objects[key] = geomifyObject(objects[key]);
+  }
+
+  return objects;
+};
+
+},{}],20:[function(_dereq_,module,exports){
+module.exports = function(objects, filter) {
+
+  function prefilterGeometry(geometry) {
+    if (!geometry) return {type: null};
+    if (prefilterGeometryType.hasOwnProperty(geometry.type)) prefilterGeometryType[geometry.type](geometry);
+    return geometry;
+  }
+
+  var prefilterGeometryType = {
+    GeometryCollection: function(o) {
+      var geometries = o.geometries, i = -1, n = geometries.length;
+      while (++i < n) geometries[i] = prefilterGeometry(geometries[i]);
+    },
+    Polygon: function(o) {
+      for (var rings = o.coordinates, i = 0, N = 0, n = rings.length; i < n; ++i) {
+        var ring = rings[i];
+        if (filter(ring)) rings[N++] = ring;
+      }
+      if (!N) {
+        o.type = null;
+        delete o.coordinates;
+      } else {
+        o.coordinates.length = N;
+      }
+    },
+    MultiPolygon: function(o) {
+      for (var polygons = o.coordinates, j = 0, M = 0, m = polygons.length; j < m; ++j) {
+        for (var rings = polygons[j], i = 0, N = 0, n = rings.length; i < n; ++i) {
+          var ring = rings[i];
+          if (filter(ring)) rings[N++] = ring;
+        }
+        if (N) {
+          rings.length = N;
+          polygons[M++] = rings;
+        }
+      }
+      if (!M) {
+        o.type = null;
+        delete o.coordinates;
+      } else if (M < 2) {
+        o.type = "Polygon";
+        o.coordinates = polygons[0];
+      } else {
+        polygons.length = M;
+      }
+    }
+  };
+
+  for (var key in objects) {
+    objects[key] = prefilterGeometry(objects[key]);
+  }
+
+  return objects;
+};
+
+},{}],21:[function(_dereq_,module,exports){
+module.exports = function(topology, options) {
+  var verbose = false,
+      objects = topology.objects,
+      oldArcs = topology.arcs,
+      oldArcCount = oldArcs.length,
+      newArcs = topology.arcs = [],
+      newArcCount = 0,
+      newIndexByOldIndex = new Array(oldArcs.length);
+
+  if (options)
+    "verbose" in options && (verbose = !!options["verbose"]);
+
+  function pruneGeometry(geometry) {
+    if (geometry && pruneGeometryType.hasOwnProperty(geometry.type)) pruneGeometryType[geometry.type](geometry);
+  }
+
+  var pruneGeometryType = {
+    GeometryCollection: function(o) { o.geometries.forEach(pruneGeometry); },
+    LineString: function(o) { pruneArcs(o.arcs); },
+    MultiLineString: function(o) { o.arcs.forEach(pruneArcs); },
+    Polygon: function(o) { o.arcs.forEach(pruneArcs); },
+    MultiPolygon: function(o) { o.arcs.forEach(pruneMultiArcs); }
+  };
+
+  function pruneArcs(arcs) {
+    for (var i = 0, m = 0, n = arcs.length; i < n; ++i) {
+      var oldIndex = arcs[i],
+          oldReverse = oldIndex < 0 && (oldIndex = ~oldIndex, true),
+          oldArc = oldArcs[oldIndex],
+          newIndex;
+
+      // Skip collapsed arc segments.
+      if (oldArc.length < 3 && !oldArc[1][0] && !oldArc[1][1]) continue;
+
+      // If this is the first instance of this arc,
+      // record it under its new index.
+      if ((newIndex = newIndexByOldIndex[oldIndex]) == null) {
+        newIndexByOldIndex[oldIndex] = newIndex = newArcCount++;
+        newArcs[newIndex] = oldArcs[oldIndex];
+      }
+
+      arcs[m++] = oldReverse ? ~newIndex : newIndex;
+    }
+
+    // If all were collapsed, restore the last arc to avoid collapsing the line.
+    if (!(arcs.length = m) && n) {
+
+      // If this is the first instance of this arc,
+      // record it under its new index.
+      if ((newIndex = newIndexByOldIndex[oldIndex]) == null) {
+        newIndexByOldIndex[oldIndex] = newIndex = newArcCount++;
+        newArcs[newIndex] = oldArcs[oldIndex];
+      }
+
+      arcs[0] = oldReverse ? ~newIndex : newIndex;
+    }
+  }
+
+  function pruneMultiArcs(arcs) {
+    arcs.forEach(pruneArcs);
+  }
+
+  for (var key in objects) {
+    pruneGeometry(objects[key]);
+  }
+
+  if (verbose) console.warn("prune: retained " + newArcCount + " / " + oldArcCount + " arcs (" + Math.round(newArcCount / oldArcCount * 100) + "%)");
+
+  return topology;
+};
+
+function noop() {}
+
+},{}],22:[function(_dereq_,module,exports){
+module.exports = function(objects, bbox, Q) {
+  var x0 = isFinite(bbox[0]) ? bbox[0] : 0,
+      y0 = isFinite(bbox[1]) ? bbox[1] : 0,
+      x1 = isFinite(bbox[2]) ? bbox[2] : 0,
+      y1 = isFinite(bbox[3]) ? bbox[3] : 0,
+      kx = x1 - x0 ? (Q - 1) / (x1 - x0) : 1,
+      ky = y1 - y0 ? (Q - 1) / (y1 - y0) : 1;
+
+  function quantizeGeometry(geometry) {
+    if (geometry && quantizeGeometryType.hasOwnProperty(geometry.type)) quantizeGeometryType[geometry.type](geometry);
+  }
+
+  var quantizeGeometryType = {
+    GeometryCollection: function(o) { o.geometries.forEach(quantizeGeometry); },
+    Point: function(o) { quantizePoint(o.coordinates); },
+    MultiPoint: function(o) { o.coordinates.forEach(quantizePoint); },
+    LineString: function(o) {
+      var line = o.coordinates;
+      quantizeLine(line);
+      if (line.length < 2) line[1] = line[0]; // must have 2+
+    },
+    MultiLineString: function(o) {
+      for (var lines = o.coordinates, i = 0, n = lines.length; i < n; ++i) {
+        var line = lines[i];
+        quantizeLine(line);
+        if (line.length < 2) line[1] = line[0]; // must have 2+
+      }
+    },
+    Polygon: function(o) {
+      for (var rings = o.coordinates, i = 0, n = rings.length; i < n; ++i) {
+        var ring = rings[i];
+        quantizeLine(ring);
+        while (ring.length < 4) ring.push(ring[0]); // must have 4+
+      }
+    },
+    MultiPolygon: function(o) {
+      for (var polygons = o.coordinates, i = 0, n = polygons.length; i < n; ++i) {
+        for (var rings = polygons[i], j = 0, m = rings.length; j < m; ++j) {
+          var ring = rings[j];
+          quantizeLine(ring);
+          while (ring.length < 4) ring.push(ring[0]); // must have 4+
+        }
+      }
+    }
+  };
+
+  function quantizePoint(coordinates) {
+    coordinates[0] = Math.round((coordinates[0] - x0) * kx);
+    coordinates[1] = Math.round((coordinates[1] - y0) * ky);
+  }
+
+  function quantizeLine(coordinates) {
+    var i = 0,
+        j = 1,
+        n = coordinates.length,
+        pi = coordinates[0],
+        pj,
+        px = pi[0] = Math.round((pi[0] - x0) * kx),
+        py = pi[1] = Math.round((pi[1] - y0) * ky),
+        x,
+        y;
+
+    while (++i < n) {
+      pi = coordinates[i];
+      x = Math.round((pi[0] - x0) * kx);
+      y = Math.round((pi[1] - y0) * ky);
+      if (x !== px || y !== py) { // skip coincident points
+        pj = coordinates[j++];
+        pj[0] = px = x;
+        pj[1] = py = y;
+      }
+    }
+
+    coordinates.length = j;
+  }
+
+  for (var key in objects) {
+    quantizeGeometry(objects[key]);
+  }
+
+  return {
+    scale: [1 / kx, 1 / ky],
+    translate: [x0, y0]
+  };
+};
+
+},{}],23:[function(_dereq_,module,exports){
+var topojson = _dereq_("../../"),
+    systems = _dereq_("./coordinate-systems");
+
+module.exports = function(topology, options) {
+  var minimumArea = 0,
+      retainProportion,
+      verbose = false,
+      system = null,
+      N = topology.arcs.reduce(function(p, v) { return p + v.length; }, 0),
+      M = 0;
+
+  if (options)
+    "minimum-area" in options && (minimumArea = +options["minimum-area"]),
+    "coordinate-system" in options && (system = systems[options["coordinate-system"]]),
+    "retain-proportion" in options && (retainProportion = +options["retain-proportion"]),
+    "verbose" in options && (verbose = !!options["verbose"]);
+
+  topojson.presimplify(topology, system.triangleArea);
+
+  if (retainProportion) {
+    var areas = [];
+    topology.arcs.forEach(function(arc) {
+      arc.forEach(function(point) {
+        areas.push(point[2]);
+      });
+    });
+    options["minimum-area"] = minimumArea = N ? areas.sort(function(a, b) { return b - a; })[Math.ceil((N - 1) * retainProportion)] : 0;
+    if (verbose) console.warn("simplification: effective minimum area " + minimumArea.toPrecision(3));
+  }
+
+  topology.arcs.forEach(topology.transform ? function(arc) {
+    var dx = 0,
+        dy = 0, // accumulate removed points
+        i = -1,
+        j = -1,
+        n = arc.length,
+        source,
+        target;
+
+    while (++i < n) {
+      source = arc[i];
+      if (source[2] >= minimumArea) {
+        target = arc[++j];
+        target[0] = source[0] + dx;
+        target[1] = source[1] + dy;
+        dx = dy = 0;
+      } else {
+        dx += source[0];
+        dy += source[1];
+      }
+    }
+
+    arc.length = ++j;
+  } : function(arc) {
+    var i = -1,
+        j = -1,
+        n = arc.length,
+        point;
+
+    while (++i < n) {
+      point = arc[i];
+      if (point[2] >= minimumArea) {
+        arc[++j] = point;
+      }
+    }
+
+    arc.length = ++j;
+  });
+
+  // Remove computed area (z) for each point.
+  // This is done as a separate pass because some coordinates may be shared
+  // between arcs (such as the last point and first point of a cut line).
+  topology.arcs.forEach(function(arc) {
+    var i = -1, n = arc.length;
+    while (++i < n) arc[i].length = 2;
+    M += arc.length;
+  });
+
+  if (verbose) console.warn("simplification: retained " + M + " / " + N + " points (" + Math.round((M / N) * 100) + "%)");
+
+  return topology;
+};
+
+},{"../../":10,"./coordinate-systems":16}],24:[function(_dereq_,module,exports){
+var π = Math.PI,
+    π_4 = π / 4,
+    radians = π / 180;
+
+exports.name = "spherical";
+exports.formatDistance = formatDistance;
+exports.ringArea = ringArea;
+exports.absoluteArea = absoluteArea;
+exports.triangleArea = triangleArea;
+exports.distance = haversinDistance; // XXX why two implementations?
+
+function formatDistance(radians) {
+  var km = radians * 6371;
+  return (km > 1 ? km.toFixed(3) + "km" : (km * 1000).toPrecision(3) + "m")
+      + " (" + (radians * 180 / Math.PI).toPrecision(3) + "°)";
+}
+
+function ringArea(ring) {
+  if (!ring.length) return 0;
+  var area = 0,
+      p = ring[0],
+      λ = p[0] * radians,
+      φ = p[1] * radians / 2 + π_4,
+      λ0 = λ,
+      cosφ0 = Math.cos(φ),
+      sinφ0 = Math.sin(φ);
+
+  for (var i = 1, n = ring.length; i < n; ++i) {
+    p = ring[i], λ = p[0] * radians, φ = p[1] * radians / 2 + π_4;
+
+    // Spherical excess E for a spherical triangle with vertices: south pole,
+    // previous point, current point.  Uses a formula derived from Cagnoli’s
+    // theorem.  See Todhunter, Spherical Trig. (1871), Sec. 103, Eq. (2).
+    var dλ = λ - λ0,
+        cosφ = Math.cos(φ),
+        sinφ = Math.sin(φ),
+        k = sinφ0 * sinφ,
+        u = cosφ0 * cosφ + k * Math.cos(dλ),
+        v = k * Math.sin(dλ);
+    area += Math.atan2(v, u);
+
+    // Advance the previous point.
+    λ0 = λ, cosφ0 = cosφ, sinφ0 = sinφ;
+  }
+
+  return 2 * (area > π ? area - 2 * π : area < -π ? area + 2 * π : area);
+}
+
+function absoluteArea(a) {
+  return a < 0 ? a + 4 * π : a;
+}
+
+function triangleArea(t) {
+  var a = distance(t[0], t[1]),
+      b = distance(t[1], t[2]),
+      c = distance(t[2], t[0]),
+      s = (a + b + c) / 2;
+  return 4 * Math.atan(Math.sqrt(Math.max(0, Math.tan(s / 2) * Math.tan((s - a) / 2) * Math.tan((s - b) / 2) * Math.tan((s - c) / 2))));
+}
+
+function distance(a, b) {
+  var Δλ = (b[0] - a[0]) * radians,
+      sinΔλ = Math.sin(Δλ),
+      cosΔλ = Math.cos(Δλ),
+      sinφ0 = Math.sin(a[1] * radians),
+      cosφ0 = Math.cos(a[1] * radians),
+      sinφ1 = Math.sin(b[1] * radians),
+      cosφ1 = Math.cos(b[1] * radians),
+      _;
+  return Math.atan2(Math.sqrt((_ = cosφ1 * sinΔλ) * _ + (_ = cosφ0 * sinφ1 - sinφ0 * cosφ1 * cosΔλ) * _), sinφ0 * sinφ1 + cosφ0 * cosφ1 * cosΔλ);
+}
+
+function haversinDistance(x0, y0, x1, y1) {
+  x0 *= radians, y0 *= radians, x1 *= radians, y1 *= radians;
+  return 2 * Math.asin(Math.sqrt(haversin(y1 - y0) + Math.cos(y0) * Math.cos(y1) * haversin(x1 - x0)));
+}
+
+function haversin(x) {
+  return (x = Math.sin(x / 2)) * x;
+}
+
+},{}],25:[function(_dereq_,module,exports){
+var type = _dereq_("./type");
+
+module.exports = function(objects, transform) {
+  var ε = 1e-2,
+      x0 = -180, x0e = x0 + ε,
+      x1 = 180, x1e = x1 - ε,
+      y0 = -90, y0e = y0 + ε,
+      y1 = 90, y1e = y1 - ε,
+      fragments = [];
+
+  if (transform) {
+    var kx = transform.scale[0],
+        ky = transform.scale[1],
+        dx = transform.translate[0],
+        dy = transform.translate[1];
+
+    x0 = Math.round((x0 - dx) / kx);
+    x1 = Math.round((x1 - dx) / kx);
+    y0 = Math.round((y0 - dy) / ky);
+    y1 = Math.round((y1 - dy) / ky);
+    x0e = Math.round((x0e - dx) / kx);
+    x1e = Math.round((x1e - dx) / kx);
+    y0e = Math.round((y0e - dy) / ky);
+    y1e = Math.round((y1e - dy) / ky);
+  }
+
+  function normalizePoint(y) {
+    return y <= y0e ? [0, y0] // south pole
+        : y >= y1e ? [0, y1] // north pole
+        : [x0, y]; // antimeridian
+  }
+
+  var stitch = type({
+    polygon: function(polygon) {
+      var rings = [];
+
+      // For each ring, detect where it crosses the antimeridian or pole.
+      for (var j = 0, m = polygon.length; j < m; ++j) {
+        var ring = polygon[j],
+            fragments = [];
+
+        // By default, assume that this ring doesn’t need any stitching.
+        fragments.push(ring);
+
+        for (var i = 0, n = ring.length; i < n; ++i) {
+          var point = ring[i],
+              x = point[0],
+              y = point[1];
+
+          // If this is an antimeridian or polar point…
+          if (x <= x0e || x >= x1e || y <= y0e || y >= y1e) {
+
+            // Advance through any antimeridian or polar points…
+            for (var k = i + 1; k < n; ++k) {
+              var pointk = ring[k],
+                  xk = pointk[0],
+                  yk = pointk[1];
+              if (xk > x0e && xk < x1e && yk > y0e && yk < y1e) break;
+            }
+
+            // If this was just a single antimeridian or polar point,
+            // we don’t need to cut this ring into a fragment;
+            // we can just leave it as-is.
+            if (k === i + 1) continue;
+
+            // Otherwise, if this is not the first point in the ring,
+            // cut the current fragment so that it ends at the current point.
+            // The current point is also normalized for later joining.
+            if (i) {
+              var fragmentBefore = ring.slice(0, i + 1);
+              fragmentBefore[fragmentBefore.length - 1] = normalizePoint(y);
+              fragments[fragments.length - 1] = fragmentBefore;
+            }
+
+            // If the ring started with an antimeridian fragment,
+            // we can ignore that fragment entirely.
+            else {
+              fragments.pop();
+            }
+
+            // If the remainder of the ring is an antimeridian fragment,
+            // move on to the next ring.
+            if (k >= n) break;
+
+            // Otherwise, add the remaining ring fragment and continue.
+            fragments.push(ring = ring.slice(k - 1));
+            ring[0] = normalizePoint(ring[0][1]);
+            i = -1;
+            n = ring.length;
+          }
+        }
+
+        // Now stitch the fragments back together into rings.
+        // To connect the fragments start-to-end, create a simple index by end.
+        var fragmentByStart = {},
+            fragmentByEnd = {};
+
+        // For each fragment…
+        for (var i = 0, n = fragments.length; i < n; ++i) {
+          var fragment = fragments[i],
+              start = fragment[0],
+              end = fragment[fragment.length - 1];
+
+          // If this fragment is closed, add it as a standalone ring.
+          if (start[0] === end[0] && start[1] === end[1]) {
+            rings.push(fragment);
+            fragments[i] = null;
+            continue;
+          }
+
+          fragment.index = i;
+          fragmentByStart[start] = fragmentByEnd[end] = fragment;
+        }
+
+        // For each open fragment…
+        for (var i = 0; i < n; ++i) {
+          var fragment = fragments[i];
+          if (fragment) {
+
+            var start = fragment[0],
+                end = fragment[fragment.length - 1],
+                startFragment = fragmentByEnd[start],
+                endFragment = fragmentByStart[end];
+
+            delete fragmentByStart[start];
+            delete fragmentByEnd[end];
+
+            // If this fragment is closed, add it as a standalone ring.
+            if (start[0] === end[0] && start[1] === end[1]) {
+              rings.push(fragment);
+              continue;
+            }
+
+            if (startFragment) {
+              delete fragmentByEnd[start];
+              delete fragmentByStart[startFragment[0]];
+              startFragment.pop(); // drop the shared coordinate
+              fragments[startFragment.index] = null;
+              fragment = startFragment.concat(fragment);
+
+              if (startFragment === endFragment) {
+                // Connect both ends to this single fragment to create a ring.
+                rings.push(fragment);
+              } else {
+                fragment.index = n++;
+                fragments.push(fragmentByStart[fragment[0]] = fragmentByEnd[fragment[fragment.length - 1]] = fragment);
+              }
+            } else if (endFragment) {
+              delete fragmentByStart[end];
+              delete fragmentByEnd[endFragment[endFragment.length - 1]];
+              fragment.pop(); // drop the shared coordinate
+              fragment = fragment.concat(endFragment);
+              fragment.index = n++;
+              fragments[endFragment.index] = null;
+              fragments.push(fragmentByStart[fragment[0]] = fragmentByEnd[fragment[fragment.length - 1]] = fragment);
+            } else {
+              fragment.push(fragment[0]); // close ring
+              rings.push(fragment);
+            }
+          }
+        }
+      }
+
+      // Copy the rings into the target polygon.
+      for (var i = 0, n = polygon.length = rings.length; i < n; ++i) {
+        polygon[i] = rings[i];
+      }
+    }
+  });
+
+  for (var key in objects) {
+    stitch.object(objects[key]);
+  }
+};
+
+},{"./type":36}],26:[function(_dereq_,module,exports){
+var type = _dereq_("./type"),
+    stitch = _dereq_("./stitch"),
+    systems = _dereq_("./coordinate-systems"),
+    topologize = _dereq_("./topology/index"),
+    delta = _dereq_("./delta"),
+    geomify = _dereq_("./geomify"),
+    prefilter = _dereq_("./prefilter"),
+    quantize = _dereq_("./quantize"),
+    bounds = _dereq_("./bounds"),
+    computeId = _dereq_("./compute-id"),
+    transformProperties = _dereq_("./transform-properties");
+
+var ε = 1e-6;
+
+module.exports = function(objects, options) {
+  var Q = 1e4, // precision of quantization
+      id = function(d) { return d.id; }, // function to compute object id
+      propertyTransform = function() {}, // function to transform properties
+      transform,
+      minimumArea = 0,
+      stitchPoles = true,
+      verbose = false,
+      system = null;
+
+  if (options)
+    "verbose" in options && (verbose = !!options["verbose"]),
+    "stitch-poles" in options && (stitchPoles = !!options["stitch-poles"]),
+    "coordinate-system" in options && (system = systems[options["coordinate-system"]]),
+    "minimum-area" in options && (minimumArea = +options["minimum-area"]),
+    "quantization" in options && (Q = +options["quantization"]),
+    "id" in options && (id = options["id"]),
+    "property-transform" in options && (propertyTransform = options["property-transform"]);
+
+  // Compute the new feature id and transform properties.
+  computeId(objects, id);
+  transformProperties(objects, propertyTransform);
+
+  // Convert to geometry objects.
+  geomify(objects);
+
+  // Compute initial bounding box.
+  var bbox = bounds(objects);
+
+  // For automatic coordinate system determination, consider the bounding box.
+  var oversize = bbox[0] < -180 - ε
+      || bbox[1] < -90 - ε
+      || bbox[2] > 180 + ε
+      || bbox[3] > 90 + ε;
+  if (!system) {
+    system = systems[oversize ? "cartesian" : "spherical"];
+    if (options) options["coordinate-system"] = system.name;
+  }
+
+  if (system === systems.spherical) {
+    if (oversize) throw new Error("spherical coordinates outside of [±180°, ±90°]");
+
+    // When near the spherical coordinate limits, clamp to nice round values.
+    // This avoids quantized coordinates that are slightly outside the limits.
+    if (bbox[0] < -180 + ε) bbox[0] = -180;
+    if (bbox[1] < -90 + ε) bbox[1] = -90;
+    if (bbox[2] > 180 - ε) bbox[2] = 180;
+    if (bbox[3] > 90 - ε) bbox[3] = 90;
+  }
+
+  if (verbose) {
+    console.warn("bounds: " + bbox.join(" ") + " (" + system.name + ")");
+  }
+
+  // Filter rings smaller than the minimum area.
+  // This can produce a simpler topology.
+  if (minimumArea) prefilter(objects, function(ring) {
+    return system.absoluteArea(system.ringArea(ring)) >= minimumArea;
+  });
+
+  // Compute the quantization transform.
+  if (Q) {
+    transform = quantize(objects, bbox, Q);
+    if (verbose) {
+      console.warn("quantization: " + transform.scale.map(function(degrees) { return system.formatDistance(degrees / 180 * Math.PI); }).join(" "));
+    }
+  }
+
+  // Remove any antimeridian cuts and restitch.
+  if (system === systems.spherical && stitchPoles) {
+    stitch(objects, transform);
+  }
+
+  // Compute the topology.
+  var topology = topologize(objects);
+  topology.bbox = bbox;
+
+  if (verbose) {
+    console.warn("topology: " + topology.arcs.length + " arcs, " + topology.arcs.reduce(function(p, v) { return p + v.length; }, 0) + " points");
+  }
+
+  // Convert to delta-encoding.
+  if (Q) topology.transform = transform, delta(topology);
+
+  return topology;
+};
+
+},{"./bounds":12,"./compute-id":15,"./coordinate-systems":16,"./delta":17,"./geomify":19,"./prefilter":20,"./quantize":22,"./stitch":25,"./topology/index":31,"./transform-properties":35,"./type":36}],27:[function(_dereq_,module,exports){
+var join = _dereq_("./join");
+
+// Given an extracted (pre-)topology, cuts (or rotates) arcs so that all shared
+// point sequences are identified. The topology can then be subsequently deduped
+// to remove exact duplicate arcs.
+module.exports = function(topology) {
+  var junctionByPoint = join(topology),
+      coordinates = topology.coordinates,
+      lines = topology.lines,
+      rings = topology.rings;
+
+  for (var i = 0, n = lines.length; i < n; ++i) {
+    var line = lines[i],
+        lineMid = line[0],
+        lineEnd = line[1];
+    while (++lineMid < lineEnd) {
+      if (junctionByPoint.get(coordinates[lineMid])) {
+        var next = {0: lineMid, 1: line[1]};
+        line[1] = lineMid;
+        line = line.next = next;
+      }
+    }
+  }
+
+  for (var i = 0, n = rings.length; i < n; ++i) {
+    var ring = rings[i],
+        ringStart = ring[0],
+        ringMid = ringStart,
+        ringEnd = ring[1],
+        ringFixed = junctionByPoint.get(coordinates[ringStart]);
+    while (++ringMid < ringEnd) {
+      if (junctionByPoint.get(coordinates[ringMid])) {
+        if (ringFixed) {
+          var next = {0: ringMid, 1: ring[1]};
+          ring[1] = ringMid;
+          ring = ring.next = next;
+        } else { // For the first junction, we can rotate rather than cut.
+          rotateArray(coordinates, ringStart, ringEnd, ringEnd - ringMid);
+          coordinates[ringEnd] = coordinates[ringStart];
+          ringFixed = true;
+          ringMid = ringStart; // restart; we may have skipped junctions
+        }
+      }
+    }
+  }
+
+  return topology;
+};
+
+function rotateArray(array, start, end, offset) {
+  reverse(array, start, end);
+  reverse(array, start, start + offset);
+  reverse(array, start + offset, end);
+}
+
+function reverse(array, start, end) {
+  for (var mid = start + ((end-- - start) >> 1), t; start < mid; ++start, --end) {
+    t = array[start], array[start] = array[end], array[end] = t;
+  }
+}
+
+},{"./join":32}],28:[function(_dereq_,module,exports){
+var join = _dereq_("./join"),
+    hashtable = _dereq_("./hashtable"),
+    hashPoint = _dereq_("./point-hash"),
+    equalPoint = _dereq_("./point-equal");
+
+// Given a cut topology, combines duplicate arcs.
+module.exports = function(topology) {
+  var coordinates = topology.coordinates,
+      lines = topology.lines,
+      rings = topology.rings,
+      arcCount = lines.length + rings.length;
+
+  delete topology.lines;
+  delete topology.rings;
+
+  // Count the number of (non-unique) arcs to initialize the hashtable safely.
+  for (var i = 0, n = lines.length; i < n; ++i) {
+    var line = lines[i]; while (line = line.next) ++arcCount;
+  }
+  for (var i = 0, n = rings.length; i < n; ++i) {
+    var ring = rings[i]; while (ring = ring.next) ++arcCount;
+  }
+
+  var arcsByEnd = hashtable(arcCount * 2, hashPoint, equalPoint),
+      arcs = topology.arcs = [];
+
+  for (var i = 0, n = lines.length; i < n; ++i) {
+    var line = lines[i];
+    do {
+      dedupLine(line);
+    } while (line = line.next);
+  }
+
+  for (var i = 0, n = rings.length; i < n; ++i) {
+    var ring = rings[i];
+    if (ring.next) { // arc is no longer closed
+      do {
+        dedupLine(ring);
+      } while (ring = ring.next);
+    } else {
+      dedupRing(ring);
+    }
+  }
+
+  function dedupLine(arc) {
+    var startPoint,
+        endPoint,
+        startArcs,
+        endArcs;
+
+    // Does this arc match an existing arc in order?
+    if (startArcs = arcsByEnd.get(startPoint = coordinates[arc[0]])) {
+      for (var i = 0, n = startArcs.length; i < n; ++i) {
+        var startArc = startArcs[i];
+        if (equalLine(startArc, arc)) {
+          arc[0] = startArc[0];
+          arc[1] = startArc[1];
+          return;
+        }
+      }
+    }
+
+    // Does this arc match an existing arc in reverse order?
+    if (endArcs = arcsByEnd.get(endPoint = coordinates[arc[1]])) {
+      for (var i = 0, n = endArcs.length; i < n; ++i) {
+        var endArc = endArcs[i];
+        if (reverseEqualLine(endArc, arc)) {
+          arc[1] = endArc[0];
+          arc[0] = endArc[1];
+          return;
+        }
+      }
+    }
+
+    if (startArcs) startArcs.push(arc); else arcsByEnd.set(startPoint, [arc]);
+    if (endArcs) endArcs.push(arc); else arcsByEnd.set(endPoint, [arc]);
+    arcs.push(arc);
+  }
+
+  function dedupRing(arc) {
+    var endPoint,
+        endArcs;
+
+    // Does this arc match an existing line in order, or reverse order?
+    // Rings are closed, so their start point and end point is the same.
+    if (endArcs = arcsByEnd.get(endPoint = coordinates[arc[0]])) {
+      for (var i = 0, n = endArcs.length; i < n; ++i) {
+        var endArc = endArcs[i];
+        if (equalRing(endArc, arc)) {
+          arc[0] = endArc[0];
+          arc[1] = endArc[1];
+          return;
+        }
+        if (reverseEqualRing(endArc, arc)) {
+          arc[0] = endArc[1];
+          arc[1] = endArc[0];
+          return;
+        }
+      }
+    }
+
+    // Otherwise, does this arc match an existing ring in order, or reverse order?
+    if (endArcs = arcsByEnd.get(endPoint = coordinates[arc[0] + findMinimumOffset(arc)])) {
+      for (var i = 0, n = endArcs.length; i < n; ++i) {
+        var endArc = endArcs[i];
+        if (equalRing(endArc, arc)) {
+          arc[0] = endArc[0];
+          arc[1] = endArc[1];
+          return;
+        }
+        if (reverseEqualRing(endArc, arc)) {
+          arc[0] = endArc[1];
+          arc[1] = endArc[0];
+          return;
+        }
+      }
+    }
+
+    if (endArcs) endArcs.push(arc); else arcsByEnd.set(endPoint, [arc]);
+    arcs.push(arc);
+  }
+
+  function equalLine(arcA, arcB) {
+    var ia = arcA[0], ib = arcB[0],
+        ja = arcA[1], jb = arcB[1];
+    if (ia - ja !== ib - jb) return false;
+    for (; ia <= ja; ++ia, ++ib) if (!equalPoint(coordinates[ia], coordinates[ib])) return false;
+    return true;
+  }
+
+  function reverseEqualLine(arcA, arcB) {
+    var ia = arcA[0], ib = arcB[0],
+        ja = arcA[1], jb = arcB[1];
+    if (ia - ja !== ib - jb) return false;
+    for (; ia <= ja; ++ia, --jb) if (!equalPoint(coordinates[ia], coordinates[jb])) return false;
+    return true;
+  }
+
+  function equalRing(arcA, arcB) {
+    var ia = arcA[0], ib = arcB[0],
+        ja = arcA[1], jb = arcB[1],
+        n = ja - ia;
+    if (n !== jb - ib) return false;
+    var ka = findMinimumOffset(arcA),
+        kb = findMinimumOffset(arcB);
+    for (var i = 0; i < n; ++i) {
+      if (!equalPoint(coordinates[ia + (i + ka) % n], coordinates[ib + (i + kb) % n])) return false;
+    }
+    return true;
+  }
+
+  function reverseEqualRing(arcA, arcB) {
+    var ia = arcA[0], ib = arcB[0],
+        ja = arcA[1], jb = arcB[1],
+        n = ja - ia;
+    if (n !== jb - ib) return false;
+    var ka = findMinimumOffset(arcA),
+        kb = n - findMinimumOffset(arcB);
+    for (var i = 0; i < n; ++i) {
+      if (!equalPoint(coordinates[ia + (i + ka) % n], coordinates[jb - (i + kb) % n])) return false;
+    }
+    return true;
+  }
+
+  // Rings are rotated to a consistent, but arbitrary, start point.
+  // This is necessary to detect when a ring and a rotated copy are dupes.
+  function findMinimumOffset(arc) {
+    var start = arc[0],
+        end = arc[1],
+        mid = start,
+        minimum = mid,
+        minimumPoint = coordinates[mid];
+    while (++mid < end) {
+      var point = coordinates[mid];
+      if (point[0] < minimumPoint[0] || point[0] === minimumPoint[0] && point[1] < minimumPoint[1]) {
+        minimum = mid;
+        minimumPoint = point;
+      }
+    }
+    return minimum - start;
+  }
+
+  return topology;
+};
+
+},{"./hashtable":30,"./join":32,"./point-equal":33,"./point-hash":34}],29:[function(_dereq_,module,exports){
+// Extracts the lines and rings from the specified hash of geometry objects.
+//
+// Returns an object with three properties:
+//
+// * coordinates - shared buffer of [x, y] coordinates
+// * lines - lines extracted from the hash, of the form [start, end]
+// * rings - rings extracted from the hash, of the form [start, end]
+//
+// For each ring or line, start and end represent inclusive indexes into the
+// coordinates buffer. For rings (and closed lines), coordinates[start] equals
+// coordinates[end].
+//
+// For each line or polygon geometry in the input hash, including nested
+// geometries as in geometry collections, the `coordinates` array is replaced
+// with an equivalent `arcs` array that, for each line (for line string
+// geometries) or ring (for polygon geometries), points to one of the above
+// lines or rings.
+module.exports = function(objects) {
+  var index = -1,
+      lines = [],
+      rings = [],
+      coordinates = [];
+
+  function extractGeometry(geometry) {
+    if (geometry && extractGeometryType.hasOwnProperty(geometry.type)) extractGeometryType[geometry.type](geometry);
+  }
+
+  var extractGeometryType = {
+    GeometryCollection: function(o) { o.geometries.forEach(extractGeometry); },
+    LineString: function(o) { o.arcs = extractLine(o.coordinates); delete o.coordinates; },
+    MultiLineString: function(o) { o.arcs = o.coordinates.map(extractLine); delete o.coordinates; },
+    Polygon: function(o) { o.arcs = o.coordinates.map(extractRing); delete o.coordinates; },
+    MultiPolygon: function(o) { o.arcs = o.coordinates.map(extractMultiRing); delete o.coordinates; }
+  };
+
+  function extractLine(line) {
+    for (var i = 0, n = line.length; i < n; ++i) coordinates[++index] = line[i];
+    var arc = {0: index - n + 1, 1: index};
+    lines.push(arc);
+    return arc;
+  }
+
+  function extractRing(ring) {
+    for (var i = 0, n = ring.length; i < n; ++i) coordinates[++index] = ring[i];
+    var arc = {0: index - n + 1, 1: index};
+    rings.push(arc);
+    return arc;
+  }
+
+  function extractMultiRing(rings) {
+    return rings.map(extractRing);
+  }
+
+  for (var key in objects) {
+    extractGeometry(objects[key]);
+  }
+
+  return {
+    type: "Topology",
+    coordinates: coordinates,
+    lines: lines,
+    rings: rings,
+    objects: objects
+  };
+};
+
+},{}],30:[function(_dereq_,module,exports){
+module.exports = function(size, hash, equal) {
+  var hashtable = new Array(size = 1 << Math.ceil(Math.log(size) / Math.LN2)),
+      mask = size - 1,
+      free = size;
+
+  function set(key, value) {
+    var index = hash(key) & mask,
+        match = hashtable[index],
+        cycle = !index;
+    while (match != null) {
+      if (equal(match.key, key)) return match.value = value;
+      match = hashtable[index = (index + 1) & mask];
+      if (!index && cycle++) throw new Error("full hashtable");
+    }
+    hashtable[index] = {key: key, value: value};
+    --free;
+    return value;
+  }
+
+  function get(key, missingValue) {
+    var index = hash(key) & mask,
+        match = hashtable[index],
+        cycle = !index;
+    while (match != null) {
+      if (equal(match.key, key)) return match.value;
+      match = hashtable[index = (index + 1) & mask];
+      if (!index && cycle++) break;
+    }
+    return missingValue;
+  }
+
+  function remove(key) {
+    var index = hash(key) & mask,
+        match = hashtable[index],
+        cycle = !index;
+    while (match != null) {
+      if (equal(match.key, key)) {
+        hashtable[index] = null;
+        match = hashtable[index = (index + 1) & mask];
+        if (match != null) { // delete and re-add
+          ++free;
+          hashtable[index] = null;
+          set(match.key, match.value);
+        }
+        ++free;
+        return true;
+      }
+      match = hashtable[index = (index + 1) & mask];
+      if (!index && cycle++) break;
+    }
+    return false;
+  }
+
+  function keys() {
+    var keys = [];
+    for (var i = 0, n = hashtable.length; i < n; ++i) {
+      var match = hashtable[i];
+      if (match != null) keys.push(match.key);
+    }
+    return keys;
+  }
+
+  return {
+    set: set,
+    get: get,
+    remove: remove,
+    keys: keys
+  };
+};
+
+},{}],31:[function(_dereq_,module,exports){
+var hashtable = _dereq_("./hashtable"),
+    extract = _dereq_("./extract"),
+    cut = _dereq_("./cut"),
+    dedup = _dereq_("./dedup");
+
+// Constructs the TopoJSON Topology for the specified hash of geometries.
+// Each object in the specified hash must be a GeoJSON object,
+// meaning FeatureCollection, a Feature or a geometry object.
+module.exports = function(objects) {
+  var topology = dedup(cut(extract(objects))),
+      coordinates = topology.coordinates,
+      indexByArc = hashtable(topology.arcs.length, hashArc, equalArc);
+
+  objects = topology.objects; // for garbage collection
+
+  topology.arcs = topology.arcs.map(function(arc, i) {
+    indexByArc.set(arc, i);
+    return coordinates.slice(arc[0], arc[1] + 1);
+  });
+
+  delete topology.coordinates;
+  coordinates = null;
+
+  function indexGeometry(geometry) {
+    if (geometry && indexGeometryType.hasOwnProperty(geometry.type)) indexGeometryType[geometry.type](geometry);
+  }
+
+  var indexGeometryType = {
+    GeometryCollection: function(o) { o.geometries.forEach(indexGeometry); },
+    LineString: function(o) { o.arcs = indexArcs(o.arcs); },
+    MultiLineString: function(o) { o.arcs = o.arcs.map(indexArcs); },
+    Polygon: function(o) { o.arcs = o.arcs.map(indexArcs); },
+    MultiPolygon: function(o) { o.arcs = o.arcs.map(indexMultiArcs); }
+  };
+
+  function indexArcs(arc) {
+    var indexes = [];
+    do {
+      var index = indexByArc.get(arc);
+      indexes.push(arc[0] < arc[1] ? index : ~index);
+    } while (arc = arc.next);
+    return indexes;
+  }
+
+  function indexMultiArcs(arcs) {
+    return arcs.map(indexArcs);
+  }
+
+  for (var key in objects) {
+    indexGeometry(objects[key]);
+  }
+
+  return topology;
+};
+
+function hashArc(arc) {
+  var i = arc[0], j = arc[1], t;
+  if (j < i) t = i, i = j, j = t;
+  return i + 31 * j;
+}
+
+function equalArc(arcA, arcB) {
+  var ia = arcA[0], ja = arcA[1],
+      ib = arcB[0], jb = arcB[1], t;
+  if (ja < ia) t = ia, ia = ja, ja = t;
+  if (jb < ib) t = ib, ib = jb, jb = t;
+  return ia === ib && ja === jb;
+}
+
+},{"./cut":27,"./dedup":28,"./extract":29,"./hashtable":30}],32:[function(_dereq_,module,exports){
+var hashtable = _dereq_("./hashtable"),
+    hashPoint = _dereq_("./point-hash"),
+    equalPoint = _dereq_("./point-equal");
+
+// Given an extracted (pre-)topology, identifies all of the junctions. These are
+// the points at which arcs (lines or rings) will need to be cut so that each
+// arc is represented uniquely.
+//
+// A junction is a point where at least one arc deviates from another arc going
+// through the same point. For example, consider the point B. If there is a arc
+// through ABC and another arc through CBA, then B is not a junction because in
+// both cases the adjacent point pairs are {A,C}. However, if there is an
+// additional arc ABD, then {A,D} != {A,C}, and thus B becomes a junction.
+//
+// For a closed ring ABCA, the first point A’s adjacent points are the second
+// and last point {B,C}. For a line, the first and last point are always
+// considered junctions, even if the line is closed; this ensures that a closed
+// line is never rotated.
+module.exports = function(topology) {
+  var coordinates = topology.coordinates,
+      lines = topology.lines,
+      rings = topology.rings,
+      visitedByPoint,
+      neighborsByPoint = hashtable(coordinates.length, hashPoint, equalPoint),
+      junctionByPoint = hashtable(coordinates.length, hashPoint, equalPoint);
+
+  for (var i = 0, n = lines.length; i < n; ++i) {
+    var line = lines[i],
+        lineStart = line[0],
+        lineEnd = line[1],
+        previousPoint = null,
+        currentPoint = coordinates[lineStart],
+        nextPoint = coordinates[++lineStart];
+    visitedByPoint = hashtable(lineEnd - lineStart, hashPoint, equalPoint);
+    junctionByPoint.set(currentPoint, true); // start
+    while (++lineStart <= lineEnd) {
+      sequence(previousPoint = currentPoint, currentPoint = nextPoint, nextPoint = coordinates[lineStart]);
+    }
+    junctionByPoint.set(nextPoint, true); // end
+  }
+
+  for (var i = 0, n = rings.length; i < n; ++i) {
+    var ring = rings[i],
+        ringStart = ring[0] + 1,
+        ringEnd = ring[1],
+        previousPoint = coordinates[ringEnd - 1],
+        currentPoint = coordinates[ringStart - 1],
+        nextPoint = coordinates[ringStart];
+    visitedByPoint = hashtable(ringEnd - ringStart + 1, hashPoint, equalPoint);
+    sequence(previousPoint, currentPoint, nextPoint);
+    while (++ringStart <= ringEnd) {
+      sequence(previousPoint = currentPoint, currentPoint = nextPoint, nextPoint = coordinates[ringStart]);
+    }
+  }
+
+  function sequence(previousPoint, currentPoint, nextPoint) {
+    if (visitedByPoint.get(currentPoint)) return; // ignore self-intersection
+    visitedByPoint.set(currentPoint, true);
+    var neighbors = neighborsByPoint.get(currentPoint);
+    if (neighbors) {
+      if (!(equalPoint(neighbors[0], previousPoint)
+        && equalPoint(neighbors[1], nextPoint))
+        && !(equalPoint(neighbors[0], nextPoint)
+        && equalPoint(neighbors[1], previousPoint))) {
+        junctionByPoint.set(currentPoint, true);
+      }
+    } else {
+      neighborsByPoint.set(currentPoint, [previousPoint, nextPoint]);
+    }
+  }
+
+  return junctionByPoint;
+};
+
+},{"./hashtable":30,"./point-equal":33,"./point-hash":34}],33:[function(_dereq_,module,exports){
+module.exports = function(pointA, pointB) {
+  return pointA[0] === pointB[0] && pointA[1] === pointB[1];
+};
+
+},{}],34:[function(_dereq_,module,exports){
+// TODO if quantized, use simpler Int32 hashing?
+
+var hashBuffer = new ArrayBuffer(8),
+    hashFloats = new Float64Array(hashBuffer),
+    hashInts = new Int32Array(hashBuffer);
+
+function hashFloat(x) {
+  hashFloats[0] = x;
+  x = hashInts[1] ^ hashInts[0];
+  x ^= (x >>> 20) ^ (x >>> 12);
+  x ^= (x >>> 7) ^ (x >>> 4);
+  return x;
+}
+
+module.exports = function(point) {
+  var h = (hashFloat(point[0]) + 31 * hashFloat(point[1])) | 0;
+  return h < 0 ? ~h : h;
+};
+
+},{}],35:[function(_dereq_,module,exports){
+// Given a hash of GeoJSON objects, transforms any properties on features using
+// the specified transform function. The function is invoked for each existing
+// property on the current feature, being passed the new properties hash, the
+// property name, and the property value. The function is then expected to
+// assign a new value to the given property hash if the feature is to be
+// retained and return true. Or, to skip the property, do nothing and return
+// false. If no properties are propagated to the new properties hash, the
+// properties hash will be deleted from the current feature.
+module.exports = function(objects, propertyTransform) {
+  if (arguments.length < 2) propertyTransform = function() {};
+
+  function transformObject(object) {
+    if (object && transformObjectType.hasOwnProperty(object.type)) transformObjectType[object.type](object);
+  }
+
+  function transformFeature(feature) {
+    if (feature.properties) {
+      var properties0 = feature.properties,
+          properties1 = {},
+          empty = true;
+
+      for (var key0 in properties0) {
+        if (propertyTransform(properties1, key0, properties0[key0])) {
+          empty = false;
+        }
+      }
+
+      if (empty) delete feature.properties;
+      else feature.properties = properties1;
+    }
+  }
+
+  var transformObjectType = {
+    Feature: transformFeature,
+    FeatureCollection: function(collection) { collection.features.forEach(transformFeature); }
+  };
+
+  for (var key in objects) {
+    transformObject(objects[key]);
+  }
+
+  return objects;
+};
+
+},{}],36:[function(_dereq_,module,exports){
+module.exports = function(types) {
+  for (var type in typeDefaults) {
+    if (!(type in types)) {
+      types[type] = typeDefaults[type];
+    }
+  }
+  types.defaults = typeDefaults;
+  return types;
+};
+
+var typeDefaults = {
+
+  Feature: function(feature) {
+    if (feature.geometry) this.geometry(feature.geometry);
+  },
+
+  FeatureCollection: function(collection) {
+    var features = collection.features, i = -1, n = features.length;
+    while (++i < n) this.Feature(features[i]);
+  },
+
+  GeometryCollection: function(collection) {
+    var geometries = collection.geometries, i = -1, n = geometries.length;
+    while (++i < n) this.geometry(geometries[i]);
+  },
+
+  LineString: function(lineString) {
+    this.line(lineString.coordinates);
+  },
+
+  MultiLineString: function(multiLineString) {
+    var coordinates = multiLineString.coordinates, i = -1, n = coordinates.length;
+    while (++i < n) this.line(coordinates[i]);
+  },
+
+  MultiPoint: function(multiPoint) {
+    var coordinates = multiPoint.coordinates, i = -1, n = coordinates.length;
+    while (++i < n) this.point(coordinates[i]);
+  },
+
+  MultiPolygon: function(multiPolygon) {
+    var coordinates = multiPolygon.coordinates, i = -1, n = coordinates.length;
+    while (++i < n) this.polygon(coordinates[i]);
+  },
+
+  Point: function(point) {
+    this.point(point.coordinates);
+  },
+
+  Polygon: function(polygon) {
+    this.polygon(polygon.coordinates);
+  },
+
+  object: function(object) {
+    return object == null ? null
+        : typeObjects.hasOwnProperty(object.type) ? this[object.type](object)
+        : this.geometry(object);
+  },
+
+  geometry: function(geometry) {
+    return geometry == null ? null
+        : typeGeometries.hasOwnProperty(geometry.type) ? this[geometry.type](geometry)
+        : null;
+  },
+
+  point: function() {},
+
+  line: function(coordinates) {
+    var i = -1, n = coordinates.length;
+    while (++i < n) this.point(coordinates[i]);
+  },
+
+  polygon: function(coordinates) {
+    var i = -1, n = coordinates.length;
+    while (++i < n) this.line(coordinates[i]);
+  }
+};
+
+var typeGeometries = {
+  LineString: 1,
+  MultiLineString: 1,
+  MultiPoint: 1,
+  MultiPolygon: 1,
+  Point: 1,
+  Polygon: 1,
+  GeometryCollection: 1
+};
+
+var typeObjects = {
+  Feature: 1,
+  FeatureCollection: 1
+};
+
+},{}],37:[function(_dereq_,module,exports){
+!function() {
+  var topojson = {
+    version: "1.4.6",
+    mesh: mesh,
+    feature: featureOrCollection,
+    neighbors: neighbors,
+    presimplify: presimplify
+  };
+
+  function merge(topology, arcs) {
+    var fragmentByStart = {},
+        fragmentByEnd = {};
+
+    arcs.forEach(function(i) {
+      var e = ends(i),
+          start = e[0],
+          end = e[1],
+          f, g;
+
+      if (f = fragmentByEnd[start]) {
+        delete fragmentByEnd[f.end];
+        f.push(i);
+        f.end = end;
+        if (g = fragmentByStart[end]) {
+          delete fragmentByStart[g.start];
+          var fg = g === f ? f : f.concat(g);
+          fragmentByStart[fg.start = f.start] = fragmentByEnd[fg.end = g.end] = fg;
+        } else if (g = fragmentByEnd[end]) {
+          delete fragmentByStart[g.start];
+          delete fragmentByEnd[g.end];
+          var fg = f.concat(g.map(function(i) { return ~i; }).reverse());
+          fragmentByStart[fg.start = f.start] = fragmentByEnd[fg.end = g.start] = fg;
+        } else {
+          fragmentByStart[f.start] = fragmentByEnd[f.end] = f;
+        }
+      } else if (f = fragmentByStart[end]) {
+        delete fragmentByStart[f.start];
+        f.unshift(i);
+        f.start = start;
+        if (g = fragmentByEnd[start]) {
+          delete fragmentByEnd[g.end];
+          var gf = g === f ? f : g.concat(f);
+          fragmentByStart[gf.start = g.start] = fragmentByEnd[gf.end = f.end] = gf;
+        } else if (g = fragmentByStart[start]) {
+          delete fragmentByStart[g.start];
+          delete fragmentByEnd[g.end];
+          var gf = g.map(function(i) { return ~i; }).reverse().concat(f);
+          fragmentByStart[gf.start = g.end] = fragmentByEnd[gf.end = f.end] = gf;
+        } else {
+          fragmentByStart[f.start] = fragmentByEnd[f.end] = f;
+        }
+      } else if (f = fragmentByStart[start]) {
+        delete fragmentByStart[f.start];
+        f.unshift(~i);
+        f.start = end;
+        if (g = fragmentByEnd[end]) {
+          delete fragmentByEnd[g.end];
+          var gf = g === f ? f : g.concat(f);
+          fragmentByStart[gf.start = g.start] = fragmentByEnd[gf.end = f.end] = gf;
+        } else if (g = fragmentByStart[end]) {
+          delete fragmentByStart[g.start];
+          delete fragmentByEnd[g.end];
+          var gf = g.map(function(i) { return ~i; }).reverse().concat(f);
+          fragmentByStart[gf.start = g.end] = fragmentByEnd[gf.end = f.end] = gf;
+        } else {
+          fragmentByStart[f.start] = fragmentByEnd[f.end] = f;
+        }
+      } else if (f = fragmentByEnd[end]) {
+        delete fragmentByEnd[f.end];
+        f.push(~i);
+        f.end = start;
+        if (g = fragmentByEnd[start]) {
+          delete fragmentByStart[g.start];
+          var fg = g === f ? f : f.concat(g);
+          fragmentByStart[fg.start = f.start] = fragmentByEnd[fg.end = g.end] = fg;
+        } else if (g = fragmentByStart[start]) {
+          delete fragmentByStart[g.start];
+          delete fragmentByEnd[g.end];
+          var fg = f.concat(g.map(function(i) { return ~i; }).reverse());
+          fragmentByStart[fg.start = f.start] = fragmentByEnd[fg.end = g.start] = fg;
+        } else {
+          fragmentByStart[f.start] = fragmentByEnd[f.end] = f;
+        }
+      } else {
+        f = [i];
+        fragmentByStart[f.start = start] = fragmentByEnd[f.end = end] = f;
+      }
+    });
+
+    function ends(i) {
+      var arc = topology.arcs[i], p0 = arc[0], p1 = [0, 0];
+      arc.forEach(function(dp) { p1[0] += dp[0], p1[1] += dp[1]; });
+      return [p0, p1];
+    }
+
+    var fragments = [];
+    for (var k in fragmentByEnd) fragments.push(fragmentByEnd[k]);
+    return fragments;
+  }
+
+  function mesh(topology, o, filter) {
+    var arcs = [];
+
+    if (arguments.length > 1) {
+      var geomsByArc = [],
+          geom;
+
+      function arc(i) {
+        if (i < 0) i = ~i;
+        (geomsByArc[i] || (geomsByArc[i] = [])).push(geom);
+      }
+
+      function line(arcs) {
+        arcs.forEach(arc);
+      }
+
+      function polygon(arcs) {
+        arcs.forEach(line);
+      }
+
+      function geometry(o) {
+        if (o.type === "GeometryCollection") o.geometries.forEach(geometry);
+        else if (o.type in geometryType) {
+          geom = o;
+          geometryType[o.type](o.arcs);
+        }
+      }
+
+      var geometryType = {
+        LineString: line,
+        MultiLineString: polygon,
+        Polygon: polygon,
+        MultiPolygon: function(arcs) { arcs.forEach(polygon); }
+      };
+
+      geometry(o);
+
+      geomsByArc.forEach(arguments.length < 3
+          ? function(geoms, i) { arcs.push(i); }
+          : function(geoms, i) { if (filter(geoms[0], geoms[geoms.length - 1])) arcs.push(i); });
+    } else {
+      for (var i = 0, n = topology.arcs.length; i < n; ++i) arcs.push(i);
+    }
+
+    return object(topology, {type: "MultiLineString", arcs: merge(topology, arcs)});
+  }
+
+  function featureOrCollection(topology, o) {
+    return o.type === "GeometryCollection" ? {
+      type: "FeatureCollection",
+      features: o.geometries.map(function(o) { return feature(topology, o); })
+    } : feature(topology, o);
+  }
+
+  function feature(topology, o) {
+    var f = {
+      type: "Feature",
+      id: o.id,
+      properties: o.properties || {},
+      geometry: object(topology, o)
+    };
+    if (o.id == null) delete f.id;
+    return f;
+  }
+
+  function object(topology, o) {
+    var absolute = transformAbsolute(topology.transform),
+        arcs = topology.arcs;
+
+    function arc(i, points) {
+      if (points.length) points.pop();
+      for (var a = arcs[i < 0 ? ~i : i], k = 0, n = a.length, p; k < n; ++k) {
+        points.push(p = a[k].slice());
+        absolute(p, k);
+      }
+      if (i < 0) reverse(points, n);
+    }
+
+    function point(p) {
+      p = p.slice();
+      absolute(p, 0);
+      return p;
+    }
+
+    function line(arcs) {
+      var points = [];
+      for (var i = 0, n = arcs.length; i < n; ++i) arc(arcs[i], points);
+      if (points.length < 2) points.push(points[0].slice());
+      return points;
+    }
+
+    function ring(arcs) {
+      var points = line(arcs);
+      while (points.length < 4) points.push(points[0].slice());
+      return points;
+    }
+
+    function polygon(arcs) {
+      return arcs.map(ring);
+    }
+
+    function geometry(o) {
+      var t = o.type;
+      return t === "GeometryCollection" ? {type: t, geometries: o.geometries.map(geometry)}
+          : t in geometryType ? {type: t, coordinates: geometryType[t](o)}
+          : null;
+    }
+
+    var geometryType = {
+      Point: function(o) { return point(o.coordinates); },
+      MultiPoint: function(o) { return o.coordinates.map(point); },
+      LineString: function(o) { return line(o.arcs); },
+      MultiLineString: function(o) { return o.arcs.map(line); },
+      Polygon: function(o) { return polygon(o.arcs); },
+      MultiPolygon: function(o) { return o.arcs.map(polygon); }
+    };
+
+    return geometry(o);
+  }
+
+  function reverse(array, n) {
+    var t, j = array.length, i = j - n; while (i < --j) t = array[i], array[i++] = array[j], array[j] = t;
+  }
+
+  function bisect(a, x) {
+    var lo = 0, hi = a.length;
+    while (lo < hi) {
+      var mid = lo + hi >>> 1;
+      if (a[mid] < x) lo = mid + 1;
+      else hi = mid;
+    }
+    return lo;
+  }
+
+  function neighbors(objects) {
+    var indexesByArc = {}, // arc index -> array of object indexes
+        neighbors = objects.map(function() { return []; });
+
+    function line(arcs, i) {
+      arcs.forEach(function(a) {
+        if (a < 0) a = ~a;
+        var o = indexesByArc[a];
+        if (o) o.push(i);
+        else indexesByArc[a] = [i];
+      });
+    }
+
+    function polygon(arcs, i) {
+      arcs.forEach(function(arc) { line(arc, i); });
+    }
+
+    function geometry(o, i) {
+      if (o.type === "GeometryCollection") o.geometries.forEach(function(o) { geometry(o, i); });
+      else if (o.type in geometryType) geometryType[o.type](o.arcs, i);
+    }
+
+    var geometryType = {
+      LineString: line,
+      MultiLineString: polygon,
+      Polygon: polygon,
+      MultiPolygon: function(arcs, i) { arcs.forEach(function(arc) { polygon(arc, i); }); }
+    };
+
+    objects.forEach(geometry);
+
+    for (var i in indexesByArc) {
+      for (var indexes = indexesByArc[i], m = indexes.length, j = 0; j < m; ++j) {
+        for (var k = j + 1; k < m; ++k) {
+          var ij = indexes[j], ik = indexes[k], n;
+          if ((n = neighbors[ij])[i = bisect(n, ik)] !== ik) n.splice(i, 0, ik);
+          if ((n = neighbors[ik])[i = bisect(n, ij)] !== ij) n.splice(i, 0, ij);
+        }
+      }
+    }
+
+    return neighbors;
+  }
+
+  function presimplify(topology, triangleArea) {
+    var absolute = transformAbsolute(topology.transform),
+        relative = transformRelative(topology.transform),
+        heap = minHeap(compareArea),
+        maxArea = 0,
+        triangle;
+
+    if (!triangleArea) triangleArea = cartesianArea;
+
+    topology.arcs.forEach(function(arc) {
+      var triangles = [];
+
+      arc.forEach(absolute);
+
+      for (var i = 1, n = arc.length - 1; i < n; ++i) {
+        triangle = arc.slice(i - 1, i + 2);
+        triangle[1][2] = triangleArea(triangle);
+        triangles.push(triangle);
+        heap.push(triangle);
+      }
+
+      // Always keep the arc endpoints!
+      arc[0][2] = arc[n][2] = Infinity;
+
+      for (var i = 0, n = triangles.length; i < n; ++i) {
+        triangle = triangles[i];
+        triangle.previous = triangles[i - 1];
+        triangle.next = triangles[i + 1];
+      }
+    });
+
+    while (triangle = heap.pop()) {
+      var previous = triangle.previous,
+          next = triangle.next;
+
+      // If the area of the current point is less than that of the previous point
+      // to be eliminated, use the latter's area instead. This ensures that the
+      // current point cannot be eliminated without eliminating previously-
+      // eliminated points.
+      if (triangle[1][2] < maxArea) triangle[1][2] = maxArea;
+      else maxArea = triangle[1][2];
+
+      if (previous) {
+        previous.next = next;
+        previous[2] = triangle[2];
+        update(previous);
+      }
+
+      if (next) {
+        next.previous = previous;
+        next[0] = triangle[0];
+        update(next);
+      }
+    }
+
+    topology.arcs.forEach(function(arc) {
+      arc.forEach(relative);
+    });
+
+    function update(triangle) {
+      heap.remove(triangle);
+      triangle[1][2] = triangleArea(triangle);
+      heap.push(triangle);
+    }
+
+    return topology;
+  };
+
+  function cartesianArea(triangle) {
+    return Math.abs(
+      (triangle[0][0] - triangle[2][0]) * (triangle[1][1] - triangle[0][1])
+      - (triangle[0][0] - triangle[1][0]) * (triangle[2][1] - triangle[0][1])
+    );
+  }
+
+  function compareArea(a, b) {
+    return a[1][2] - b[1][2];
+  }
+
+  function minHeap(compare) {
+    var heap = {},
+        array = [];
+
+    heap.push = function() {
+      for (var i = 0, n = arguments.length; i < n; ++i) {
+        var object = arguments[i];
+        up(object.index = array.push(object) - 1);
+      }
+      return array.length;
+    };
+
+    heap.pop = function() {
+      var removed = array[0],
+          object = array.pop();
+      if (array.length) {
+        array[object.index = 0] = object;
+        down(0);
+      }
+      return removed;
+    };
+
+    heap.remove = function(removed) {
+      var i = removed.index,
+          object = array.pop();
+      if (i !== array.length) {
+        array[object.index = i] = object;
+        (compare(object, removed) < 0 ? up : down)(i);
+      }
+      return i;
+    };
+
+    function up(i) {
+      var object = array[i];
+      while (i > 0) {
+        var up = ((i + 1) >> 1) - 1,
+            parent = array[up];
+        if (compare(object, parent) >= 0) break;
+        array[parent.index = i] = parent;
+        array[object.index = i = up] = object;
+      }
+    }
+
+    function down(i) {
+      var object = array[i];
+      while (true) {
+        var right = (i + 1) << 1,
+            left = right - 1,
+            down = i,
+            child = array[down];
+        if (left < array.length && compare(array[left], child) < 0) child = array[down = left];
+        if (right < array.length && compare(array[right], child) < 0) child = array[down = right];
+        if (down === i) break;
+        array[child.index = i] = child;
+        array[object.index = i = down] = object;
+      }
+    }
+
+    return heap;
+  }
+
+  function transformAbsolute(transform) {
+    if (!transform) return noop;
+    var x0,
+        y0,
+        kx = transform.scale[0],
+        ky = transform.scale[1],
+        dx = transform.translate[0],
+        dy = transform.translate[1];
+    return function(point, i) {
+      if (!i) x0 = y0 = 0;
+      point[0] = (x0 += point[0]) * kx + dx;
+      point[1] = (y0 += point[1]) * ky + dy;
+    };
+  }
+
+  function transformRelative(transform) {
+    if (!transform) return noop;
+    var x0,
+        y0,
+        kx = transform.scale[0],
+        ky = transform.scale[1],
+        dx = transform.translate[0],
+        dy = transform.translate[1];
+    return function(point, i) {
+      if (!i) x0 = y0 = 0;
+      var x1 = (point[0] - dx) / kx | 0,
+          y1 = (point[1] - dy) / ky | 0;
+      point[0] = x1 - x0;
+      point[1] = y1 - y0;
+      x0 = x1;
+      y0 = y1;
+    };
+  }
+
+  function noop() {}
+
+  if (typeof define === "function" && define.amd) define(topojson);
+  else if (typeof module === "object" && module.exports) module.exports = topojson;
+  else this.topojson = topojson;
+}();
+
+},{}],38:[function(_dereq_,module,exports){
+module.exports = parse;
+
+/*
+ * Parse WKT and return GeoJSON.
+ *
+ * @param {string} _ A WKT geometry
+ * @return {?Object} A GeoJSON geometry object
+ */
+function parse(_) {
+
+    var i = 0;
+
+    function $(re) {
+        var match = _.substring(i).match(re);
+        if (!match) return null;
+        else {
+            i += match[0].length;
+            return match[0];
+        }
+    }
+
+    function white() { $(/^\s*/); }
+
+    function multicoords() {
+        white();
+        var depth = 0, rings = [],
+            pointer = rings, elem;
+        while (elem =
+            $(/^(\()/) ||
+            $(/^(\))/) ||
+            $(/^(\,)/) ||
+            coords()) {
+            if (elem == '(') {
+                depth++;
+            } else if (elem == ')') {
+                depth--;
+                if (depth == 0) break;
+            } else if (elem && Array.isArray(elem) && elem.length) {
+                pointer.push(elem);
+            } else if (elem === ',') {
+            }
+            white();
+        }
+        if (depth !== 0) return null;
+        return rings;
+    }
+
+    function coords() {
+        var list = [], item, pt;
+        while (pt =
+            $(/^[-+]?([0-9]*\.[0-9]+|[0-9]+)/) ||
+            $(/^(\,)/)) {
+            if (pt == ',') {
+                list.push(item);
+                item = [];
+            } else {
+                if (!item) item = [];
+                item.push(parseFloat(pt));
+            }
+            white();
+        }
+        if (item) list.push(item);
+        return list.length ? list : null;
+    }
+
+    function point() {
+        if (!$(/^(point)/i)) return null;
+        white();
+        if (!$(/^(\()/)) return null;
+        var c = coords();
+        white();
+        if (!$(/^(\))/)) return null;
+        return {
+            type: 'Point',
+            coordinates: c[0]
+        };
+    }
+
+    function multipoint() {
+        if (!$(/^(multipoint)/i)) return null;
+        white();
+        var c = multicoords();
+        white();
+        return {
+            type: 'MultiPoint',
+            coordinates: c[0]
+        };
+    }
+
+    function multilinestring() {
+        if (!$(/^(multilinestring)/i)) return null;
+        white();
+        var c = multicoords();
+        white();
+        return {
+            type: 'MultiLineString',
+            coordinates: c
+        };
+    }
+
+    function linestring() {
+        if (!$(/^(linestring)/i)) return null;
+        white();
+        if (!$(/^(\()/)) return null;
+        var c = coords();
+        if (!$(/^(\))/)) return null;
+        return {
+            type: 'LineString',
+            coordinates: c
+        };
+    }
+
+    function polygon() {
+        if (!$(/^(polygon)/i)) return null;
+        white();
+        return {
+            type: 'Polygon',
+            coordinates: multicoords()
+        };
+    }
+
+    function multipolygon() {
+        if (!$(/^(multipolygon)/i)) return null;
+        white();
+        return {
+            type: 'MultiPolygon',
+            coordinates: multicoords()
+        };
+    }
+
+    function geometrycollection() {
+        var geometries = [], geometry;
+
+        if (!$(/^(geometrycollection)/i)) return null;
+        white();
+
+        if (!$(/^(\()/)) return null;
+        while (geometry = root()) {
+            geometries.push(geometry);
+            white();
+            $(/^(\,)/);
+            white();
+        }
+        if (!$(/^(\))/)) return null;
+
+        return {
+            type: 'GeometryCollection',
+            geometries: geometries
+        };
+    }
+
+    function root() {
+        return point() ||
+            linestring() ||
+            polygon() ||
+            multipoint() ||
+            multilinestring() ||
+            multipolygon() ||
+            geometrycollection();
+    }
+
+    return root();
+}
+
+},{}]},{},[1])
+(1)
+});}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],4:[function(require,module,exports){
 // browserify maplibs.js -o maplibs-bundle.js
-// browserify main.js | uglifyjs > bundle.js
+// browserify maplibs.js | uglifyjs > maplibs-bundle.js
 
-require('../components/leaflet-dist/leaflet.js');
-require('../components/esri-leaflet/dist/esri-leaflet.js');
+require('../../../components/leaflet-dist/leaflet.js');
+require('../../../components/esri-leaflet/dist/esri-leaflet.js');
+require('../../../components/leaflet-omnivore/leaflet-omnivore.js');
 
 
-},{"../components/esri-leaflet/dist/esri-leaflet.js":1,"../components/leaflet-dist/leaflet.js":2}]},{},[3])
+},{"../../../components/esri-leaflet/dist/esri-leaflet.js":1,"../../../components/leaflet-dist/leaflet.js":2,"../../../components/leaflet-omnivore/leaflet-omnivore.js":3}]},{},[4])

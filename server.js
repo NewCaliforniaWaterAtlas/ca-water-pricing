@@ -5,16 +5,11 @@ var mongoose = require('mongoose'); // mongoose for mongodb
 // var MongoClient = require('mongodb').MongoClient; // native driver
 var port  	 = process.env.PORT || 8080; // set the port
 var database = require('./config/database'); // load the database config
+var chromelogger = require('chromelogger');
 
 // configuration ===============================================================
 // connect to mongoDB database with mongoose ORM
 mongoose.connect(database.dbPath);
-
-// conecct to mongoDB with native driver
-// MongoClient.connect(database.dbPath, function(err, db) {
-//   if(err) { return console.dir(err); }
-// 	db.createCollection('noaapalmerdsi', function(err, collection) {});
-// });
 
 app.configure(function() {
 	app.use(express.compress()); // gzip compression
@@ -22,6 +17,7 @@ app.configure(function() {
 	app.use(express.logger('dev')); // log every request to the console
 	app.use(express.bodyParser()); // pull information from html in POST
 	app.use(express.methodOverride()); // simulate DELETE and PUT
+	app.use(chromelogger.middleware); // log to chromelogger
 });
 
 // routes ======================================================================

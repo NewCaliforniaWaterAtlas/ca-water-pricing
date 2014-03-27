@@ -318,11 +318,11 @@ ol.carousel-indicators {
 }
 
 #ctrmrate {
-  background-color: #be5e24;
+  background-color: #a9c9c4;
 }
 
 #ctrfrate {
-  background-color: #e4aa46;
+  background-color: #a4ad50;
 }
 
 a.leaflet-popup-close-button {
@@ -440,4 +440,25 @@ donut-chart {
 .info h4 {
   margin: 0 0 5px;
   color: #777;
+}
+
+.tt-highlight {
+  font-family: 'Rosario', sans-serif;  
+  font-size: 1.5em;
+  line-height: 1.5em;
+  font-weight: bold;
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+
+.tt-title {
+  font-family: 'Rosario', sans-serif;
+  font-size: 1.25em;
+  line-height: 1.25em;
+}
+
+.leaflet-popup-content-wrapper {
+  padding: 20px 15px 20px 15px;
+  background-color: #dbd7ca;
+  border-radius: 0px;
 }
