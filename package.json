@@ -18,6 +18,8 @@
     "node-schedule": "~0.1.13",
     "mongodb": "~1.3.23",
     "chromelogger": "~1.1.1",
-    "topojson": "~1.5.2"
+    "topojson": "~1.5.2",
+    "mapbox.js": "~1.6.2",
+    "leaflet-omnivore": "0.0.1"
   }
 }

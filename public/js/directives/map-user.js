@@ -191,10 +191,11 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
         scope.render = function(userdata) {
 
 			    // if data isn't passed, return out of the element
-        	if (!userdata) return;	
+        	if (!userdata) return;
 
 			    // create feature group
-			    var pointGroup = L.featureGroup();	
+			    var pointGroup = L.featureGroup();
+			    // var pointGroup = L.layerGroup();	
 
 			    // sort flat fees from metered fees
 					var p = userdata;
@@ -246,11 +247,10 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 							  weight: 3
 							});
 		          flatMarker.addTo(pointGroup);
-	          
 	          });
 	        
 	        });
-
+					
 			    // loop through m points
 	        angular.forEach(m, function(m, key){
 
@@ -298,26 +298,65 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 		        });
 
 	        });
-
+					
 	     		// add circle markers to map
-	        pointGroup.addTo(map);
+	        pointGroup.bringToFront().addTo(map);
+
 	        //setup popups to trigger on mouseovers
+					
 					pointGroup.on('mouseover', function(e) {
-						if (e.layer.options.billtype == "frate") {
-							// console.log("frate");
+					  var layer = e.layer;
+					  layer.setStyle({
+					    weight: 5,
+					    color: "#1c75bc",
+					    opacity: 1
+					  });
+
+						if (layer.options.billtype == "frate") {
 						  var popup = L.popup()
 								.setLatLng(e.latlng)
-								.setContent("<span class='tt-title'>" + e.layer.options.streetaddr + ": " + "</span>" +  "<span id='ctrfrate' class='tt-highlight counters'>$ " + e.layer.options.pday + " /day" + "</span>");	
+								.setContent("<span class='tt-title'>" + layer.options.streetaddr + ": " + "</span>" +  "<span id='ctrfrate' class='tt-highlight counters'>$ " + layer.options.pday + " /day" + "</span>");	
 							map.openPopup(popup);
 						}	else {
 						  var popup = L.popup()
 								.setLatLng(e.latlng)
-								.setContent("<span class='tt-title'>" + e.layer.options.streetaddr + ": " + "</span>" +  "<span id='ctrmrate' class='tt-highlight counters'>$ " + e.layer.options.pday + " /day" + "</span>");	
+								.setContent("<span class='tt-title'>" + layer.options.streetaddr + ": " + "</span>" +  "<span id='ctrmrate' class='tt-highlight counters'>$ " + layer.options.pday + " /day" + "</span>");	
 							map.openPopup(popup);
 						}
 					})
 					.on('mouseout', function(e){
+					  var layer = e.layer;
+					  layer.setStyle({
+					    weight: 1,
+					    color: "#fff"
+					  });
 						map.closePopup();
+					})
+					.on('click', function(e){
+						
+						var layer = e.layer;
+
+					  if (layer.options.used == undefined){
+					  	layer.options.used = "not metered";
+					  	layer.options.units = "";
+					  }
+
+					  document.getElementById('bill-panel-pday').innerHTML = layer.options.pday;
+						document.getElementById('bill-panel-streetaddr').innerHTML = layer.options.streetaddr;
+						document.getElementById('bill-panel-util').innerHTML = layer.options.util;
+						document.getElementById('bill-panel-bill').innerHTML = layer.options.bill;
+						document.getElementById('bill-panel-used').innerHTML = layer.options.used;
+						document.getElementById('bill-panel-units').innerHTML = layer.options.units;
+
+					  timeService.time().then(function () {
+					  	var submit = moment.utc(layer.options.tstamp).format('MM/DD/YYYY');
+					  	document.getElementById('bill-panel-submit').innerHTML = submit;
+					  });
+						
+					  if (!L.Browser.ie && !L.Browser.opera) {
+					    layer.bringToFront();
+					  }
+
 					});
 
 				}// scope.render

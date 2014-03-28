@@ -53,8 +53,16 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 
 			    // create feature group
 			    var pointGroup = L.featureGroup();
-
 			    var agencyMarkerOptions = {};
+
+			    // console.log(points);	
+			    // var p = points;
+			    // var frate = _.filter(p);
+			    // console.log(frate);
+	
+			    for (var i = 0, p; p = points[i]; i++) {
+			    	console.log(p.features);	
+			    }
 
 					L.geoJson(points, {
 

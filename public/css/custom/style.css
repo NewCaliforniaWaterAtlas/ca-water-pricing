@@ -462,3 +462,7 @@ donut-chart {
   background-color: #dbd7ca;
   border-radius: 0px;
 }
+
+.bill-panel {
+  padding: 15px 15px 15px 15px;
+}

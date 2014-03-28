@@ -1,23 +1,59 @@
 'use strict';
 
-app.controller('mainController', [ '$scope', 'billService', 'agencyService', 'palmerFeature', function ($scope, billService, agencyService, palmerFeature) {
+app.controller('mainController', [ '$scope', 'billService', function ($scope, billService) {
+	
+	// make sure form is clear on scope
 	$scope.formData = {};
 
-	agencyService.get()
-		.success(function(data) {
-			$scope.records = data;
-		})
-		.error(function (data, status, headers, config){
-       console.log('API CALL ERROR ' +status);
-    });
+	// Date Picker ==================================================================
 
-	// palmerFeature.get()
-	// 	.success(function(data) {
-	// 		$scope.palmer = data;		
-	// 	})
-	// 	.error(function (data, status, headers, config){
- //       console.log('API CALL ERROR ' +status);
- //    });
+  $scope.today = function() {
+    $scope.formData.sdate = new Date();
+  };
+  $scope.today();
+
+  $scope.showWeeks = true;
+  $scope.toggleWeeks = function () {
+    $scope.showWeeks = ! $scope.showWeeks;
+  };
+
+  $scope.clear = function () {
+    $scope.formData.sdate = null;
+    $scope.formData.edate = null;
+  };
+
+  // Disable weekend selection
+  $scope.disabled = function(date, mode) {
+    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+  };
+
+  $scope.toggleMin = function() {
+    $scope.minDate = ( $scope.minDate ) ? null : new Date();
+  };
+  $scope.toggleMin();
+
+  $scope.open1 = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.opened1 = true;
+  };
+
+  $scope.open2 = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.opened2 = true;
+  };
+
+  $scope.dateOptions = {
+    'year-format': "'yy'",
+    'starting-day': 1
+  };
+
+  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
+  $scope.format = $scope.formats[0];
+
 
 	// CREATE ==================================================================
 	// when submitting the add form, send the text to the node API
@@ -76,7 +112,6 @@ app.controller('mainController', [ '$scope', 'billService', 'agencyService', 'pa
 		alert('Thank You!');
 	};
 
-
 	// DELETE ==================================================================
 	// delete a entry after checking it
 	$scope.deleteBill = function(id) {
@@ -87,57 +122,8 @@ app.controller('mainController', [ '$scope', 'billService', 'agencyService', 'pa
 			});
 	};
 
-
-		// Date Picker ==================================================================
-
-	  $scope.today = function() {
-	    $scope.formData.sdate = new Date();
-	  };
-	  $scope.today();
-
-	  $scope.showWeeks = true;
-	  $scope.toggleWeeks = function () {
-	    $scope.showWeeks = ! $scope.showWeeks;
-	  };
-
-	  $scope.clear = function () {
-	    $scope.formData.sdate = null;
-	    $scope.formData.edate = null;
-	  };
-
-	  // Disable weekend selection
-	  $scope.disabled = function(date, mode) {
-	    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-	  };
-
-	  $scope.toggleMin = function() {
-	    $scope.minDate = ( $scope.minDate ) ? null : new Date();
-	  };
-	  $scope.toggleMin();
-
-	  $scope.open1 = function($event) {
-	    $event.preventDefault();
-	    $event.stopPropagation();
-
-	    $scope.opened1 = true;
-	  };
-
-	  $scope.open2 = function($event) {
-	    $event.preventDefault();
-	    $event.stopPropagation();
-
-	    $scope.opened2 = true;
-	  };
-
-	  $scope.dateOptions = {
-	    'year-format': "'yy'",
-	    'starting-day': 1
-	  };
-
-	  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
-	  $scope.format = $scope.formats[0];
-
 }]); // end mainController
+
 
 app.controller('billsController', ['$scope', 'billService', function ($scope, billService){
 
@@ -151,6 +137,36 @@ app.controller('billsController', ['$scope', 'billService', function ($scope, bi
 
 }]);
 
+
+app.controller('agencyController', ['$scope', 'agencyService', function ($scope, agencyService){
+
+	// GET =====================================================================
+	// when landing on the page, get all records and show them
+	// use the service to get all the records
+	agencyService.get()
+		.success(function(data) {
+			$scope.records = data;
+		})
+		.error(function (data, status, headers, config){
+       console.log('API CALL ERROR ' +status);
+    });
+
+}]);
+
+
+// app.controller('palmerController', ['$scope','palmerFeature', function ($scope, palmerFeature){
+
+// 	palmerFeature.get()
+// 		.success(function(data) {
+// 			$scope.palmer = data;		
+// 		})
+// 		.error(function (data, status, headers, config){
+//        console.log('API CALL ERROR ' +status);
+//     });
+
+// }]);
+
+
 app.controller('barsController1', ['$scope', function ($scope){
 
   $scope.onClick = function(item) {
@@ -163,11 +179,40 @@ app.controller('barsController1', ['$scope', function ($scope){
 
 }]);
 
+
 app.controller('submitCounter1', ['$scope', 'billService', function ($scope, billService){
 	
 	billService.get()
 		.success(function(data) {
 			// $scope.entries = data;
+
+		  $scope.frate = 0;
+		  $scope.mrate = 0;
+		  
+		  // loop through scope.data
+		  angular.forEach(data, function(entry, key){
+		    // console.log(entry.billtype);
+		    if (entry.billtype === "frate"){
+		      $scope.frate++;
+		    }
+		    else if (entry.billtype === "mrate"){
+		      $scope.mrate++;
+		    }
+		    else {
+		      return;
+		    }
+		  });	
+
+		});
+
+}]);
+
+
+app.controller('submitCounter2', ['$scope', 'agencyService', function ($scope, agencyService){
+	
+	agencyService.get()
+		.success(function(data) {
+			// $scope.records = data;
 
 		  $scope.frate = 0;
 		  $scope.mrate = 0;

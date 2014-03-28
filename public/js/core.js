@@ -13,14 +13,14 @@ app.config(['$stateProvider', '$locationProvider', function ($stateProvider, $lo
 
 		.state('explore', {
 			url: '/explore',
-			templateUrl: 'views/templates/search.html', 
-			controller: 'mainController'
+			templateUrl: 'views/templates/explore.html', 
+			controller: 'agencyController'
 		})
 
 		.state('participate', {
 			url: '/participate',
 			templateUrl: 'views/templates/participate.html', 
-			controller: 'mainController'
+			controller: 'billsController'
 		});
 
 		// .state('test', {

@@ -1,4 +1,4 @@
-<!-- submit page ================================================== -->  		
+<!-- search page ================================================== -->  	
 
 <div ng-include="'views/templates/head.html'"></div>
 
@@ -8,13 +8,12 @@
 		<!-- <div id="map-wrap" class="col-sm-9" ng-controller="palmerController"> -->
 		<div id="map-wrap" class="col-sm-9">
 		
-			<h2 class="bar-title" ng-controller="submitCounter1">Crowdsourcing the Pricing of Water
+			<h2 class="bar-title" ng-controller="submitCounter2">Find How Water is Priced
 				<span id="ctrfrate"	class="counters pull-right">{{frate}}</span>
 				<span id="ctrmrate" class="counters pull-right">{{mrate}}</span>
 			</h2>
-		
-			<!-- <div mapuser id="map" userdata="entries" layerone="palmer"></div> -->
-			<div mapuser id="map" userdata="entries"></div>
+
+			<div mapagency id="map" points="records"></div>
 		</div>
 		
 		<!-- <div id="graph-wrap1" class="col-sm-3" ng-controller="barsController1">	  
@@ -51,7 +50,7 @@
 
 	<div class="row">
 		<div id="graph-wrap2" class="col-sm-4">
-		  <d3-graph id="chartContainer" data="entries"></d3-graph>
+		  <!-- <d3-graph id="chartContainer" data="entries"></d3-graph> -->
 		</div>
 		
 		<div id="graph-wrap3" class="col-sm-4">
@@ -66,3 +65,7 @@
 <div ng-include="'views/templates/nav-content.html'"></div>
 <div ng-include="'views/templates/explore-content.html'"></div>
 <div ng-include="'views/templates/atlas-content.html'"></div>
+
+
+
+
