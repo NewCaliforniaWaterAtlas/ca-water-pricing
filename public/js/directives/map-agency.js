@@ -29,11 +29,11 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 		    map.attributionControl.setPrefix('');
 
 		    // create the tile layer with correct attribution
-		    var tilesURL='http://tile.stamen.com/terrain/{z}/{x}/{y}.png';
+		    var tilesURL='http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png';
 		    var tilesAttrib='Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
 		    var tiles = new L.TileLayer(tilesURL, {
 	        attribution: tilesAttrib, 
-	        opacity: 0.7,
+	        opacity: 1,
 	        detectRetina: true,
 	        unloadInvisibleTiles: true,
 	        updateWhenIdle: true,
@@ -53,53 +53,90 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 
 			    // create feature group
 			    var pointGroup = L.featureGroup();
-			    var agencyMarkerOptions = {};
+			  //   var agencyMarkerOptions = {};
+					
+					// var p = points;
+					// var quantArr = [];
+					
+					// var i, j, k;
+			  //   for (i = 0; i < p.length; i++) {
+			  //   	var features = 	p[i].features;
+			  //   	for (j =0; j < features.length; j++) {
+			  //   		var properties = features[j].properties;	
+			  //   		quantArr.push(properties.quantity_rate);
+			  //   	}
+			  //   }
+			  //   console.log(quantArr);
 
-			    // console.log(points);	
-			    // var p = points;
-			    // var frate = _.filter(p);
-			    // console.log(frate);
-	
-			    for (var i = 0, p; p = points[i]; i++) {
-			    	console.log(p.features);	
-			    }
+					function style(feature) {
+						return {
+					    radius: (feature.properties.quantity_rate * 2),
+					    // radius: feature.properties.quantity_rate != ""  ? feature.properties.quantity_rate*2 : 2,
+					    fillColor: "#9abab4",
+					    color: "#fff",
+					    weight: 3,
+					    opacity: 1,
+					    fillOpacity: 0.9
+						};
+					}
+					
+					var gjpoints;
 
-					L.geoJson(points, {
+        	// hover
+					function highlightFeature(e) {
+					  var layer = e.target;
+					  
+					  layer.setStyle({
+					    weight: 5,
+					    color: "#1c75bc",
+					    opacity: 1
+					  });
+
+					  // if (!L.Browser.ie && !L.Browser.opera) {
+					  //   layer.bringToFront();
+					  // }
+					  
+					  var quantVal;
+					  var quantProp = layer.feature.properties.quantity_rate;
+					  
+					  function trunc (data) {
+					  	var val = Math.floor(data * 10) / 10;
+					  	quantVal = val;
+					  	console.log(quantVal);			 
+					  }
+					  trunc(quantProp);
+					  
+					  layer.bindPopup(
+					  	"<span class='tt-title'>" + layer.feature.properties.address_line_1 + ": " + "</span>" +  "<span id='ctrmrate' class='tt-highlight counters'>$ " + quantVal + " /unit" + "</span>"
+					  ).openPopup();
+					}
+
+					function resetHighlight(e) {
+						var layer = e.target;
+						gjpoints.resetStyle(layer);
+						// layer.closePopup();
+					}
+
+					function onEachFeature(feature, layer) {
+						layer.on({
+							mouseover: highlightFeature,
+							mouseout: resetHighlight
+							// click: zoomToFeature
+						});
+					}
+
+					gjpoints = L.geoJson(points, {
 
 				    pointToLayer: function (feature, latlng) {
-				      // console.log(feature);	
-				      return L.circleMarker(latlng, 
-				      	agencyMarkerOptions = {
-							    // radius: feature.properties.flat_rate * 0.15,
-							    radius: 8,
-							    fillColor: "#1C75BC",
-							    color: "#fff",
-							    weight: 1,
-							    opacity: 1,
-							    fillOpacity: 0.9
-				      	}
-				      )
+				      // console.log(feature);
+				      return L.circleMarker(latlng,{})
 				    },
-
-				    onEachFeature: function (feature, layer) {
-				      // layer.bindPopup(feature.properties.flat_rate);
-				    }
+				    style: style,
+				    onEachFeature: onEachFeature
 
 					}).addTo(pointGroup);
 
 					pointGroup.addTo(map);
-
-	        //setup popups to trigger on mouseovers
-					pointGroup.on('mouseover', function(e) {
-						// console.log(e.layer.feature.properties.agency);	
-					  var popup = L.popup()
-							.setLatLng(e.latlng) 
-							.setContent("Flat Rate: " + "$ " + e.layer.feature.properties.flat_rate);
-						map.openPopup(popup);
-					})
-					.on('mouseout', function(e){
-						map.closePopup();
-					});
 
 				}// scope.render
 			

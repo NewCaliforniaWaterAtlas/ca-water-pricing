@@ -318,7 +318,7 @@ ol.carousel-indicators {
 }
 
 #ctrmrate {
-  background-color: #a9c9c4;
+  background-color: #9abab4;
 }
 
 #ctrfrate {
@@ -465,4 +465,8 @@ donut-chart {
 
 .bill-panel {
   padding: 15px 15px 15px 15px;
+}
+
+.leaflet-popup-content {
+  /*width: 450px !important;*/
 }

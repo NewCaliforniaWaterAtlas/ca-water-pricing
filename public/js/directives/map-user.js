@@ -36,7 +36,7 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 		    var tilesAttrib='Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
 		    var tiles = new L.TileLayer(tilesURL, {
 	        attribution: tilesAttrib, 
-	        opacity: 0.7,
+	        opacity: 1,
 	        detectRetina: true,
 	        unloadInvisibleTiles: true,
 	        updateWhenIdle: true,
@@ -288,7 +288,7 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 							var meterMarker = new customCircleMarker([m.lat, m.lng], { 
 							  radius: mpday * 1.5,
 							  color: "#fff",
-							  fillColor: "#a9c9c4",
+							  fillColor: "#9abab4",
 							  fillOpacity: 0.95,
 							  opacity: 1,
 							  weight: 3
@@ -353,9 +353,9 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 					  	document.getElementById('bill-panel-submit').innerHTML = submit;
 					  });
 						
-					  if (!L.Browser.ie && !L.Browser.opera) {
-					    layer.bringToFront();
-					  }
+					  // if (!L.Browser.ie && !L.Browser.opera) {
+					  //   layer.bringToFront();
+					  // }
 
 					});
 
