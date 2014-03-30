@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('mapagency', [ '$window','mapService', function ($window, mapService) {
+app.directive('mapagency', [ '$window','mapService','placeService', function ($window, mapService, placeService ) {
 	return {
 		restrict: 'A',
 		// replace: true,
@@ -47,97 +47,125 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
         }, true);
 
         scope.render = function(points) {
+	        // placeService.then(function() {
+				    
+				    // check to see if points exist
+	        	if (!points) return;
 
-			    // check to see if points exist
-        	if (!points) return;
+				    // create feature group
+				    var pointGroup = L.featureGroup();
+				  //   var agencyMarkerOptions = {};
+						
+						// var p = points;
+						// var quantArr = [];
+						
+						// var i, j, k;
+				  //   for (i = 0; i < p.length; i++) {
+				  //   	var features = 	p[i].features;
+				  //   	for (j =0; j < features.length; j++) {
+				  //   		var properties = features[j].properties;	
+				  //   		quantArr.push(properties.quantity_rate);
+				  //   	}
+				  //   }
+				  //   console.log(quantArr);
 
-			    // create feature group
-			    var pointGroup = L.featureGroup();
-			  //   var agencyMarkerOptions = {};
+						function style(feature) {
+							return {
+						    radius: (feature.properties.quantity_rate * 2),
+						    // radius: feature.properties.quantity_rate != ""  ? feature.properties.quantity_rate*2 : 2,
+						    fillColor: "#9abab4",
+						    color: "#fff",
+						    weight: 3,
+						    opacity: 1,
+						    fillOpacity: 0.9
+							};
+						}
+						
+						var gjpoints;
+						
+						// function gmApi (lat, lng) {
+						// 	var geocoder = new google.maps.Geocoder();
+						//   var coords = new google.maps.LatLng(lat,lng);	
+
+						//   geocoder.geocode({ 'latLng': coords }, function (results, status) {
+						//     if (status !== google.maps.GeocoderStatus.OK) {
+						//       console.log(status);
+						//     }
+						//     // This is checking to see if the Geoeode Status is OK before proceeding
+						//     if (status == google.maps.GeocoderStatus.OK) {
+						//       // console.log(results);
+						//       var address = (results[0].formatted_address);
+						//       console.log(address);
+						//     }
+						//   });
+					 //  }
+
+	        	// hover
+						function highlightFeature(e) {
+						  var layer = e.target;
+						  
+						  layer.setStyle({
+						    weight: 5,
+						    color: "#1c75bc",
+						    opacity: 1
+						  });
+
+						  // if (!L.Browser.ie && !L.Browser.opera) {
+						  //   layer.bringToFront();
+						  // }
+
+						  var lat = layer.feature.geometry.coordinates[1];
+						  var lng = layer.feature.geometry.coordinates[0];
+						  
+						  // gmApi(lat, lng);
+						  
+				      placeService.addressForLatLng(lat, lng).then(function(data){
+				      	console.log(data);
+				      })
+
+						  var quantVal;
+						  var quantProp = layer.feature.properties.quantity_rate;
+						  
+						  function trunc (data) {
+						  	var val = Math.floor(data * 10) / 10;
+						  	quantVal = val;		 
+						  }
+						  trunc(quantProp);
+						  // console.log(layer.feature.geometry.coordinates[0]);		
+						  layer.bindPopup(
+						  	"<span class='tt-title'>" + layer.feature.properties.utility_me + ": " + "</span>" +  "<span id='ctrmrate' class='tt-highlight counters'>$ " + quantVal + " /unit" + "</span>"
+						  ).openPopup();
+						}
+
+						function resetHighlight(e) {
+							var layer = e.target;
+							gjpoints.resetStyle(layer);
+							layer.closePopup();
+						}
+
+						function onEachFeature(feature, layer) {
+							layer.on({
+								mouseover: highlightFeature,
+								mouseout: resetHighlight
+								// click: zoomToFeature
+							});
+						}
+
+						gjpoints = L.geoJson(points, {
+
+					    pointToLayer: function (feature, latlng) {
+					      // console.log(feature);
+					      return L.circleMarker(latlng,{})
+					    },
+					    style: style,
+					    onEachFeature: onEachFeature
+
+						}).addTo(pointGroup);
+
+						pointGroup.addTo(map);
 					
-					// var p = points;
-					// var quantArr = [];
-					
-					// var i, j, k;
-			  //   for (i = 0; i < p.length; i++) {
-			  //   	var features = 	p[i].features;
-			  //   	for (j =0; j < features.length; j++) {
-			  //   		var properties = features[j].properties;	
-			  //   		quantArr.push(properties.quantity_rate);
-			  //   	}
-			  //   }
-			  //   console.log(quantArr);
-
-					function style(feature) {
-						return {
-					    radius: (feature.properties.quantity_rate * 2),
-					    // radius: feature.properties.quantity_rate != ""  ? feature.properties.quantity_rate*2 : 2,
-					    fillColor: "#9abab4",
-					    color: "#fff",
-					    weight: 3,
-					    opacity: 1,
-					    fillOpacity: 0.9
-						};
-					}
-					
-					var gjpoints;
-
-        	// hover
-					function highlightFeature(e) {
-					  var layer = e.target;
-					  
-					  layer.setStyle({
-					    weight: 5,
-					    color: "#1c75bc",
-					    opacity: 1
-					  });
-
-					  // if (!L.Browser.ie && !L.Browser.opera) {
-					  //   layer.bringToFront();
-					  // }
-					  
-					  var quantVal;
-					  var quantProp = layer.feature.properties.quantity_rate;
-					  
-					  function trunc (data) {
-					  	var val = Math.floor(data * 10) / 10;
-					  	quantVal = val;
-					  	console.log(quantVal);			 
-					  }
-					  trunc(quantProp);
-					  
-					  layer.bindPopup(
-					  	"<span class='tt-title'>" + layer.feature.properties.address_line_1 + ": " + "</span>" +  "<span id='ctrmrate' class='tt-highlight counters'>$ " + quantVal + " /unit" + "</span>"
-					  ).openPopup();
-					}
-
-					function resetHighlight(e) {
-						var layer = e.target;
-						gjpoints.resetStyle(layer);
-						// layer.closePopup();
-					}
-
-					function onEachFeature(feature, layer) {
-						layer.on({
-							mouseover: highlightFeature,
-							mouseout: resetHighlight
-							// click: zoomToFeature
-						});
-					}
-
-					gjpoints = L.geoJson(points, {
-
-				    pointToLayer: function (feature, latlng) {
-				      // console.log(feature);
-				      return L.circleMarker(latlng,{})
-				    },
-				    style: style,
-				    onEachFeature: onEachFeature
-
-					}).addTo(pointGroup);
-
-					pointGroup.addTo(map);
-
+					// });// end placeService
+				
 				}// scope.render
 			
 			});//end mapService
