@@ -154,17 +154,17 @@ app.controller('agencyController', ['$scope', 'agencyService', function ($scope,
 }]);
 
 
-// app.controller('palmerController', ['$scope','palmerFeature', function ($scope, palmerFeature){
+app.controller('palmerController', ['$scope','palmerFeature', function ($scope, palmerFeature){
 
-// 	palmerFeature.get()
-// 		.success(function(data) {
-// 			$scope.palmer = data;		
-// 		})
-// 		.error(function (data, status, headers, config){
-//        console.log('API CALL ERROR ' +status);
-//     });
+	palmerFeature.get()
+		.success(function(data) {
+			$scope.palmer = data;		
+		})
+		.error(function (data, status, headers, config){
+       console.log('API CALL ERROR ' +status);
+    });
 
-// }]);
+}]);
 
 
 app.controller('barsController1', ['$scope', function ($scope){

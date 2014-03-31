@@ -408,7 +408,7 @@ a.leaflet-popup-close-button {
   /*margin-top: 20px;*/
 }
 
-donut-chart {
+.donut-chart {
   width: 100%;
   height: 100%;
 }
@@ -421,6 +421,7 @@ donut-chart {
   line-height: 18px;
   color: #555;
 }
+
 .legend i {
   width: 18px;
   height: 18px;
@@ -442,8 +443,14 @@ donut-chart {
   color: #777;
 }
 
+p.tt-title {
+  font-family: 'Muli', sans-serif;
+  font-size: 1.5em;
+  line-height: 1.5em;
+}
+
 .tt-highlight {
-  font-family: 'Rosario', sans-serif;  
+  font-family: 'Muli', sans-serif;  
   font-size: 1.5em;
   line-height: 1.5em;
   font-weight: bold;
@@ -451,22 +458,19 @@ donut-chart {
   padding-bottom: 9px;
 }
 
-.tt-title {
-  font-family: 'Rosario', sans-serif;
-  font-size: 1.25em;
-  line-height: 1.25em;
-}
-
 .leaflet-popup-content-wrapper {
-  padding: 20px 15px 20px 15px;
+  padding: 20px 15px 10px 15px;
   background-color: #dbd7ca;
   border-radius: 0px;
+}
+
+.leaflet-popup-content {
+  width: 300px !important;
+  display: inline-block;
 }
 
 .bill-panel {
   padding: 15px 15px 15px 15px;
 }
 
-.leaflet-popup-content {
-  /*width: 450px !important;*/
-}
+

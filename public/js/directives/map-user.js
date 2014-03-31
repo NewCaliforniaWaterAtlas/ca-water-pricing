@@ -5,8 +5,8 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 		restrict: 'A',
 		// replace: true,
 		scope:{
-      userdata:"="
-      // layerone:"="
+      userdata:"=",
+      layerone:"="
     },
 		link: function(scope, element, attrs) {
 
@@ -45,20 +45,19 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 		    tiles.addTo(map);
 
 
-
 				//  Palmer DSI Data from NOAA ======================================================================	
 
-     //    scope.$watch('layerone', function (newVals, oldVals) {
-					// scope.load(newVals);
-     //    }, true);
+        scope.$watch('layerone', function (newVals, oldVals) {
+					scope.load(newVals);
+        }, true);
 
-     //    scope.load = function(layerone) {
-     //    	// console.log(layerone);
+        scope.load = function(layerone) {
+        	// console.log(layerone);
 
-     //      // If we don't pass any data, return out of the element
-     //      if (!layerone) return; 
+          // If we don't pass any data, return out of the element
+          if (!layerone) return; 
 
-					// // control that shows state info on hover
+					// control that shows state info on hover
 					// var InfoControl = L.Control.extend({
 
 					// 	onAdd: function (map) {
@@ -137,17 +136,16 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 
 
 					// // var layer = omnivore.topojson(layerone)
-					// //     .on('ready', function() {
-					// //         // when this is fired, the layer
-					// //         // is done being initialized
-					// //     })
-					// //     .on('error', function() {
-					// //         // fired if the layer can't be loaded over AJAX
-					// //         // or can't be parsed
-					// //     })
-					// //     .addTo(map);
+				 // //    .on('ready', function() {
+				 // //        // when this is fired, the layer
+				 // //        // is done being initialized
+				 // //    })
+				 // //    .on('error', function() {
+				 // //        // fired if the layer can't be loaded over AJAX
+				 // //        // or can't be parsed
+				 // //    })
+				 // //    .addTo(map);
 
-			
      //    	geojson = L.geoJson(layerone, {
 					// 	style: style,
 					// 	onEachFeature: onEachFeature
@@ -178,7 +176,7 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 
 					// legend.addTo(map);
 
-     //    } // end scope.load
+        } // end scope.load
 
 
         //  Markers ======================================================================
@@ -195,7 +193,6 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 
 			    // create feature group
 			    var pointGroup = L.featureGroup();
-			    // var pointGroup = L.layerGroup();	
 
 			    // sort flat fees from metered fees
 					var p = userdata;
@@ -203,7 +200,7 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 					var mrate = _.filter(p, { 'billtype': 'mrate' });
 					var f = _.extend({}, frate);
 					var m = _.extend({}, mrate);			    
-
+					
 			    // loop through f points
 	        angular.forEach(f, function(f, key){
 
@@ -300,10 +297,9 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 	        });
 					
 	     		// add circle markers to map
-	        pointGroup.bringToFront().addTo(map);
+	        pointGroup.addTo(map);
 
 	        //setup popups to trigger on mouseovers
-					
 					pointGroup.on('mouseover', function(e) {
 					  var layer = e.layer;
 					  layer.setStyle({
@@ -315,12 +311,12 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 						if (layer.options.billtype == "frate") {
 						  var popup = L.popup()
 								.setLatLng(e.latlng)
-								.setContent("<span class='tt-title'>" + layer.options.streetaddr + ": " + "</span>" +  "<span id='ctrfrate' class='tt-highlight counters'>$ " + layer.options.pday + " /day" + "</span>");	
+								.setContent("<p class='tt-title'>" + layer.options.streetaddr + ": " + "</p>" +  "<span id='ctrfrate' class='tt-highlight counters pull-right'>$ " + layer.options.pday + " /day" + "</span>");	
 							map.openPopup(popup);
 						}	else {
 						  var popup = L.popup()
 								.setLatLng(e.latlng)
-								.setContent("<span class='tt-title'>" + layer.options.streetaddr + ": " + "</span>" +  "<span id='ctrmrate' class='tt-highlight counters'>$ " + layer.options.pday + " /day" + "</span>");	
+								.setContent("<p class='tt-title'>" + layer.options.streetaddr + ": " + "</p>" +  "<span id='ctrmrate' class='tt-highlight counters pull-right'>$ " + layer.options.pday + " /day" + "</span>");	
 							map.openPopup(popup);
 						}
 					})
