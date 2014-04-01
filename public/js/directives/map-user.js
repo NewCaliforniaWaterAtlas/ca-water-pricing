@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('mapuser', [ '$window','mapService', 'timeService', function ($window, mapService, timeService) {
+app.directive('mapuser', [ '$window','mapService', 'timeService', '$cacheFactory', function ($window, mapService, timeService, $cacheFactory) {
 	return {
 		restrict: 'A',
 		// replace: true,
@@ -44,143 +44,143 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 		    });
 		    tiles.addTo(map);
 
-
 				//  Palmer DSI Data from NOAA ======================================================================	
-
+        
         scope.$watch('layerone', function (newVals, oldVals) {
 					scope.load(newVals);
         }, true);
 
-        scope.load = function(layerone) {
+        scope.load = function (layerone) {
         	// console.log(layerone);
 
           // If we don't pass any data, return out of the element
           if (!layerone) return; 
 
 					// control that shows state info on hover
-					// var InfoControl = L.Control.extend({
+					var InfoControl = L.Control.extend({
 
-					// 	onAdd: function (map) {
-					// 		this._div = L.DomUtil.create('div', 'info');
-					// 		this.update();
-					// 		return this._div;
-					// 	},
+						onAdd: function (map) {
+							this._div = L.DomUtil.create('div', 'info');
+							this.update();
+							return this._div;
+						},
 
-					// 	update: function (props) {
-					// 		this._div.innerHTML = '<h4>Region: </h4>' + (props ? '<b>' + props.NAME + '</b><br /><h4>Drought Severity Index: </h4><b>' + props.PDSI + '<b>':'');
-					// 	}
-					// });
+						update: function (props) {
+							this._div.innerHTML = '<h4>Region: </h4>' + (props ? '<b>' + props.NAME + '</b><br /><h4>Drought Severity Index: </h4><b>' + props.PDSI + '<b>':'');
+						}
+					});
 
-					// var info = new InfoControl();
-					// info.addTo(map);
+					var info = new InfoControl();
+					info.addTo(map);
 
-					// function getColor(d) {
-				 //    return d < -4     ? '#8c510a' :
-				 //           d < -3     ? '#bf812d' :
-				 //           d < -2     ? '#dfc27d' :
-				 //           d < -1     ? '#f6e8c3' :
-				 //           d > 1      ? '#c7eae5' :
-				 //           d > 2      ? '#80cdc1' :
-				 //           d > 3      ? '#35978f' :
-				 //           d > 4      ? '#01665e' :
-				 //           							'#f5f5f5' ;				                        
-					// }
+					function getColor(d) {
+				    return d < -4     ? '#8c510a' :
+				           d < -3     ? '#bf812d' :
+				           d < -2     ? '#dfc27d' :
+				           d < -1     ? '#f6e8c3' :
+				           d > 1      ? '#c7eae5' :
+				           d > 2      ? '#80cdc1' :
+				           d > 3      ? '#35978f' :
+				           d > 4      ? '#01665e' :
+				           							'#f5f5f5' ;				                        
+					}
 
-					// function style(feature) {
-					// 	return {
-					// 		weight: 2,
-					// 		opacity: 1,
-					// 		color: "#fff",
-					// 		dashArray: '4',
-					// 		fillOpacity: 0.7,
-					// 		fillColor: getColor(feature.properties.PDSI)
-					// 	};
-					// }        	
+					function style(feature) {
+						return {
+							weight: 2,
+							opacity: 1,
+							color: "#fff",
+							dashArray: '4',
+							fillOpacity: 0.7,
+							fillColor: getColor(feature.properties.PDSI)
+						};
+					}        	
 
-     //    	// highlight on hover
-					// function highlightFeature(e) {
-					//   var layer = e.target;
+        	// highlight on hover
+					function highlightFeature(e) {
+					  var layer = e.target;
 
-					//   layer.setStyle({
-					//     weight: 5,
-					//     color: "#1c75bc",
-					//     dashArray: '',
-					//     fillOpacity: 0.7,
-					//     opacity: 0.5
-					//   });
+					  layer.setStyle({
+					    weight: 5,
+					    color: "#1c75bc",
+					    dashArray: '',
+					    fillOpacity: 0.7,
+					    opacity: 0.5
+					  });
 
-					//   if (!L.Browser.ie && !L.Browser.opera) {
-					//     layer.bringToFront();
-					//   }
-					//   info.update(layer.feature.properties);
-					// }
+					  if (!L.Browser.ie && !L.Browser.opera) {
+					    layer.bringToFront();
+					  }
+					  info.update(layer.feature.properties);
+					}
 					
-					// var geojson;
+					// var polyGroup = L.layerGroup();
+					var geojson;
 
-					// function resetHighlight(e) {
-					// 	geojson.resetStyle(e.target);
-					// 	info.update();
-					// }
+					function resetHighlight(e) {
+						geojson.resetStyle(e.target);
+						info.update();
+					}
 
-					// function zoomToFeature(e) {
-					// 	map.fitBounds(e.target.getBounds());
-					// }
+					function zoomToFeature(e) {
+						map.fitBounds(e.target.getBounds());
+					}
 
-					// function onEachFeature(feature, layer) {
-					// 	layer.on({
-					// 		mouseover: highlightFeature,
-					// 		mouseout: resetHighlight,
-					// 		click: zoomToFeature
-					// 	});
-					// }
+					function onEachFeature(feature, layer) {
+						layer.on({
+							mouseover: highlightFeature,
+							mouseout: resetHighlight,
+							click: zoomToFeature
+						});
+					}
 
 
-					// // var layer = omnivore.topojson(layerone)
-				 // //    .on('ready', function() {
-				 // //        // when this is fired, the layer
-				 // //        // is done being initialized
-				 // //    })
-				 // //    .on('error', function() {
-				 // //        // fired if the layer can't be loaded over AJAX
-				 // //        // or can't be parsed
-				 // //    })
-				 // //    .addTo(map);
+					// var layer = omnivore.topojson(layerone)
+				 //    .on('ready', function() {
+				 //        // when this is fired, the layer
+				 //        // is done being initialized
+				 //    })
+				 //    .on('error', function() {
+				 //        // fired if the layer can't be loaded over AJAX
+				 //        // or can't be parsed
+				 //    })
+				 //    .addTo(map);
 
-     //    	geojson = L.geoJson(layerone, {
-					// 	style: style,
-					// 	onEachFeature: onEachFeature
-     //    	}).addTo(map);
+        	geojson = L.geoJson(layerone, {
+						style: style,
+						onEachFeature: onEachFeature
+        	})
 
-					// var legend = L.control({position: 'bottomright'});
+					var legend = L.control({position: 'bottomright'});
 
-					// legend.onAdd = function (map) {
+					legend.onAdd = function (map) {
 
-					// 	var div = L.DomUtil.create('div', 'info legend');
-					// 	var grades = [-20, -4, -3, -2, 0, 2, 3, 4, 20];
-					// 	var labels = [];
-					// 	var from; 
-					// 	var to;
+						var div = L.DomUtil.create('div', 'info legend');
+						var grades = [-20, -4, -3, -2, 0, 2, 3, 4, 20];
+						var labels = [];
+						var from; 
+						var to;
 
-					// 	for (var i = 0; i < grades.length; i++) {
-					// 		from = grades[i];
-					// 		to = grades[i + 1];
+						for (var i = 0; i < grades.length; i++) {
+							from = grades[i];
+							to = grades[i + 1];
 
-					// 		labels.push(
-					// 			'<i style="background:' + getColor(from + 1) + '"></i> ' +
-					// 			from + (to ? '  &ndash;  ' + to : '+'));
-					// 	}
+							labels.push(
+								'<i style="background:' + getColor(from + 1) + '"></i> ' +
+								from + (to ? '  &ndash;  ' + to : '+'));
+						}
 
-					// 	div.innerHTML = labels.join('<br>');
-					// 	return div;
-					// };
+						div.innerHTML = labels.join('<br>');
+						return div;
+					};
 
-					// legend.addTo(map);
-
+					legend.addTo(map);
+					geojson.addTo(map);
+					
         } // end scope.load
 
-
         //  Markers ======================================================================
-				
+
 				// watch for points changes and re-render
         scope.$watch('userdata', function (newData) {
           scope.render(newData);
@@ -192,14 +192,19 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
         	if (!userdata) return;
 
 			    // create feature group
-			    var pointGroup = L.featureGroup();
+			   	var pointGroup = L.featureGroup();
 
 			    // sort flat fees from metered fees
 					var p = userdata;
 					var frate = _.filter(p, { 'billtype': 'frate' });
 					var mrate = _.filter(p, { 'billtype': 'mrate' });
 					var f = _.extend({}, frate);
-					var m = _.extend({}, mrate);			    
+					var m = _.extend({}, mrate);
+
+					// var cPane = map.createPane('circlePane');
+					// cPane.style.zIndex = 11;
+					var renderer = (L.SVG && L.svg());
+					// renderer.options.cPane = 'circlePane';		    
 					
 			    // loop through f points
 	        angular.forEach(f, function(f, key){
@@ -241,7 +246,8 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 							  fillColor: "#a4ad50",
 							  fillOpacity: 0.95,
 							  opacity: 1,
-							  weight: 3
+							  weight: 3,
+							  renderer: renderer
 							});
 		          flatMarker.addTo(pointGroup);
 	          });
@@ -288,16 +294,14 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 							  fillColor: "#9abab4",
 							  fillOpacity: 0.95,
 							  opacity: 1,
-							  weight: 3
+							  weight: 3,
+							  renderer: renderer
 							});
 		          meterMarker.addTo(pointGroup);
 
 		        });
 
 	        });
-					
-	     		// add circle markers to map
-	        pointGroup.addTo(map);
 
 	        //setup popups to trigger on mouseovers
 					pointGroup.on('mouseover', function(e) {
@@ -323,7 +327,7 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 					.on('mouseout', function(e){
 					  var layer = e.layer;
 					  layer.setStyle({
-					    weight: 1,
+					    weight: 3,
 					    color: "#fff"
 					  });
 						map.closePopup();
@@ -348,15 +352,13 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 					  	var submit = moment.utc(layer.options.tstamp).format('MM/DD/YYYY');
 					  	document.getElementById('bill-panel-submit').innerHTML = submit;
 					  });
-						
-					  // if (!L.Browser.ie && !L.Browser.opera) {
-					  //   layer.bringToFront();
-					  // }
 
 					});
+					// add circle markers to map
+					pointGroup.addTo(map);
 
 				}// scope.render
-			
+        
 			});//end mapService
 
 			

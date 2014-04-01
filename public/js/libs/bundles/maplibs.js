@@ -3,6 +3,6 @@
 
 // require('../../../components/leaflet-dist/leaflet-src.js');
 // require('../../../components/leaflet-master/leaflet-src.js');
-require('mapbox.js');
+// require('mapbox.js');
 
 

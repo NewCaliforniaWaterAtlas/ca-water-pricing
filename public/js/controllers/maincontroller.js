@@ -167,6 +167,23 @@ app.controller('palmerController', ['$scope','palmerFeature', function ($scope, 
 }]);
 
 
+app.controller('palmerCache', ['$scope', '$http', 'featureCache', function ($scope, $http, featureCache) {
+		
+	var cache = featureCache.get('palmerdata');
+	if (cache) {
+	 	$scope.palmercache = cache;
+	}
+	else {
+		$http.get('/v1/api/features/palmerdrought')
+		.success(function(data) {
+			$scope.palmercache = data;
+			featureCache.put('palmerdata', data);
+		});
+	}
+
+}]);
+
+
 app.controller('barsController1', ['$scope', function ($scope){
 
   $scope.onClick = function(item) {

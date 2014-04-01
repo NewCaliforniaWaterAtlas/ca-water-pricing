@@ -3,7 +3,7 @@
 app.factory('billService', ['$http', function($http) {
 	return {
 		get : function() {
-			return $http.get('/v1/api/bills', {cache: true});
+			return $http.get('/v1/api/bills');
 		},
 		create : function(billData) {
 			return $http.post('/v1/api/bills', billData);
