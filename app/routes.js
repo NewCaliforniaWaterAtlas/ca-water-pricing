@@ -7,6 +7,7 @@ var schedule = require('node-schedule');
 
 var jsonConv = require('../config/jsonConverters').esriConverter();
 var topojson = require("topojson");
+var simplify = require('simplify-geojson');
 
 var database = require('../config/database');
 var mongodb = require('mongodb');
@@ -155,58 +156,58 @@ module.exports = function(app) {
 	// get JSON & convert to geoJSON and store in mongo collection
 	// todo: parse JSON and pull "."s out of field names and return "outFields=*", query latest record in where=YEARMONTH
 	
-	// var j = schedule.scheduleJob({hour: 15, minute: 0, dayOfWeek: 4}, function(){
+	var j = schedule.scheduleJob({hour: 15, minute: 0, dayOfWeek: 4}, function(){
 	// (function() {
 
-	//   request.get({ 
-	//     // url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/1/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=*&returnGeometry=true'
-	//     url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=PDSI,NAME,DIV_CODE&returnGeometry=true'
-	//     }, function(err,resp,body){
+	  request.get({ 
+	    // url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/1/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=*&returnGeometry=true'
+	    url: 'http://gis.ncdc.noaa.gov/arcgis/rest/services/cdo/indices/MapServer/2/query?where=YEARMONTH%3D201402&spatialRel=esriSpatialRelIntersects&returnDistinctValues=false&f=json&outFields=PDSI,NAME,DIV_CODE&returnGeometry=true'
+	    }, function(err,resp,body){
 	  		
-	//   		if (!err && resp.statusCode == 200) {
+	  		if (!err && resp.statusCode == 200) {
 
-	// 	      var outjson = JSON.parse(body);
-	// 	      var geojson = jsonConv.toGeoJson(outjson);
-	// 	      // console.log(geojson);
+		      var outjson = JSON.parse(body);
+		      var geojson = jsonConv.toGeoJson(outjson);
+		      // var simplified = simplify(geojson, 0.001);
 
-	// 				// var collection = {type: "FeatureCollection", features: [geojson]}; // GeoJSON
-	// 				// var topology = topojson.topology({collection: collection}); // convert to TopoJSON
-	// 				// console.log(topology.objects.collection); // inspect TopoJSON
+					// var collection = {type: "FeatureCollection", features: [geojson]}; // GeoJSON
+					// var topology = topojson.topology({collection: collection}); // convert to TopoJSON
+					// console.log(topology.objects.collection); // inspect TopoJSON
 
-	// 		    // var objects, options;
-	// 		    // options = {
-	// 		    //   verbose: true,
-	// 		    //   "coordinate-system": "auto",
-	// 		    //   quantization: 1e4,
-	// 		    //   "stich-poles": true,
-	// 		    //   "property-transform": function(o, k, v) {
-	// 		    //     o[k] = v;
-	// 		    //     return true;
-	// 		    //   }
-	// 		    // };
-	// 		    // objects = {
-	// 		    //   features: geojson
-	// 		    // };
+			    // var objects, options;
+			    // options = {
+			    //   verbose: true,
+			    //   "coordinate-system": "auto",
+			    //   quantization: 1e4,
+			    //   "stich-poles": true,
+			    //   "property-transform": function(o, k, v) {
+			    //     o[k] = v;
+			    //     return true;
+			    //   }
+			    // };
+			    // objects = {
+			    //   features: geojson
+			    // };
 			    
-	// 		    // var outputjson = topojson.topology(objects, options);
+			    // var outputjson = topojson.topology(objects, options);
 
-	// 				db.createCollection('noaapalmerdsi', function(err, collection) {});
+					db.createCollection('noaapalmerdsi', function(err, collection) {});
 				
-	// 			  db.collection('noaapalmerdsi').save(geojson, function(err, records) {
-	// 			    if (err) throw err;
-	// 			    console.log("record added");
-	// 			  });
+				  db.collection('noaapalmerdsi').save(geojson, function(err, records) {
+				    if (err) throw err;
+				    console.log("record added");
+				  });
 
-	//   		} else {
-	//   			console.error("Error: " + err);
-	//   		}
+	  		} else {
+	  			console.error("Error: " + err);
+	  		}
 
-	//   });
-	// 	var date = new Date();
-	// 	console.log('retrieved NOAA Palmer DSI JSON: ' + date);
+	  });
+		var date = new Date();
+		console.log('retrieved NOAA Palmer DSI JSON: ' + date);
 
 	// })();		
-	// });
+	});
 
 
 

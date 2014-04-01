@@ -20,6 +20,7 @@
     "chromelogger": "~1.1.1",
     "topojson": "~1.5.2",
     "mapbox.js": "~1.6.2",
-    "leaflet-omnivore": "0.0.1"
+    "leaflet-omnivore": "0.0.1",
+    "simplify-geojson": "0.0.2"
   }
 }

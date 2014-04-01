@@ -473,6 +473,6 @@ p.tt-title {
   padding: 15px 15px 15px 15px;
 }
 
-.leaflet-overlay-pane>svg:first-of-type {
+.leaflet-overlay-pane>svg:last-of-type {
   z-index: 1;
 }

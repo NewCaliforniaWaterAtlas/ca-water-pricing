@@ -107,9 +107,9 @@ app.directive('mapagency', [ '$window','mapService','geoService', '$cacheFactory
 					    opacity: 0.5
 					  });
 
-					  if (!L.Browser.ie && !L.Browser.opera) {
-					    layer.bringToFront();
-					  }
+					  // if (!L.Browser.ie && !L.Browser.opera) {
+					  //   layer.bringToFront();
+					  // }
 					  info.update(layer.feature.properties);
 					}
 					

@@ -108,9 +108,9 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 					    opacity: 0.5
 					  });
 
-					  if (!L.Browser.ie && !L.Browser.opera) {
-					    layer.bringToFront();
-					  }
+					  // if (!L.Browser.ie && !L.Browser.opera) {
+					  //   layer.bringToFront();
+					  // }
 					  info.update(layer.feature.properties);
 					}
 					
@@ -133,7 +133,6 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 							click: zoomToFeature
 						});
 					}
-
 
 					// var layer = omnivore.topojson(layerone)
 				 //    .on('ready', function() {
