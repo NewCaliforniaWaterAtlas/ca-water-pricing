@@ -5,7 +5,7 @@ app.factory('geoService', ['$localStorage', '$timeout', '$document', '$window', 
   var d = $q.defer();
   
   if(typeof $window.google !== 'undefined' && typeof $window.google.maps !== 'undefined') {
-    console.log('yes, google is undefined, creating promise');
+    // console.log('yes, google is undefined, creating promise');
     // Early-resolve the promise for googleMaps
     d.resolve($window.google.maps);
     // return d.promise;
