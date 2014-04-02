@@ -1,12 +1,12 @@
 <!-- test page ================================================== -->  		
 
-<!-- <div ng-include="'views/templates/head.html'"></div> -->
+<div ng-include="'views/templates/head.html'"></div>
 
 <div class="row row-group">
 	<h2 class="bar-title">Crowdsourcing the Pricing of Water</h2>
-	<!-- <leaflet id="map" center="cacenter" markers="markers"></leaflet> -->
+	<input type="text" ng-model="searchTest">
+	<leaflet id="map" center="cacenter" markers="markers | filter:searchTest"></leaflet>
 </div>
-
 
 <div ng-include="'views/templates/nav-content.html'"></div>
 <div ng-include="'views/templates/explore-content.html'"></div>

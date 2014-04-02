@@ -5,15 +5,15 @@
 <div class="row-group">
 	
 	<div class="row">
-		<div id="map-wrap" class="col-sm-9" ng-controller="palmerCache">
-		<!-- <div id="map-wrap" class="col-sm-9"> -->
+		<!-- <div id="map-wrap" class="col-sm-9" ng-controller="palmerCache"> -->
+		<div id="map-wrap" class="col-sm-9">
 		
 			<h2 class="bar-title" ng-controller="submitCounter1">Crowdsourcing the Pricing of Water
 				<span id="ctrfrate"	class="counters pull-right">{{frate}}</span>
 				<span id="ctrmrate" class="counters pull-right">{{mrate}}</span>
 			</h2>
-		
-			<div mapuser id="map" userdata="entries" layerone="palmercache"></div>
+			<input type="text" ng-model="searchEntries">
+			<div mapuser id="map" userdata="entries | filter:searchEntries"></div>
 		</div>
 		
 		<!-- <div id="graph-wrap1" class="col-sm-3" ng-controller="barsController1">	  
@@ -30,19 +30,26 @@
 			<h2 class="bar-title">Details</h2>
 		  <tabset justified="true">
 		    <tab heading="Water Bill">
-		    	<div class="bill-panel">
-		    		
+		    	<div class="detail-panel">
 						<p>Cost per Day: $<span id="bill-panel-pday" class="panel-items"></span></p>
 		    		<p>Location: <span id="bill-panel-streetaddr" class="panel-items"></span></p>
-
 		    		<p>Water Provider: <span id="bill-panel-util" class="panel-items"></span></p>
 		    		<p>Total Bill: $<span id="bill-panel-bill" class="panel-items"></span></p>
 		    		<p>Water Used: <span id="bill-panel-used" class="panel-items"></span> <span id="bill-panel-units" class="panel-items"></span></p>
 		    		<p>Submitted: <span id="bill-panel-submit" class="panel-items"></span></p>
-
 		    	</div>
 		    </tab>
-		    <tab heading="Search">search input here</tab>
+		    <tab heading="Search">
+		    	<div class="search-panel">
+		    		
+		    		<ul ng-repeat="entry in entries | filter:searchEntries">
+		    			<li >
+		    				<p>{{entry.streetaddr}}: {{entry.billtype}}</p>
+		    			</li>
+		    		</ul>
+		    	</div>
+
+		    </tab>
 		  </tabset>
 		</div>
 	</div>
@@ -50,7 +57,7 @@
 
 	<div class="row">
 		<div id="graph-wrap2" class="col-sm-4">
-		  <d3-graph id="chartContainer" data="entries"></d3-graph>
+		  <d3-graph id="chartContainer" data="entries | filter:searchEntries"></d3-graph>
 		</div>
 		
 		<div id="graph-wrap3" class="col-sm-4">

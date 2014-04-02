@@ -1,12 +1,12 @@
 'use strict';
 
-app.directive('mapagency', [ '$window','mapService','geoService', '$cacheFactory', function ($window, mapService, geoService, $cacheFactory ) {
+app.directive('mapagency', [ '$window','mapService','geoService', function ($window, mapService, geoService) {
 	return {
 		restrict: 'A',
 		// replace: true,
 		scope:{
-      points:"=",
-      layerone:"="
+      points:"="
+      // layerone:"="
     },
 		link: function(scope, element, attrs) {
 
@@ -43,140 +43,15 @@ app.directive('mapagency', [ '$window','mapService','geoService', '$cacheFactory
 		    tiles.addTo(map);
 
 
-				//  Palmer DSI Data from NOAA ======================================================================	
-        
-        scope.$watch('layerone', function (newVals, oldVals) {
-					scope.load(newVals);
-        }, true);
-
-        scope.load = function(layerone) {
-        	// console.log(layerone);
-
-          // If we don't pass any data, return out of the element
-          if (!layerone) return; 
-
-					// control that shows state info on hover
-					var InfoControl = L.Control.extend({
-
-						onAdd: function (map) {
-							this._div = L.DomUtil.create('div', 'info');
-							this.update();
-							return this._div;
-						},
-
-						update: function (props) {
-							this._div.innerHTML = '<h4>Region: </h4>' + (props ? '<b>' + props.NAME + '</b><br /><h4>Drought Severity Index: </h4><b>' + props.PDSI + '<b>':'');
-						}
-					});
-
-					var info = new InfoControl();
-					info.addTo(map);
-
-					function getColor(d) {
-				    return d < -4     ? '#8c510a' :
-				           d < -3     ? '#bf812d' :
-				           d < -2     ? '#dfc27d' :
-				           d < -1     ? '#f6e8c3' :
-				           d > 1      ? '#c7eae5' :
-				           d > 2      ? '#80cdc1' :
-				           d > 3      ? '#35978f' :
-				           d > 4      ? '#01665e' :
-				           							'#f5f5f5' ;				                        
-					}
-
-					function style(feature) {
-						return {
-							weight: 2,
-							opacity: 1,
-							color: "#fff",
-							dashArray: '4',
-							fillOpacity: 0.7,
-							fillColor: getColor(feature.properties.PDSI)
-						};
-					}        	
-
-        	// highlight on hover
-					function highlightFeature(e) {
-					  var layer = e.target;
-
-					  layer.setStyle({
-					    weight: 5,
-					    color: "#1c75bc",
-					    dashArray: '',
-					    fillOpacity: 0.7,
-					    opacity: 0.5
-					  });
-
-					  // if (!L.Browser.ie && !L.Browser.opera) {
-					  //   layer.bringToFront();
-					  // }
-					  info.update(layer.feature.properties);
-					}
-					
-					// var polyGroup = L.layerGroup();
-					var geojson;
-
-					function resetHighlight(e) {
-						geojson.resetStyle(e.target);
-						info.update();
-					}
-
-					function zoomToFeature(e) {
-						map.fitBounds(e.target.getBounds());
-					}
-
-					function onEachFeature(feature, layer) {
-						layer.on({
-							mouseover: highlightFeature,
-							mouseout: resetHighlight,
-							click: zoomToFeature
-						});
-					}
+				//  Palmer DSI Data from NOAA rendered as tiles ======================================================================	
 
 
-					// var layer = omnivore.topojson(layerone)
-				 //    .on('ready', function() {
-				 //        // when this is fired, the layer
-				 //        // is done being initialized
-				 //    })
-				 //    .on('error', function() {
-				 //        // fired if the layer can't be loaded over AJAX
-				 //        // or can't be parsed
-				 //    })
-				 //    .addTo(map);
+				var pdsiTiles = L.mapbox.tileLayer('chachasikes.hm7o3785').addTo(map);
 
-        	geojson = L.geoJson(layerone, {
-						style: style,
-						onEachFeature: onEachFeature
-        	})
+				var pdsiGridLayer = L.mapbox.gridLayer('chachasikes.hm7o3785').addTo(map);
+				console.log(pdsiGridLayer);	
 
-					var legend = L.control({position: 'bottomright'});
-
-					legend.onAdd = function (map) {
-
-						var div = L.DomUtil.create('div', 'info legend');
-						var grades = [-20, -4, -3, -2, 0, 2, 3, 4, 20];
-						var labels = [];
-						var from; 
-						var to;
-
-						for (var i = 0; i < grades.length; i++) {
-							from = grades[i];
-							to = grades[i + 1];
-
-							labels.push(
-								'<i style="background:' + getColor(from + 1) + '"></i> ' +
-								from + (to ? '  &ndash;  ' + to : '+'));
-						}
-
-						div.innerHTML = labels.join('<br>');
-						return div;
-					};
-
-					legend.addTo(map);
-					geojson.addTo(map);
-					
-        } // end scope.load
+				var pdsiGridControl = L.mapbox.gridControl(pdsiGridLayer).addTo(map);
 
         //  Markers ======================================================================
 

@@ -108,8 +108,7 @@ app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) 
                 .attr("y2", h - margin.t - margin.b)
                 .attr("transform", "translate(40,20)")
                 .style("stroke", circle.style("fill"))
-                .transition().delay(200).duration(400).styleTween("opacity", 
-                      function() { return d3.interpolate(0, .5); })
+                .transition().delay(200).duration(400).styleTween("opacity", function() { return d3.interpolate(0, .5); });
 
               svg.append("g")
                 .attr("class", "guide")
@@ -120,8 +119,7 @@ app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) 
                 .attr("y2", circle.attr("cy"))
                 .attr("transform", "translate(40,30)")
                 .style("stroke", circle.style("fill"))
-                .transition().delay(200).duration(400).styleTween("opacity", 
-                      function() { return d3.interpolate(0, .5); });
+                .transition().delay(200).duration(400).styleTween("opacity", function() { return d3.interpolate(0, .5); });
 
               // function to move mouseover item to front of SVG stage, in case
               // another bubble overlaps it
@@ -189,9 +187,9 @@ app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) 
               .attr("transform", "rotate(-90)")
               .text("Total Water Bill (USD)");
 
-          }
-        }
-      });
+          } // end if data
+        } // end scope.render
+      }); // end 3Service.d3()
 
     }//end link method
   };//end return

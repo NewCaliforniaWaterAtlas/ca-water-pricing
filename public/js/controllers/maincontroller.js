@@ -154,34 +154,34 @@ app.controller('agencyController', ['$scope', 'agencyService', function ($scope,
 }]);
 
 
-app.controller('palmerController', ['$scope','palmerFeature', function ($scope, palmerFeature){
+// app.controller('palmerController', ['$scope','palmerFeature', function ($scope, palmerFeature){
 
-	palmerFeature.get()
-		.success(function(data) {
-			$scope.palmer = data;		
-		})
-		.error(function (data, status, headers, config){
-       console.log('API CALL ERROR ' +status);
-    });
+// 	palmerFeature.get()
+// 		.success(function(data) {
+// 			$scope.palmer = data;		
+// 		})
+// 		.error(function (data, status, headers, config){
+//        console.log('API CALL ERROR ' +status);
+//     });
 
-}]);
+// }]);
 
 
-app.controller('palmerCache', ['$scope', '$http', 'featureCache', function ($scope, $http, featureCache) {
+// app.controller('palmerCache', ['$scope', '$http', 'featureCache', function ($scope, $http, featureCache) {
 		
-	var cache = featureCache.get('palmerdata');
-	if (cache) {
-	 	$scope.palmercache = cache;
-	}
-	else {
-		$http.get('/v1/api/features/palmerdrought')
-		.success(function(data) {
-			$scope.palmercache = data;
-			featureCache.put('palmerdata', data);
-		});
-	}
+// 	var cache = featureCache.get('palmerdata');
+// 	if (cache) {
+// 	 	$scope.palmercache = cache;
+// 	}
+// 	else {
+// 		$http.get('/v1/api/features/palmerdrought')
+// 		.success(function(data) {
+// 			$scope.palmercache = data;
+// 			featureCache.put('palmerdata', data);
+// 		});
+// 	}
 
-}]);
+// }]);
 
 
 app.controller('barsController1', ['$scope', function ($scope){

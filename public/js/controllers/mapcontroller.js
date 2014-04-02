@@ -19,27 +19,21 @@ app.controller("mapController", [ '$scope', 'billService', function ($scope, bil
 
 	billService.get()
 		.success(function (data, status) {
-			
+		
 			angular.forEach(data, function(point, key){
+				console.log(data);	
+				$scope.markers.userMarkers = {
+			    lat: point.lat,
+			    lng: point.lng,
+			    message: "test",
+			    focus: true,
+				};
 				
-				
-					$scope.markers.cpucMarkers = {
-				    
-				    lat: point.lat,
-				    lng: point.lng,
-				    message: "test",
-				    focus: true,
-					};
-				
-			
 			});
 			
-		
 		});
 
 }]);
-
-
 
 
 // angular.forEach(userdata, function(point, key){
