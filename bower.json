@@ -32,6 +32,10 @@
     "d3": "~3.4.3",
     "ngAutocomplete": "~1.0.0",
     "esri-leaflet": "~0.0.1-beta.4-patch-1",
-    "ngstorage": "~0.3.0"
+    "ngstorage": "~0.3.0",
+    "bootstrap": "~3.1.1"
+  },
+  "resolutions": {
+    "bootstrap": "~3.1.1"
   }
 }

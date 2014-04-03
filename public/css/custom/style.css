@@ -271,9 +271,6 @@ ol.carousel-indicators {
 }
 
 
-
-
-
 #bill-list {
   margin-bottom:30px;
 }
@@ -469,10 +466,35 @@ p.tt-title {
   display: inline-block;
 }
 
+.leaflet-overlay-pane>svg:last-of-type {
+  z-index: 1;
+}
+
+/*
+ *  panel
+ */ 
+
 .detail-panel, .search-panel {
   padding: 15px 15px 15px 15px;
 }
 
-.leaflet-overlay-pane>svg:last-of-type {
-  z-index: 1;
+/*.form-control {
+  border-radius: 0px;
 }
+
+.input-group-addon {
+  border-radius: 0px;
+}
+
+.input-group-lg>.form-control {
+  border-radius: 0px;
+}
+
+.input-group-lg>.form-control, .input-group-lg>.input-group-addon, .input-group-lg>.input-group-btn>.btn {
+  border-radius: 0px;
+}*/
+
+
+
+
+

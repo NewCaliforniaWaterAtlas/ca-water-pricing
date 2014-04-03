@@ -78,6 +78,7 @@ module.exports = function(app) {
 			lng : req.body.lng,
 			rate : req.body.rate,
 			tstamp : req.body.tstamp,
+			pday : req.body.pday,
 			done : false
 		}, function(err, bill) {
 			if (err)

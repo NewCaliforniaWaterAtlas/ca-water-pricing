@@ -12,8 +12,8 @@
 				<span id="ctrfrate"	class="counters pull-right">{{frate}}</span>
 				<span id="ctrmrate" class="counters pull-right">{{mrate}}</span>
 			</h2>
-			<input type="text" ng-model="searchEntries">
-			<div mapuser id="map" userdata="entries | filter:searchEntries"></div>
+			<!-- <input type="text" ng-model="searchEntries"> -->
+			<div mapuser id="map" userdata="entries | filter:searchentries"></div>
 		</div>
 		
 		<!-- <div id="graph-wrap1" class="col-sm-3" ng-controller="barsController1">	  
@@ -41,8 +41,13 @@
 		    </tab>
 		    <tab heading="Search">
 		    	<div class="search-panel">
-		    		
-		    		<ul ng-repeat="entry in entries | filter:searchEntries">
+
+						<div class="input-group">
+						  <input type="text" class="form-control" ng-model="$parent.searchentries" placeholder="ex. san diego">
+						  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+						</div>
+
+		    		<ul ng-repeat="entry in entries | filter:searchentries">
 		    			<li >
 		    				<p>{{entry.streetaddr}}: {{entry.billtype}}</p>
 		    			</li>
@@ -57,10 +62,11 @@
 
 	<div class="row">
 		<div id="graph-wrap2" class="col-sm-4">
-		  <d3-graph id="chartContainer" data="entries | filter:searchEntries"></d3-graph>
+		  <d3-graph id="chartContainer" data="entries | filter:searchentries"></d3-graph>
 		</div>
 		
 		<div id="graph-wrap3" class="col-sm-4">
+		  <!-- <input type="text" ng-model="searchEntries"> -->
 		  <!-- <d3-donut data="[82, 62, 10, 32]"></d3-donut> -->
 		  <!-- <d3-donut data="entries"></d3-donut> -->
 		</div>

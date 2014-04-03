@@ -65,7 +65,7 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
         scope.render = function(data) {
         	// remove all previous items before render
         	pointGroup.clearLayers();
-        	
+
         	if (data) {
 
 				    // sort flat fees from metered fees
@@ -82,98 +82,79 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 						
 				    // loop through f points
 		        angular.forEach(f, function(f, key){
-
-		        	timeService.time().then(function () {	
 								
-								var end  = f.edate;
-								var start = f.sdate;
-								var fdiff = moment.utc(moment(end).diff(moment(start))).format('D');
+		          //extend marker properties
+							var customCircleMarker = L.CircleMarker.extend({
+								options: { 
+									streetaddr: f.streetaddr,
+									city: f.city,
+									county: f.county,
+									state: f.state,
+									country: f.country,
+									postal: f.postal,
+									hsize: f.hsize,
+									util: f.util,
+									bill: f.bill,
+									sdate: f.sdate,
+									edate: f.edate,
+									billtype: f.billtype,
+									used: f.used,
+									units: f.units,
+									rate: f.rate,
+									tstamp: f.tstamp,
+									pday: f.pday
+								}
+							});				
 
-								var fpday = (f.bill/fdiff).toFixed();
-								
-			          //extend marker properties
-								var customCircleMarker = L.CircleMarker.extend({
-									options: { 
-										streetaddr: f.streetaddr,
-										city: f.city,
-										county: f.county,
-										state: f.state,
-										country: f.country,
-										postal: f.postal,
-										hsize: f.hsize,
-										util: f.util,
-										bill: f.bill,
-										sdate: start,
-										edate: end,
-										billtype: f.billtype,
-										used: f.used,
-										units: f.units,
-										rate: f.rate,
-										tstamp: f.tstamp,
-										pday: fpday
-									}
-								});				
-
-								var flatMarker = new customCircleMarker([f.lat, f.lng], { 
-								  radius: fpday * 1.5,
-								  color: "#fff",
-								  fillColor: "#a4ad50",
-								  fillOpacity: 0.95,
-								  opacity: 1,
-								  weight: 3,
-								  renderer: renderer
-								});
-			          flatMarker.addTo(pointGroup);
-		          });
-		        
+							var flatMarker = new customCircleMarker([f.lat, f.lng], { 
+							  radius: f.pday * 1.5,
+							  color: "#fff",
+							  fillColor: "#a4ad50",
+							  fillOpacity: 0.95,
+							  opacity: 1,
+							  weight: 3,
+							  renderer: renderer
+							});
+		          flatMarker.addTo(pointGroup);
+		     
 		        });
 						
 				    // loop through m points
 		        angular.forEach(m, function(m, key){
 
-		        	timeService.time().then(function () {	
-								
-								var end  = m.edate;
-								var start = m.sdate;
-								var mdiff = moment.utc(moment(end).diff(moment(start))).format('D');
+		          //extend marker properties
+							var customCircleMarker = L.CircleMarker.extend({
+								options: { 
+									streetaddr: m.streetaddr,
+									city: m.city,
+									county: m.county,
+									state: m.state,
+									country: m.country,
+									postal: m.postal,
+									hsize: m.hsize,
+									util: m.util,
+									bill: m.bill,
+									sdate: m.sdate,
+									edate: m.edate,
+									billtype: m.billtype,
+									used: m.used,
+									units: m.units,
+									rate: m.rate,
+									tstamp: m.tstamp,
+									pday: m.pday
+								}
+							});
 
-								var mpday = (m.bill/mdiff).toFixed();
-
-			          //extend marker properties
-								var customCircleMarker = L.CircleMarker.extend({
-									options: { 
-										streetaddr: m.streetaddr,
-										city: m.city,
-										county: m.county,
-										state: m.state,
-										country: m.country,
-										postal: m.postal,
-										hsize: m.hsize,
-										util: m.util,
-										bill: m.bill,
-										sdate: start,
-										edate: end,
-										billtype: m.billtype,
-										used: m.used,
-										units: m.units,
-										rate: m.rate,
-										tstamp: m.tstamp,
-										pday: mpday
-									}
-								});
-
-								var meterMarker = new customCircleMarker([m.lat, m.lng], { 
-								  radius: mpday * 1.5,
-								  color: "#fff",
-								  fillColor: "#9abab4",
-								  fillOpacity: 0.95,
-								  opacity: 1,
-								  weight: 3,
-								  renderer: renderer
-								});
-			          meterMarker.addTo(pointGroup);
-
-			        });
+							var meterMarker = new customCircleMarker([m.lat, m.lng], { 
+							  radius: m.pday * 1.5,
+							  color: "#fff",
+							  fillColor: "#9abab4",
+							  fillOpacity: 0.95,
+							  opacity: 1,
+							  weight: 3,
+							  renderer: renderer
+							});
+		          meterMarker.addTo(pointGroup);
 
 		        });
 
@@ -229,7 +210,7 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 
 						});
 						// add circle markers to map
-						map.addLayer(pointGroup);
+						pointGroup.addTo(map);
 					
 					} else {return;} // if data isn't passed, return out of the element
 				}// scope.render

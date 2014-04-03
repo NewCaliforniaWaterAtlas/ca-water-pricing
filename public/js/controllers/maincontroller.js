@@ -1,6 +1,6 @@
-'use strict';
 
-app.controller('mainController', [ '$scope', 'billService', function ($scope, billService) {
+
+app.controller('mainController', [ '$scope', 'billService', 'timeService', function ($scope, billService, timeService) {
 	
 	// make sure form is clear on scope
 	$scope.formData = {};
@@ -63,13 +63,21 @@ app.controller('mainController', [ '$scope', 'billService', function ($scope, bi
 		if ($scope.formData.$valid) {
 
 			var components = $scope.details.address_components;
-			// console.log(components);	
-			
 			var city = null;
 			var county = null;
 			var state = null;
 			var country = null;
 			var postal = null;
+
+			timeService.time().then(function () {
+				var start = $scope.formData.sdate;
+				var end = $scope.formData.edate;
+				var e = moment(end, "MM-DD-YYYY");
+				var s = moment(start, "MM-DD-YYYY");
+				var tdiff = moment.utc(moment(e).diff(moment(s))).format('D');
+				var pday = ($scope.formData.bill/tdiff).toFixed();
+				$scope.formData.pday = pday;
+			});
 
 			for (var i = 0, component; component = components[i]; i++) {
         
@@ -251,3 +259,12 @@ app.controller('submitCounter2', ['$scope', 'agencyService', function ($scope, a
 		});
 
 }]);
+
+
+// app.controller('test', ['$scope', function ($scope){
+	
+// 	$scope.searchentries = {};
+
+
+
+// }]);
