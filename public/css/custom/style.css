@@ -142,10 +142,10 @@ h2.bar {
   margin-top: 75px;
 }
 
+
 /*
  *  tabs
  */
-
 
 .nav > li > a {
   font-family: 'Questrial', sans-serif;
@@ -234,6 +234,7 @@ ol.carousel-indicators {
   list-style: none;
 }
 
+
 /*
  *  teaser 
  */ 
@@ -280,32 +281,10 @@ ol.carousel-indicators {
   margin-bottom:50px;
 }
 
-.chart {
-  background: #eee;
-  padding: 3px;
-}
 
-.chart div {
-  width: 0;
-  transition: all 1s ease-out;
-  -moz-transition: all 1s ease-out;
-  -webkit-transition: all 1s ease-out;
-}
-
-.chart div {
-  font: 10px sans-serif;
-  background-color: #5bc0de;
-  text-align: right;
-  padding: 3px;
-  margin: 5px;
-  color: white;
-  box-shadow: 2px 2px 2px #666;
-}
-
-#map {
-  height: 480px;
-  width: 100%;
-}
+/*
+ *  counters
+ */ 
 
 .counters {
   color: #fff;
@@ -320,14 +299,6 @@ ol.carousel-indicators {
 
 #ctrfrate {
   background-color: #a4ad50;
-}
-
-a.leaflet-popup-close-button {
-  display: none;
-}
-
-.leaflet-popup-tip {
-  display: none;
 }
 
 #submit-block{
@@ -370,8 +341,10 @@ a.leaflet-popup-close-button {
   pointer-events: none;
 }
 
+
+
 /*
- *  bar graph
+ *  d3 graphs & charts
  */ 
 
 .bar {
@@ -380,6 +353,28 @@ a.leaflet-popup-close-button {
 
 .bar:hover {
   fill: #d8a271;
+}
+
+.chart {
+  background: #eee;
+  padding: 3px;
+}
+
+.chart div {
+  width: 0;
+  transition: all 1s ease-out;
+  -moz-transition: all 1s ease-out;
+  -webkit-transition: all 1s ease-out;
+}
+
+.chart div {
+  font: 10px sans-serif;
+  background-color: #5bc0de;
+  text-align: right;
+  padding: 3px;
+  margin: 5px;
+  color: white;
+  box-shadow: 2px 2px 2px #666;
 }
 
 .axis {
@@ -397,10 +392,6 @@ a.leaflet-popup-close-button {
   /*display: none;*/
 }
 
-/*
- *  donut chart
- */ 
-
 #graph-wrap1 {
   /*margin-top: 20px;*/
 }
@@ -410,9 +401,45 @@ a.leaflet-popup-close-button {
   height: 100%;
 }
 
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+
+
 /*
- *  map panels & legends
+ *  map, tooltips, panels, & legends
  */ 
+
+#map {
+  height: 480px;
+  width: 100%;
+}
 
 .legend {
   line-height: 18px;
@@ -425,6 +452,47 @@ a.leaflet-popup-close-button {
   float: left;
   margin-right: 8px;
   opacity: 1;
+}
+
+.my-legend .legend-title {
+  text-align: left;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 90%;
+}
+.my-legend .legend-scale ul {
+  margin: 0;
+  padding: 0;
+  float: left;
+  list-style: none;
+}
+.my-legend .legend-scale ul li {
+  display: block;
+  float: left;
+  width: 40px;
+  margin-bottom: 6px;
+  text-align: center;
+  font-size: 70%;
+  list-style: none;
+}
+.my-legend ul.legend-labels li span {
+  display: block;
+  float: left;
+  height: 15px;
+  width: 40px;
+  opacity: 0.7;
+}
+.my-legend .legend-source {
+  font-size: 70%;
+  color: #999;
+  clear: both;
+}
+.my-legend a {
+  color: #777;
+}
+
+ul.legend-labels>li>.tooltip {
+  margin-left: 20px;
 }
 
 .info {
@@ -455,6 +523,19 @@ p.tt-title {
   padding-bottom: 9px;
 }
 
+
+/*
+ *  leaflet overrides
+ */ 
+
+a.leaflet-popup-close-button {
+  display: none;
+}
+
+.leaflet-popup-tip {
+  display: none;
+}
+
 .leaflet-popup-content-wrapper {
   padding: 20px 15px 10px 15px;
   background-color: #dbd7ca;
@@ -469,6 +550,7 @@ p.tt-title {
 .leaflet-overlay-pane>svg:last-of-type {
   z-index: 1;
 }
+
 
 /*
  *  panel

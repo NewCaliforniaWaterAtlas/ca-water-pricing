@@ -21,6 +21,7 @@ app.factory('d3Service', ['$document', '$window', '$q', '$rootScope',
   scriptTag.type = 'text/javascript'; 
   scriptTag.async = true;
   scriptTag.src = 'http://d3js.org/d3.v3.min.js';
+  // scriptTag.src = '../../js/libs/bundles/d3libs-bundle.js';
  
   scriptTag.onreadystatechange = function () {
     if (this.readyState == 'complete') onScriptLoad();

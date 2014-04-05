@@ -3,6 +3,27 @@
 <div class="row row-group" id="get-data">
   <h2 class="bar-title">Get Data</h2>
 
+
+  <ul class="nav nav-tabs nav-stacked col-md-6">
+    <li ng-class="{'active':currentTab == 'Tab1'}">
+      <a data-toggle="tab" ng-click="currentTab = 'Tab1'">Tab1</a>
+    </li>
+    <li ng-class="{'active':currentTab== 'Tab2'}">
+      <a data-toggle="tab" ng-click="currentTab = 'Tab2'">Tab2</a>
+    </li>
+  </ul>
+  
+  <div class="tab-content col-md-6">
+    <div class="tab-pane" ng-class="{'active':currentTab == 'Tab1'}" id="Tab1">
+      <p>I'm in Section 1.</p>
+    </div>
+    <div class="tab-pane" ng-class="{'active':currentTab == 'Tab2'}" id="Tab2"> 
+      <p>Howdy, I'm in Section 2.</p>
+    </div>
+  </div>
+
+
+
   <ul class="nav nav-tabs nav-stacked col-md-6">
     <li><a href="#api-intro" data-toggle="tab">Introduction</a></li>
     <li><a href="#api-download" data-toggle="tab">API | Bulk Download</a></li>

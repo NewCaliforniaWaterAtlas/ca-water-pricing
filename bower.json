@@ -29,9 +29,8 @@
     "angular-ui-router": "0.2.8-bowratic-tedium",
     "lodash": "~2.4.1",
     "angular-leaflet-directive": "~0.7.5",
-    "d3": "~3.4.3",
+    "d3": "~3.4.4",
     "ngAutocomplete": "~1.0.0",
-    "esri-leaflet": "~0.0.1-beta.4-patch-1",
     "ngstorage": "~0.3.0",
     "bootstrap": "~3.1.1"
   },

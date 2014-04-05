@@ -1,8 +1,8 @@
 'use strict';
 
-app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) {
+app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Service, $window, $compile) {
   return {
-    restrict: 'E',
+    restrict: 'A',
     scope: {
       data: '=', // bi-directional data-binding
       onClick: '&'  // parent execution binding
@@ -16,7 +16,7 @@ app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) 
           h = 300 - margin.t - margin.b,
           x = d3.scale.linear().range([0, w]),
           y = d3.scale.linear().range([h - 60, 0]),
-          //colors that will reflect geographical regions
+  
           color = d3.scale.category10();
 
         var svg = d3.select(element[0]).append("svg")
@@ -64,16 +64,8 @@ app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) 
             // group that will contain all of the plots
             var groups = svg.append("g").attr("transform", "translate(" + margin.l + "," + margin.t + ")");
 
-            // array of the regions, used for the legend
-            var regions = ["Asia", "Europe", "Middle East", "N. America", "S. America", "Sub-Saharan Africa"]
-
-            // sort data alphabetically by region, so that the colors match with legend
-            data.sort(function(a, b) { return d3.ascending(a.region, b.region); })
-            // console.log(data)
-
-            var x0 = Math.max(-d3.min(data, function(d) { return d.hsize; }), d3.max(data, function(d) { return d.hsize; }));
-            x.domain([0, 12]);
-            y.domain([0, 500])
+            x.domain([0, 500]);
+            y.domain([0, 12]);
 
             // style the circles, set their locations based on data
             var circles =
@@ -82,17 +74,22 @@ app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) 
               .enter().append("circle")
               .attr("class", "circles")
               .attr({
-                cx: function(d) { return x(+d.hsize); },
-                cy: function(d) { return y(+d.bill); },
-                r: 8,
+                cx: function(d) { return x(+d.bill); },
+                cy: function(d) { return y(+d.hsize); },
+                r: function(d) { return d.pday; }
               })
-              .style("fill", function(d) { return color(d.rate); });
+              .attr("tooltip-append-to-body", true)
+              .attr("tooltip", function(d){
+                return d.city + ": $" + d.pday + " /day";
+              })
+              // .style("fill", function(d) { return color(d.rate); });
+              .style("fill", function(d) { return "#9abab4" });
 
             // what to do when we mouse over a bubble
             var mouseOn = function() { 
               var circle = d3.select(this);
-
               // transition to increase size/opacity of bubble
+
               circle.transition()
               .duration(800).style("opacity", 1)
               .attr("r", 16).ease("elastic");
@@ -129,11 +126,6 @@ app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) 
                 }); 
               };
 
-              // skip this functionality for IE9, which doesn't like it
-              // if (!$.browser.msie) {
-              //   circle.moveToFront(); 
-              // }
-
             };
             // what happens when we leave a bubble?
             var mouseOff = function() {
@@ -142,7 +134,7 @@ app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) 
               // go back to original size and opacity
               circle.transition()
               .duration(800).style("opacity", .5)
-              .attr("r", 8).ease("elastic");
+              .attr("r", function(d) { return d.pday; }).ease("elastic");
 
               // fade out guide lines, then remove them
               d3.selectAll(".guide").transition().duration(100).styleTween("opacity", 
@@ -153,12 +145,6 @@ app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) 
             // run the mouseon/out functions
             circles.on("mouseover", mouseOn);
             circles.on("mouseout", mouseOff);
-
-            // tooltips (using jQuery plugin tipsy)
-            circles.append("title")
-              .text(function(d) { return d.rate; })
-
-            // $(".circles").tipsy({ gravity: 's', });
 
             // draw axes and axis labels
             svg.append("g")
@@ -176,7 +162,7 @@ app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) 
               .attr("text-anchor", "end")
               .attr("x", w + 50)
               .attr("y", h - margin.t - 5)
-              .text("Household Size");
+              .text("Total Water Bill (USD)");
 
             svg.append("text")
               .attr("class", "y label")
@@ -185,7 +171,11 @@ app.directive('d3Graph', ['d3Service', '$window', function (d3Service, $window) 
               .attr("y", 45)
               .attr("dy", ".75em")
               .attr("transform", "rotate(-90)")
-              .text("Total Water Bill (USD)");
+              .text("Household Size");
+
+
+            element.removeAttr("d3-graph");
+            $compile(element)(scope);
 
           } // end if data
         } // end scope.render
