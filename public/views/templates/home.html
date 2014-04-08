@@ -3,8 +3,12 @@
 
 <div id="submit-block" class="row row-group">
 	
-	<div id="hook-box" class="col-sm-offset-1 col-sm-5">
-    <span class="">Compare your water bill with other Californians in two easy steps.</span>
+	<div class="herotext col-sm-offset-1 col-sm-5">
+    <p>Compare your water bill with other Californians in two easy steps.</p>
+    <hr>
+    <span>Having trouble? Check out this sample:</span>
+    <a href="#"><img class="img-responsive img-thumbnail inline pull-right" src="../../img/assets/MMWD_metered_thumb.jpg" height="75" width="75" alt="Sample Metered Water Bill"></a>
+    <!-- <img class="img-responsive inline" src="http://placehold.it/75x75" alt="Sample Flat Rate Water Bill"> -->
 	</div>
 	
 	<div class="panel panel-default col-sm-5">
@@ -167,7 +171,7 @@
 	              </div>
 							  <p ng-show="formData2.edate.$invalid && !formData2.edate.$pristine && !formData2.edate.$focused" class="help-block">Your Billing End Date is required.</p>
 							</div>
-						</div>.<!-- row -->
+						</div><!-- row -->
 				
 						<div class="row">
 							<div class="form-group">
@@ -244,10 +248,19 @@
 	</div><!-- .panel -->
 </div><!-- .row-group -->
 
-
-<!-- <div class="row row-group">
+<div class="row row-group">
 	
-	<div class="panel panel-default col-sm-6 col-sm-offset-3">
+<!-- 	<div class="herotext col-sm-offset-1 col-sm-5">
+		<span>Having trouble? Check out this sample.</span>
+	</div> -->
+
+	<!-- <div class="herotext col-sm-5">
+		<img class="img-responsive pull-right" src="http://placehold.it/150x150" alt="Sample Metered Water Bill">
+		<img class="img-responsive pull-left" src="http://placehold.it/150x150" alt="Sample Flat Rate Water Bill">
+	</div> -->
+	
+
+<!-- 	<div class="panel panel-default col-sm-6 col-sm-offset-3">
 		<div class="col-sm-6">
 		    <h4>Validation status:</h4>
 		    <p><strong>Step1 valid?</strong> {{formData1.$valid}}</p>
@@ -264,6 +277,6 @@
 				</label>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
-</div> -->
+</div>

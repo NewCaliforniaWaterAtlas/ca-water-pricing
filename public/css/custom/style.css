@@ -69,6 +69,10 @@ input::-webkit-inner-spin-button {
   margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
+.inline {
+  display: inline-block;
+}
+
 /*<!-- ============ Custom Styling ============ -->*/
 
 /*#front-page {
@@ -305,17 +309,26 @@ ol.carousel-indicators {
   margin-top: 100px;
 }
 
-#hook-box {
+
+/*
+ *  form
+ */ 
+
+.herotext {
   /*color: white;*/
   font-size: 3em;
   font-family: 'Muli', sans-serif;
   line-height: 1.25em;
 }
 
-.highlight {
-  background-color: rgba(0, 0, 0, .75);
-  margin: 10px 0 0 0;
-  padding: 0px 5px 0px 5px;
+.panel {
+  display: table;
+  height: 475px;
+}
+
+.panel-body {
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .form-title {
@@ -324,8 +337,14 @@ ol.carousel-indicators {
   font-weight: 700;
 }
 
-.inline {
-  display: inline-block;
+.form-title h2 {
+  display: inline;
+}
+
+.highlight {
+  background-color: rgba(0, 0, 0, .75);
+  margin: 10px 0 0 0;
+  padding: 0px 5px 0px 5px;
 }
 
 .right-inner-addon {
@@ -340,7 +359,6 @@ ol.carousel-indicators {
   padding: 10px 12px;
   pointer-events: none;
 }
-
 
 
 /*

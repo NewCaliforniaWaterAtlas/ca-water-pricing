@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('mapuser', [ '$window','mapService', 'timeService', function ($window, mapService, timeService) {
+app.directive('mapuser', [ '$window','mapService', function ($window, mapService) {
 	return {
 		restrict: 'A',
 		// replace: true,

@@ -29,19 +29,77 @@
 			<h2 class="bar-title">Details</h2>
 		  <tabset justified="true">
 		    <tab heading="Water Bill">
-		    	<div class="bill-panel">
-		    		
-						<p>Cost per Day: $<span id="bill-panel-pday" class="panel-items"></span></p>
+		    	<div class="detail-panel">
+						<p>Quantity Rate: $<span id="bill-panel-pday" class="panel-items"></span></p>
 		    		<p>Location: <span id="bill-panel-streetaddr" class="panel-items"></span></p>
-
 		    		<p>Water Provider: <span id="bill-panel-util" class="panel-items"></span></p>
 		    		<p>Total Bill: $<span id="bill-panel-bill" class="panel-items"></span></p>
 		    		<p>Water Used: <span id="bill-panel-used" class="panel-items"></span> <span id="bill-panel-units" class="panel-items"></span></p>
 		    		<p>Submitted: <span id="bill-panel-submit" class="panel-items"></span></p>
+		    		
+		    		<hr>
+						
+						<div id='legend-content'>
+						  <div class='my-legend'>
+							  <div class='legend-title'><p class="lead">Palmer Drought Severity Index</p></div>
+							  <div class='legend-scale'>
+							    <ul class='legend-labels'>
+							      <li>
+							      	<a href="#" tooltip-placement="top" tooltip="< (-4)"><span style='background-color:#543005;'></span></a>
+							      </li>
+							      <li>
+							      	<a href="#" tooltip-placement="top" tooltip="(-4) - (-3)"><span style='background-color:#8c510a;'></span></a>
+							      </li>
+							      <li>
+							      	<a href="#" tooltip-placement="top" tooltip="(-3) - (-2)"><span style='background-color:#bf812d;'></span></a>
+							      </li>
+							      <li>
+							      	<a href="#" tooltip-placement="top" tooltip="(-2) - (-1)"><span style='background-color:#dfc27d;'></span></a>
+							      </li>
+							      <li>
+							      	<a href="#" tooltip-placement="top" tooltip="(-1) - (0)"><span style='background-color:#f6e8c3;'></span></a>
+							      </li>
+
+							      <li>
+							      	<a href="#" tooltip-placement="top" tooltip="(0) - (+1)"><span style='background-color:#c7eae5;'></span></a>
+							      </li>
+							      <li>
+							      	<a href="#" tooltip-placement="top" tooltip="(+1) - (+2)"><span style='background-color:#80cdc1;'></span></a>
+							      </li>
+							      <li>
+							      	<a href="#" tooltip-placement="top" tooltip="(+2) - (+3)"><span style='background-color:#35978f;'></span></a>
+							      </li>
+							      <li>
+							      	<a href="#" tooltip-placement="top" tooltip="(+3) - (+4)"><span style='background-color:#01665e;'></span></a>
+							      </li>
+							      <li>
+							      	<a href="#" tooltip-placement="top" tooltip=">(+4)"><span style='background-color:#003c30;'></span></a>
+							      </li>
+							    </ul>
+							  </div>
+							  <div class='legend-source'>Source: <a href="#link to source">Name of source</a></div>
+							</div>
+						</div>
 
 		    	</div>
 		    </tab>
-		    <tab heading="Search">search input here</tab>
+		    
+		    <tab heading="Search">
+		    	<div class="search-panel">
+
+						<div class="input-group">
+						  <input type="text" class="form-control" ng-model="$parent.searchentries" placeholder="ex. san diego">
+						  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+						</div>
+
+		    		<ul ng-repeat="entry in entries | filter:searchentries">
+		    			<li >
+		    				<p>{{entry.streetaddr}}: {{entry.pday}}</p>
+		    			</li>
+		    		</ul>
+
+		    	</div>
+		    </tab>
 		  </tabset>
 		</div>
 	</div>

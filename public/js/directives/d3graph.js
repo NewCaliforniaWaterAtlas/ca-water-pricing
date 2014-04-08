@@ -82,8 +82,14 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
               .attr("tooltip", function(d){
                 return d.city + ": $" + d.pday + " /day";
               })
-              // .style("fill", function(d) { return color(d.rate); });
-              .style("fill", function(d) { return "#9abab4" });
+
+              .style("fill", function(d) { 
+                if (d.billtype == "mrate") {
+                  return "#9abab4";
+                } else {
+                  return "#a4ad50";
+                }
+              });
 
             // what to do when we mouse over a bubble
             var mouseOn = function() { 

@@ -4,7 +4,7 @@
   <h2 class="bar-title">Get Data</h2>
 
 
-  <ul class="nav nav-tabs nav-stacked col-md-6">
+<!--   <ul class="nav nav-tabs nav-stacked col-md-6">
     <li ng-class="{'active':currentTab == 'Tab1'}">
       <a data-toggle="tab" ng-click="currentTab = 'Tab1'">Tab1</a>
     </li>
@@ -20,19 +20,32 @@
     <div class="tab-pane" ng-class="{'active':currentTab == 'Tab2'}" id="Tab2"> 
       <p>Howdy, I'm in Section 2.</p>
     </div>
-  </div>
-
-
+  </div> -->
 
   <ul class="nav nav-tabs nav-stacked col-md-6">
+    <li ng-class="{'active':currentTab == 'api-intro'}">
+      <a data-toggle="tab" ng-click="currentTab = 'api-intro'">Introduction</a>
+    </li>
+    <li ng-class="{'active':currentTab == 'api-download'}">
+      <a data-toggle="tab" ng-click="currentTab = 'api-download'">API | Bulk Download</a>
+    </li>
+    <li ng-class="{'active':currentTab == 'api-documentation'}">
+      <a data-toggle="tab" ng-click="currentTab = 'api-documentation'">Documentation</a>
+    </li>
+    <li ng-class="{'active':currentTab == 'api-about'}">
+      <a data-toggle="tab" ng-click="currentTab = 'api-about'">About the dataset</a>
+    </li>
+  </ul>
+
+<!--   <ul class="nav nav-tabs nav-stacked col-md-6">
     <li><a href="#api-intro" data-toggle="tab">Introduction</a></li>
     <li><a href="#api-download" data-toggle="tab">API | Bulk Download</a></li>
     <li><a href="#api-documentation" data-toggle="tab">Documentation</a></li>
     <li><a href="#api-about" data-toggle="tab">About the dataset</a></li>
-  </ul>
+  </ul -->
 
   <div class="tab-content col-md-6">
-    <div class="tab-pane active" id="api-intro">
+    <div class="tab-pane" ng-class="{'active':currentTab == 'api-intro'}" id="api-intro">
       <div class="teaser-text-fade lead">
         <div class="teaser-text">
           <h3>Introduction</h3>
@@ -52,7 +65,7 @@
       </div><!-- end .teaser-text-fade -->
     </div><!-- end .tab-pane -->
 
-    <div class="tab-pane" id="api-download">
+    <div class="tab-pane" ng-class="{'active':currentTab == 'api-download'}" id="api-download">
       <div class="teaser-text-fade lead">
         <h3>API | Bulk Download</h3>
         <p>[Endpoint: http://api.statewater.org/ca/watertable/v1] (parameters)
@@ -62,13 +75,13 @@
       </div>
     </div><!-- end .tab-pane -->  
 
-    <div class="tab-pane" id="api-documentation">
+    <div class="tab-pane" ng-class="{'active':currentTab == 'api-documentation'}" id="api-documentation">
       <div class="teaser-text-fade lead">
         <h3>API Documentation</h3>
       </div>
     </div><!-- end .tab-pane -->  
 
-    <div class="tab-pane" id="api-about">
+    <div class="tab-pane" ng-class="{'active':currentTab == 'api-about'}" id="api-about">
       <div class="teaser-text-fade lead">
         <h3>About the Dataset</h3>
         <p>What is being measured
@@ -81,6 +94,7 @@
         <p>[Disclaimer | #disclaimer]</p>
       </div><!-- end teaser-text-fade -->
     </div><!-- end .tab-pane -->
+  
   </div><!-- end .tab-content -->
 </div><!-- end .row -->
 
@@ -97,6 +111,21 @@
     <li><a href="#use-datasets" data-toggle="tab">Related datasets</a></li>
     <li><a href="#use-technology" data-toggle="tab">Helpful technology</a></li>
   </ul>
+
+<!--   <ul class="nav nav-tabs nav-stacked col-md-6">
+    <li ng-class="{'active':currentTab == 'api-intro'}">
+      <a data-toggle="tab" ng-click="currentTab = 'api-intro'">Introduction</a>
+    </li>
+    <li ng-class="{'active':currentTab == 'api-download'}">
+      <a data-toggle="tab" ng-click="currentTab = 'api-download'">API | Bulk Download</a>
+    </li>
+    <li ng-class="{'active':currentTab == 'api-documentation'}">
+      <a data-toggle="tab" ng-click="currentTab = 'api-documentation'">Documentation</a>
+    </li>
+    <li ng-class="{'active':currentTab == 'api-about'}">
+      <a data-toggle="tab" ng-click="currentTab = 'api-about'">About the dataset</a>
+    </li>
+  </ul> -->
 
   <div class="tab-content col-md-6">
     <div class="tab-pane active" id="use-examples">
@@ -379,4 +408,4 @@
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</div><!-- /.modal

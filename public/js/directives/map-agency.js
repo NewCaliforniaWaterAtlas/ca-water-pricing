@@ -49,24 +49,30 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 				var pdsiTiles = L.mapbox.tileLayer('chachasikes.hm7o3785').addTo(map);
 
 				var pdsiGridLayer = L.mapbox.gridLayer('chachasikes.hm7o3785').addTo(map);
-				console.log(pdsiGridLayer);	
-
-				var pdsiGridControl = L.mapbox.gridControl(pdsiGridLayer).addTo(map);
+				
+				pdsiGridLayer.on('click', function(data){
+					console.log(data.data);	
+				});
+				
+				// var pdsiGridControl = L.mapbox.gridControl(pdsiGridLayer).addTo(map);
 
         //  Markers ======================================================================
 
+		    // create feature group
+		   	var pointGroup = L.featureGroup();
+
 				// watch for points changes and re-render
-        scope.$watch('points', function (newData) {
-          scope.render(newData);
+        scope.$watch('points', function (newData, oldData) {
+          return scope.render(newData);
         }, true);
 
         scope.render = function(points) {
+        	// remove all previous items before render
+        	pointGroup.clearLayers();
 
 			    // check to see if points exist
         	if (!points) return;
 
-			    // create feature group
-			    var pointGroup = L.featureGroup();
 			    var renderer = (L.SVG && L.svg());
 			  //   var agencyMarkerOptions = {};
 					
@@ -140,11 +146,24 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 						layer.closePopup();
 					}
 
+					function click(e) {
+						var layer = e.target;
+						console.log(layer);
+
+					  document.getElementById('bill-panel-pday').innerHTML = layer.feature.properties.quantity_rate;
+						// document.getElementById('bill-panel-streetaddr').innerHTML = layer.options.streetaddr;
+						// document.getElementById('bill-panel-util').innerHTML = layer.options.util;
+						// document.getElementById('bill-panel-bill').innerHTML = layer.options.bill;
+						// document.getElementById('bill-panel-used').innerHTML = layer.options.used;
+						// document.getElementById('bill-panel-units').innerHTML = layer.options.units;
+
+					}
+
 					function onEachFeature(feature, layer) {
 						layer.on({
 							mouseover: highlightFeature,
-							mouseout: resetHighlight
-							// click: zoomToFeature
+							mouseout: resetHighlight,
+							click: click
 						});
 					}
 
@@ -157,11 +176,10 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 				    onEachFeature: onEachFeature
 
 					}).addTo(pointGroup);
-
+					// add circle markers to map
 					pointGroup.addTo(map);
 					
 					
-				
 				}// scope.render
 			
 			});//end mapService
