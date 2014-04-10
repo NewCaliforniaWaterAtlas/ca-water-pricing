@@ -8,7 +8,7 @@ app.config(['$stateProvider', '$locationProvider', function ($stateProvider, $lo
 		.state('index', {
 			url: '',
 			templateUrl: 'views/templates/home.html', 
-			controller: 'mainController'
+			controller: 'myModal'
 		})
 
 		.state('explore', {

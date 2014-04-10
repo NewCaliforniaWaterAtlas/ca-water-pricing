@@ -12,13 +12,13 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 
 			mapService.map().then(function(data) {	
 
-		    // var southWest = new L.LatLng(40.60092,-74.173508);
-		    // var northEast = new L.LatLng(40.874843,-73.825035);            
+		    // var southWest = new L.LatLng(24.7668,-125.0244);
+		    // var northEast = new L.LatLng(49.6108,-66.6651);            
 		    // var bounds = new L.LatLngBounds(southWest, northEast);
-		    // L.Icon.Default.imagePath = '../img/leaflet';
+		    L.Icon.Default.imagePath = '../img/leaflet';
 
 		    // setup map
-		    // todo: set bounds
+		    // todo: set bounds: -125.0244,24.7668,-66.6651,49.6108
 		    var map = L.map('map', {
 	        center: new L.LatLng(37.166111,-119.449444),
 	        zoom: 6,
@@ -47,14 +47,14 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 
 
 				var pdsiTiles = L.mapbox.tileLayer('chachasikes.hm7o3785').addTo(map);
-
 				var pdsiGridLayer = L.mapbox.gridLayer('chachasikes.hm7o3785').addTo(map);
-				
-				pdsiGridLayer.on('click', function(data){
-					console.log(data.data);	
-				});
-				
 				// var pdsiGridControl = L.mapbox.gridControl(pdsiGridLayer).addTo(map);
+
+				pdsiGridLayer.on('mouseover', function(e){
+					// console.log(e.data);
+					document.getElementById('preg').innerHTML = e.data.NAME.toLowerCase();
+					document.getElementById('pval').innerHTML = e.data.PDSI;		
+				});
 
         //  Markers ======================================================================
 
@@ -108,6 +108,11 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 					function highlightFeature(e) {
 					  var layer = e.target;
 					  
+					  var lat = layer.feature.geometry.coordinates[1];
+					  var lng = layer.feature.geometry.coordinates[0];
+					  var quantVal;
+					  var quantProp = layer.feature.properties.quantity_rate;
+
 					  layer.setStyle({
 					    weight: 5,
 					    color: "#1c75bc",
@@ -118,11 +123,6 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 					  //   layer.bringToFront();
 					  // }
 
-					  var lat = layer.feature.geometry.coordinates[1];
-					  var lng = layer.feature.geometry.coordinates[0];
-					  var quantVal;
-					  var quantProp = layer.feature.properties.quantity_rate;
-					  
 					  function trunc (data) {
 					  	var val = Math.floor(data * 10) / 10;
 					  	quantVal = val;		 
@@ -140,22 +140,37 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 					  });
 					}
 
+					// hover reset
 					function resetHighlight(e) {
 						var layer = e.target;
 						gjpoints.resetStyle(layer);
 						layer.closePopup();
 					}
-
+					
+					// on click
 					function click(e) {
 						var layer = e.target;
-						console.log(layer);
+						// console.log(layer);
 
-					  document.getElementById('bill-panel-pday').innerHTML = layer.feature.properties.quantity_rate;
-						// document.getElementById('bill-panel-streetaddr').innerHTML = layer.options.streetaddr;
-						// document.getElementById('bill-panel-util').innerHTML = layer.options.util;
-						// document.getElementById('bill-panel-bill').innerHTML = layer.options.bill;
-						// document.getElementById('bill-panel-used').innerHTML = layer.options.used;
-						// document.getElementById('bill-panel-units').innerHTML = layer.options.units;
+					  var lat = layer.feature.geometry.coordinates[1];
+					  var lng = layer.feature.geometry.coordinates[0];
+					  var quantVal;
+					  var quantProp = layer.feature.properties.quantity_rate;
+
+					  function trunc (data) {
+					  	var val = Math.floor(data * 10) / 10;
+					  	quantVal = val;		 
+					  }
+					  trunc(quantProp);
+
+			      geoService.addressForLatLng(lat, lng).then(function (data) {
+			      	document.getElementById('bill-panel-streetaddr').innerHTML = data.address[1].formatted_address;
+					  });
+
+						document.getElementById('bill-panel-util').innerHTML = layer.feature.properties.utility_me;
+						document.getElementById('bill-panel-quantity-rate').innerHTML = quantVal;
+						document.getElementById('bill-panel-service-charge').innerHTML = layer.feature.properties.service_charge;
+						document.getElementById('bill-panel-service-area').innerHTML = layer.feature.properties.service_area_description;
 
 					}
 

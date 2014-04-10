@@ -237,21 +237,16 @@ app.controller('submitCounter2', ['$scope', 'agencyService', function ($scope, a
 	
 	agencyService.get()
 		.success(function(data) {
-			// $scope.records = data;
 
-		  $scope.frate = 0;
-		  $scope.mrate = 0;
+			var d = data[0].features;	
+		  $scope.record = 0;
 		  
 		  // loop through scope.data
-		  angular.forEach(data, function(entry, key){
-		    // console.log(entry.billtype);
-		    if (entry.billtype === "frate"){
-		      $scope.frate++;
-		    }
-		    else if (entry.billtype === "mrate"){
-		      $scope.mrate++;
-		    }
-		    else {
+		  angular.forEach(d, function(entry, key){
+		  	// console.log(entry);	
+		    if (entry) {	
+		      $scope.record++;
+		    } else {
 		      return;
 		    }
 		  });	
@@ -268,3 +263,13 @@ app.controller('submitCounter2', ['$scope', 'agencyService', function ($scope, a
 
 
 // }]);
+
+
+app.controller('myModal', ['$scope', function ($scope) {
+  
+  $scope.modalShown = false;
+  $scope.toggleModal = function() {
+    $scope.modalShown = !$scope.modalShown;
+  };
+
+}]);

@@ -9,8 +9,8 @@
 		<div id="map-wrap" class="col-sm-9">
 		
 			<h2 class="bar-title" ng-controller="submitCounter1">Crowdsourcing the Pricing of Water
-				<span id="ctrfrate"	class="counters pull-right">{{frate}}</span>
-				<span id="ctrmrate" class="counters pull-right">{{mrate}}</span>
+				<span id="ctrfrate"	class="counters pull-right" tooltip-placement="top" tooltip="{{frate}} fixed rate bills">{{frate}}</span>
+				<span id="ctrmrate" class="counters pull-right" tooltip-placement="top" tooltip="{{mrate}} metered rate bills">{{mrate}}</span>
 			</h2>
 			<!-- <input type="text" ng-model="searchEntries"> -->
 			<div mapuser id="map" userdata="entries | filter:searchentries"></div>
@@ -26,61 +26,26 @@
 		  </div>
 		</div> -->
 		
-		<div id="graph-wrap1" class="col-sm-3">	  
+		<div class="detail-wrap col-sm-3">	  
 			<h2 class="bar-title">Details</h2>
 		  <tabset justified="true">
 		    <tab heading="Water Bill">
+		    	
 		    	<div class="detail-panel">
-						<p>Cost per Day: $<span id="bill-panel-pday" class="panel-items"></span></p>
-		    		<p>Location: <span id="bill-panel-streetaddr" class="panel-items"></span></p>
-		    		<p>Water Provider: <span id="bill-panel-util" class="panel-items"></span></p>
-		    		<p>Total Bill: $<span id="bill-panel-bill" class="panel-items"></span></p>
-		    		<p>Water Used: <span id="bill-panel-used" class="panel-items"></span> <span id="bill-panel-units" class="panel-items"></span></p>
-		    		<p>Submitted: <span id="bill-panel-submit" class="panel-items"></span></p>
+
+						<div class="detail-panel-inner">
+							<h4 id="bill-panel-streetaddr" class="panel-items"></h4>
+							<!-- <p><span class="text-muted">Cost per Day: </span><b>$</b><span id="bill-panel-pday" class="panel-items"></span></p> -->
+			    		<!-- <p><span class="text-muted">Location: </span><b id="bill-panel-streetaddr" class="panel-items"></b></p> -->
+			    		<p><span class="text-muted">Water Provider: </span><b id="bill-panel-util" class="panel-items"></b></p>
+			    		<p><span class="text-muted">Total Bill: </span><b>$</b><b id="bill-panel-bill" class="panel-items"></b></p>
+			    		<p><span class="text-muted">Water Used: </span><b id="bill-panel-used" class="panel-items"></b><span> </span><b id="bill-panel-units" class="panel-items"></b></span>
+			    		<p><span class="text-muted">Submitted: </span><b id="bill-panel-submit" class="panel-items"></b></p>
+						</div>
 		    		
 		    		<hr>
 						
-						<div id='legend-content'>
-						  <div class='my-legend'>
-							  <div class='legend-title'><p class="lead">Palmer Drought Severity Index</p></div>
-							  <div class='legend-scale'>
-							    <ul class='legend-labels'>
-							      <li>
-							      	<a href="#" tooltip-placement="top" tooltip="< (-4)"><span style='background-color:#543005;'></span></a>
-							      </li>
-							      <li>
-							      	<a href="#" tooltip-placement="top" tooltip="(-4) - (-3)"><span style='background-color:#8c510a;'></span></a>
-							      </li>
-							      <li>
-							      	<a href="#" tooltip-placement="top" tooltip="(-3) - (-2)"><span style='background-color:#bf812d;'></span></a>
-							      </li>
-							      <li>
-							      	<a href="#" tooltip-placement="top" tooltip="(-2) - (-1)"><span style='background-color:#dfc27d;'></span></a>
-							      </li>
-							      <li>
-							      	<a href="#" tooltip-placement="top" tooltip="(-1) - (0)"><span style='background-color:#f6e8c3;'></span></a>
-							      </li>
-
-							      <li>
-							      	<a href="#" tooltip-placement="top" tooltip="(0) - (+1)"><span style='background-color:#c7eae5;'></span></a>
-							      </li>
-							      <li>
-							      	<a href="#" tooltip-placement="top" tooltip="(+1) - (+2)"><span style='background-color:#80cdc1;'></span></a>
-							      </li>
-							      <li>
-							      	<a href="#" tooltip-placement="top" tooltip="(+2) - (+3)"><span style='background-color:#35978f;'></span></a>
-							      </li>
-							      <li>
-							      	<a href="#" tooltip-placement="top" tooltip="(+3) - (+4)"><span style='background-color:#01665e;'></span></a>
-							      </li>
-							      <li>
-							      	<a href="#" tooltip-placement="top" tooltip=">(+4)"><span style='background-color:#003c30;'></span></a>
-							      </li>
-							    </ul>
-							  </div>
-							  <div class='legend-source'>Source: <a href="#link to source">Name of source</a></div>
-							</div>
-						</div>
+						<div ng-include="'views/templates/pdsi-legend.html'"></div>
 
 		    	</div>
 		    </tab>

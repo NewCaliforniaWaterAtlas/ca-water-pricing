@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('mapuser', [ '$window','mapService', function ($window, mapService) {
+app.directive('mapuser', [ '$window','mapService', 'timeService', function ($window, mapService, timeService) {
 	return {
 		restrict: 'A',
 		// replace: true,
@@ -15,7 +15,7 @@ app.directive('mapuser', [ '$window','mapService', function ($window, mapService
 		    // var southWest = new L.LatLng(40.60092,-74.173508);
 		    // var northEast = new L.LatLng(40.874843,-73.825035);            
 		    // var bounds = new L.LatLngBounds(southWest, northEast);
-		    // L.Icon.Default.imagePath = '../img/leaflet';
+		    L.Icon.Default.imagePath = '../img/leaflet';
 
 		    // setup map
 		    // todo: set bounds
@@ -48,8 +48,10 @@ app.directive('mapuser', [ '$window','mapService', function ($window, mapService
 				var pdsiGridLayer = L.mapbox.gridLayer('chachasikes.hm7o3785').addTo(map);	
 				// var pdsiGridControl = L.mapbox.gridControl(pdsiGridLayer).addTo(map);
 
-				pdsiGridLayer.on('click', function(data){
-					console.log(data.data);	
+				pdsiGridLayer.on('mouseover', function(e){
+					// console.log(e.data);
+					document.getElementById('preg').innerHTML = e.data.NAME.toLowerCase();
+					document.getElementById('pval').innerHTML = e.data.PDSI;	
 				});
 
         //  Markers ======================================================================
@@ -196,7 +198,7 @@ app.directive('mapuser', [ '$window','mapService', function ($window, mapService
 						  	layer.options.units = "";
 						  }
 
-						  document.getElementById('bill-panel-pday').innerHTML = layer.options.pday;
+						  // document.getElementById('bill-panel-pday').innerHTML = layer.options.pday;
 							document.getElementById('bill-panel-streetaddr').innerHTML = layer.options.streetaddr;
 							document.getElementById('bill-panel-util').innerHTML = layer.options.util;
 							document.getElementById('bill-panel-bill').innerHTML = layer.options.bill;
