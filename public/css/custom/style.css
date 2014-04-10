@@ -17,6 +17,8 @@ a {
 a:hover,
 a:active {
   color:  #a05725;
+  text-decoration: none;
+  border-bottom: 1px #d8a271 solid;
 }
 
 .page-header {
