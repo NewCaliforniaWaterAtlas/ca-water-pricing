@@ -51,18 +51,20 @@
 		    </tab>
 		    
 		    <tab heading="Search">
-		    	<div class="search-panel">
+		    	<div class="detail-panel">
 
 						<div class="input-group">
 						  <input type="text" class="form-control" ng-model="$parent.searchentries" placeholder="ex. san diego">
 						  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
 						</div>
 
-		    		<ul ng-repeat="entry in entries | filter:searchentries">
-		    			<li >
-		    				<p>{{entry.streetaddr}}: {{entry.pday}}</p>
-		    			</li>
-		    		</ul>
+		    		<div class="detail-panel-inner-search">
+		    			<ul ng-repeat="entry in entries | filter:searchentries">
+		    				<li >
+		    					<p>{{entry.streetaddr}}: {{entry.pday}}</p>
+		    				</li>
+		    			</ul>
+		    		</div>	    		
 
 		    	</div>
 		    </tab>

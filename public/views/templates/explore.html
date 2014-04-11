@@ -12,7 +12,7 @@
 				<span id="ctrmrate" class="counters pull-right" tooltip-placement="top" tooltip="{{record}} CPUC records">{{record}}</span>
 			</h2>
 
-			<div mapagency id="map" points="records"></div>
+			<div mapagency id="map" points="records | filter:searchrecords"></div>
 		</div>
 		
 		<!-- <div id="graph-wrap1" class="col-sm-3" ng-controller="barsController1">	  
@@ -34,13 +34,9 @@
 						
 						<div class="detail-panel-inner">
 							<h4 id="bill-panel-streetaddr" class="panel-items"></h4>
-							
 			    		<p><span class="text-muted">Water Provider: </span><b id="bill-panel-util" class="panel-items"></b></p>
-	
 			    		<p><span class="text-muted">Quantity Rate: </span><b>$</b><b id="bill-panel-quantity-rate" class="panel-items"></b></p>
-	
 			    		<p><span class="text-muted">Service Charge: </span><b>$</b><b id="bill-panel-service-charge" class="panel-items"></b></p>
-	
 			    		<p><span class="text-muted">Service Area: </span><b id="bill-panel-service-area" class="panel-items"></b></p>
 						</div>
 		    		
@@ -52,18 +48,20 @@
 		    </tab>
 		    
 		    <tab heading="Search">
-		    	<div class="search-panel">
+		    	<div class="detail-panel">
 
 						<div class="input-group">
-						  <input type="text" class="form-control" ng-model="$parent.searchentries" placeholder="ex. san diego">
+						  <input type="text" class="form-control" ng-model="$parent.searchrecords" placeholder="ex. san diego">
 						  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
 						</div>
 
-		    		<ul ng-repeat="entry in entries | filter:searchentries">
-		    			<li >
-		    				<p>{{entry.streetaddr}}: {{entry.pday}}</p>
-		    			</li>
-		    		</ul>
+		    		<div class="detail-panel-inner-search">
+		    			<ul ng-repeat="record in records_parsed | filter:searchrecords">
+		    				<li >
+		    					<p>Water Provider: {{record.utility_me}}</p>
+		    				</li>
+		    			</ul>
+		    		</div>
 
 		    	</div>
 		    </tab>

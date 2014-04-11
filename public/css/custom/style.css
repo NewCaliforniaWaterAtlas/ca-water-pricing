@@ -441,6 +441,10 @@ img.bill-sample:hover {
  *  panel
  */ 
 
+.detail-wrap {
+  overflow: hidden;
+}
+
 .detail-wrap > .tabbable {
   height: 480px;
 }
@@ -452,6 +456,11 @@ img.bill-sample:hover {
 .detail-panel-inner {
   overflow: scroll;
   height: 220px;
+}
+
+.detail-panel-inner-search {
+  overflow: scroll;
+  height: 390px;
 }
 
 span#bill-panel-pday {

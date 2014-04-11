@@ -150,7 +150,7 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 					// on click
 					function click(e) {
 						var layer = e.target;
-						// console.log(layer);
+						console.log(layer);
 
 					  var lat = layer.feature.geometry.coordinates[1];
 					  var lng = layer.feature.geometry.coordinates[0];

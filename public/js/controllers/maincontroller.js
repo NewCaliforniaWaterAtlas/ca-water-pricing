@@ -154,6 +154,19 @@ app.controller('agencyController', ['$scope', 'agencyService', function ($scope,
 	agencyService.get()
 		.success(function(data) {
 			$scope.records = data;
+
+			var agencyArr = [];
+
+		  // loop through scope.data
+		  angular.forEach(data, function(d, key){
+
+		  	angular.forEach(d.features, function(entry, key){
+		  		agencyArr.push(entry.properties);	
+		  	});
+		  
+		  });
+		  $scope.records_parsed = agencyArr;
+
 		})
 		.error(function (data, status, headers, config){
        console.log('API CALL ERROR ' +status);
