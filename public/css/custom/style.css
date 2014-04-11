@@ -453,6 +453,23 @@ img.bill-sample:hover {
   padding: 15px 15px 0px 15px;
 }
 
+#banner-wrap {
+  position: relative;
+  text-align: center;
+}
+
+#banner-wrap-inner {
+  position: absolute;
+  width: 100%;
+  background-color: #fff;
+  min-height: 200px;
+  padding-top: 15px;
+}
+
+img#clickbanner {
+  width: 75%;
+}
+
 .detail-panel-inner {
   overflow: scroll;
   height: 220px;

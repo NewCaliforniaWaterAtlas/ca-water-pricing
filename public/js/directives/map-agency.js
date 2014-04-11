@@ -52,8 +52,12 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 
 				pdsiGridLayer.on('mouseover', function(e){
 					// console.log(e.data);
-					document.getElementById('preg').innerHTML = e.data.NAME.toLowerCase();
-					document.getElementById('pval').innerHTML = e.data.PDSI;		
+					if (e.data == null) {
+						return;
+					} else {
+						document.getElementById('preg').innerHTML = e.data.NAME.toLowerCase();
+						document.getElementById('pval').innerHTML = e.data.PDSI;
+					}
 				});
 
         //  Markers ======================================================================
