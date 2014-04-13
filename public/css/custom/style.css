@@ -40,6 +40,12 @@ h2 {
   line-height: 1.5em;
 }
 
+h3 {
+  font-family: 'Questrial', sans-serif;
+  font-style: 1.25em;
+  line-height: 1.25em;
+}
+
 p {
   font-family: 'Muli', sans-serif;
 }
@@ -141,13 +147,42 @@ h2.bar {
 }
 
 .row-group {
-  margin-top: 25px;
+    margin-top: 25px;
 }
 
 .row-break {
   margin-top: 75px;
 }
 
+.theask-wrap {
+  /*color: white;*/
+  font-size: 2.75em;
+  font-family: 'Muli', sans-serif;
+  line-height: 1.25em;
+  display: table;
+  height: 475px;
+}
+
+.theask {
+ display: table-cell;
+ vertical-align: middle;
+}
+
+#submit-block {
+  margin-top: 100px;
+}
+
+#quote-block {
+  margin-top: 100px;
+}
+
+#quote-block-inner {
+  /*text-align: center;*/
+}
+
+.quotes > p {
+  font-size: 1.5em;
+}
 
 /*
  *  tabs
@@ -315,21 +350,10 @@ ol.carousel-indicators {
   background-color: #a4ad50;
 }
 
-#submit-block{
-  margin-top: 100px;
-}
-
 
 /*
  *  form
- */ 
-
-.herotext {
-  /*color: white;*/
-  font-size: 3em;
-  font-family: 'Muli', sans-serif;
-  line-height: 1.25em;
-}
+ */
 
 .panel {
   display: table;
@@ -442,7 +466,7 @@ img.bill-sample:hover {
  */ 
 
 .detail-wrap {
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 .detail-wrap > .tabbable {

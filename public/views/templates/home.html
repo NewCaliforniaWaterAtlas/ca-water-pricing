@@ -1,17 +1,20 @@
 <!-- home page ================================================== -->  	
-<div ng-include="'views/templates/head.html'"></div>
+<!-- <div ng-include="'views/templates/head.html'"></div> -->
 
-<div id="submit-block" class="row row-group">
+<div id="submit-block" class="row row-group" ng-controller="mainController">
 	
-	<div class="herotext col-sm-offset-1 col-sm-5">
-    <p>Compare your water bill with other Californians in two easy steps.</p>
-    <hr>
-    <span>Having trouble? Check out this sample:</span>
-    <a ng-click="toggleModal()" href="#"><img class="bill-sample img-responsive img-thumbnail inline pull-right" src="../../img/assets/MMWD_metered_thumb.jpg" height="75" width="75" alt="Sample Metered Water Bill link"></a>
-    <!-- <img class="img-responsive inline" src="http://placehold.it/75x75" alt="Sample Flat Rate Water Bill"> -->
+	<div class="theask-wrap col-sm-6">
+    <div id="welcome-wrap" ng-hide="billHelp" class="theask">
+    	<p>Compare your water bill with other Californians in two easy steps.</p>
+    </div>
+    
+    <div id="billhelp-wrap" class="theask" ng-hide="!billHelp">
+    	<p>Having trouble? Check out this sample:</p>
+    	<a ng-click="toggleModal()" href="#"><img class="bill-sample img-responsive img-thumbnail inline pull-right" src="../../img/assets/MMWD_metered_thumb.jpg" height="75" width="75" alt="Sample Metered Water Bill link"></a>
+    </div>
 	</div>
 	
-	<div ng-controller="mainController" class="panel panel-default col-sm-5">
+	<div class="panel panel-default col-sm-6">
 		<div class="panel-body">
 
 			<div ng-form name="formData" ng-init="step = 1" novalidate>
@@ -73,7 +76,7 @@
 						  <p ng-show="formData1.hsize.$invalid && !formData1.hsize.$pristine && !formData1.hsize.$focused" class="help-block">Your Household size is required.</p>
 						</div>
 					</div>
-			    <button type="button" class="btn btn-default btn-lg" ng-disabled="formData1.$invalid" ng-click="step = 2">Next</button>
+			    <button type="button" class="btn btn-default btn-lg" ng-disabled="formData1.$invalid" ng-click="step = 2; billHelp = !billHelp">Next</button>
 			  </div>
 
 			  <div ng-show="step==2">
@@ -237,7 +240,7 @@
 					</div><!-- formData2 -->
 			    
 			    <div class="row">
-			    	<button type="button" class="btn btn-default btn-lg" ng-click="step = 1">Back</button>
+			    	<button type="button" class="btn btn-default btn-lg" ng-click="step = 1; billHelp = !billHelp">Back</button>
 			    	<a type="submit" class="btn btn-success btn-lg" ng-disabled="formData.$invalid" ng-click="createBill()" ng-href="#/participate" role="button">Submit</a>
 			    </div><!-- .row -->
 			  </div><!-- step==2 -->
@@ -248,41 +251,62 @@
 	</div><!-- .panel -->
 </div><!-- .row-group -->
 
-<div class="row row-group">
+<!-- <hr> -->
+
+<div id="quote-block" class="row row-group">
 	
-<!-- 	<div class="herotext col-sm-offset-1 col-sm-5">
-		<span>Having trouble? Check out this sample.</span>
-	</div> -->
-
-	<!-- <div class="herotext col-sm-5">
-		<img class="img-responsive pull-right" src="http://placehold.it/150x150" alt="Sample Metered Water Bill">
-		<img class="img-responsive pull-left" src="http://placehold.it/150x150" alt="Sample Flat Rate Water Bill">
-	</div> -->
+	<div class="col-sm-4">
+		<blockquote class="quotes">
+		  <p>Why is this important?</p>
+		</blockquote>
+	</div>
 	
+	<div class="col-sm-4">
+		<blockquote class="quotes">
+		  <p>What outcomes might this project inspire?</p>
+		</blockquote>
+	</div>
 
-<!-- 	<div class="panel panel-default col-sm-6 col-sm-offset-3">
-		<div class="col-sm-6">
-		    <h4>Validation status:</h4>
-		    <p><strong>Step1 valid?</strong> {{formData1.$valid}}</p>
-		    <p><strong>Step2 valid?</strong> {{formData2.$valid}}</p>
-		    <p><strong>Step3 valid?</strong> {{formData3.$valid}}</p>
-		    <p><strong>Whole form valid?</strong> {{formData.$valid}}</p>		
-		</div>
-		
-		<div class="col-sm-6">
-			<h4>click to delete bill</h4>
-			<div class="checkbox" ng-repeat="entry in entries">
-				<label>
-					<input type="checkbox" ng-click="deleteBill(entry._id)"> Total Bill: ${{ entry.bill }}
-				</label>
-			</div>
-		</div>
-	</div> -->
-
+	<div class="col-sm-4">
+		<blockquote class="quotes">
+		  <p>Who is this project for?</p>
+		</blockquote>
+	</div>
+	
 </div>
+
+<!-- <hr> -->
+
+<div id="test" class="row row-group">
+	<div class="col-sm-6">
+		<img class="img-responsive" src="http://placehold.it/300x200" alt="Understand Groundwater">
+	</div>
+	<div class="col-sm-6">
+		<img class="img-responsive" src="http://placehold.it/300x200" alt="Understand Groundwater">
+	</div>
+</div>
+
+<!-- <hr> -->
 
 <modal-dialog show='modalShown' width='750px' height='60%'>
   <img class="img-responsive" src="../../img/assets/MMWD_metered_full.jpg" height="100%" width="100%" alt="Sample Metered Water Bill hi-res">
 </modal-dialog>
 
-
+<!-- <div class="panel panel-default col-sm-6 col-sm-offset-3">
+	<div class="col-sm-6">
+	    <h4>Validation status:</h4>
+	    <p><strong>Step1 valid?</strong> {{formData1.$valid}}</p>
+	    <p><strong>Step2 valid?</strong> {{formData2.$valid}}</p>
+	    <p><strong>Step3 valid?</strong> {{formData3.$valid}}</p>
+	    <p><strong>Whole form valid?</strong> {{formData.$valid}}</p>		
+	</div>
+	
+	<div class="col-sm-6">
+		<h4>click to delete bill</h4>
+		<div class="checkbox" ng-repeat="entry in entries">
+			<label>
+				<input type="checkbox" ng-click="deleteBill(entry._id)"> Total Bill: ${{ entry.bill }}
+			</label>
+		</div>
+	</div>
+</div> -->

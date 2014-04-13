@@ -13,7 +13,7 @@ app.directive('clickBanner', ['$window', function ($window) {
       var timeoutID;
 
       function svgLoad() {
-        timeoutID = $window.setTimeout(getSVG, 1000);
+        timeoutID = $window.setTimeout(getSVG, 2000);
       }
 
       function getSVG() {

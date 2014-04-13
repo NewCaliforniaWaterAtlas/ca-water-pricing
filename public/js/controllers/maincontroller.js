@@ -54,6 +54,10 @@ app.controller('mainController', [ '$scope', 'billService', 'timeService', funct
   $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
   $scope.format = $scope.formats[0];
 
+  
+  // show or hide sample bill ==================================================================
+	$scope.billHelp = false;
+
 
 	// CREATE ==================================================================
 	// when submitting the add form, send the text to the node API

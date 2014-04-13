@@ -138,7 +138,7 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 			      	// console.log(data);
 			      
 						  layer.bindPopup(
-						  	"<p class='tt-title'>" + data.address[1].formatted_address + ": " + "</p>" +  "<span id='ctrmrate' class='tt-highlight counters pull-right'>$ " + quantVal + " /u" + "</span>"
+						  	"<p class='tt-title'>" + data.address[1].formatted_address + ": " + "</p>" +  "<span id='ctrmrate' class='tt-highlight counters pull-right'>$ " + quantVal + " /ccf" + "</span>"
 						  ).openPopup();
 					  
 					  });
@@ -154,7 +154,7 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 					// on click
 					function click(e) {
 						var layer = e.target;
-						console.log(layer);
+						// console.log(layer);
 
 					  var lat = layer.feature.geometry.coordinates[1];
 					  var lng = layer.feature.geometry.coordinates[0];
