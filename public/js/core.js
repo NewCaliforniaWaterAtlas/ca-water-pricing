@@ -9,8 +9,8 @@ app.config( function ($stateProvider, $urlRouterProvider, $locationProvider) {
 	
 	$stateProvider
 		.state('index', {
-			// url: '/',
-			url: '',
+			url: '/',
+			// url: '',
 			templateUrl: 'views/templates/home.html', 
 			controller: 'myModal'
 		})
@@ -33,8 +33,8 @@ app.config( function ($stateProvider, $urlRouterProvider, $locationProvider) {
 		// 	controller: 'mapController'
 		// });
 
-	// if (window.history && window.history.pushState) {
- //  	$locationProvider.html5Mode(true).hashPrefix('!');
-	// }
+	if (window.history && window.history.pushState) {
+  	$locationProvider.html5Mode(true).hashPrefix('!');
+	}
 
 });
