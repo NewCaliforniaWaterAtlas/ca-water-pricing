@@ -3,10 +3,13 @@
 // var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'ngAutocomplete', 'ngStorage', 'leaflet-directive']);
 var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'ngAutocomplete', 'ngStorage']);
 
-app.config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider){
+app.config( function ($stateProvider, $urlRouterProvider, $locationProvider){
+	
+	$urlRouterProvider.otherwise('/');
+	
 	$stateProvider
 		.state('index', {
-			url: '',
+			url: '/',
 			templateUrl: 'views/templates/home.html', 
 			controller: 'myModal'
 		})
@@ -28,9 +31,9 @@ app.config(['$stateProvider', '$locationProvider', function ($stateProvider, $lo
 		// 	templateUrl: 'views/templates/test.html', 
 		// 	controller: 'mapController'
 		// });
-		// .otherwise({redirectTo: '/'});
 
-		// use the HTML5 History API
-		// $locationProvider.html5Mode(true);
+	if (window.history && window.history.pushState) {
+  	$locationProvider.html5Mode(true).hashPrefix('!');
+	}
 
-}]);
+});
