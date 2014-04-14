@@ -149,14 +149,9 @@ module.exports = function(app) {
 	
 
 	// application -------------------------------------------------------------
-	app.get('*', function(req, res) {
+	app.get('/*', function(req, res) {
 		res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 	});
-
-	// app.all('/*', function(req, res, next) {
- //    // Just send the index.html for other files to support HTML5Mode
- //    res.sendfile('index.html', { root: './public'});	
-	// });
 
 	// schedule request to NOAA REST API & return Palmer Drought Serverity Index
 	// get JSON & convert to geoJSON and store in mongo collection
