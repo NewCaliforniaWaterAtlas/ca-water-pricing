@@ -27,13 +27,11 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 	        minZoom: 4
 		    });
 
-		    map.attributionControl.setPrefix('');
-
 		    // create the tile layer with correct attribution
 		    var tilesURL='http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png';
 		    var tilesAttrib='Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
 		    var tiles = new L.TileLayer(tilesURL, {
-	        attribution: tilesAttrib, 
+	        // attribution: tilesAttrib, 
 	        opacity: 1,
 	        detectRetina: true,
 	        unloadInvisibleTiles: true,
@@ -42,12 +40,26 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 		    });
 		    tiles.addTo(map);
 
+		    map.attributionControl.setPrefix('');
+		  	
+		  	var infoControl = L.mapbox.infoControl()
+		  		.addTo(map);
+		  	infoControl.addInfo(tilesAttrib);
+		  	
+		  	var fullscreen = L.control.fullscreen()
+		  		.addTo(map);
+
+		  	// var hash = L.hash();
+		  	// hash.init(map);
+
 
 				//  Palmer DSI Data from NOAA rendered as tiles ======================================================================	
 
 
-				var pdsiTiles = L.mapbox.tileLayer('chachasikes.hm7o3785').addTo(map);
-				var pdsiGridLayer = L.mapbox.gridLayer('chachasikes.hm7o3785').addTo(map);
+				var pdsiTiles = L.mapbox.tileLayer('chachasikes.hm7o3785')
+					.addTo(map);
+				var pdsiGridLayer = L.mapbox.gridLayer('chachasikes.hm7o3785')
+					.addTo(map);
 				// var pdsiGridControl = L.mapbox.gridControl(pdsiGridLayer).addTo(map);
 
 				pdsiGridLayer.on('mouseover', function(e){

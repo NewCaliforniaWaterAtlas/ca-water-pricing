@@ -29,21 +29,14 @@ a:active {
 
 h1 {
   font-family: 'Rosario', sans-serif;
-  font-weight: bold;
-  font-size: 2.75em;
-  line-height: 2.75em;
 }
 
 h2 {
   font-family: 'Rosario', sans-serif;
-  font-size: 1.5em;
-  line-height: 1.5em;
 }
 
 h3 {
   font-family: 'Questrial', sans-serif;
-  font-style: 1.25em;
-  line-height: 1.25em;
 }
 
 p {
@@ -52,8 +45,6 @@ p {
 
 h3,h4,h5,h6 {
   font-family: 'Rosario', sans-serif;
-/*  font-size: 1.4em;
-  line-height: 1em;*/
 }
 
 .menu {
@@ -110,7 +101,9 @@ input::-webkit-inner-spin-button {
   margin-top: 35px;
 }
 
-h1.title {
+h1#title {
+  font-size: 2.75em;
+  font-weight: bold;
   line-height: 0em;
 }
 
@@ -147,25 +140,34 @@ h2.bar {
 }
 
 .row-group {
-    margin-top: 25px;
+  margin-top: 25px;
 }
 
 .row-break {
-  margin-top: 75px;
+  margin-top: 65px;
 }
 
 .theask-wrap {
-  /*color: white;*/
-  font-size: 2.75em;
-  font-family: 'Muli', sans-serif;
-  line-height: 1.25em;
   display: table;
   height: 475px;
 }
 
 .theask {
- display: table-cell;
- vertical-align: middle;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.theask-text, .theask-text-small {
+  font-family: 'Muli', sans-serif;
+  line-height: 1.25em;
+}
+
+.theask-text {
+  font-size: 2.75em;
+}
+
+.theask-text-small {
+  font-size: 1.75em;
 }
 
 #submit-block {
@@ -173,7 +175,7 @@ h2.bar {
 }
 
 #quote-block {
-  margin-top: 100px;
+  margin-top: 65px;
 }
 
 #quote-block-inner {
@@ -182,6 +184,23 @@ h2.bar {
 
 .quotes > p {
   font-size: 1.5em;
+}
+
+.tb-wrap {
+  display: table;
+}
+
+.tb-cell {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.tb-project-text {
+  height: 300px;
+}
+
+.water-icons {
+  height: 200px;
 }
 
 /*
@@ -375,15 +394,11 @@ ol.carousel-indicators {
   display: inline;
 }
 
-img.bill-sample {
+img.image-sample {
   opacity: 0.8;
 }
 
-img.bill-sample,.img-thumbnail {
-  padding: 0px;
-}
-
-img.bill-sample:hover {
+img.image-sample:hover {
   opacity: 1.0;
   border: 1px solid #a05725;
 }

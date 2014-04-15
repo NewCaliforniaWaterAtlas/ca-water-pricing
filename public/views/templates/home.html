@@ -1,292 +1,334 @@
 <!-- home page ================================================== -->  	
 <!-- <div ng-include="'views/templates/head.html'"></div> -->
 
-<div id="submit-block" class="row row-group" ng-controller="mainController">
+<section>
+	<div id="submit-block" class="row" ng-controller="mainController">
+		
+		<div class="theask-wrap col-sm-6">
+	    <div id="welcome-wrap" ng-hide="billHelp" class="theask theask-text">
+	    	<p>Compare your water bill with other Californians in two easy steps.</p>
+	    </div>
+	    
+	    <div id="billhelp-wrap" class="theask theask-text" ng-hide="!billHelp">
+	    	<p>Having trouble? Check out this sample:</p>
+	    	<a ng-click="toggleModal()" href="#"><img class="image-sample img-responsive img-thumbnail inline pull-right" src="../../img/assets/MMWD_metered_thumb.jpg" height="75" width="75" alt="Sample Metered Water Bill link"></a>
+	    </div>
+		</div>
+		
+		<div class="panel panel-default col-sm-6">
+			<div class="panel-body">
 	
-	<div class="theask-wrap col-sm-6">
-    <div id="welcome-wrap" ng-hide="billHelp" class="theask">
-    	<p>Compare your water bill with other Californians in two easy steps.</p>
-    </div>
-    
-    <div id="billhelp-wrap" class="theask" ng-hide="!billHelp">
-    	<p>Having trouble? Check out this sample:</p>
-    	<a ng-click="toggleModal()" href="#"><img class="bill-sample img-responsive img-thumbnail inline pull-right" src="../../img/assets/MMWD_metered_thumb.jpg" height="75" width="75" alt="Sample Metered Water Bill link"></a>
-    </div>
-	</div>
+				<div ng-form name="formData" ng-init="step = 1" novalidate>
 	
-	<div class="panel panel-default col-sm-6">
-		<div class="panel-body">
-
-			<div ng-form name="formData" ng-init="step = 1" novalidate>
-
-			  <div ng-show="step==1">
-					<div ng-form='formData1'>
-						<div class="form-title">
-							<h2>About You</h2>
-						</div>
-						<div class="form-group" ng-class="{ 'has-error' : formData1.userloc.$invalid && !formData1.userloc.$pristine && !formData1.userloc.$focused , 'has-success' : formData1.userloc.$valid && !formData1.userloc.$pristine && !formData1.userloc.$focused }" >
-						  <label for="InputAddr">Location</label>
-						  <div class="right-inner-addon">
-						  	<i ng-show="formData1.userloc.$valid && !formData1.userloc.$pristine && !formData1.userloc.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
-						  	<input 
-						  		type="text"
-						  		ng-autocomplete
-						  		name="userloc"
-						  		class="form-control" 
-						  		id="InputAddr"
-						  		ng-model="formData.userloc"
-						  		placeholder="example: 94705 or Berkeley"
-						  		required
-						  		ng-focus
-						  		details="details"
-						  		options="{country: 'us', types: 'geocode'}">
-						  </div>
-							<p ng-show="formData1.userloc.$invalid && !formData1.userloc.$pristine && !formData1.userloc.$focused" class="help-block">Your Location is required.</p>
-						</div>
-						<!-- <div>full: {{details.formatted_address}}</div>
-						<div>city: {{details.address_components[0].short_name}}</div>
-						<div>county: {{details.address_components[1].short_name}}</div>
-						<div>state: {{details.address_components[2].short_name}}</div>
-						<div>country: {{details.address_components[3].short_name}}</div>
-						<div>zip: {{details.address_components[4].short_name}}</div>
-
-						
-						<div>lat: {{details.geometry.location.lat()}}</div>
-						<div>lng: {{details.geometry.location.lng()}}</div>
-						
-						<div>params: {{details.address_components}}</div> -->
-
-
-
-						<div class="form-group" ng-class="{ 'has-error' : formData1.hsize.$invalid && !formData1.hsize.$pristine && !formData1.hsize.$focused , 'has-success' : formData1.hsize.$valid && !formData1.hsize.$pristine && !formData1.hsize.$focused }">
-						  <label for="InputUse">Number of people in your household</label>
-						  <div class="right-inner-addon">
-						  	<i ng-show="formData1.hsize.$valid && !formData1.hsize.$pristine && !formData1.hsize.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
-						  	<input 
-						  		type="number"
-						  		name="hsize"
-						  		class="form-control"
-						  		id="InputHsize"
-						  		ng-model="formData.hsize"
-						  		placeholder="example: 3 or 4"
-						  		ng-pattern="/^([1-9]|1[0-2])$/"
-						  		required
-						  		ng-focus>
-						  </div>
-						  <p ng-show="formData1.hsize.$invalid && !formData1.hsize.$pristine && !formData1.hsize.$focused" class="help-block">Your Household size is required.</p>
-						</div>
-					</div>
-			    <button type="button" class="btn btn-default btn-lg" ng-disabled="formData1.$invalid" ng-click="step = 2; billHelp = !billHelp">Next</button>
-			  </div>
-
-			  <div ng-show="step==2">
-					<div ng-form='formData2'>
-						<div class="form-title">
-							<h2>Your Water Bill</h2>
-						</div>
-						<div class="form-group" ng-class="{ 'has-error' : formData2.util.$invalid && !formData2.util.$pristine && !formData2.util.$focused  , 'has-success' : formData2.util.$valid && !formData2.util.$pristine && !formData2.util.$focused }">
-						  <label for="InputUtil">Water Provider</label>
-						  <div class="right-inner-addon">
-						  	<i ng-show="formData2.util.$valid && !formData2.util.$pristine && !formData2.util.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
-						  	<input 
-						  		type="text"
-						  		name="util"
-						  		class="form-control" 
-						  		id="InputUtil"
-						  		ng-model="formData.util"
-						  		placeholder="example: San Miguel Water Company"
-						  		ng-pattern="/^[a-zA-Z ]+$/"
-						  		required
-						  		ng-focus>
-						  </div>
-							<p ng-show="formData2.util.$invalid && !formData2.util.$pristine && !formData2.util.$focused" class="help-block">Your Water Provider is required.</p>
-						</div>
-						
-						<div class="form-group" ng-class="{ 'has-error' : formData2.bill.$invalid && !formData2.bill.$pristine && !formData2.bill.$focused , 'has-success' : formData2.bill.$valid && !formData2.bill.$pristine && !formData2.bill.$focused }">
-						  <label for="InputBill">Total Bill</label>
-						  <div class="right-inner-addon">
-						  	<i ng-show="formData2.bill.$valid && !formData2.bill.$pristine && !formData2.bill.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
-						  	<input 
-						  		type="number"
-						  		name="bill"
-						  		class="form-control"
-						  		id="InputBill"
-						  		ng-model="formData.bill"
-						  		placeholder="example: 45.55"
-						  		ng-pattern="/(?=.)^\$?(([1-9][0-9]{0,2}(,[0-9]{3})*)|[0-9]+)?(\.[0-9]{1,2})?$/"
-						  		required
-						  		ng-focus>
-						  </div>
-						  <p ng-show="formData2.bill.$invalid && !formData2.bill.$pristine && !formData2.bill.$focused" class="help-block">Your Total Bill is required.</p>
-						</div>
-
-						<div class="row">
-							<div class="form-group inline col-sm-6" ng-class="{ 'has-error' : formData2.sdate.$invalid && !formData2.sdate.$pristine && !formData2.sdate.$focused , 'has-success' : formData2.sdate.$valid && !formData2.sdate.$pristine && !formData2.sdate.$focused }">
-							  <label for="InputSdate">Billing Start Date</label>
-		              <div class="input-group">
-	              	<input 
-	              		type="text"
-	              		name="sdate"
-	              		class="form-control"
-	              		id="InputSdate"
-	              		datepicker-popup="shortDate"
-	              		ng-model="formData.sdate"
-	              		is-open="opened1" 
-	              		min="minDate"
-	              		show-weeks="false"
-	              		max="'2015-01-01'"
-	              		datepicker-options="dateOptions"
-	              		show-button-bar="false"
-	              		placeholder="MM/DD/YY"
-	              		ng-required="true"
-	              		close-text="Close"
-	              		ng-focus/>
-	              	<span class="input-group-btn">
-	              	  <button class="btn btn-default" ng-click="open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-	              	</span>
-		              </div>
-							  <p ng-show="formData2.sdate.$invalid && !formData2.sdate.$pristine && !formData2.sdate.$focused" class="help-block">Your Billing Start Date is required.</p>
+				  <div ng-show="step==1">
+						<div ng-form='formData1'>
+							<div class="form-title">
+								<h2>About You</h2>
 							</div>
-							
-							<div class="form-group inline col-sm-6" ng-class="{ 'has-error' : formData2.edate.$invalid && !formData2.edate.$pristine && !formData2.edate.$focused , 'has-success' : formData2.edate.$valid && !formData2.edate.$pristine && !formData2.edate.$focused }">
-							  <label for="InputEdate">Billing End Date</label>
-	              <div class="input-group">
-	              	<input 
-	              		type="text"
-	              		name="edate"
-	              		class="form-control"
-	              		id="InputEdate"
-	              		datepicker-popup="shortDate"
-	              		ng-model="formData.edate"
-	              		is-open="opened2"
-	              		min="minDate"
-	              		show-weeks="false"
-	              		max="'2016-12-31'"
-	              		datepicker-options="dateOptions"
-	              		show-button-bar="false"
-	              		placeholder="MM/DD/YY"
-	              		ng-required="true"
-	              		close-text="Close"
-	              		ng-focus/>
-	              	<span class="input-group-btn">
-	              	  <button class="btn btn-default" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-	              	</span>
-	              </div>
-							  <p ng-show="formData2.edate.$invalid && !formData2.edate.$pristine && !formData2.edate.$focused" class="help-block">Your Billing End Date is required.</p>
-							</div>
-						</div><!-- row -->
-				
-						<div class="row">
-							<div class="form-group">
-								<label for="InputPaytype">Bill Type</label>
-							</div>
-							<div class="form-group inline col-sm-6">
-								<label class="radio-inline">
-								  <input
-								  	type="radio"
-								  	id="inlineRadio1"
-								  	name="billtype"
-								  	ng-model="formData.billtype"
-								  	value="frate"
-								  	required> Flat Rate Bill
-								</label>
-							</div>
-							
-							<div class="form-group inline col-sm-6">
-								<label class="radio-inline">
-								  <input 
-								  	type="radio"
-								  	id="inlineRadio2"
-								  	name="billtype"
-								  	ng-model="formData.billtype"
-								  	value="mrate"
-								  	required> Metered Bill
-								</label>
-							</div>
-							
-							<div ng-show="formData.billtype == 'mrate'"	class="form-group inline col-sm-8" ng-class="{ 'has-error' : formData2.used.$invalid && !formData2.used.$pristine && !formData2.used.$focused  , 'has-success' : formData2.used.$valid && !formData2.used.$pristine && !formData2.used.$focused }">
-							  <label for="InputUsed">Water Consumption</label>
+							<div class="form-group" ng-class="{ 'has-error' : formData1.userloc.$invalid && !formData1.userloc.$pristine && !formData1.userloc.$focused , 'has-success' : formData1.userloc.$valid && !formData1.userloc.$pristine && !formData1.userloc.$focused }" >
+							  <label for="InputAddr">Location</label>
 							  <div class="right-inner-addon">
-							  	<i ng-show="formData2.used.$valid && !formData2.used.$pristine && !formData2.used.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
+							  	<i ng-show="formData1.userloc.$valid && !formData1.userloc.$pristine && !formData1.userloc.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
+							  	<input 
+							  		type="text"
+							  		ng-autocomplete
+							  		name="userloc"
+							  		class="form-control" 
+							  		id="InputAddr"
+							  		ng-model="formData.userloc"
+							  		placeholder="example: 94705 or Berkeley"
+							  		required
+							  		ng-focus
+							  		details="details"
+							  		options="{country: 'us', types: 'geocode'}">
+							  </div>
+								<p ng-show="formData1.userloc.$invalid && !formData1.userloc.$pristine && !formData1.userloc.$focused" class="help-block">Your Location is required.</p>
+							</div>
+							<!-- <div>full: {{details.formatted_address}}</div>
+							<div>city: {{details.address_components[0].short_name}}</div>
+							<div>county: {{details.address_components[1].short_name}}</div>
+							<div>state: {{details.address_components[2].short_name}}</div>
+							<div>country: {{details.address_components[3].short_name}}</div>
+							<div>zip: {{details.address_components[4].short_name}}</div>
+	
+							
+							<div>lat: {{details.geometry.location.lat()}}</div>
+							<div>lng: {{details.geometry.location.lng()}}</div>
+							
+							<div>params: {{details.address_components}}</div> -->
+	
+	
+	
+							<div class="form-group" ng-class="{ 'has-error' : formData1.hsize.$invalid && !formData1.hsize.$pristine && !formData1.hsize.$focused , 'has-success' : formData1.hsize.$valid && !formData1.hsize.$pristine && !formData1.hsize.$focused }">
+							  <label for="InputUse">Number of people in your household</label>
+							  <div class="right-inner-addon">
+							  	<i ng-show="formData1.hsize.$valid && !formData1.hsize.$pristine && !formData1.hsize.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
 							  	<input 
 							  		type="number"
-							  		name="used"
+							  		name="hsize"
 							  		class="form-control"
-							  		id="InputUsed"
-							  		ng-model="formData.used"
-							  		placeholder="example: 132"
-							  		ng-required="formData.billtype == 'mrate'"
+							  		id="InputHsize"
+							  		ng-model="formData.hsize"
+							  		placeholder="example: 3 or 4"
+							  		ng-pattern="/^([1-9]|1[0-2])$/"
+							  		required
 							  		ng-focus>
 							  </div>
-							  <p ng-show="formData2.used.$invalid && !formData2.used.$pristine && !formData2.used.$focused" class="help-block">Your Water Consumption is required.</p>
+							  <p ng-show="formData1.hsize.$invalid && !formData1.hsize.$pristine && !formData1.hsize.$focused" class="help-block">Your Household size is required.</p>
+							</div>
+						</div>
+				    <button type="button" class="btn btn-default btn-lg" ng-disabled="formData1.$invalid" ng-click="step = 2; billHelp = !billHelp">Next</button>
+				  </div>
+	
+				  <div ng-show="step==2">
+						<div ng-form='formData2'>
+							<div class="form-title">
+								<h2>Your Water Bill</h2>
+							</div>
+							<div class="form-group" ng-class="{ 'has-error' : formData2.util.$invalid && !formData2.util.$pristine && !formData2.util.$focused  , 'has-success' : formData2.util.$valid && !formData2.util.$pristine && !formData2.util.$focused }">
+							  <label for="InputUtil">Water Provider</label>
+							  <div class="right-inner-addon">
+							  	<i ng-show="formData2.util.$valid && !formData2.util.$pristine && !formData2.util.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
+							  	<input 
+							  		type="text"
+							  		name="util"
+							  		class="form-control" 
+							  		id="InputUtil"
+							  		ng-model="formData.util"
+							  		placeholder="example: San Miguel Water Company"
+							  		ng-pattern="/^[a-zA-Z ]+$/"
+							  		required
+							  		ng-focus>
+							  </div>
+								<p ng-show="formData2.util.$invalid && !formData2.util.$pristine && !formData2.util.$focused" class="help-block">Your Water Provider is required.</p>
 							</div>
 							
-							<div ng-show="formData.billtype == 'mrate'" class="form-group inline col-sm-4" ng-class="{ 'has-error' : formData2.units.$invalid && !formData2.units.$pristine && !formData2.units.$focused , 'has-success' : formData2.units.$valid && !formData2.units.$pristine && !formData2.units.$focused }">
-							  <label for="InputUnits">Units</label>
-						  	<select 
-						  		name="units"
-						  		class="form-control"
-						  		id="InputUnits"
-						  		ng-model="formData.units"
-						  		ng-required="formData.billtype == 'mrate'"
-						  		ng-focus>
-						  	<option>gal</option>
-						  	<option>ccf</option>
-						  	</select>
-						  
-						  	<p ng-show="formData2.units.$invalid && !formData2.units.$pristine && !formData2.units.$focused" class="help-block">Your Unit type is required.</p>
+							<div class="form-group" ng-class="{ 'has-error' : formData2.bill.$invalid && !formData2.bill.$pristine && !formData2.bill.$focused , 'has-success' : formData2.bill.$valid && !formData2.bill.$pristine && !formData2.bill.$focused }">
+							  <label for="InputBill">Total Bill</label>
+							  <div class="right-inner-addon">
+							  	<i ng-show="formData2.bill.$valid && !formData2.bill.$pristine && !formData2.bill.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
+							  	<input 
+							  		type="number"
+							  		name="bill"
+							  		class="form-control"
+							  		id="InputBill"
+							  		ng-model="formData.bill"
+							  		placeholder="example: 45.55"
+							  		ng-pattern="/(?=.)^\$?(([1-9][0-9]{0,2}(,[0-9]{3})*)|[0-9]+)?(\.[0-9]{1,2})?$/"
+							  		required
+							  		ng-focus>
+							  </div>
+							  <p ng-show="formData2.bill.$invalid && !formData2.bill.$pristine && !formData2.bill.$focused" class="help-block">Your Total Bill is required.</p>
 							</div>
-						</div><!-- .row -->					
-					</div><!-- formData2 -->
-			    
-			    <div class="row">
-			    	<button type="button" class="btn btn-default btn-lg" ng-click="step = 1; billHelp = !billHelp">Back</button>
-			    	<a type="submit" class="btn btn-success btn-lg" ng-disabled="formData.$invalid" ng-click="createBill()" ng-href="#/participate" role="button">Submit</a>
-			    </div><!-- .row -->
-			  </div><!-- step==2 -->
+	
+							<div class="row">
+								<div class="form-group inline col-sm-6" ng-class="{ 'has-error' : formData2.sdate.$invalid && !formData2.sdate.$pristine && !formData2.sdate.$focused , 'has-success' : formData2.sdate.$valid && !formData2.sdate.$pristine && !formData2.sdate.$focused }">
+								  <label for="InputSdate">Billing Start Date</label>
+			              <div class="input-group">
+		              	<input 
+		              		type="text"
+		              		name="sdate"
+		              		class="form-control"
+		              		id="InputSdate"
+		              		datepicker-popup="shortDate"
+		              		ng-model="formData.sdate"
+		              		is-open="opened1" 
+		              		min="minDate"
+		              		show-weeks="false"
+		              		max="'2015-01-01'"
+		              		datepicker-options="dateOptions"
+		              		show-button-bar="false"
+		              		placeholder="MM/DD/YY"
+		              		ng-required="true"
+		              		close-text="Close"
+		              		ng-focus/>
+		              	<span class="input-group-btn">
+		              	  <button class="btn btn-default" ng-click="open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+		              	</span>
+			              </div>
+								  <p ng-show="formData2.sdate.$invalid && !formData2.sdate.$pristine && !formData2.sdate.$focused" class="help-block">Your Billing Start Date is required.</p>
+								</div>
+								
+								<div class="form-group inline col-sm-6" ng-class="{ 'has-error' : formData2.edate.$invalid && !formData2.edate.$pristine && !formData2.edate.$focused , 'has-success' : formData2.edate.$valid && !formData2.edate.$pristine && !formData2.edate.$focused }">
+								  <label for="InputEdate">Billing End Date</label>
+		              <div class="input-group">
+		              	<input 
+		              		type="text"
+		              		name="edate"
+		              		class="form-control"
+		              		id="InputEdate"
+		              		datepicker-popup="shortDate"
+		              		ng-model="formData.edate"
+		              		is-open="opened2"
+		              		min="minDate"
+		              		show-weeks="false"
+		              		max="'2016-12-31'"
+		              		datepicker-options="dateOptions"
+		              		show-button-bar="false"
+		              		placeholder="MM/DD/YY"
+		              		ng-required="true"
+		              		close-text="Close"
+		              		ng-focus/>
+		              	<span class="input-group-btn">
+		              	  <button class="btn btn-default" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+		              	</span>
+		              </div>
+								  <p ng-show="formData2.edate.$invalid && !formData2.edate.$pristine && !formData2.edate.$focused" class="help-block">Your Billing End Date is required.</p>
+								</div>
+							</div><!-- row -->
+					
+							<div class="row">
+								<div class="form-group">
+									<label for="InputPaytype">Bill Type</label>
+								</div>
+								<div class="form-group inline col-sm-6">
+									<label class="radio-inline">
+									  <input
+									  	type="radio"
+									  	id="inlineRadio1"
+									  	name="billtype"
+									  	ng-model="formData.billtype"
+									  	value="frate"
+									  	required> Flat Rate Bill
+									</label>
+								</div>
+								
+								<div class="form-group inline col-sm-6">
+									<label class="radio-inline">
+									  <input 
+									  	type="radio"
+									  	id="inlineRadio2"
+									  	name="billtype"
+									  	ng-model="formData.billtype"
+									  	value="mrate"
+									  	required> Metered Bill
+									</label>
+								</div>
+								
+								<div ng-show="formData.billtype == 'mrate'"	class="form-group inline col-sm-8" ng-class="{ 'has-error' : formData2.used.$invalid && !formData2.used.$pristine && !formData2.used.$focused  , 'has-success' : formData2.used.$valid && !formData2.used.$pristine && !formData2.used.$focused }">
+								  <label for="InputUsed">Water Consumption</label>
+								  <div class="right-inner-addon">
+								  	<i ng-show="formData2.used.$valid && !formData2.used.$pristine && !formData2.used.$focused" class="glyphicon glyphicon-ok form-control-feedback"></i>
+								  	<input 
+								  		type="number"
+								  		name="used"
+								  		class="form-control"
+								  		id="InputUsed"
+								  		ng-model="formData.used"
+								  		placeholder="example: 132"
+								  		ng-required="formData.billtype == 'mrate'"
+								  		ng-focus>
+								  </div>
+								  <p ng-show="formData2.used.$invalid && !formData2.used.$pristine && !formData2.used.$focused" class="help-block">Your Water Consumption is required.</p>
+								</div>
+								
+								<div ng-show="formData.billtype == 'mrate'" class="form-group inline col-sm-4" ng-class="{ 'has-error' : formData2.units.$invalid && !formData2.units.$pristine && !formData2.units.$focused , 'has-success' : formData2.units.$valid && !formData2.units.$pristine && !formData2.units.$focused }">
+								  <label for="InputUnits">Units</label>
+							  	<select 
+							  		name="units"
+							  		class="form-control"
+							  		id="InputUnits"
+							  		ng-model="formData.units"
+							  		ng-required="formData.billtype == 'mrate'"
+							  		ng-focus>
+							  	<option>gal</option>
+							  	<option>ccf</option>
+							  	</select>
+							  
+							  	<p ng-show="formData2.units.$invalid && !formData2.units.$pristine && !formData2.units.$focused" class="help-block">Your Unit type is required.</p>
+								</div>
+							</div><!-- .row -->					
+						</div><!-- formData2 -->
+				    
+				    <div class="row">
+				    	<button type="button" class="btn btn-default btn-lg" ng-click="step = 1; billHelp = !billHelp">Back</button>
+				    	<a type="submit" class="btn btn-success btn-lg" ng-disabled="formData.$invalid" ng-click="createBill()" ng-href="#/participate" role="button">Submit</a>
+				    </div><!-- .row -->
+				  </div><!-- step==2 -->
+	
+				</div><!-- ng-form -->
+			
+			</div><!-- .panel-body -->
+		</div><!-- .panel -->
+	</div><!-- .row-group -->
+</section>
 
-			</div><!-- ng-form -->
+<!-- <hr> -->
+
+<section>
+	<div id="quote-block">
 		
-		</div><!-- .panel-body -->
-	</div><!-- .panel -->
-</div><!-- .row-group -->
+		<div class="row">
+			<div class="col-sm-offset-1 col-sm-6">
+				<h1 class="quote-title">Why is this important?</h1>
+				<p class="lead">If I care about water in the State (and my water bill), then I should have a basic understanding of whether my bill is fair, or my water supply is sustainable. We do not worry about where our coffee comes from, or care, but we DO need to know about our water supply. Our water has been reliable for decades, but underinvestment and climate change mean our systems are more vulnerable to shocks. Bad luck also counts: that's what people in Charleston, WV found out when chemicals got in their water. Californians have had water shortages and pollution before, and we should try to avoid those problems in the future.</p>
+			</div>
 
-<!-- <hr> -->
+			<div class="col-sm-5">
+				<img src="../../img/assets/icon_6294/icon_6294.svg" id="" class="img-responsive water-icons" alt="water quality">
+			</div>
+		</div>
 
-<div id="quote-block" class="row row-group">
-	
-	<div class="col-sm-4">
-		<blockquote class="quotes">
-		  <p>Why is this important?</p>
-		</blockquote>
+		<hr>
+
+		<div class="row row-break">
+			<div class="col-sm-offset-1 col-sm-5">
+				<img src="../../img/assets/icon_1132/icon_1132.svg" id="" class="img-responsive water-icons" alt="water resilience">
+			</div>
+
+			<div class="col-sm-6">
+				<h1 class="quote-title">What outcomes might this project inspire?</h1>
+				<p class="lead">Your curiosity will help everyone, since data on water prices and water use helps us understand where water services and supplies are at risk. Understanding can move people to act much more quickly to reduce the risks.</p>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="row row-break">
+			<div class="col-sm-offset-1 col-sm-6">
+				<h1 class="quote-title">Who is this project for?</h1>
+				<p class="lead">Anyone interested in community water supply, sustainability, or service. Customers have the most to gain from information, but most of them are too busy to collect or analyze it. Crowdsourced data can help the Atlas present more information in a clearer form, so that everyone can understand what's happening with water in our State. </p>
+			</div>
+
+			<div class="col-sm-5">
+				<img src="../../img/assets/icon_27466/icon_27466.svg" id="" class="img-responsive water-icons" alt="crowd intelligence">
+			</div>	
+		</div>
+		
 	</div>
-	
-	<div class="col-sm-4">
-		<blockquote class="quotes">
-		  <p>What outcomes might this project inspire?</p>
-		</blockquote>
-	</div>
+</section>
 
-	<div class="col-sm-4">
-		<blockquote class="quotes">
-		  <p>Who is this project for?</p>
-		</blockquote>
-	</div>
-	
-</div>
+<hr>
 
-<!-- <hr> -->
+<section>
+	<div id="project-block">
+		
+		<div class="row row-break">
+			<div class="col-sm-6 tb-wrap tb-project-text">
+				<div class="tb-cell theask-text-small">
+					<p>Do not have water bill data to submit? That's OK. You can still view information submitted by users <a href="#participate">here</a>.</p>
+				</div>
+			</div>
 
-<div id="test" class="row row-group">
-	<div class="col-sm-6">
-		<img class="img-responsive" src="http://placehold.it/300x200" alt="Understand Groundwater">
-	</div>
-	<div class="col-sm-6">
-		<img class="img-responsive" src="http://placehold.it/300x200" alt="Understand Groundwater">
-	</div>
-</div>
+			<div class="col-sm-6">
+				<a href="#participate"><img class="img-responsive img-thumbnail image-sample" src="../../img/assets/bills_scrnshot.jpg" height="300" width="533" alt="explore user submitted data"></a>
+			</div>
+		</div>
 
-<!-- <hr> -->
+		<div class="row row-break">
+			<div class="col-sm-6">
+				<a href="#explore"><img class="img-responsive img-thumbnail image-sample" src="../../img/assets/agency_scrnshot.jpg" height="300" width="533" alt="explore agency data"></a>
+			</div>
+			
+			<div class="col-sm-6 tb-wrap tb-project-text">
+				<div class="tb-cell theask-text-small">
+					<p>Explore water agency submitted data <a href="#explore">here</a>. If you are a utility, & want to participate, <a href="#">contact us</a>!</p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</section>
 
 <modal-dialog show='modalShown' width='750px' height='60%'>
   <img class="img-responsive" src="../../img/assets/MMWD_metered_full.jpg" height="100%" width="100%" alt="Sample Metered Water Bill hi-res">

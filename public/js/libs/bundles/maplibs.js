@@ -3,4 +3,7 @@
 
 // require('../../../components/leaflet-dist/leaflet-src.js');
 // require('../../../components/leaflet-master/leaflet-src.js');
+
 require('mapbox.js');
+require('../../../components/leaflet.fullscreen/dist/Leaflet.fullscreen.js');
+// require('../../../components/leaflet-hash/leaflet-hash.js');
