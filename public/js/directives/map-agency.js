@@ -40,14 +40,21 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 		    });
 		    tiles.addTo(map);
 
+		    // attribution config
 		    map.attributionControl.setPrefix('');
-		  	
 		  	var infoControl = L.mapbox.infoControl()
 		  		.addTo(map);
 		  	infoControl.addInfo(tilesAttrib);
-		  	
 		  	var fullscreen = L.control.fullscreen()
 		  		.addTo(map);
+
+				// disable drag and zoom handlers
+				// map.dragging.disable();
+				map.touchZoom.disable();
+				// map.doubleClickZoom.disable();
+				map.scrollWheelZoom.disable();
+				// disable tap handler, if present.
+				// if (map.tap) map.tap.disable();
 
 		  	// var hash = L.hash();
 		  	// hash.init(map);

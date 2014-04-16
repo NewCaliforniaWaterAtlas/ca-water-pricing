@@ -40,6 +40,8 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 		    });
 		    tiles.addTo(map);
 
+		    	
+		    // attribution config
 		    map.attributionControl.setPrefix('');
 		  	
 		  	var infoControl = L.mapbox.infoControl()
@@ -48,6 +50,14 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 		  	
 		  	var fullscreen = L.control.fullscreen()
 		  		.addTo(map);
+
+				// disable drag and zoom handlers
+				// map.dragging.disable();
+				map.touchZoom.disable();
+				// map.doubleClickZoom.disable();
+				map.scrollWheelZoom.disable();
+				// disable tap handler, if present.
+				// if (map.tap) map.tap.disable();
 
 		  	// var hash = L.hash();
 		  	// hash.init(map);
