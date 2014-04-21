@@ -172,7 +172,7 @@ h2.bar {
   vertical-align: middle;
 }
 
-.theask-text, .theask-text-small {
+.theask-text,.theask-text-med ,.theask-text-sml {
   font-family: 'Muli', sans-serif;
   line-height: 1.25em;
 }
@@ -181,8 +181,12 @@ h2.bar {
   font-size: 2.75em;
 }
 
-.theask-text-small {
+.theask-text-med {
   font-size: 1.75em;
+}
+
+.theask-text-sml {
+  font-size: 1.25em;
 }
 
 #submit-block {
@@ -241,12 +245,18 @@ footer {
 
 #footer-wrap {
   margin-top: 75px;
+  text-align: center;
 }
 
 .footer-panel {
   padding: 15px;
   /*background-color: #f1edc5;*/
   background-color: #f8f8e6;
+  text-transform: uppercase;
+}
+
+.footer-panel-inner {
+  margin-top: 25px;
 }
 
 #copy-mark {
@@ -519,11 +529,47 @@ img.image-sample:hover {
   right: 5px;
   padding: 5px;
   cursor: pointer;
-  font-size: 120%;
   display: inline-block;
   font-weight: bold;
-  font-family: 'arial', 'sans-serif';
+  color: red;
+  opacity: 1
 }
+
+
+/*
+ *  Bootstrap modal overrides
+ */ 
+
+.modal-content {
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  /*border: 1px solid #e0e0e0;*/
+}
+
+.modal-header {
+  border-bottom: 0px;
+  padding-top: 8px;
+}
+
+.modal-body {
+  padding: 20px 0px 20px 20px;
+  max-height: 500px;
+  overflow: scroll;
+}
+
+.modal-body-inner {
+  /*padding-right: 10px;*/
+}
+
+.close {
+  font-size: 2em;
+  line-height: 1;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight: bold;
+}
+
+
 
 
 /*

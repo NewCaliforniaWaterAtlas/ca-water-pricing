@@ -15,17 +15,18 @@ app.config( function ($stateProvider, $urlRouterProvider, $locationProvider) {
 			controller: 'myModal'
 		})
 
-		.state('explore', {
-			url: '/explore',
-			templateUrl: 'views/templates/explore.html', 
+		.state('agency', {
+			url: '/agency',
+			templateUrl: 'views/templates/agency.html', 
 			controller: 'agencyController'
 		})
 
-		.state('participate', {
-			url: '/participate',
-			templateUrl: 'views/templates/participate.html', 
+		.state('user', {
+			url: '/user',
+			templateUrl: 'views/templates/user.html', 
 			controller: 'billsController'
 		});
+
 
 		// .state('test', {
 		// 	url: '/test',

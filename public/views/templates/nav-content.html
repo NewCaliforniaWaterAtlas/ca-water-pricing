@@ -1,10 +1,13 @@
 <div class="row row-group">
+  
   <ul class="nav nav-tabs nav-stacked col-md-6">
-    <li><a href="#explore">Explore Agency Pricing</a></li>
-    <li><a href="#participate">Participate</a></li>
-    <li><a href="#get-data">Get Data</a></li>
+    <li ui-sref-active="active"><a ui-sref="user" data-toggle="tab" ng-click="currentTab = 'user'">User Data</a></li>
+    <li ui-sref-active="active"><a ui-sref="agency" data-toggle="tab" ng-click="currentTab = 'agency'">Agency Data</a></li>
+    <li ng-class="{'active':currentTab == 'get-data'}"><a href="#/user#get-data" data-toggle="tab" ng-click="currentTab = 'get-data'">Get Data</a></li>
   </ul>
+
   <div class="col-md-6">
-    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
+    <p class="lead">Explore user submitted "crowdsourced data", agency submitted "authoritative data", or get all flavors of data from our API and bulk download options.</p>
   </div>
+
 </div><!-- end .row-group -->

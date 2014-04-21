@@ -1,18 +1,19 @@
-<!-- search page ================================================== -->  	
+<!-- submit page ================================================== -->  		
 
 <!-- <div ng-include="'views/templates/head.html'"></div> -->
 
 <div class="row-group">
 	
 	<div class="row">
-		<div id="map-wrap" class="col-sm-9">
 		<!-- <div id="map-wrap" class="col-sm-9" ng-controller="palmerCache"> -->
+		<div id="map-wrap" class="col-sm-9">
 		
-			<h2 class="bar-title" ng-controller="submitCounter2">Find How Water is Priced
-				<span id="ctrmrate" class="counters pull-right" tooltip-placement="top" tooltip="{{record}} CPUC records">{{record}}</span>
+			<h2 class="bar-title" ng-controller="submitCounter1">Find How Water is Priced: User Data
+				<span id="ctrfrate"	class="counters pull-right" tooltip-placement="top" tooltip="{{frate}} fixed rate bills">{{frate}}</span>
+				<span id="ctrmrate" class="counters pull-right" tooltip-placement="top" tooltip="{{mrate}} metered rate bills">{{mrate}}</span>
 			</h2>
-
-			<div mapagency id="map" points="records | filter:searchrecords"></div>
+			<!-- <input type="text" ng-model="searchEntries"> -->
+			<div mapuser id="map" userdata="entries | filter:searchentries"></div>
 		</div>
 		
 		<!-- <div id="graph-wrap1" class="col-sm-3" ng-controller="barsController1">	  
@@ -31,7 +32,7 @@
 		    <tab heading="Water Bill">
 		    	
 		    	<div class="detail-panel">
-						
+
 						<div id="banner-wrap">
 							<div id="banner-wrap-inner">
 								<click-banner></click-banner>
@@ -41,10 +42,12 @@
 
 						<div class="detail-panel-inner">
 							<h4 id="bill-panel-streetaddr" class="panel-items"></h4>
+							<!-- <p><span class="text-muted">Cost per Day: </span><b>$</b><span id="bill-panel-pday" class="panel-items"></span></p> -->
+			    		<!-- <p><span class="text-muted">Location: </span><b id="bill-panel-streetaddr" class="panel-items"></b></p> -->
 			    		<p><span class="text-muted">Water Provider: </span><b id="bill-panel-util" class="panel-items"></b></p>
-			    		<p><span class="text-muted">Quantity Rate: </span><b>$</b><b id="bill-panel-quantity-rate" class="panel-items"></b><span><b> /ccf</b></span></p>
-			    		<p><span class="text-muted">Service Charge: </span><b>$</b><b id="bill-panel-service-charge" class="panel-items"></b></p>
-			    		<p><span class="text-muted">Service Area: </span><b id="bill-panel-service-area" class="panel-items"></b></p>
+			    		<p><span class="text-muted">Total Bill: </span><b>$</b><b id="bill-panel-bill" class="panel-items"></b></p>
+			    		<p><span class="text-muted">Water Used: </span><b id="bill-panel-used" class="panel-items"></b><span> </span><b id="bill-panel-units" class="panel-items"></b></span>
+			    		<p><span class="text-muted">Submitted: </span><b id="bill-panel-submit" class="panel-items"></b></p>
 						</div>
 		    		
 		    		<hr>
@@ -58,31 +61,33 @@
 		    	<div class="detail-panel">
 
 						<div class="input-group">
-						  <input type="text" class="form-control" ng-model="$parent.searchrecords" placeholder="ex. san diego">
+						  <input type="text" class="form-control" ng-model="$parent.searchentries" placeholder="ex. san diego">
 						  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
 						</div>
 
 		    		<div class="detail-panel-inner-search">
-		    			<ul ng-repeat="record in records_parsed | filter:searchrecords">
+		    			<ul ng-repeat="entry in entries | filter:searchentries">
 		    				<li >
-		    					<p>Water Provider: {{record.utility_me}}</p>
+		    					<p>{{entry.streetaddr}}: {{entry.pday}}</p>
 		    				</li>
 		    			</ul>
-		    		</div>
+		    		</div>	    		
 
 		    	</div>
 		    </tab>
 		  </tabset>
+		
 		</div>
 	</div>
 
 
 	<div class="row">
 		<div id="graph-wrap2" class="col-sm-4">
-		  <!-- <d3-graph id="chartContainer" data="entries"></d3-graph> -->
+		  <div d3-graph id="chartContainer" data="entries | filter:searchentries"></div>
 		</div>
 		
 		<div id="graph-wrap3" class="col-sm-4">
+		  <!-- <input type="text" ng-model="searchEntries"> -->
 		  <!-- <d3-donut data="[82, 62, 10, 32]"></d3-donut> -->
 		  <!-- <d3-donut data="entries"></d3-donut> -->
 		</div>
@@ -94,7 +99,3 @@
 <div ng-include="'views/templates/nav-content.html'"></div>
 <div ng-include="'views/templates/explore-content.html'"></div>
 <div ng-include="'views/templates/atlas-content.html'"></div>
-
-
-
-

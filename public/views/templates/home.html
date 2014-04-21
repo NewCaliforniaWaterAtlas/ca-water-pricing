@@ -242,7 +242,7 @@
 				    
 				    <div class="row">
 				    	<button type="button" class="btn btn-default btn-lg" ng-click="step = 1; billHelp = !billHelp">Back</button>
-				    	<a type="submit" class="btn btn-success btn-lg" ng-disabled="formData.$invalid" ng-click="createBill()" ng-href="#/participate" role="button">Submit</a>
+				    	<a type="submit" class="btn btn-success btn-lg" ng-disabled="formData.$invalid" ng-click="createBill()" ui-sref="user" role="button">Submit</a>
 				    </div><!-- .row -->
 				  </div><!-- step==2 -->
 	
@@ -309,24 +309,24 @@
 		
 		<div class="row row-break">
 			<div class="col-sm-6 tb-wrap tb-project-text">
-				<div class="tb-cell theask-text-small">
-					<p>Do not have water bill data to submit? That's OK. You can still view information submitted by users <a href="#participate">here</a>.</p>
+				<div class="tb-cell theask-text-med">
+					<p>Do not have water bill data to submit? That's OK. You can still view information submitted by users <a ui-sref="user">here</a>.</p>
 				</div>
 			</div>
 
 			<div class="col-sm-6">
-				<a href="#participate"><img class="img-responsive img-thumbnail image-sample" src="../../img/assets/bills_scrnshot.jpg" height="300" width="533" alt="explore user submitted data"></a>
+				<a ui-sref="user"><img class="img-responsive img-thumbnail image-sample" src="../../img/assets/bills_scrnshot.jpg" height="300" width="533" alt="explore user submitted data"></a>
 			</div>
 		</div>
 
 		<div class="row row-break">
 			<div class="col-sm-6">
-				<a href="#explore"><img class="img-responsive img-thumbnail image-sample" src="../../img/assets/agency_scrnshot.jpg" height="300" width="533" alt="explore agency data"></a>
+				<a ui-sref="agency"><img class="img-responsive img-thumbnail image-sample" src="../../img/assets/agency_scrnshot.jpg" height="300" width="533" alt="explore agency data"></a>
 			</div>
 			
 			<div class="col-sm-6 tb-wrap tb-project-text">
-				<div class="tb-cell theask-text-small">
-					<p>Explore water agency submitted data <a href="#explore">here</a>. If you are a utility, & want to participate, <a href="#">contact us</a>!</p>
+				<div class="tb-cell theask-text-med">
+					<p>Explore water agency submitted data <a ui-sref="agency">here</a>. If you are a utility, & want to participate, <a href="#">contact us</a>!</p>
 				</div>
 			</div>
 		</div>

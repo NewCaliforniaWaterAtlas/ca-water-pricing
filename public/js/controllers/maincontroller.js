@@ -1,9 +1,18 @@
-
-
-app.controller('mainController', [ '$scope', 'billService', 'timeService', function ($scope, billService, timeService) {
 	
+
+app.controller('mainController', [ '$scope', 'billService', 'timeService', '$state', '$rootScope', function ($scope, billService, timeService, $state, $rootScope) {
+	
+	// General Stuff ==================================================================
+
 	// make sure form is clear on scope
 	$scope.formData = {};
+
+	// show or hide sample bill
+	$scope.billHelp = false;
+  
+  // expose $state to scope
+	$rootScope.$state = $state;
+
 
 	// Date Picker ==================================================================
 
@@ -53,10 +62,6 @@ app.controller('mainController', [ '$scope', 'billService', 'timeService', funct
 
   $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
   $scope.format = $scope.formats[0];
-
-  
-  // show or hide sample bill ==================================================================
-	$scope.billHelp = false;
 
 
 	// CREATE ==================================================================
@@ -290,3 +295,55 @@ app.controller('myModal', ['$scope', function ($scope) {
   };
 
 }]);
+
+
+// app.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+  
+//   $scope.ok = function () {
+//     $modalInstance.close();
+//   };
+
+//   $scope.cancel = function () {
+//     $modalInstance.dismiss('cancel');
+//   };
+
+// }]);
+
+// app.controller('teamModal', ['$scope', '$modal', function ($scope, $modal) {
+  
+// 	$scope.open = function () {
+// 	  var modalInstance = $modal.open({
+//       templateUrl: 'team-modal.html',
+//       controller: ModalInstanceCtrl
+//     });
+//   }
+
+// }]);
+
+
+
+
+var teamModal = function($scope, $modal) {
+	
+	$scope.open = function () {
+	  var modalInstance = $modal.open({
+      templateUrl: 'team-modal.html',
+      controller: ModalInstanceCtrl
+    });
+  };
+
+};
+
+var ModalInstanceCtrl = function ($scope, $modalInstance) {
+
+  $scope.ok = function () {
+    $modalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};
+
+
+

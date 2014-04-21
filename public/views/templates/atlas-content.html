@@ -1,29 +1,10 @@
 <!-- boilerplate partial general atlas info ================================================== -->    
 
-<div class="row row-group" id="get-data">
+<div class="row row-group" id="get-data" name="get-data">
   <h2 class="bar-title">Get Data</h2>
 
-
-<!--   <ul class="nav nav-tabs nav-stacked col-md-6">
-    <li ng-class="{'active':currentTab == 'Tab1'}">
-      <a data-toggle="tab" ng-click="currentTab = 'Tab1'">Tab1</a>
-    </li>
-    <li ng-class="{'active':currentTab== 'Tab2'}">
-      <a data-toggle="tab" ng-click="currentTab = 'Tab2'">Tab2</a>
-    </li>
-  </ul>
-  
-  <div class="tab-content col-md-6">
-    <div class="tab-pane" ng-class="{'active':currentTab == 'Tab1'}" id="Tab1">
-      <p>I'm in Section 1.</p>
-    </div>
-    <div class="tab-pane" ng-class="{'active':currentTab == 'Tab2'}" id="Tab2"> 
-      <p>Howdy, I'm in Section 2.</p>
-    </div>
-  </div> -->
-
   <ul class="nav nav-tabs nav-stacked col-md-6">
-    <li ng-class="{'active':currentTab == 'api-intro'}">
+    <li class="active" ng-class="{'active':currentTab == 'api-intro'}">
       <a data-toggle="tab" ng-click="currentTab = 'api-intro'">Introduction</a>
     </li>
     <li ng-class="{'active':currentTab == 'api-download'}">
@@ -37,15 +18,8 @@
     </li>
   </ul>
 
-<!--   <ul class="nav nav-tabs nav-stacked col-md-6">
-    <li><a href="#api-intro" data-toggle="tab">Introduction</a></li>
-    <li><a href="#api-download" data-toggle="tab">API | Bulk Download</a></li>
-    <li><a href="#api-documentation" data-toggle="tab">Documentation</a></li>
-    <li><a href="#api-about" data-toggle="tab">About the dataset</a></li>
-  </ul -->
-
   <div class="tab-content col-md-6">
-    <div class="tab-pane" ng-class="{'active':currentTab == 'api-intro'}" id="api-intro">
+    <div class="tab-pane active" ng-class="{'active':currentTab == 'api-intro'}" id="api-intro">
       <div class="teaser-text-fade lead">
         <div class="teaser-text">
           <h3>Introduction</h3>
@@ -111,21 +85,6 @@
     <li><a href="#use-datasets" data-toggle="tab">Related datasets</a></li>
     <li><a href="#use-technology" data-toggle="tab">Helpful technology</a></li>
   </ul>
-
-<!--   <ul class="nav nav-tabs nav-stacked col-md-6">
-    <li ng-class="{'active':currentTab == 'api-intro'}">
-      <a data-toggle="tab" ng-click="currentTab = 'api-intro'">Introduction</a>
-    </li>
-    <li ng-class="{'active':currentTab == 'api-download'}">
-      <a data-toggle="tab" ng-click="currentTab = 'api-download'">API | Bulk Download</a>
-    </li>
-    <li ng-class="{'active':currentTab == 'api-documentation'}">
-      <a data-toggle="tab" ng-click="currentTab = 'api-documentation'">Documentation</a>
-    </li>
-    <li ng-class="{'active':currentTab == 'api-about'}">
-      <a data-toggle="tab" ng-click="currentTab = 'api-about'">About the dataset</a>
-    </li>
-  </ul> -->
 
   <div class="tab-content col-md-6">
     <div class="tab-pane active" id="use-examples">

@@ -51,21 +51,37 @@
 					<div class="col-sm-4">
 						<div class="footer-panel">
 							<h3>Contribute</h3>
-							<p>While contributing your billing information is a huge help, you can also contribute to this project in other ways.  Check out our github to see projects underway, or suggest a project here. Github what? No problem, there are other ways to participate, & we welcome talents from all backgrounds. Reach out!</p>
+							<div class="footer-panel-inner">
+								<p class="lead"><a href="" ng-click="open()">get involved</a></p>
+								<p class="lead text-muted">+++</p>
+								<p class="lead">find us on <a href="https://github.com/NewCaliforniaWaterAtlas">Github</a></p>
+							</div>
 						</div>
 					</div>
 					
 					<div class="col-sm-4">
 						<div class="footer-panel">
-							<h3>Sponsor</h3>
-							<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+							<h3>Support</h3>
+							<div class="footer-panel-inner">
+								<p class="lead">sponsor next steps</p>
+								<p class="lead text-muted">+++</p>
+								<p class="lead">donate</p>
+							</div>
 						</div>
 					</div>
 					
 					<div class="col-sm-4">
 						<div class="footer-panel">
 							<h3>We Are</h3>
-							<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+							<div class="footer-panel-inner">
+								<p class="lead" ng-controller="teamModal">our <a href="" ng-click="open()">team</a>
+						    <script type="text/ng-template" id="team-modal.html">
+									<div ng-include="'views/templates/team-modal.html'"></div>
+						    </script>
+								</p>
+								<p class="lead text-muted">+++</p>
+								<p class="lead">our supporters</p>
+							</div>
 						</div>
 					</div>
 				</div> <!-- #footer-wrap -->
