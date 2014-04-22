@@ -99,7 +99,7 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
         	if (data) {
 
 				    // sort flat fees from metered fees
-						var p = data;	
+						var p = data;
 						var frate = _.filter(p, { 'billtype': 'frate' });
 						var mrate = _.filter(p, { 'billtype': 'mrate' });
 						var f = _.extend({}, frate);
@@ -138,7 +138,7 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 							});				
 
 							var flatMarker = new customCircleMarker([f.lat, f.lng], { 
-							  radius: f.pcappday * 3.5,
+							  radius: f.pday * 1.5,
 							  color: "#fff",
 							  fillColor: "#a4ad50",
 							  fillOpacity: 0.95,
@@ -178,7 +178,7 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 							});
 
 							var meterMarker = new customCircleMarker([m.lat, m.lng], { 
-							  radius: m.pcappday * 3.5,
+							  radius: m.pday * 1.5,
 							  color: "#fff",
 							  fillColor: "#9abab4",
 							  fillOpacity: 0.95,

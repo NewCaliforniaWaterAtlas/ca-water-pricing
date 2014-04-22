@@ -52,9 +52,13 @@
 						<div class="footer-panel">
 							<h3>Contribute</h3>
 							<div class="footer-panel-inner">
-								<p class="lead"><a href="" ng-click="open()">get involved</a></p>
+								<p class="lead" ng-controller="involvedModal"><a href="" ng-click="open()">get involved</a>
+							    <script type="text/ng-template" id="involved-modal.html">
+										<div ng-include="'views/templates/involved-modal.html'"></div>
+							    </script>
+								</p>
 								<p class="lead text-muted">+++</p>
-								<p class="lead">find us on <a href="https://github.com/NewCaliforniaWaterAtlas">Github</a></p>
+								<p class="lead">find us on <a href="https://github.com/NewCaliforniaWaterAtlas"> <i class="fa fa-github-square"></i> Github</a></p>
 							</div>
 						</div>
 					</div>
@@ -63,9 +67,17 @@
 						<div class="footer-panel">
 							<h3>Support</h3>
 							<div class="footer-panel-inner">
-								<p class="lead">sponsor next steps</p>
+								<p class="lead" ng-controller="sponsorModal"><a href="" ng-click="open()">sponsor</a> next steps
+							    <script type="text/ng-template" id="sponsor-modal.html">
+										<div ng-include="'views/templates/sponsor-modal.html'"></div>
+							    </script>
+								</p>
 								<p class="lead text-muted">+++</p>
-								<p class="lead">donate</p>
+								<p class="lead" ng-controller="donateModal"><a href="" ng-click="open()">donate</a>
+							    <script type="text/ng-template" id="donate-modal.html">
+										<div ng-include="'views/templates/donate-modal.html'"></div>
+							    </script>
+								</p>
 							</div>
 						</div>
 					</div>
@@ -74,13 +86,20 @@
 						<div class="footer-panel">
 							<h3>We Are</h3>
 							<div class="footer-panel-inner">
+								
 								<p class="lead" ng-controller="teamModal">our <a href="" ng-click="open()">team</a>
-						    <script type="text/ng-template" id="team-modal.html">
-									<div ng-include="'views/templates/team-modal.html'"></div>
-						    </script>
+							    <script type="text/ng-template" id="team-modal.html">
+										<div ng-include="'views/templates/team-modal.html'"></div>
+							    </script>
 								</p>
+								
 								<p class="lead text-muted">+++</p>
-								<p class="lead">our supporters</p>
+								
+								<p class="lead" ng-controller="supportersModal">our <a href="" ng-click="open()">supporters</a>
+							    <script type="text/ng-template" id="supporters-modal.html">
+										<div ng-include="'views/templates/supporters-modal.html'"></div>
+							    </script>
+								</p>
 							</div>
 						</div>
 					</div>
@@ -88,8 +107,11 @@
 				
 				<div id="copy-mark" class="row row-break">
 				  <div class="col-sm-12">
-				  	<p>cc-by <a href="http://ca.statewater.org">New California Water Atlas</a> 2014 
-				  	<a href="http://twitter.com/CAWATERATLAS">@CAWaterAtlas</a></p>
+				  	<p>cc-by <a href="http://ca.statewater.org">New California Water Atlas</a> 2014 | 
+				  	<a href="mailto:info@statewater.org" target="_blank"><i class="fa fa-envelope"></i> info (at) statewater (dot) org</a> | 
+				  	<a href="http://twitter.com/CAWATERATLAS"><i class="fa fa-twitter-square"></i> @CAWaterAtlas</a> | 
+				  	<a href="http://statewater.us7.list-manage.com/subscribe?u=24be2c905d3f19d33a44aa119&id=5c3e93968a">mailing list</a>
+				  	</p>
 				  </div>
 				</div>
 			</div>
@@ -125,7 +147,6 @@
 
 		<!-- ANGULAR CONTROLLERS -->
 		<script type="text/javascript" src="js/controllers/maincontroller.js"></script>
-		<!-- <script type="text/javascript" src="js/controllers/billmodalcontroller.js"></script> -->
 		<!-- <script type="text/javascript" src="js/controllers/mapcontroller.js"></script> -->
 		
 		<!-- ANGULAR DIRECTIVES -->

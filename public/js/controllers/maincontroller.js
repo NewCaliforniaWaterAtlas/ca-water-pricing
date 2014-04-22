@@ -13,6 +13,7 @@ app.controller('mainController', [ '$scope', 'billService', 'timeService', '$sta
   // expose $state to scope
 	$rootScope.$state = $state;
 
+	$scope.navType = 'tabs';
 
 	// Date Picker ==================================================================
 
@@ -85,7 +86,9 @@ app.controller('mainController', [ '$scope', 'billService', 'timeService', '$sta
 				var s = moment(start, "MM-DD-YYYY");
 				var tdiff = moment.utc(moment(e).diff(moment(s))).format('D');
 				var pday = ($scope.formData.bill/tdiff).toFixed();
+				var pcappday = (pday/$scope.formData.hsize).toFixed();
 				$scope.formData.pday = pday;
+				$scope.formData.pcappday = pcappday;
 			});
 
 			for (var i = 0, component; component = components[i]; i++) {
@@ -320,8 +323,49 @@ app.controller('myModal', ['$scope', function ($scope) {
 
 // }]);
 
+var involvedModal = function($scope, $modal) {
+	
+	$scope.open = function () {
+	  var modalInstance = $modal.open({
+      templateUrl: 'involved-modal.html',
+      controller: ModalInstanceCtrl
+    });
+  };
 
+};
 
+var sponsorModal = function($scope, $modal) {
+	
+	$scope.open = function () {
+	  var modalInstance = $modal.open({
+      templateUrl: 'sponsor-modal.html',
+      controller: ModalInstanceCtrl
+    });
+  };
+
+};
+
+var donateModal = function($scope, $modal) {
+	
+	$scope.open = function () {
+	  var modalInstance = $modal.open({
+      templateUrl: 'donate-modal.html',
+      controller: ModalInstanceCtrl
+    });
+  };
+
+};
+
+var supportersModal = function($scope, $modal) {
+	
+	$scope.open = function () {
+	  var modalInstance = $modal.open({
+      templateUrl: 'supporters-modal.html',
+      controller: ModalInstanceCtrl
+    });
+  };
+
+};
 
 var teamModal = function($scope, $modal) {
 	

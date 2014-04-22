@@ -25,9 +25,45 @@ module.exports = mongoose.model ('Bill', {
   units: {type: String, enum: unitType, required: false},
   lat: {type: Number, required: false },
   lng: {type: Number, required: false },
-  // rate: {type: Number, required: false, default: 3},
   pday: {type: Number, required: false},
+  pcappday: {type: Number, required: false},
   tstamp: { type : Date, default: Date.now },
-  // coords: {lat: Number, lng: Number },
+  // rate: {type: Number, required: false, default: 3},
   done : Boolean
 });
+
+
+// // todo: geoJSON schema
+
+// module.exports = mongoose.model ('Bill', {
+  
+//   geometry: {
+//     type: {type: String, required: false, default: 'Point' },
+//     coordinates: {}
+//   },
+
+//   type: {type: String, required: false, default: 'Feature' },
+
+//   properties: {
+//     userloc: {type: String, required: true },
+//     streetaddr: {type: String, required: false },
+//     city: {type: String, required: false },
+//     county: {type: String, required: false },
+//     state: {type: String, required: false },
+//     country: {type: String, required: false },
+//     postal: {type: Number, required: false },
+//     hsize: {type: Number, min: 1, max: 12, required: true },
+//     util: {type: String, match: regex2, required: true },
+//     bill: {type: Number, required: true },
+//     sdate: {type: Date, required: true },
+//     edate: {type: Date, required: true },
+//     billtype: {type: String, enum: billType, required: true},  
+//     used: {type: Number, required: false },  
+//     units: {type: String, enum: unitType, required: false},
+//     pday: {type: Number, required: false},
+//     pcappday: {type: Number, required: false},
+//     tstamp: { type : Date, default: Date.now }
+//     // rate: {type: Number, required: false, default: 3},
+//   }
+
+// });

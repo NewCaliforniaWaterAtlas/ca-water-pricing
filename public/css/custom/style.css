@@ -61,6 +61,10 @@ label {
   font-size: 1.1em;
 }
 
+small, .small {
+  font-size: 65%;
+}
+
 /*hide spin box for numerical inputs*/
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -259,6 +263,10 @@ footer {
   margin-top: 25px;
 }
 
+a > i.fa {
+  color: #a05725;
+}
+
 #copy-mark {
   margin-bottom: 25px;
 }
@@ -307,7 +315,7 @@ ul.nav-tabs>li>a.btn.btn-primary.btn-lg{
 }
 
 ul.nav-tabs>li.active>a, ul.nav-tabs>li.active>a:hover, ul.nav-tabs>li.active>a:focus {
-  color: #fffff;
+  color: #545348;
 }
 
 ul.nav-tabs {
@@ -366,6 +374,12 @@ ol.carousel-indicators {
 /*
  *  teaser 
  */ 
+
+
+.teaser-panel {
+  height: 304px;
+  overflow: scroll;
+}
 
 .teaser-text-fade {
   max-height: 300px;
