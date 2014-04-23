@@ -1,4 +1,4 @@
-'use strict';
+
 
 app.directive('mapuser', [ '$window','mapService', 'timeService', function ($window, mapService, timeService) {
 	return {
@@ -97,98 +97,55 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
         	pointGroup.clearLayers();
 
         	if (data) {
-
 				    // sort flat fees from metered fees
-						var p = data;	
-						var frate = _.filter(p, { 'billtype': 'frate' });
-						var mrate = _.filter(p, { 'billtype': 'mrate' });
-						var f = _.extend({}, frate);
-						var m = _.extend({}, mrate);
-
-						// var cPane = map.createPane('circlePane');
-						// cPane.style.zIndex = 11;
-						var renderer = (L.SVG && L.svg());
-						// renderer.options.cPane = 'circlePane';		    
 						
-				    // loop through f points
-		        angular.forEach(f, function(f, key){
-								
-		          //extend marker properties
-							var customCircleMarker = L.CircleMarker.extend({
-								options: { 
-									streetaddr: f.streetaddr,
-									city: f.city,
-									county: f.county,
-									state: f.state,
-									country: f.country,
-									postal: f.postal,
-									hsize: f.hsize,
-									util: f.util,
-									bill: f.bill,
-									sdate: f.sdate,
-									edate: f.edate,
-									billtype: f.billtype,
-									used: f.used,
-									units: f.units,
-									rate: f.rate,
-									tstamp: f.tstamp,
-									pday: f.pday,
-									pcappday: f.pcappday
-								}
-							});				
+						var points = data;
+						// var propsArr = [];
+						
+						// var i;
+						// for (i=0; i < points.length; i++) {
+						// 	var props = points[i].properties;
+						// 	propsArr.push(props);
+						// }
 
-							var flatMarker = new customCircleMarker([f.lat, f.lng], { 
-							  radius: f.pcappday * 3.5,
+						// var frate = _.filter(propsArr, { 'billtype': 'frate' });
+						// var mrate = _.filter(propsArr, { 'billtype': 'mrate' });
+						// var f = _.extend({}, frate);
+						// var m = _.extend({}, mrate);
+
+						var billType = _.groupBy(points, function(obj) {
+						  return obj.properties.billtype;
+						});
+
+						var bts = _.sortBy(billType, function(v, k) { return k; });
+						
+						var frate = bts[0];
+						var mrate = bts[1];
+
+						var fpoints;
+						var mpoints;
+
+						function styleFlat(frate) {
+							return {
+						    radius: (frate.properties.pcappday * 4),
 							  color: "#fff",
 							  fillColor: "#a4ad50",
 							  fillOpacity: 0.95,
 							  opacity: 1,
-							  weight: 3,
-							  renderer: renderer
-							});
-		          flatMarker.addTo(pointGroup);
-		     
-		        });
-						
-				    // loop through m points
-		        angular.forEach(m, function(m, key){
+							  weight: 3
+							};
+						}
 
-		          //extend marker properties
-							var customCircleMarker = L.CircleMarker.extend({
-								options: { 
-									streetaddr: m.streetaddr,
-									city: m.city,
-									county: m.county,
-									state: m.state,
-									country: m.country,
-									postal: m.postal,
-									hsize: m.hsize,
-									util: m.util,
-									bill: m.bill,
-									sdate: m.sdate,
-									edate: m.edate,
-									billtype: m.billtype,
-									used: m.used,
-									units: m.units,
-									rate: m.rate,
-									tstamp: m.tstamp,
-									pday: m.pday,
-									pcappday: m.pcappday
-								}
-							});
-
-							var meterMarker = new customCircleMarker([m.lat, m.lng], { 
-							  radius: m.pcappday * 3.5,
+						function styleMeter(mrate) {
+							return {
+						    radius: (mrate.properties.pcappday * 4),
 							  color: "#fff",
 							  fillColor: "#9abab4",
 							  fillOpacity: 0.95,
 							  opacity: 1,
-							  weight: 3,
-							  renderer: renderer
-							});
-		          meterMarker.addTo(pointGroup);
-
-		        });
+							  weight: 3
+							};
+						}
 
 		        //setup popups to trigger on mouseovers
 						pointGroup.on('mouseover', function(e) {
@@ -198,19 +155,21 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 						    color: "#1c75bc",
 						    opacity: 1
 						  });
+						  // console.log(layer.feature.properties);	
 
-							if (layer.options.billtype == "frate") {
+							if (layer.feature.properties.billtype == "frate") {
 							  var popup = L.popup()
 									.setLatLng(e.latlng)
-									.setContent("<p class='tt-title'>" + layer.options.streetaddr + ": " + "</p>" +  "<span id='ctrfrate' class='tt-highlight counters pull-right'>$ " + layer.options.pcappday + " /<i class='fa fa-user'></i> /day" + "</span>");	
+									.setContent("<p class='tt-title'>" + layer.feature.properties.streetaddr + ": " + "</p>" +  "<span id='ctrfrate' class='tt-highlight counters pull-right'>$ " + layer.feature.properties.pcappday + " /<i class='fa fa-user'></i> /day" + "</span>");	
 								map.openPopup(popup);
 							}	else {
 							  var popup = L.popup()
 									.setLatLng(e.latlng)
-									.setContent("<p class='tt-title'>" + layer.options.streetaddr + ": " + "</p>" +  "<span id='ctrmrate' class='tt-highlight counters pull-right'>$ " + layer.options.pcappday + " /<i class='fa fa-user'></i> /day" + "</span>");	
+									.setContent("<p class='tt-title'>" + layer.feature.properties.streetaddr + ": " + "</p>" +  "<span id='ctrmrate' class='tt-highlight counters pull-right'>$ " + layer.feature.properties.pcappday + " /<i class='fa fa-user'></i> /day" + "</span>");	
 								map.openPopup(popup);
 							}
 						})
+
 						.on('mouseout', function(e){
 						  var layer = e.layer;
 						  layer.setStyle({
@@ -219,31 +178,47 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 						  });
 							map.closePopup();
 						})
+
 						.on('click', function(e){
 							
 							var layer = e.layer;
 
-						  if (layer.options.used == undefined){
-						  	layer.options.used = "not metered";
-						  	layer.options.units = "";
+						  if (layer.feature.properties.used == undefined){
+						  	layer.feature.properties.used = "not metered";
+						  	layer.feature.properties.units = "";
 						  }
 
 						  // document.getElementById('bill-panel-pday').innerHTML = layer.options.pday;
-							document.getElementById('bill-panel-streetaddr').innerHTML = layer.options.streetaddr;
-							document.getElementById('bill-panel-util').innerHTML = layer.options.util;
-							document.getElementById('bill-panel-bill').innerHTML = layer.options.bill;
-							document.getElementById('bill-panel-used').innerHTML = layer.options.used;
-							document.getElementById('bill-panel-units').innerHTML = layer.options.units;
+							document.getElementById('bill-panel-streetaddr').innerHTML = layer.feature.properties.streetaddr;
+							document.getElementById('bill-panel-util').innerHTML = layer.feature.properties.util;
+							document.getElementById('bill-panel-bill').innerHTML = layer.feature.properties.bill;
+							document.getElementById('bill-panel-used').innerHTML = layer.feature.properties.used;
+							document.getElementById('bill-panel-units').innerHTML = layer.feature.properties.units;
 
 						  timeService.time().then(function () {
-						  	var submit = moment.utc(layer.options.tstamp).format('MM/DD/YYYY');
+						  	var submit = moment.utc(layer.feature.properties.tstamp).format('MM/DD/YYYY');
 						  	document.getElementById('bill-panel-submit').innerHTML = submit;
 						  });
 
 						});
+
+						fpoints = L.geoJson(frate, {
+					    pointToLayer: function (feature, latlng) {
+					      return L.circleMarker(latlng,{})
+					    },
+					    style: styleFlat
+						}).addTo(pointGroup);
+
+						mpoints = L.geoJson(mrate, {
+					    pointToLayer: function (feature, latlng) {
+					      return L.circleMarker(latlng,{})
+					    },
+					    style: styleMeter
+						}).addTo(pointGroup);
+						
 						// add circle markers to map
 						pointGroup.addTo(map);
-					
+						
 					} else {return;} // if data isn't passed, return out of the element
 				}// scope.render
         

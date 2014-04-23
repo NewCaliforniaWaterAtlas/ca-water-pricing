@@ -95,9 +95,6 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 
 			    // check to see if points exist
         	if (!points) return;
-
-			    var renderer = (L.SVG && L.svg());
-			  //   var agencyMarkerOptions = {};
 					
 					// var p = points;
 					// var quantArr = [];
@@ -120,8 +117,7 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 					    color: "#fff",
 					    weight: 3,
 					    opacity: 1,
-					    fillOpacity: 0.9,
-					    renderer: renderer,
+					    fillOpacity: 0.9
 						};
 					}
 					
@@ -214,6 +210,7 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 				    onEachFeature: onEachFeature
 
 					}).addTo(pointGroup);
+					
 					// add circle markers to map
 					pointGroup.addTo(map);
 					

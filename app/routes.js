@@ -59,55 +59,56 @@ module.exports = function(app) {
 
 		// create a bill, information comes from AJAX request from Angular
 		Bill.create({
-			userloc : req.body.userloc,
-			streetaddr : req.body.streetaddr,
-			city : req.body.city,
-			county : req.body.county,
-			state : req.body.state,
-			country : req.body.country,
-			postal : req.body.postal,
-			hsize : req.body.hsize,
-			util : req.body.util,
-			bill : req.body.bill,
-			sdate : req.body.sdate,
-			edate : req.body.edate,
-			billtype : req.body.billtype,
-			used : req.body.used,
-			units : req.body.units,
-			lat : req.body.lat,
-			lng : req.body.lng,
-			rate : req.body.rate,
-			tstamp : req.body.tstamp,
-			pday : req.body.pday,
-			pcappday : req.body.pcappday,
-			done : false
 			
-			// // todo: geoJSON formatting
-			// geometry: {
-			// 	coordinates: [req.body.lng,req.body.lat]
-			// },
-			// properties: {
-			// 	userloc : req.body.userloc,
-			// 	streetaddr : req.body.streetaddr,
-			// 	city : req.body.city,
-			// 	county : req.body.county,
-			// 	state : req.body.state,
-			// 	country : req.body.country,
-			// 	postal : req.body.postal,
-			// 	hsize : req.body.hsize,
-			// 	util : req.body.util,
-			// 	bill : req.body.bill,
-			// 	sdate : req.body.sdate,
-			// 	edate : req.body.edate,
-			// 	billtype : req.body.billtype,
-			// 	used : req.body.used,
-			// 	units : req.body.units,
-			// 	rate : req.body.rate,
-			// 	tstamp : req.body.tstamp,
-			// 	pday : req.body.pday,
-			// 	pcappday : req.body.pcappday,
-			// 	done : false
-			// }
+			// userloc : req.body.userloc,
+			// streetaddr : req.body.streetaddr,
+			// city : req.body.city,
+			// county : req.body.county,
+			// state : req.body.state,
+			// country : req.body.country,
+			// postal : req.body.postal,
+			// hsize : req.body.hsize,
+			// util : req.body.util,
+			// bill : req.body.bill,
+			// sdate : req.body.sdate,
+			// edate : req.body.edate,
+			// billtype : req.body.billtype,
+			// used : req.body.used,
+			// units : req.body.units,
+			// lat : req.body.lat,
+			// lng : req.body.lng,
+			// rate : req.body.rate,
+			// tstamp : req.body.tstamp,
+			// pday : req.body.pday,
+			// pcappday : req.body.pcappday,
+			// done : false
+			
+			// todo: geoJSON formatting
+			geometry: {
+				coordinates: [req.body.lng,req.body.lat]
+			},
+			properties: {
+				userloc : req.body.userloc,
+				streetaddr : req.body.streetaddr,
+				city : req.body.city,
+				county : req.body.county,
+				state : req.body.state,
+				country : req.body.country,
+				postal : req.body.postal,
+				hsize : req.body.hsize,
+				util : req.body.util,
+				bill : req.body.bill,
+				sdate : req.body.sdate,
+				edate : req.body.edate,
+				billtype : req.body.billtype,
+				used : req.body.used,
+				units : req.body.units,
+				rate : req.body.rate,
+				tstamp : req.body.tstamp,
+				pday : req.body.pday,
+				pcappday : req.body.pcappday,
+				done : false
+			}
 
 
 

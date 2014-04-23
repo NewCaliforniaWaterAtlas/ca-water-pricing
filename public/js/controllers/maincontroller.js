@@ -242,10 +242,10 @@ app.controller('submitCounter1', ['$scope', 'billService', function ($scope, bil
 		  // loop through scope.data
 		  angular.forEach(data, function(entry, key){
 		    // console.log(entry.billtype);
-		    if (entry.billtype === "frate"){
+		    if (entry.properties.billtype === "frate"){
 		      $scope.frate++;
 		    }
-		    else if (entry.billtype === "mrate"){
+		    else if (entry.properties.billtype === "mrate"){
 		      $scope.mrate++;
 		    }
 		    else {

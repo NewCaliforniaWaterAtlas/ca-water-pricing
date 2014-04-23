@@ -44,8 +44,8 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
           // remove all previous items before render
           svg.selectAll("*").remove();
 
-          if (data) {
-
+          if (data) {  
+            
             // set axes, as well as details on their ticks
             var xAxis = d3.svg.axis()
               .scale(x)
@@ -74,17 +74,17 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
               .enter().append("circle")
               .attr("class", "circles")
               .attr({
-                cx: function(d) { return x(+d.bill); },
-                cy: function(d) { return y(+d.hsize); },
-                r: function(d) { return d.pday; }
+                cx: function(d) { return x(+d.properties.bill); },
+                cy: function(d) { return y(+d.properties.hsize); },
+                r: function(d) { return d.properties.pday; }
               })
               .attr("tooltip-append-to-body", true)
               .attr("tooltip", function(d){
-                return d.city + ": $" + d.pday + " /day";
+                return d.properties.city + ": $" + d.properties.pday + " /day";
               })
 
               .style("fill", function(d) { 
-                if (d.billtype == "mrate") {
+                if (d.properties.billtype == "mrate") {
                   return "#9abab4";
                 } else {
                   return "#a4ad50";
@@ -140,7 +140,7 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
               // go back to original size and opacity
               circle.transition()
               .duration(800).style("opacity", .5)
-              .attr("r", function(d) { return d.pday; }).ease("elastic");
+              .attr("r", function(d) { return d.properties.pday; }).ease("elastic");
 
               // fade out guide lines, then remove them
               d3.selectAll(".guide").transition().duration(100).styleTween("opacity", 
