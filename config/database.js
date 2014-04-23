@@ -8,12 +8,12 @@ var credentials = require('../credentials');
 
 // sandbox
 
-module.exports = {
-	dbPath : "mongodb://" + credentials.user + ":" + credentials.passwd + "@troup.mongohq.com:10031/db-ca-water-pricing"
-}
+// module.exports = {
+// 	dbPath : "mongodb://" + credentials.user + ":" + credentials.passwd + "@troup.mongohq.com:10031/db-ca-water-pricing"
+// }
 
 // production
 
-// module.exports = {
-// 	dbPath : "mongodb://" + credentials.user + ":" + credentials.passwd + "@emma.mongohq.com:10009/db-ca-water-pricing_production"
-// }
+module.exports = {
+	dbPath : "mongodb://" + credentials.user + ":" + credentials.passwd + "@emma.mongohq.com:10009/db-ca-water-pricing_production"
+}
