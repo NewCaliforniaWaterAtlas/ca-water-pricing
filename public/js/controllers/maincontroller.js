@@ -389,5 +389,11 @@ var ModalInstanceCtrl = function ($scope, $modalInstance) {
   };
 };
 
+// search accordions
+
+
+var searchAccordion = function ($scope) {
+  $scope.oneAtATime = true;
+}
 
 

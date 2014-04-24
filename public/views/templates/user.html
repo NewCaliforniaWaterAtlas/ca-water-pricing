@@ -17,7 +17,7 @@
 	<div class="detail-wrap col-sm-3">	  
 		<h2 class="bar-title">Details</h2>
 	  <tabset justified="true">
-	    <tab heading="Water Bill">
+	    <tab heading="Info">
 	    	
 	    	<div class="detail-panel">
 
@@ -53,9 +53,21 @@
 				</div>
 
 	    	<div class="search-panel">
-	    		<div class="detail-panel-inner-search">
+	    		<div class="detail-panel-inner-search" ng-controller="searchAccordion">
+	    			
+<!-- 						  <accordion close-others="oneAtATime" ng-repeat="entry in entries | filter:searchentries">
+
+						    <accordion-group is-open="isopen">
+						        <accordion-heading>
+						          {{entry.properties.streetaddr}}: ${{entry.properties.pcappday}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
+						        </accordion-heading>
+						        This is just some test text
+						    </accordion-group>
+						  
+						  </accordion> -->
+
+
 	    			<div class="entries" ng-repeat="entry in entries | filter:searchentries">
-	    				
 	    				<div ng-if="entry.properties.billtype == 'frate'" class="entry-inner">
 	    					<p>{{entry.properties.streetaddr}}:</p>
 	    					<br>
@@ -67,7 +79,6 @@
 	    					<br>	
 	    					<p class="ctrmrate counters-small">${{entry.properties.pcappday}}/<i class='fa fa-user'></i>/day</p>
 	    				</div>
-	    			
 	    			</div>
 	    		</div>
 
@@ -96,14 +107,14 @@
 	
 	<div id="graph-wrap2" class="col-sm-3">
 	  <!-- <input type="text" ng-model="searchEntries"> -->
-	  <d3-donut data="[82, 62, 10, 32]"></d3-donut>
+	  <!-- <d3-donut data="[82, 62, 10, 32]"></d3-donut> -->
 	  <!-- <d3-donut data="entries"></d3-donut> -->
 	</div>
 
 	<div  id="graph-wrap3" class="col-sm-3">
-		<div class="well">
+		<!-- <div class="well">
 			<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-		</div>
+		</div> -->
 	</div>
 </div> <!-- end row -->
 
