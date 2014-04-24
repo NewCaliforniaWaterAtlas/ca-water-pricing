@@ -2,99 +2,110 @@
 
 <!-- <div ng-include="'views/templates/head.html'"></div> -->
 
-<div class="row-group">
+<div class="row row-group">
+	<!-- <div id="map-wrap" class="col-sm-9" ng-controller="palmerCache"> -->
+	<div id="map-wrap" class="col-sm-9">
 	
-	<div class="row">
-		<!-- <div id="map-wrap" class="col-sm-9" ng-controller="palmerCache"> -->
-		<div id="map-wrap" class="col-sm-9">
-		
-			<h2 class="bar-title" ng-controller="submitCounter1">Find How Water is Priced: User Data
-				<span id="ctrfrate"	class="counters pull-right" tooltip-placement="top" tooltip="{{frate}} fixed rate bills">{{frate}}</span>
-				<span id="ctrmrate" class="counters pull-right" tooltip-placement="top" tooltip="{{mrate}} metered rate bills">{{mrate}}</span>
-			</h2>
-			<!-- <input type="text" ng-model="searchEntries"> -->
-			<div mapuser id="map" userdata="entries | filter:searchentries"></div>
-		</div>
-		
-		<!-- <div id="graph-wrap1" class="col-sm-3" ng-controller="barsController1">	  
-			<h2 class="bar-title">Water Bills</h2>
-			<div d3-bars id="chartContainer" data="entries" on-click="onClick(item)" bar-height="40" bar-padding="5"></div>
-			<div ng-show="showDetailPanel">
-		    <h3>Details</h3>
-		    <h3>Item: {{ detailItem._id }}</h4>
-		    <a ng-click="showDetailPanel=false">Hide</a>
-		  </div>
-		</div> -->
-		
-		<div class="detail-wrap col-sm-3">	  
-			<h2 class="bar-title">Details</h2>
-		  <tabset justified="true">
-		    <tab heading="Water Bill">
-		    	
-		    	<div class="detail-panel">
+		<h2 class="bar-title" ng-controller="submitCounter1">Find How Water is Priced: User Data
+			<span class="ctrfrate counters pull-right" tooltip-placement="top" tooltip="{{frate}} fixed rate bills">{{frate}}</span>
+			<span class="ctrmrate counters pull-right" tooltip-placement="top" tooltip="{{mrate}} metered rate bills">{{mrate}}</span>
+		</h2>
+		<!-- <input type="text" ng-model="searchEntries"> -->
+		<div mapuser id="map" userdata="entries | filter:searchentries"></div>
+	</div>
+	
+	<div class="detail-wrap col-sm-3">	  
+		<h2 class="bar-title">Details</h2>
+	  <tabset justified="true">
+	    <tab heading="Water Bill">
+	    	
+	    	<div class="detail-panel">
 
-						<div id="banner-wrap">
-							<div id="banner-wrap-inner">
-								<click-banner></click-banner>
-								<h5 class="text-muted">CLICK POINTS ON MAP</h5>
-							</div>
+					<div id="banner-wrap">
+						<div id="banner-wrap-inner">
+							<click-banner></click-banner>
+							<h5 class="text-muted">CLICK POINTS ON MAP</h5>
 						</div>
+					</div>
 
-						<div class="detail-panel-inner">
-							<h4 id="bill-panel-streetaddr" class="panel-items"></h4>
-							<!-- <p><span class="text-muted">Cost per Day: </span><b>$</b><span id="bill-panel-pday" class="panel-items"></span></p> -->
-			    		<!-- <p><span class="text-muted">Location: </span><b id="bill-panel-streetaddr" class="panel-items"></b></p> -->
-			    		<p><span class="text-muted">Water Provider: </span><b id="bill-panel-util" class="panel-items"></b></p>
-			    		<p><span class="text-muted">Total Bill: </span><b>$</b><b id="bill-panel-bill" class="panel-items"></b></p>
-			    		<p><span class="text-muted">Water Used: </span><b id="bill-panel-used" class="panel-items"></b><span> </span><b id="bill-panel-units" class="panel-items"></b></span>
-			    		<p><span class="text-muted">Submitted: </span><b id="bill-panel-submit" class="panel-items"></b></p>
-						</div>
-		    		
-		    		<hr>
-						
-						<div ng-include="'views/templates/pdsi-legend.html'"></div>
+					<div class="detail-panel-inner">
+						<h4 id="bill-panel-streetaddr" class="panel-items"></h4>
+						<!-- <p><span class="text-muted">Cost per Day: </span><b>$</b><span id="bill-panel-pday" class="panel-items"></span></p> -->
+		    		<!-- <p><span class="text-muted">Location: </span><b id="bill-panel-streetaddr" class="panel-items"></b></p> -->
+		    		<p><span class="text-muted">Water Provider: </span><b id="bill-panel-util" class="panel-items"></b></p>
+		    		<p><span class="text-muted">Total Bill: </span><b>$</b><b id="bill-panel-bill" class="panel-items"></b></p>
+		    		<p><span class="text-muted">Water Used: </span><b id="bill-panel-used" class="panel-items"></b><span> </span><b id="bill-panel-units" class="panel-items"></b></span>
+		    		<p><span class="text-muted">Submitted: </span><b id="bill-panel-submit" class="panel-items"></b></p>
+					</div>
+	    		
+	    		<hr>
+					
+					<div ng-include="'views/templates/pdsi-legend.html'"></div>
 
-		    	</div>
-		    </tab>
-		    
-		    <tab heading="Search">
-		    	<div class="detail-panel">
+	    	</div>
+	    </tab>
+	    
+	    <tab heading="Search">
+	    	
+				<div id="search" class="input-group">
+				  <input type="text" class="form-control" ng-model="$parent.searchentries" placeholder="ex. san diego">
+				  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+				</div>
 
-						<div class="input-group">
-						  <input type="text" class="form-control" ng-model="$parent.searchentries" placeholder="ex. san diego">
-						  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-						</div>
+	    	<div class="search-panel">
+	    		<div class="detail-panel-inner-search">
+	    			<div class="entries" ng-repeat="entry in entries | filter:searchentries">
+	    				
+	    				<div ng-if="entry.properties.billtype == 'frate'" class="entry-inner">
+	    					<p>{{entry.properties.streetaddr}}:</p>
+	    					<br>
+	    					<p class="ctrfrate counters-small">${{entry.properties.pcappday}}/<i class='fa fa-user'></i>/day</p>
+	    				</div>
 
-		    		<div class="detail-panel-inner-search">
-		    			<ul ng-repeat="entry in entries | filter:searchentries">
-		    				<li >
-		    					<p>{{entry.properties.streetaddr}}: {{entry.properties.pday}}</p>
-		    				</li>
-		    			</ul>
-		    		</div>	    		
+	    				<div ng-if="entry.properties.billtype !== 'frate'" class="entry-inner">
+	    					<p>{{entry.properties.streetaddr}}:</p>
+	    					<br>	
+	    					<p class="ctrmrate counters-small">${{entry.properties.pcappday}}/<i class='fa fa-user'></i>/day</p>
+	    				</div>
+	    			
+	    			</div>
+	    		</div>
 
-		    	</div>
-		    </tab>
-		  </tabset>
-		
-		</div>
+	    	</div>
+	    </tab>
+	  </tabset>
+	
+	</div>
+</div> <!-- end row -->
+
+<div class="row row-group">
+	
+	<div id="graph-wrap1" class="col-sm-6">
+	  <div d3-graph id="chartContainer" data="entries | filter:searchentries"></div>
 	</div>
 
-
-	<div class="row">
-		<div id="graph-wrap2" class="col-sm-4">
-		  <div d3-graph id="chartContainer" data="entries | filter:searchentries"></div>
-		</div>
-		
-		<div id="graph-wrap3" class="col-sm-4">
-		  <!-- <input type="text" ng-model="searchEntries"> -->
-		  <!-- <d3-donut data="[82, 62, 10, 32]"></d3-donut> -->
-		  <!-- <d3-donut data="entries"></d3-donut> -->
-		</div>
-
+	<!-- <div id="graph-wrap2" class="col-sm-3" ng-controller="barsController1">	  
+		<h2 class="bar-title">Water Bills</h2>
+		<div d3-bars id="chartContainer" data="entries" on-click="onClick(item)" bar-height="40" bar-padding="5"></div>
+		<div ng-show="showDetailPanel">
+	    <h3>Details</h3>
+	    <h3>Item: {{ detailItem._id }}</h4>
+	    <a ng-click="showDetailPanel=false">Hide</a>
+	  </div>
+	</div> -->
+	
+	<div id="graph-wrap2" class="col-sm-3">
+	  <!-- <input type="text" ng-model="searchEntries"> -->
+	  <d3-donut data="[82, 62, 10, 32]"></d3-donut>
+	  <!-- <d3-donut data="entries"></d3-donut> -->
 	</div>
 
-</div>
+	<div  id="graph-wrap3" class="col-sm-3">
+		<div class="well">
+			<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+		</div>
+	</div>
+</div> <!-- end row -->
 
 <div ng-include="'views/templates/nav-content.html'"></div>
 <div ng-include="'views/templates/explore-content.html'"></div>

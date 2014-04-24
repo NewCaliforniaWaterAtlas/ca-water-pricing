@@ -429,18 +429,26 @@ ol.carousel-indicators {
  */ 
 
 .counters {
-  color: #fff;
   margin-right: 5px;
   padding-right: 13px;
   padding-left: 13px;
 }
 
-#ctrmrate {
+.ctrmrate, .ctrfrate {
+  color: #fff;
+}
+
+.ctrmrate {
   background-color: #9abab4;
 }
 
-#ctrfrate {
+.ctrfrate {
   background-color: #a4ad50;
+}
+
+.counters-small {
+  font-weight: bold;
+  padding: 3px 6px 3px 6px;
 }
 
 
@@ -602,6 +610,12 @@ img.image-sample:hover {
   padding: 15px 15px 0px 15px;
 }
 
+.search-panel {
+  border: 1px solid #e0e0e0;
+  height: 375px;
+  overflow: hidden;
+}
+
 #banner-wrap {
   position: relative;
   text-align: center;
@@ -627,6 +641,47 @@ img#clickbanner {
 .detail-panel-inner-search {
   overflow: scroll;
   height: 390px;
+}
+
+#search {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+input[type="text"], input {
+  /*width: 280px;*/
+  border: 1px solid #e0e0e0;
+  font-size: 20px;
+  padding: 10px 6px 10px 6px;
+  line-height: 1.1;
+
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.input-group-addon {
+  border: 1px solid #ccc;
+  border-radius: 0px;
+}
+
+.input-group-addon:last-child {
+  border-left: 1px;
+  border: 1px solid #e0e0e0;
+}
+
+.entries {
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: #dbd7ca;
+}
+
+.entry-inner > p {
+  display: inline;
 }
 
 span#bill-panel-pday {
@@ -847,10 +902,6 @@ a.leaflet-popup-close-button {
 
 .x.axis path {
   /*display: none;*/
-}
-
-#graph-wrap1 {
-  /*margin-top: 20px;*/
 }
 
 .donut-chart {

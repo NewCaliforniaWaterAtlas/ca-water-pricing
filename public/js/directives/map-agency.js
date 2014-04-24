@@ -153,7 +153,7 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 			      	// console.log(data);
 			      
 						  layer.bindPopup(
-						  	"<p class='tt-title'>" + data.address[1].formatted_address + ": " + "</p>" +  "<span id='ctrmrate' class='tt-highlight counters pull-right'>$ " + quantVal + " /ccf" + "</span>"
+						  	"<p class='tt-title'>" + data.address[1].formatted_address + ": " + "</p>" +  "<span class='ctrmrate tt-highlight counters pull-right'>$ " + quantVal + " /ccf" + "</span>"
 						  ).openPopup();
 					  
 					  });

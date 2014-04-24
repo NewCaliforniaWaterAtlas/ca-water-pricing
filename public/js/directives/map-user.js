@@ -160,12 +160,12 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 							if (layer.feature.properties.billtype == "frate") {
 							  var popup = L.popup()
 									.setLatLng(e.latlng)
-									.setContent("<p class='tt-title'>" + layer.feature.properties.streetaddr + ": " + "</p>" +  "<span id='ctrfrate' class='tt-highlight counters pull-right'>$ " + layer.feature.properties.pcappday + " /<i class='fa fa-user'></i> /day" + "</span>");	
+									.setContent("<p class='tt-title'>" + layer.feature.properties.streetaddr + ": " + "</p>" +  "<span class='ctrfrate tt-highlight counters pull-right'>$ " + layer.feature.properties.pcappday + " /<i class='fa fa-user'></i> /day" + "</span>");	
 								map.openPopup(popup);
 							}	else {
 							  var popup = L.popup()
 									.setLatLng(e.latlng)
-									.setContent("<p class='tt-title'>" + layer.feature.properties.streetaddr + ": " + "</p>" +  "<span id='ctrmrate' class='tt-highlight counters pull-right'>$ " + layer.feature.properties.pcappday + " /<i class='fa fa-user'></i> /day" + "</span>");	
+									.setContent("<p class='tt-title'>" + layer.feature.properties.streetaddr + ": " + "</p>" +  "<span class='ctrmrate tt-highlight counters pull-right'>$ " + layer.feature.properties.pcappday + " /<i class='fa fa-user'></i> /day" + "</span>");	
 								map.openPopup(popup);
 							}
 						})

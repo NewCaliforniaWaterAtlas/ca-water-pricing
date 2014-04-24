@@ -9,21 +9,11 @@
 		<!-- <div id="map-wrap" class="col-sm-9" ng-controller="palmerCache"> -->
 		
 			<h2 class="bar-title" ng-controller="submitCounter2">Find How Water is Priced: Agency Data
-				<span id="ctrmrate" class="counters pull-right" tooltip-placement="top" tooltip="{{record}} CPUC records">{{record}}</span>
+				<span class="ctrmrate counters pull-right" tooltip-placement="top" tooltip="{{record}} CPUC records">{{record}}</span>
 			</h2>
 
 			<div mapagency id="map" points="records | filter:searchrecords"></div>
 		</div>
-		
-		<!-- <div id="graph-wrap1" class="col-sm-3" ng-controller="barsController1">	  
-			<h2 class="bar-title">Water Bills</h2>
-			<div d3-bars id="chartContainer" data="entries" on-click="onClick(item)" bar-height="40" bar-padding="5"></div>
-			<div ng-show="showDetailPanel">
-		    <h3>Details</h3>
-		    <h3>Item: {{ detailItem._id }}</h4>
-		    <a ng-click="showDetailPanel=false">Hide</a>
-		  </div>
-		</div> -->
 		
 		<div class="detail-wrap col-sm-3">	  
 			<h2 class="bar-title">Details</h2>
@@ -55,19 +45,18 @@
 		    </tab>
 		    
 		    <tab heading="Search">
-		    	<div class="detail-panel">
+		    	
+					<div id="search" class="input-group">
+					  <input type="text" class="form-control" ng-model="$parent.searchrecords" placeholder="ex. san diego">
+					  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+					</div>
 
-						<div class="input-group">
-						  <input type="text" class="form-control" ng-model="$parent.searchrecords" placeholder="ex. san diego">
-						  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-						</div>
+		    	<div class="search-panel">
 
 		    		<div class="detail-panel-inner-search">
-		    			<ul ng-repeat="record in records_parsed | filter:searchrecords">
-		    				<li >
-		    					<p>Water Provider: {{record.utility_me}}</p>
-		    				</li>
-		    			</ul>
+		    			<div class="entries" ng-repeat="record in records_parsed | filter:searchrecords">
+		    				<p>Water Provider: {{record.utility_me}}</p>
+		    			</div>
 		    		</div>
 
 		    	</div>
@@ -75,7 +64,6 @@
 		  </tabset>
 		</div>
 	</div>
-
 
 	<div class="row">
 		<div id="graph-wrap2" class="col-sm-4">
