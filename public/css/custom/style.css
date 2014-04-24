@@ -77,6 +77,10 @@ input::-webkit-inner-spin-button {
   display: inline-block;
 }
 
+.text-inline {
+  display: inline;
+}
+
 /*<!-- ============ Custom Styling ============ -->*/
 
 /*#front-page {
@@ -675,13 +679,25 @@ input[type="text"], input {
   border: 1px solid #e0e0e0;
 }
 
+.entries-group {
+  
+}
+
 .entries {
-  padding: 10px;
   margin-bottom: 5px;
   background-color: #dbd7ca;
 }
 
-.entry-inner > p {
+.entry-collapse {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+}
+
+.entry-title > a {
+  border-bottom: none;
+}
+
+.entry-inner {
   display: inline;
 }
 

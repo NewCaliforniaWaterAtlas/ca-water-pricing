@@ -397,3 +397,20 @@ var searchAccordion = function ($scope) {
 }
 
 
+angular.module("template/accordion/accordion-group.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("template/accordion/accordion-group.html",
+    "<div class=\"entries\">\n" +
+    "  <div class=\"panel-heading\" >\n" +
+    "    <h4 class=\"entry-title\"><a data-toggle=\"collapse\" ng-click=\"isOpen = !isOpen\" accordion-transclude=\"heading\">{{heading}}</a></h4>\n" +
+	"  </div>\n" +
+    "  <div class=\"entry-collapse\" ng-hide=\"!isOpen\">\n" +
+    "    <div class=\"panel-body\" ng-transclude></div>  </div>\n" +
+    "</div>");
+}]);
+
+angular.module("template/accordion/accordion.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("template/accordion/accordion.html",
+    "<div class=\"entries-group\" ng-transclude></div>");
+}]);
+
+

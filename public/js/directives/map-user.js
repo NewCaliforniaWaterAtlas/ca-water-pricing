@@ -194,6 +194,7 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 							document.getElementById('bill-panel-bill').innerHTML = layer.feature.properties.bill;
 							document.getElementById('bill-panel-used').innerHTML = layer.feature.properties.used;
 							document.getElementById('bill-panel-units').innerHTML = layer.feature.properties.units;
+							document.getElementById('bill-panel-hsize').innerHTML = layer.feature.properties.hsize;
 
 						  timeService.time().then(function () {
 						  	var submit = moment.utc(layer.feature.properties.tstamp).format('MM/DD/YYYY');
