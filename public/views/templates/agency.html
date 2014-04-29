@@ -32,8 +32,9 @@
 						<div class="detail-panel-inner">
 							<h4 id="bill-panel-streetaddr" class="panel-items"></h4>
 			    		<p><span class="text-muted">Water Provider: </span><b id="bill-panel-util" class="panel-items"></b></p>
-			    		<p><span class="text-muted">Quantity Rate: </span><b>$</b><b id="bill-panel-quantity-rate" class="panel-items"></b><span><b> /ccf</b></span></p>
-			    		<p><span class="text-muted">Service Charge: </span><b>$</b><b id="bill-panel-service-charge" class="panel-items"></b></p>
+			    		<p><span class="text-muted">Quantity Rate: </span><b id="bill-panel-quantity-rate" class="panel-items"></b></p>
+			    		<p><span class="text-muted">Flat Rate: </span><b id="bill-panel-flat-rate" class="panel-items"></b></p>
+			    		<p><span class="text-muted">Service Charge: </span><b id="bill-panel-service-charge" class="panel-items"></b></p>
 			    		<p><span class="text-muted">Service Area: </span><b id="bill-panel-service-area" class="panel-items"></b></p>
 						</div>
 		    		
@@ -47,7 +48,7 @@
 		    <tab heading="Summary">
 		    	
 					<div id="search" class="input-group">
-					  <input type="text" class="form-control" ng-model="$parent.searchrecords" placeholder="ex. san diego">
+					  <input type="text" class="search-custom form-control" ng-model="$parent.searchrecords" placeholder="ex. san diego">
 					  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
 					</div>
 

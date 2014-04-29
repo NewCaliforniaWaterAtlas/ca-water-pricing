@@ -28,7 +28,7 @@
 **/
 
 angular.module( "ngAutocomplete", [])
-  .directive('ngAutocomplete', ['placeService', function (placeService) {
+  .directive('ngAutocomplete', [ function () {
     return {
       require: 'ngModel',
       scope: {
@@ -38,7 +38,7 @@ angular.module( "ngAutocomplete", [])
       },
 
       link: function(scope, element, attrs, controller) {
-        placeService.then(function() {
+        
         //options for autocomplete
         var opts
         var watchEnter = false
@@ -161,7 +161,7 @@ angular.module( "ngAutocomplete", [])
           initOpts()
         }, true);
 
-        }); // end placeService
+        
 
       } //end link
     };

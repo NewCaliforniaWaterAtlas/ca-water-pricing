@@ -6,4 +6,5 @@
 
 require('mapbox.js');
 require('../../../components/leaflet.fullscreen/dist/Leaflet.fullscreen.js');
+require('../../../components/leaflet-plugins/layer/tile/Google.js');
 // require('../../../components/leaflet-hash/leaflet-hash.js');

@@ -1,6 +1,6 @@
+'use strict';
 
-
-app.directive('mapuser', [ '$window','mapService', 'timeService', function ($window, mapService, timeService) {
+app.directive('mapuser', [ '$window','mapService','timeService', function ($window, mapService, timeService) {
 	return {
 		restrict: 'A',
 		// replace: true,
@@ -30,7 +30,7 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 		    // create the tile layer with correct attribution
 		    var tilesURL = 'http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png';
 		    var tilesAttrib = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
-		    var tiles = new L.TileLayer(tilesURL, {
+		    var tonerTiles = new L.TileLayer(tilesURL, {
 	        // attribution: tilesAttrib, 
 	        opacity: 1,
 	        detectRetina: true,
@@ -38,16 +38,19 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 	        updateWhenIdle: true,
 	        reuseTiles: true
 		    });
-		    tiles.addTo(map);
+		    tonerTiles.addTo(map);
+
+		    
+		    // google satellite base layer
+	      var googleTiles = new L.Google('SATELLITE');
+	      addLayer( googleTiles, 'Satellite', 1);
 
 		    	
 		    // attribution config
 		    map.attributionControl.setPrefix('');
-		  	
 		  	var infoControl = L.mapbox.infoControl()
 		  		.addTo(map);
 		  	infoControl.addInfo(tilesAttrib);
-		  	
 		  	var fullscreen = L.control.fullscreen()
 		  		.addTo(map);
 
@@ -59,6 +62,7 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 				// disable tap handler, if present.
 				// if (map.tap) map.tap.disable();
 
+				// todo: add hashing to map
 		  	// var hash = L.hash();
 		  	// hash.init(map);
 
@@ -82,6 +86,44 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
 	
 				});
 
+
+				//  basemap layer switcher ======================================================================
+
+				function addLayer(layer, name, zIndex) {
+				  // layer
+				  //   .setZIndex(zIndex)
+				  //   .addTo(map);
+
+				  // // Create a simple layer switcher that toggles layers on
+				  // // and off.
+				  // var item = document.createElement('li');
+				  // var link = document.createElement('a');
+
+				  // link.href = '#';
+				  // link.className = 'active';
+				  // link.innerHTML = name;
+
+				  // link.onclick = function(e) {
+				  //   e.preventDefault();
+				  //   e.stopPropagation();
+
+				  //   if (map.hasLayer(layer)) {
+				  //     map.removeLayer(layer);
+				  //     this.className = '';
+				  //   } else {
+				  //     map.addLayer(layer);
+				  //     this.className = 'active';
+				  //   }
+				  // };
+
+				  // item.appendChild(link);
+				  // ui.appendChild(item);
+				}
+
+
+
+
+
         //  Markers ======================================================================
 
 		    // create feature group
@@ -96,135 +138,135 @@ app.directive('mapuser', [ '$window','mapService', 'timeService', function ($win
         	// remove all previous items before render
         	pointGroup.clearLayers();
 
-        	if (data) {
-				    // sort flat fees from metered fees
-						
-						var points = data;
-						// var propsArr = [];
-						
-						// var i;
-						// for (i=0; i < points.length; i++) {
-						// 	var props = points[i].properties;
-						// 	propsArr.push(props);
-						// }
+        	// check to see if points exist
+        	if (!data) return;
+			    
+			    // sort flat fees from metered fees
+					var points = data;
+					// var propsArr = [];
+					
+					// var i;
+					// for (i=0; i < points.length; i++) {
+					// 	var props = points[i].properties;
+					// 	propsArr.push(props);
+					// }
 
-						// var frate = _.filter(propsArr, { 'billtype': 'frate' });
-						// var mrate = _.filter(propsArr, { 'billtype': 'mrate' });
-						// var f = _.extend({}, frate);
-						// var m = _.extend({}, mrate);
+					// var frate = _.filter(propsArr, { 'billtype': 'frate' });
+					// var mrate = _.filter(propsArr, { 'billtype': 'mrate' });
+					// var f = _.extend({}, frate);
+					// var m = _.extend({}, mrate);
 
-						var billType = _.groupBy(points, function(obj) {
-						  return obj.properties.billtype;
-						});
+					var billType = _.groupBy(points, function(obj) {
+					  return obj.properties.billtype;
+					});
 
-						var bts = _.sortBy(billType, function(v, k) { return k; });
-						
-						var frate = bts[0];
-						var mrate = bts[1];
+					var bts = _.sortBy(billType, function(v, k) { return k; });
+					
+					var frate = bts[0];
+					var mrate = bts[1];
 
-						var fpoints;
-						var mpoints;
+					var fpoints;
+					var mpoints;
 
-						function styleFlat(frate) {
-							return {
-						    radius: (frate.properties.pcappday * 4),
-							  color: "#fff",
-							  fillColor: "#a4ad50",
-							  fillOpacity: 0.95,
-							  opacity: 1,
-							  weight: 3
-							};
+					function styleFlat(frate) {
+						return {
+					    radius: (frate.properties.pcappday * 4),
+						  color: "#fff",
+						  fillColor: "#a4ad50",
+						  fillOpacity: 0.95,
+						  opacity: 1,
+						  weight: 3
+						};
+					}
+
+					function styleMeter(mrate) {
+						return {
+					    radius: (mrate.properties.pcappday * 4),
+						  color: "#fff",
+						  fillColor: "#9abab4",
+						  fillOpacity: 0.95,
+						  opacity: 1,
+						  weight: 3
+						};
+					}
+
+	        //setup popups to trigger on mouseovers
+					pointGroup.on('mouseover', function(e) {
+					  var layer = e.layer;
+					  layer.setStyle({
+					    weight: 5,
+					    color: "#1c75bc",
+					    opacity: 1
+					  });
+					  // console.log(layer.feature.properties);	
+
+						if (layer.feature.properties.billtype == "frate") {
+						  var popup = L.popup()
+								.setLatLng(e.latlng)
+								.setContent("<p class='tt-title'>" + layer.feature.properties.streetaddr + ": " + "</p>" +  "<span class='ctrfrate tt-highlight counters pull-right'>$ " + layer.feature.properties.pcappday + " /<i class='fa fa-user'></i> /day" + "</span>");	
+							map.openPopup(popup);
+						}	else {
+						  var popup = L.popup()
+								.setLatLng(e.latlng)
+								.setContent("<p class='tt-title'>" + layer.feature.properties.streetaddr + ": " + "</p>" +  "<span class='ctrmrate tt-highlight counters pull-right'>$ " + layer.feature.properties.pcappday + " /<i class='fa fa-user'></i> /day" + "</span>");	
+							map.openPopup(popup);
 						}
+					})
 
-						function styleMeter(mrate) {
-							return {
-						    radius: (mrate.properties.pcappday * 4),
-							  color: "#fff",
-							  fillColor: "#9abab4",
-							  fillOpacity: 0.95,
-							  opacity: 1,
-							  weight: 3
-							};
-						}
+					.on('mouseout', function(e){
+					  var layer = e.layer;
+					  layer.setStyle({
+					    weight: 3,
+					    color: "#fff"
+					  });
+						map.closePopup();
+					})
 
-		        //setup popups to trigger on mouseovers
-						pointGroup.on('mouseover', function(e) {
-						  var layer = e.layer;
-						  layer.setStyle({
-						    weight: 5,
-						    color: "#1c75bc",
-						    opacity: 1
-						  });
-						  // console.log(layer.feature.properties);	
-
-							if (layer.feature.properties.billtype == "frate") {
-							  var popup = L.popup()
-									.setLatLng(e.latlng)
-									.setContent("<p class='tt-title'>" + layer.feature.properties.streetaddr + ": " + "</p>" +  "<span class='ctrfrate tt-highlight counters pull-right'>$ " + layer.feature.properties.pcappday + " /<i class='fa fa-user'></i> /day" + "</span>");	
-								map.openPopup(popup);
-							}	else {
-							  var popup = L.popup()
-									.setLatLng(e.latlng)
-									.setContent("<p class='tt-title'>" + layer.feature.properties.streetaddr + ": " + "</p>" +  "<span class='ctrmrate tt-highlight counters pull-right'>$ " + layer.feature.properties.pcappday + " /<i class='fa fa-user'></i> /day" + "</span>");	
-								map.openPopup(popup);
-							}
-						})
-
-						.on('mouseout', function(e){
-						  var layer = e.layer;
-						  layer.setStyle({
-						    weight: 3,
-						    color: "#fff"
-						  });
-							map.closePopup();
-						})
-
-						.on('click', function(e){
-							
-							var layer = e.layer;
-
-						  if (layer.feature.properties.used == undefined){
-						  	layer.feature.properties.used = "not metered";
-						  	layer.feature.properties.units = "";
-						  }
-
-						  // document.getElementById('bill-panel-pday').innerHTML = layer.options.pday;
-							document.getElementById('bill-panel-streetaddr').innerHTML = layer.feature.properties.streetaddr;
-							document.getElementById('bill-panel-util').innerHTML = layer.feature.properties.util;
-							document.getElementById('bill-panel-bill').innerHTML = layer.feature.properties.bill;
-							document.getElementById('bill-panel-used').innerHTML = layer.feature.properties.used;
-							document.getElementById('bill-panel-units').innerHTML = layer.feature.properties.units;
-							document.getElementById('bill-panel-hsize').innerHTML = layer.feature.properties.hsize;
-
-						  timeService.time().then(function () {
-						  	var submit = moment.utc(layer.feature.properties.tstamp).format('MM/DD/YYYY');
-						  	document.getElementById('bill-panel-submit').innerHTML = submit;
-						  });
-
-						});
-
-						fpoints = L.geoJson(frate, {
-					    pointToLayer: function (feature, latlng) {
-					      return L.circleMarker(latlng,{})
-					    },
-					    style: styleFlat
-						}).addTo(pointGroup);
-
-						mpoints = L.geoJson(mrate, {
-					    pointToLayer: function (feature, latlng) {
-					      return L.circleMarker(latlng,{})
-					    },
-					    style: styleMeter
-						}).addTo(pointGroup);
+					.on('click', function(e){
 						
-						// add circle markers to map
-						pointGroup.addTo(map);
+						var layer = e.layer;
+
+					  if (layer.feature.properties.used == undefined){
+					  	layer.feature.properties.used = "not metered";
+					  	layer.feature.properties.units = "";
+					  }
+
+					  // document.getElementById('bill-panel-pday').innerHTML = layer.options.pday;
+						document.getElementById('bill-panel-streetaddr').innerHTML = layer.feature.properties.streetaddr;
+						document.getElementById('bill-panel-util').innerHTML = layer.feature.properties.util;
+						document.getElementById('bill-panel-bill').innerHTML = layer.feature.properties.bill;
+						document.getElementById('bill-panel-used').innerHTML = layer.feature.properties.used;
+						document.getElementById('bill-panel-units').innerHTML = layer.feature.properties.units;
+						document.getElementById('bill-panel-hsize').innerHTML = layer.feature.properties.hsize;
+
+					  timeService.time().then(function () {
+					  	var submit = moment.utc(layer.feature.properties.tstamp).format('MM/DD/YYYY');
+					  	document.getElementById('bill-panel-submit').innerHTML = submit;
+					  });
+
+					});
+
+					fpoints = L.geoJson(frate, {
+				    pointToLayer: function (feature, latlng) {
+				      return L.circleMarker(latlng,{})
+				    },
+				    style: styleFlat
+					}).addTo(pointGroup);
+
+					mpoints = L.geoJson(mrate, {
+				    pointToLayer: function (feature, latlng) {
+				      return L.circleMarker(latlng,{})
+				    },
+				    style: styleMeter
+					}).addTo(pointGroup);
+					
+					// add circle markers to map
+					pointGroup.addTo(map);
 						
-					} else {return;} // if data isn't passed, return out of the element
+					
 				}// scope.render
         
 			});//end mapService
-
 			
 		}//end link
 	}//end return

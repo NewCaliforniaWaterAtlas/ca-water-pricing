@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('mapagency', [ '$window','mapService','geoService', function ($window, mapService, geoService) {
+app.directive('mapagency', [ '$window','mapService', function ($window, mapService) {
 	return {
 		restrict: 'A',
 		// replace: true,
@@ -56,6 +56,7 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 				// disable tap handler, if present.
 				// if (map.tap) map.tap.disable();
 
+				// todo: add hashing to map
 		  	// var hash = L.hash();
 		  	// hash.init(map);
 
@@ -110,8 +111,17 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 			  //   console.log(quantArr);
 
 					function style(feature) {
+						
+						var rad;
+
+						if (feature.properties.quantity_rate !== ""){
+							rad = feature.properties.quantity_rate;
+						} else {
+							rad = 2;
+						}
+
 						return {
-					    radius: (feature.properties.quantity_rate * 2),
+					    radius: rad * 2,
 					    // radius: feature.properties.quantity_rate != ""  ? feature.properties.quantity_rate*2 : 2,
 					    fillColor: "#9abab4",
 					    color: "#fff",
@@ -130,6 +140,7 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 					  var lat = layer.feature.geometry.coordinates[1];
 					  var lng = layer.feature.geometry.coordinates[0];
 					  var quantVal;
+					  var notVal;
 					  var quantProp = layer.feature.properties.quantity_rate;
 
 					  layer.setStyle({
@@ -142,21 +153,22 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 					  //   layer.bringToFront();
 					  // }
 
-					  function trunc (data) {
-					  	var val = Math.floor(data * 10) / 10;
-					  	quantVal = val;		 
+					  function popupVals (data) {
+					  	if (data !== "") {
+						  	var val = Math.floor( data * 10 ) / 10;
+						  	quantVal = val;
+							  layer.bindPopup(
+							  	"<p class='tt-title'>" + layer.feature.properties.city +  ", " + layer.feature.properties.state + ": " + "</p>" +  "<span class='ctrmrate tt-highlight counters pull-right'>$ " + quantVal + " /ccf" + "</span>"
+							  ).openPopup();
+					  	}	else {
+					  		notVal = "no data";
+							  layer.bindPopup(
+							  	"<p class='tt-title'>" + layer.feature.properties.city +  ", " + layer.feature.properties.state + ": " + "</p>" +  "<span class='ctrmrate tt-highlight counters pull-right'>" + notVal + "</span>"
+							  ).openPopup();
+					  	}
 					  }
-					  trunc(quantProp);
-					  // console.log(layer.feature.geometry.coordinates[0]);	
-
-			      geoService.addressForLatLng(lat, lng).then(function(data){
-			      	// console.log(data);
-			      
-						  layer.bindPopup(
-						  	"<p class='tt-title'>" + data.address[1].formatted_address + ": " + "</p>" +  "<span class='ctrmrate tt-highlight counters pull-right'>$ " + quantVal + " /ccf" + "</span>"
-						  ).openPopup();
-					  
-					  });
+					  popupVals(quantProp);
+					  // console.log(layer.feature.geometry.coordinates[0]);
 					}
 
 					// hover reset
@@ -174,23 +186,38 @@ app.directive('mapagency', [ '$window','mapService','geoService', function ($win
 					  var lat = layer.feature.geometry.coordinates[1];
 					  var lng = layer.feature.geometry.coordinates[0];
 					  var quantVal;
+					  var notVal;
 					  var quantProp = layer.feature.properties.quantity_rate;
 
-					  function trunc (data) {
-					  	var val = Math.floor(data * 10) / 10;
-					  	quantVal = val;		 
+					  function panelVals (data) {
+					  	if (data !== "") {
+						  	var val = Math.floor(data * 10) / 10;
+						  	quantVal = val;	
+					  		document.getElementById('bill-panel-quantity-rate').innerHTML = "$ " + quantVal + " /ccf";
+					  	} else {
+					  		notVal = "no data";
+					  		document.getElementById('bill-panel-quantity-rate').innerHTML = notVal;
+					  	}
 					  }
-					  trunc(quantProp);
+					  panelVals(quantProp);
 
-			      geoService.addressForLatLng(lat, lng).then(function (data) {
-			      	document.getElementById('bill-panel-streetaddr').innerHTML = data.address[1].formatted_address;
-					  });
+					  if (layer.feature.properties.flat_rate !== "") {
+					  	document.getElementById('bill-panel-flat-rate').innerHTML = "$ " + layer.feature.properties.flat_rate;
+					  } else {
+				  		notVal = "no data";
+				  		document.getElementById('bill-panel-flat-rate').innerHTML = notVal;
+					  }
 
+					  if (layer.feature.properties.service_charge !== "") {
+					  	document.getElementById('bill-panel-service-charge').innerHTML = "$ " + layer.feature.properties.service_charge;
+					  } else {
+				  		notVal = "no data";
+				  		document.getElementById('bill-panel-service-charge').innerHTML = notVal;
+					  }
+
+			      document.getElementById('bill-panel-streetaddr').innerHTML = layer.feature.properties.streetaddr;
 						document.getElementById('bill-panel-util').innerHTML = layer.feature.properties.utility_me;
-						document.getElementById('bill-panel-quantity-rate').innerHTML = quantVal;
-						document.getElementById('bill-panel-service-charge').innerHTML = layer.feature.properties.service_charge;
 						document.getElementById('bill-panel-service-area').innerHTML = layer.feature.properties.service_area_description;
-
 					}
 
 					function onEachFeature(feature, layer) {

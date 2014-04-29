@@ -263,11 +263,10 @@ app.controller('submitCounter2', ['$scope', 'agencyService', function ($scope, a
 	agencyService.get()
 		.success(function(data) {
 
-			var d = data[0].features;	
 		  $scope.record = 0;
 		  
 		  // loop through scope.data
-		  angular.forEach(d, function(entry, key){
+		  angular.forEach(data, function(entry, key){
 		  	// console.log(entry);	
 		    if (entry) {	
 		      $scope.record++;

@@ -3,7 +3,7 @@
 <div class="row row-group" id="get-data" name="get-data">
   <h2 class="bar-title">Get Data</h2>
 
-  <p class="lead">This data is meant to support journalists, advocates, researchers, and governments to understand and explain groundwater issues more effectively to a broad audience. Publishing this data is just the first step in transforming how we communicate about water. We invite you to lend your talents to this initiative to make California’s water system easier for everyone to understand.</p>
+  <p class="lead">This data is meant to support journalists, advocates, researchers, and policy makers to understand and explain water pricing issues more effectively to a broad audience. Publishing this data is just the first step in transforming how we communicate about water. We invite you to lend your talents to this initiative to make California’s water system easier for everyone to understand.</p>
   
   <ul class="nav nav-tabs nav-stacked col-md-6">
     <li ng-class="{'active':currentTab == 'api-intro'}">
@@ -46,10 +46,10 @@
   </div> -->
 
 
-  <div class="tab-content col-md-6">
+  <div class="tab-content col-md-6" data-ng-show="$state.includes('user')">
     <div class="tab-pane" ng-class="{'active':currentTab == 'api-intro'}" id="api-intro">
       <div class="teaser-panel lead">
-        <h3>Introduction</h3>
+        <h3>Introduction: User Data</h3>
         <p>The California Water Table data contains 30 years of underground water table level readings from scientific research wells across the state. Some data is collected by the state, other data is collected by individuals.</p>
             
         <h3>Data Stats</h3>
@@ -97,61 +97,4 @@
   </div><!-- .tab-content -->
 </div><!-- .row -->
 
-<div class="row row-group" id="contribute">
 
-  <h2 class="bar-title">Contribute</h2>
-  <ul class="nav nav-tabs nav-stacked col-md-6">
-    <li class="active"><a href="#contribute-ncwa" data-toggle="tab">New California Water Atlas</a></li>
-    <li><a href="#contribute-get-involved" data-toggle="tab">Get Involved</a></li>
-    <li><a href="#contribute-improve" data-toggle="tab">Improve the data</a></li>
-    <li><a href="#contribute-donate" data-toggle="tab">Donate</a></li>
-  </ul>
-
-  <div class="tab-content col-md-6">
-    
-    <div class="tab-pane active" id="contribute-ncwa">
-      <div class="teaser-panel lead">
-        <h3>New California Water Atlas</h3>
-        <p>This project is the product of the New California Water Atlas Summer of Groundwater
-          (twitter, link, github, link blog/backstory)
-        </p>
-      </div>
-    </div><!-- .tab-pane -->
-    
-    <div class="tab-pane" id="contribute-get-involved">
-      <div class="teaser-panel lead">
-        <h3>Get Involved</h3>
-        <p>Make something awesome that will advance understanding of scarce water resources. We are building this for California, but the implications and lessons have global implications. This effort needs a variety of disciplines to be successful. Here some examples of tasks and roles that we think make sense:</p>
-        <ul>
-          <li>do UX research</li>
-          <li>add Spanish language support</li>
-          <li>code a web service to retrieve new agency data</li>
-          <li>reach out to local advocacy groups</li>
-          <li>code site to be accessible to screen-readers</li>
-          <li>write a blog/edit a blog post</li>
-          <li>make data beautiful</li>
-        </ul>
-      </div>
-    </div><!-- .tab-pane -->
-    
-    <div class="tab-pane" id="contribute-improve">
-      <h3>Improve the data</h3>
-    </div><!-- .tab-pane -->
-    
-    <div class="tab-pane" id="contribute-donate">
-      <h3>Donate</h3>
-    </div><!-- .tab-pane -->
-
-  </div><!-- .tab-content -->
-</div><!-- .row -->
-
-<div class="row row-group">
-  <ul class="nav nav-tabs nav-stacked col-md-6">
-    <li><a data-toggle="modal" href="#disclaimer">Disclaimer</a></li>
-    <li><a data-toggle="modal" href="#faqs">FAQs</a></li>
-    <li><a data-toggle="modal" href="#feedback">Feedback & Questions</a></li>
-    <li><a data-toggle="modal" href="#sponsors">Sponsors</a></li>
-    <li><a data-toggle="modal" href="#press">Press</a></li>
-    <li><a data-toggle="modal" href="#support">Support Us!</a></li>
-  </ul>
-</div>

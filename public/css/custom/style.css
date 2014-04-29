@@ -653,8 +653,22 @@ img#clickbanner {
   padding-bottom: 15px;
 }
 
-input[type="text"], input {
-  /*width: 280px;*/
+/*input[type="text"], input {
+  border: 1px solid #e0e0e0;
+  font-size: 20px;
+  padding: 10px 6px 10px 6px;
+  line-height: 1.1;
+
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}*/
+
+.search-custom {
   border: 1px solid #e0e0e0;
   font-size: 20px;
   padding: 10px 6px 10px 6px;
