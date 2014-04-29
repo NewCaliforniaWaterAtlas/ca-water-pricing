@@ -611,14 +611,17 @@ img.image-sample:hover {
   height: 480px;
 }
 
-.detail-panel, .search-panel {
+.detail-panel, .search-panel, .summary-panel {
   padding: 15px 15px 0px 15px;
 }
 
 .search-panel {
-  border: 1px solid #e0e0e0;
   height: 375px;
   overflow: hidden;
+}
+
+.summary-panel, .search-panel {
+  border: 1px solid #e0e0e0;
 }
 
 #banner-wrap {

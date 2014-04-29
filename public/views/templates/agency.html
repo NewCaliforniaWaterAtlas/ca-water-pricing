@@ -54,13 +54,44 @@
 
 		    	<div class="search-panel">
 
-		    		<div class="detail-panel-inner-search">
-		    			<div class="entries" ng-repeat="record in records_parsed | filter:searchrecords">
-		    				<p>Water Provider: {{record.utility_me}}</p>
-		    			</div>
-		    		</div>
+		    		<div class="detail-panel-inner-search" ng-controller="searchAccordion">
+		    			
+						  <accordion close-others="oneAtATime" ng-repeat="record in records | filter:searchrecords">
 
-		    	</div>
+						    <accordion-group is-open="isopen">
+
+					        <accordion-heading>
+					          <p>{{record.properties.streetaddr}}:</p>
+					          <div ng-if="record.properties.quantity_rate !== ''">
+					          	<p class="ctrmrate counters-small text-inline">${{record.properties.quantity_rate}} /ccf</p><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
+					          </div>
+					          <div ng-if="record.properties.quantity_rate == ''">
+					          	<p class="ctrmrate counters-small text-inline">${{record.properties.flat_rate}}</p><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
+					          </div>
+					        </accordion-heading>
+
+					    		<p><span class="text-muted">Water Provider: </span><b id="bill-panel-util" class="panel-items">{{record.properties.utility_me}}</b></p>
+					    		
+					    		<div ng-if="record.properties.quantity_rate !== ''">
+					    			<p><span class="text-muted">Quantity Rate: </span><b>$</b><b id="bill-panel-bill" class="panel-items">{{record.properties.quantity_rate}}</b> /ccf</p>
+					    		</div>
+					    		
+					    		<div ng-if="record.properties.flat_rate !== ''">
+					    			<p><span class="text-muted">Flat Rate: </span><b>$</b><b id="bill-panel-bill" class="panel-items">{{record.properties.flat_rate}}</b></p>
+					    		</div>
+					    		
+					    		<div ng-if="record.properties.service_charge !== ''">
+					    			<p><span class="text-muted">Service Charge: </span><b>$</b><b id="bill-panel-bill" class="panel-items">{{record.properties.service_charge}}</b></p>
+					    		</div>
+
+					    		<p><span class="text-muted">Participating Agency: </span><b id="bill-panel-submit" class="panel-items">{{record.properties.agency}}</b></p>
+						    
+						    </accordion-group>
+						  </accordion>
+		    		
+		    		</div> <!-- .detail-panel-inner-search -->
+
+		    	</div> <!-- .search-panel -->
 		    </tab>
 		  </tabset>
 		</div>

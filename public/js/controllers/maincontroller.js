@@ -167,17 +167,17 @@ app.controller('agencyController', ['$scope', 'agencyService', function ($scope,
 		.success(function(data) {
 			$scope.records = data;
 
-			var agencyArr = [];
+			// var agencyArr = [];
 
-		  // loop through scope.data
-		  angular.forEach(data, function(d, key){
+		 //  // loop through scope.data
+		 //  angular.forEach(data, function(d, key){
 
-		  	angular.forEach(d.features, function(entry, key){
-		  		agencyArr.push(entry.properties);	
-		  	});
+		 //  	angular.forEach(d.features, function(entry, key){
+		 //  		agencyArr.push(entry.properties);	
+		 //  	});
 		  
-		  });
-		  $scope.records_parsed = agencyArr;
+		 //  });
+		 //  $scope.records_parsed = agencyArr;
 
 		})
 		.error(function (data, status, headers, config){
