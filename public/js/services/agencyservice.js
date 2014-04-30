@@ -3,7 +3,7 @@
 app.factory('agencyService', ['$http', function($http) {
 	return {
 		get : function() {
-			return $http.get('/v1/api/agency', {cache: true});
+			return $http.get('/api/v1/agency', {cache: true});
 		}
 	}
 }]);

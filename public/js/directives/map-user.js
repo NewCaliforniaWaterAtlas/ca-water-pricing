@@ -161,9 +161,9 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 					});
 
 					var bts = _.sortBy(billType, function(v, k) { return k; });
-					
-					var frate = bts[0];
+
 					var mrate = bts[1];
+					var frate = bts[0];
 
 					var fpoints;
 					var mpoints;

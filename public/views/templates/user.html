@@ -6,7 +6,7 @@
 	<!-- <div id="map-wrap" class="col-sm-9" ng-controller="palmerCache"> -->
 	<div id="map-wrap" class="col-sm-9">
 	
-		<h2 class="bar-title" ng-controller="submitCounter1">Find How Water is Priced: User Data
+		<h2 class="bar-title">Find How Water is Priced: User Data
 			<span class="ctrfrate counters pull-right" tooltip-placement="top" tooltip="{{frate}} fixed rate bills">{{frate}}</span>
 			<span class="ctrmrate counters pull-right" tooltip-placement="top" tooltip="{{mrate}} metered rate bills">{{mrate}}</span>
 		</h2>
@@ -132,12 +132,11 @@
 	</div>
 
 	<div  id="graph-wrap3" class="col-sm-3">
-		
-		<div class="summary-panel" ng-model="records">
-			<p><span class="text-muted">Household Size: </span><b id="bill-panel-hsize" class="panel-items">{{records.properties.hsize}}</b></p>
+		<div class="summary-panel">
+			<p><span class="text-muted">Household Size: </span><b id="bill-panel-hsize" class="panel-items">{{filteredEntries.length}}</b></p>
 		</div>
-
 	</div>
+
 </div> <!-- end row -->
 
 <div ng-include="'views/templates/nav-content.html'"></div>

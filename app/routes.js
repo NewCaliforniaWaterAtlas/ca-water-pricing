@@ -26,7 +26,7 @@ module.exports = function(app) {
 	// api ---------------------------------------------------------------------
 	
 	// get all user submitted entries
-	app.get('/v1/api/bills', function(req, res) {
+	app.get('/api/v1/bills', function(req, res) {
 		// use mongoose to get all entries in the database
 		Bill.find(function(err, bills) {
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
@@ -40,7 +40,7 @@ module.exports = function(app) {
 
 	
 	// get all agency data
-	app.get('/v1/api/agency', apicache('5 minutes'), function(req, res, next) {
+	app.get('/api/v1/agency', apicache('5 minutes'), function(req, res, next) {
 		// use mongoose to get all records in the database
 		Agency.find(function(err, agencies) {
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
@@ -55,7 +55,7 @@ module.exports = function(app) {
 
 
 	// create bill and send back all bills after creation
-	app.post('/v1/api/bills', function(req, res) {
+	app.post('/api/v1/bills', function(req, res) {
 
 		// create a bill, information comes from AJAX request from Angular
 		Bill.create({
@@ -105,7 +105,7 @@ module.exports = function(app) {
 
 
 	// delete a bill
-	app.delete('/v1/api/bills/:bill_id', function(req, res) {
+	app.delete('/api/v1/bills/:bill_id', function(req, res) {
 		Bill.remove({
 			_id : req.params.bill_id
 		}, function(err, bill) {
@@ -129,7 +129,7 @@ module.exports = function(app) {
 	// feature layers -------------------------------------------------------------
 	
 	// get NOAA Palmer Drought Severity Index data
-	app.get('/v1/api/features/palmerdrought', apicache('5 minutes'), function(req, res) {
+	app.get('/api/v1/features/palmerdrought', apicache('5 minutes'), function(req, res) {
 
 		var stream = db.collection('noaapalmerdsi').find().stream();
 		

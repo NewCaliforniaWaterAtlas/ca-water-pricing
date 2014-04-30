@@ -145,27 +145,72 @@ app.controller('mainController', [ '$scope', 'billService', 'timeService', '$sta
 }]); // end mainController
 
 
-app.controller('billsController', ['$scope', 'billService', function ($scope, billService){
+app.controller('billsController', ['$scope', 'billService', '$filter', function ($scope, billService, $filter){
 
 	// GET =====================================================================
 	// when landing on the page, get all entries and show them
 	// use the service to get all the entries
 	billService.get()
 		.success(function(data) {
+			
 			$scope.entries = data;
+			$scope.counted = $scope.entries.length;
+
+      $scope.$watch("searchentries", function (query) {
+        $scope.filteredEntries = $filter("filter")($scope.entries, query);
+      
+				// bill entries counter
+			  $scope.frate = 0;
+			  $scope.mrate = 0;
+			  
+			  // loop through $scope.filteredEntries
+			  angular.forEach($scope.filteredEntries, function(entry, key){
+			    // console.log(entry.billtype);
+			    if (entry.properties.billtype === "frate"){
+			      $scope.frate++;
+			    }
+			    else if (entry.properties.billtype === "mrate"){
+			      $scope.mrate++;
+			    }
+			    else {
+			      return;
+			    }
+			  });
+      });
+
 		});	
 
 }]);
 
 
-app.controller('agencyController', ['$scope', 'agencyService', function ($scope, agencyService){
+app.controller('agencyController', ['$scope', 'agencyService', '$filter', function ($scope, agencyService, $filter){
 
 	// GET =====================================================================
 	// when landing on the page, get all records and show them
 	// use the service to get all the records
 	agencyService.get()
 		.success(function(data) {
+
 			$scope.records = data;
+			$scope.counted = $scope.records.length;
+			
+      $scope.$watch("searchrecords", function (query) {
+        $scope.filteredRecords = $filter("filter")($scope.records, query);
+      	
+      	// agency records counter
+			  $scope.record = 0;
+			  
+			  // loop through $scope.filteredRecords
+			  angular.forEach($scope.filteredRecords, function(record, key){
+			  	// console.log(entry);	
+			    if (record) {	
+			      $scope.record++;
+			    } else {
+			      return;
+			    }
+			  });	
+      });
+
 
 			// var agencyArr = [];
 
@@ -228,65 +273,6 @@ app.controller('barsController1', ['$scope', function ($scope){
   };
 
 }]);
-
-
-app.controller('submitCounter1', ['$scope', 'billService', function ($scope, billService){
-	
-	billService.get()
-		.success(function(data) {
-			// $scope.entries = data;
-
-		  $scope.frate = 0;
-		  $scope.mrate = 0;
-		  
-		  // loop through scope.data
-		  angular.forEach(data, function(entry, key){
-		    // console.log(entry.billtype);
-		    if (entry.properties.billtype === "frate"){
-		      $scope.frate++;
-		    }
-		    else if (entry.properties.billtype === "mrate"){
-		      $scope.mrate++;
-		    }
-		    else {
-		      return;
-		    }
-		  });	
-
-		});
-
-}]);
-
-
-app.controller('submitCounter2', ['$scope', 'agencyService', function ($scope, agencyService){
-	
-	agencyService.get()
-		.success(function(data) {
-
-		  $scope.record = 0;
-		  
-		  // loop through scope.data
-		  angular.forEach(data, function(entry, key){
-		  	// console.log(entry);	
-		    if (entry) {	
-		      $scope.record++;
-		    } else {
-		      return;
-		    }
-		  });	
-
-		});
-
-}]);
-
-
-// app.controller('test', ['$scope', function ($scope){
-	
-// 	$scope.searchentries = {};
-
-
-
-// }]);
 
 
 app.controller('myModal', ['$scope', function ($scope) {
@@ -388,14 +374,13 @@ var ModalInstanceCtrl = function ($scope, $modalInstance) {
   };
 };
 
+
 // search accordions
-
-
 var searchAccordion = function ($scope) {
   $scope.oneAtATime = true;
 }
 
-
+// override accordion templates
 angular.module("template/accordion/accordion-group.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("template/accordion/accordion-group.html",
     "<div class=\"entries\">\n" +

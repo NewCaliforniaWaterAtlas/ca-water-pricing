@@ -50,16 +50,11 @@
     <div class="tab-pane" ng-class="{'active':currentTab == 'api-intro'}" id="api-intro">
       <div class="teaser-panel lead">
         <h3>Introduction: User Data</h3>
-        <p>The California Water Table data contains 30 years of underground water table level readings from scientific research wells across the state. Some data is collected by the state, other data is collected by individuals.</p>
+        <p>info on user data</p>
             
-        <h3>Data Stats</h3>
+        <h3>Data Stats: User Data</h3>
         <ul>
-          <li>56 counties</li>
-          <li>18996 research wells measuring the top position (depth) of groundwater</li>
-          <li>570,000+ measurements</li>
-          <li>515 distinct groundwater systems</li>
-          <li>431 groundwater basins</li>
-          <li>24 basins are subdivided to create an additional 108 subbasins</li>
+          <li>some details on user data</li>
         </ul>
       </div>
     </div><!-- .tab-pane -->
@@ -67,6 +62,11 @@
     <div class="tab-pane" ng-class="{'active':currentTab == 'api-download'}" id="api-download">
       <div class="teaser-panel lead">
         <h3>API | Bulk Download</h3>
+        <dl>
+          <dt>Endpoint</dt><dd>http://ca-groundwater-levels.statewater.org/api/v1/bills</dd>
+        </dl>
+
+
         <p>[Endpoint: http://api.statewater.org/ca/watertable/v1] (parameters)
           [MongoDB: http://dropbox.com/linky-linky], CSV, GeoJSON
               
@@ -77,6 +77,43 @@
     <div class="tab-pane" ng-class="{'active':currentTab == 'api-documentation'}" id="api-documentation">
       <div class="teaser-panel lead">
         <h3>API Documentation</h3>
+        <blockquote>
+          <pre>
+            {
+              _id: "53582638a190fd0000000002",
+              
+              properties: {
+                userloc: "Irvine, CA, United States",
+                streetaddr: "Irvine, CA, USA",
+                city: "Irvine",
+                county: "Orange County",
+                state: "CA",
+                country: "US",
+                postal: null,
+                hsize: 3,
+                util: "KLH",
+                bill: 352.45,
+                sdate: "2014-03-01T08:00:00.000Z",
+                edate: "2014-03-31T07:00:00.000Z",
+                billtype: "frate",
+                pday: 12,
+                pcappday: 4,
+                tstamp: "2014-04-30T06:22:06.243Z"
+              },
+              
+              type: "Feature",
+              
+              geometry: {
+                coordinates: [
+                  -117.79469419999998,
+                  33.6839473
+                ],
+                
+                type: "Point"
+              }
+            }
+          </pre>
+        </blockquote>
       </div>
     </div><!-- .tab-pane -->  
 

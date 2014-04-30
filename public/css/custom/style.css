@@ -81,6 +81,15 @@ input::-webkit-inner-spin-button {
   display: inline;
 }
 
+dt {
+  font-family: 'Rosario', sans-serif;
+  font-weight: bold;
+}
+
+dd {
+  font-family: 'Questrial', sans-serif;
+}
+
 /*<!-- ============ Custom Styling ============ -->*/
 
 /*#front-page {
