@@ -84,11 +84,12 @@ app.controller('mainController', [ '$scope', 'billService', 'timeService', '$sta
 				var end = $scope.formData.edate;
 				var e = moment(end, "MM-DD-YYYY");
 				var s = moment(start, "MM-DD-YYYY");
-				var tdiff = moment.utc(moment(e).diff(moment(s))).format('D');
-				var pday = ($scope.formData.bill/tdiff).toFixed();
+				var billperiod = moment.utc(moment(e).diff(moment(s))).format('D');
+				var pday = ($scope.formData.bill/billperiod).toFixed();
 				var pcappday = (pday/$scope.formData.hsize).toFixed();
-				$scope.formData.pday = pday;
+				
 				$scope.formData.pcappday = pcappday;
+				$scope.formData.billperiod = billperiod;
 			});
 
 			for (var i = 0, component; component = components[i]; i++) {
@@ -162,20 +163,46 @@ app.controller('billsController', ['$scope', 'billService', '$filter', function 
 				// bill entries counter
 			  $scope.frate = 0;
 			  $scope.mrate = 0;
-			  
+
+			  $scope.ccfArr = [];
+			  $scope.galArr = [];
+			  $scope.pcappdayArr = [];
+			  	
 			  // loop through $scope.filteredEntries
 			  angular.forEach($scope.filteredEntries, function(entry, key){
-			    // console.log(entry.billtype);
-			    if (entry.properties.billtype === "frate"){
+			    
+			    $scope.pcappdayArr.push(entry.properties.pcappday);
+			    
+			    // sort bill types for counters
+			    if (entry.properties.billtype === "frate") {
 			      $scope.frate++;
 			    }
-			    else if (entry.properties.billtype === "mrate"){
+			    else if (entry.properties.billtype === "mrate") {
 			      $scope.mrate++;
-			    }
-			    else {
+			    } else {
 			      return;
 			    }
+
+			    // sort consumption units for consumption calcs
+			    if (entry.properties.units === "ccf") {
+			    	$scope.ccfArr.push(entry.properties.used * 748.051948);
+			    }
+			    else if (entry.properties.units === "gal") {
+			    	$scope.galArr.push(entry.properties.used);
+			    } else {
+			    	return;
+			    }
+			    
 			  });
+				
+				$scope.average = function (arr) {
+					return _.reduce( arr, function(sum, num) {
+						return sum + num;
+					}, 0) / arr.length;
+				}
+	
+				console.log($scope.ccfArr);	
+			  
       });
 
 		});	

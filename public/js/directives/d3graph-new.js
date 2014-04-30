@@ -108,7 +108,7 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
 
               circle.transition()
               .duration(800).style("opacity", 1)
-              .attr("r", 16).ease("elastic");
+              .attr("r", 24).ease("elastic");
 
               // append lines to bubbles that will be used to show the precise data points.
               // translate their location based on margins
@@ -150,7 +150,7 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
               // go back to original size and opacity
               circle.transition()
               .duration(800).style("opacity", .5)
-              .attr("r", function(d) { return d.properties.pday; }).ease("elastic");
+              .attr("r", function(d) { return d.properties.pcappday * 3; }).ease("elastic");
 
               // fade out guide lines, then remove them
               d3.selectAll(".guide").transition().duration(100).styleTween("opacity", 

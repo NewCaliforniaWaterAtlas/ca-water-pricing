@@ -81,7 +81,7 @@ module.exports = function(app) {
 				units : req.body.units,
 				rate : req.body.rate,
 				tstamp : req.body.tstamp,
-				pday : req.body.pday,
+				billperiod : req.body.billperiod,
 				pcappday : req.body.pcappday,
 				done : false
 			}

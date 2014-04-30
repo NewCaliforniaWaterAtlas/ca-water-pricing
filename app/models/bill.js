@@ -34,7 +34,9 @@ module.exports = mongoose.model ('Bill', {
     used: {type: Number, required: false },  
     units: {type: String, enum: unitType, required: false},
     pday: {type: Number, required: false},
+    billperiod: {type: Number, required: false},
     pcappday: {type: Number, required: false},
+    
     tstamp: { type : Date, default: Date.now }
     // rate: {type: Number, required: false, default: 3},
   }
