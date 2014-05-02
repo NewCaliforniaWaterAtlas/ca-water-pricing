@@ -61,7 +61,7 @@ app.controller('mainController', [ '$scope', 'billService', 'timeService', '$sta
     'starting-day': 1
   };
 
-  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate'];
+  $scope.formats = ['mm-dd-yyyy', 'yyyy/MM/dd', 'shortDate'];
   $scope.format = $scope.formats[0];
 
 
@@ -80,20 +80,19 @@ app.controller('mainController', [ '$scope', 'billService', 'timeService', '$sta
 			var postal = null;
 
 			timeService.time().then(function () {
+				
 				var start = $scope.formData.sdate;
 				var end = $scope.formData.edate;
-				var e = moment(end, "MM-DD-YYYY");
-				var s = moment(start, "MM-DD-YYYY");
-				var billperiod = moment.utc(moment(e).diff(moment(s))).format('D');
-				var pday = ($scope.formData.bill/billperiod).toFixed();
-				var pcappday = (pday/$scope.formData.hsize).toFixed();
+				var billperiod = moment.duration(moment(end).diff(moment(start))).asDays().toFixed();
+				var pday = ($scope.formData.bill/billperiod);
+				var pcappday = (pday/$scope.formData.hsize).toFixed(2);
 				
 				$scope.formData.pcappday = pcappday;
 				$scope.formData.billperiod = billperiod;
 			});
 
 			for (var i = 0, component; component = components[i]; i++) {
-        
+	
         if (component.types[0] == 'locality') {
           city = component['long_name'];
         }
@@ -146,7 +145,7 @@ app.controller('mainController', [ '$scope', 'billService', 'timeService', '$sta
 }]); // end mainController
 
 
-app.controller('billsController', ['$scope', 'billService', '$filter', function ($scope, billService, $filter){
+app.controller('billsController', ['$scope', 'billService', '$filter', 'timeService', function ($scope, billService, $filter, timeService){
 
 	// GET =====================================================================
 	// when landing on the page, get all entries and show them
@@ -164,9 +163,8 @@ app.controller('billsController', ['$scope', 'billService', '$filter', function 
 			  $scope.frate = 0;
 			  $scope.mrate = 0;
 
-			  $scope.ccfArr = [];
-			  $scope.galArr = [];
 			  $scope.pcappdayArr = [];
+			  $scope.usedArr = [];
 			  	
 			  // loop through $scope.filteredEntries
 			  angular.forEach($scope.filteredEntries, function(entry, key){
@@ -185,10 +183,12 @@ app.controller('billsController', ['$scope', 'billService', '$filter', function 
 
 			    // sort consumption units for consumption calcs
 			    if (entry.properties.units === "ccf") {
-			    	$scope.ccfArr.push(entry.properties.used * 748.051948);
+			    	var usedccf = entry.properties.used * 748.051948 / entry.properties.hsize / entry.properties.billperiod;
+			    	$scope.usedArr.push(usedccf);
 			    }
 			    else if (entry.properties.units === "gal") {
-			    	$scope.galArr.push(entry.properties.used);
+			    	var usedgal = entry.properties.used / entry.properties.hsize / entry.properties.billperiod;
+			    	$scope.usedArr.push(usedgal);
 			    } else {
 			    	return;
 			    }
@@ -200,8 +200,11 @@ app.controller('billsController', ['$scope', 'billService', '$filter', function 
 						return sum + num;
 					}, 0) / arr.length;
 				}
-	
-				console.log($scope.ccfArr);	
+
+			  timeService.time().then(function () {
+			  	$scope.submitted = moment.utc($scope.tstamp).format('MM/DD/YYYY');
+
+			  });
 			  
       });
 

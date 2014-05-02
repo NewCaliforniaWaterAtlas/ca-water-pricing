@@ -143,34 +143,20 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 			    
 			    // sort flat fees from metered fees
 					var points = data;
-					// var propsArr = [];
-					
-					// var i;
-					// for (i=0; i < points.length; i++) {
-					// 	var props = points[i].properties;
-					// 	propsArr.push(props);
-					// }
-
-					// var frate = _.filter(propsArr, { 'billtype': 'frate' });
-					// var mrate = _.filter(propsArr, { 'billtype': 'mrate' });
-					// var f = _.extend({}, frate);
-					// var m = _.extend({}, mrate);
 
 					var billType = _.groupBy(points, function(obj) {
 					  return obj.properties.billtype;
 					});
 
-					var bts = _.sortBy(billType, function(v, k) { return k; });
-
-					var mrate = bts[1];
-					var frate = bts[0];
+					var frate = billType.frate;
+					var mrate = billType.mrate;
 
 					var fpoints;
 					var mpoints;
 
 					function styleFlat(frate) {
 						return {
-					    radius: (frate.properties.pcappday * 4),
+					    radius: (frate.properties.pcappday * 20),
 						  color: "#fff",
 						  fillColor: "#a4ad50",
 						  fillOpacity: 0.95,
@@ -181,7 +167,7 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 
 					function styleMeter(mrate) {
 						return {
-					    radius: (mrate.properties.pcappday * 4),
+					    radius: (mrate.properties.pcappday * 20),
 						  color: "#fff",
 						  fillColor: "#9abab4",
 						  fillOpacity: 0.95,
@@ -237,6 +223,7 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 						document.getElementById('bill-panel-bill').innerHTML = layer.feature.properties.bill;
 						document.getElementById('bill-panel-used').innerHTML = layer.feature.properties.used;
 						document.getElementById('bill-panel-units').innerHTML = layer.feature.properties.units;
+						document.getElementById('bill-panel-billperiod').innerHTML = layer.feature.properties.billperiod;
 						document.getElementById('bill-panel-hsize').innerHTML = layer.feature.properties.hsize;
 
 					  timeService.time().then(function () {
@@ -246,13 +233,15 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 
 					});
 
+
 					fpoints = L.geoJson(frate, {
 				    pointToLayer: function (feature, latlng) {
 				      return L.circleMarker(latlng,{})
 				    },
 				    style: styleFlat
 					}).addTo(pointGroup);
-
+		
+					
 					mpoints = L.geoJson(mrate, {
 				    pointToLayer: function (feature, latlng) {
 				      return L.circleMarker(latlng,{})

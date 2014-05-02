@@ -35,6 +35,7 @@
 		    		<p><span class="text-muted">Water Provider: </span><b id="bill-panel-util" class="panel-items"></b></p>
 		    		<p><span class="text-muted">Total Bill: </span><b>$</b><b id="bill-panel-bill" class="panel-items"></b></p>
 		    		<p><span class="text-muted">Water Used: </span><b id="bill-panel-used" class="panel-items"></b><span> </span><b id="bill-panel-units" class="panel-items"></b></span>
+		    		<p><span class="text-muted">Bill Period: </span><b id="bill-panel-billperiod" class="panel-items"></b> days</p>
 		    		<p><span class="text-muted">Household Size: </span><b id="bill-panel-hsize" class="panel-items"></b></p>
 		    		<p><span class="text-muted">Submitted: </span><b id="bill-panel-submit" class="panel-items"></b></p>
 					</div>
@@ -53,10 +54,16 @@
 				  <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
 				</div>
 
-	    	<div class="search-panel">
+				<div class="summary-panel">
+    			<h5 class="text-muted text-inline">AVERAGES</h5>
+					<p><span class="text-muted">Cost: </span><span>${{average(pcappdayArr).toFixed(2)}} /<i class='fa fa-user'></i>/day</span></p>
+					<p><span class="text-muted">Usage: </span><span>{{average(usedArr).toFixed(1)}} gal/<i class='fa fa-user'></i>/day</span></p>
+				</div>
+
+	    	<div class="search-panel-user">
 	    		
 	    		<div class="detail-panel-inner-search" ng-controller="searchAccordion">
-	    			
+
 					  <accordion close-others="oneAtATime" ng-repeat="entry in entries | filter:searchentries">
 
 					    <accordion-group is-open="isopen">
@@ -75,11 +82,15 @@
 				    		
 				    		<p><span class="text-muted">Total Bill: </span><b>$</b><b id="bill-panel-bill" class="panel-items">{{entry.properties.bill}}</b></p>
 				    		
-				    		<p><span class="text-muted">Water Used: </span><b id="bill-panel-used" class="panel-items">{{entry.properties.used}}</b><span> </span><b id="bill-panel-units" class="panel-items">{{entry.properties.units}}</b></span>
+				    		<p ng-if="entry.properties.used !== undefined"><span class="text-muted">Water Used: </span><b id="bill-panel-used" class="panel-items">{{entry.properties.used}}</b><span> </span><b id="bill-panel-units" class="panel-items">{{entry.properties.units}}</b></span>
+
+				    		<p ng-if="entry.properties.used == undefined"><span class="text-muted">Water Used: </span><b id="bill-panel-used" class="panel-items">not metered</b></span>
 				    		
+								<p><span class="text-muted">Bill Period: </span><b id="bill-panel-bill" class="panel-items">{{entry.properties.billperiod}}</b> days</p>
+
 								<p><span class="text-muted">Household Size: </span><b id="bill-panel-bill" class="panel-items">{{entry.properties.hsize}}</b></p>
 
-				    		<p><span class="text-muted">Submitted: </span><b id="bill-panel-submit" class="panel-items">{{entry.properties.tstamp}}</b></p>
+				    		<p><span class="text-muted">Submitted: </span><b id="bill-panel-submit" class="panel-items">{{submitted}}</b></p>
 					    
 					    </accordion-group>
 					  
@@ -131,12 +142,12 @@
 	  <!-- <d3-donut data="entries"></d3-donut> -->
 	</div>
 
-	<div  id="graph-wrap3" class="col-sm-3">
+<!-- 	<div  id="graph-wrap3" class="col-sm-3">
 		<div class="summary-panel">
 			<p><span class="text-muted">Average Cost: </span><b id="bill-panel-hsize" class="panel-items">${{average(pcappdayArr)}} /p/day</b></p>
-			<p><span class="text-muted">Avg. Cost: </span><b id="bill-panel-hsize" class="panel-items">${{average(pcappdayArr)}} /p/day</b></p>
+			<p><span class="text-muted">Average Usage: </span><b id="bill-panel-hsize" class="panel-items">{{average(usedArr).toFixed()}} gal/p/day</b></p>
 		</div>
-	</div>
+	</div> -->
 
 </div> <!-- end row -->
 
