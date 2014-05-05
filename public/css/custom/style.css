@@ -90,6 +90,10 @@ dd {
   font-family: 'Questrial', sans-serif;
 }
 
+.text-center {
+  text-align: center;
+}
+
 /*<!-- ============ Custom Styling ============ -->*/
 
 /*#front-page {
@@ -244,7 +248,7 @@ h2.bar {
   height: 200px;
 }
 
-#water-qual-icon {
+#water-qual-icon, #water-cycle-icon {
   margin-top: 100px
 }
 

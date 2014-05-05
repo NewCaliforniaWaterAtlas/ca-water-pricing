@@ -30,7 +30,7 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 		    // create the tile layer with correct attribution
 		    var tilesURL='http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png';
 		    var tilesAttrib='Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
-		    var tiles = new L.TileLayer(tilesURL, {
+		    var tonerTiles = new L.TileLayer(tilesURL, {
 	        // attribution: tilesAttrib, 
 	        opacity: 1,
 	        detectRetina: true,
@@ -38,7 +38,11 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 	        updateWhenIdle: true,
 	        reuseTiles: true
 		    });
-		    tiles.addTo(map);
+		    // tonerTiles.addTo(map);
+
+		    // google satellite base layer
+	      var googleTiles = new L.Google('SATELLITE');
+	      // map.addLayer(googleTiles);
 
 		    // attribution config
 		    map.attributionControl.setPrefix('');
@@ -49,10 +53,10 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 		  		.addTo(map);
 
 				// disable drag and zoom handlers
-				// map.dragging.disable();
 				map.touchZoom.disable();
-				// map.doubleClickZoom.disable();
 				map.scrollWheelZoom.disable();
+				// map.doubleClickZoom.disable();
+				// map.dragging.disable();
 				// disable tap handler, if present.
 				// if (map.tap) map.tap.disable();
 
@@ -62,7 +66,6 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 
 
 				//  Palmer DSI Data from NOAA rendered as tiles ======================================================================	
-
 
 				var pdsiTiles = L.mapbox.tileLayer('chachasikes.hm7o3785')
 					.addTo(map);
@@ -79,6 +82,23 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 						document.getElementById('pval').innerHTML = e.data.PDSI;
 					}
 				});
+
+
+				//  basemap layer switcher ======================================================================
+
+				var overlaygroup1 = L.layerGroup([pdsiTiles, pdsiGridLayer]);
+
+				var baseLayers = {
+			    "Base Map": tonerTiles.addTo(map),
+			    "Satelitte": googleTiles
+				};
+
+				var overlays = {
+			    "Drought Index": overlaygroup1.addTo(map)
+				};
+
+				L.control.layers(baseLayers, overlays).addTo(map);
+
 
         //  Markers ======================================================================
 

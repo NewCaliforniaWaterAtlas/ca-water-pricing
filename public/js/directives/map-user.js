@@ -27,6 +27,8 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 	        minZoom: 4
 		    });
 
+				// var ui = document.getElementById('map-ui');
+
 		    // create the tile layer with correct attribution
 		    var tilesURL = 'http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png';
 		    var tilesAttrib = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
@@ -38,14 +40,12 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 	        updateWhenIdle: true,
 	        reuseTiles: true
 		    });
-		    tonerTiles.addTo(map);
-
+		    // tonerTiles.addTo(map);
 		    
 		    // google satellite base layer
 	      var googleTiles = new L.Google('SATELLITE');
-	      addLayer( googleTiles, 'Satellite', 1);
-
-		    	
+	      // map.addLayer(googleTiles);
+	    	
 		    // attribution config
 		    map.attributionControl.setPrefix('');
 		  	var infoControl = L.mapbox.infoControl()
@@ -55,10 +55,10 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 		  		.addTo(map);
 
 				// disable drag and zoom handlers
-				// map.dragging.disable();
 				map.touchZoom.disable();
-				// map.doubleClickZoom.disable();
 				map.scrollWheelZoom.disable();
+				// map.doubleClickZoom.disable();
+				// map.dragging.disable();
 				// disable tap handler, if present.
 				// if (map.tap) map.tap.disable();
 
@@ -69,59 +69,36 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 
 				//  Palmer DSI Data from NOAA rendered as tiles ======================================================================	
 
-				var pdsiTiles = L.mapbox.tileLayer('chachasikes.hm7o3785')
-					.addTo(map);
-				var pdsiGridLayer = L.mapbox.gridLayer('chachasikes.hm7o3785')
-					.addTo(map);	
+				var pdsiTiles = L.mapbox.tileLayer('chachasikes.hm7o3785');
+					// .addTo(map);
+				var pdsiGridLayer = L.mapbox.gridLayer('chachasikes.hm7o3785');
+					// .addTo(map);	
 				// var pdsiGridControl = L.mapbox.gridControl(pdsiGridLayer).addTo(map);
 
 				pdsiGridLayer.on('mouseover', function(e){
-					// console.log(e.data);
 					if (e.data == null) {
 						return;
 					} else {
 						document.getElementById('preg').innerHTML = e.data.NAME.toLowerCase();
 						document.getElementById('pval').innerHTML = e.data.PDSI;
 					}
-	
 				});
 
 
 				//  basemap layer switcher ======================================================================
 
-				function addLayer(layer, name, zIndex) {
-				  // layer
-				  //   .setZIndex(zIndex)
-				  //   .addTo(map);
+				var overlaygroup1 = L.layerGroup([pdsiTiles, pdsiGridLayer]);
 
-				  // // Create a simple layer switcher that toggles layers on
-				  // // and off.
-				  // var item = document.createElement('li');
-				  // var link = document.createElement('a');
+				var baseLayers = {
+			    "Base Map": tonerTiles.addTo(map),
+			    "Satelitte": googleTiles
+				};
 
-				  // link.href = '#';
-				  // link.className = 'active';
-				  // link.innerHTML = name;
+				var overlays = {
+			    "Drought Index": overlaygroup1.addTo(map)
+				};
 
-				  // link.onclick = function(e) {
-				  //   e.preventDefault();
-				  //   e.stopPropagation();
-
-				  //   if (map.hasLayer(layer)) {
-				  //     map.removeLayer(layer);
-				  //     this.className = '';
-				  //   } else {
-				  //     map.addLayer(layer);
-				  //     this.className = 'active';
-				  //   }
-				  // };
-
-				  // item.appendChild(link);
-				  // ui.appendChild(item);
-				}
-
-
-
+				L.control.layers(baseLayers, overlays).addTo(map);
 
 
         //  Markers ======================================================================
@@ -156,7 +133,7 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 
 					function styleFlat(frate) {
 						return {
-					    radius: (frate.properties.pcappday * 20),
+					    radius: (frate.properties.pcappday * 10),
 						  color: "#fff",
 						  fillColor: "#a4ad50",
 						  fillOpacity: 0.95,
@@ -167,7 +144,7 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 
 					function styleMeter(mrate) {
 						return {
-					    radius: (mrate.properties.pcappday * 20),
+					    radius: (mrate.properties.pcappday * 10),
 						  color: "#fff",
 						  fillColor: "#9abab4",
 						  fillOpacity: 0.95,

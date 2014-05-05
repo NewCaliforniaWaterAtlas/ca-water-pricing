@@ -10,14 +10,14 @@
       <a data-toggle="tab" ng-click="currentTab = 'api-intro'">Introduction</a>
     </li>
     <li ng-class="{'active':currentTab == 'api-download'}">
-      <a data-toggle="tab" ng-click="currentTab = 'api-download'">API | Bulk Download</a>
+      <a data-toggle="tab" ng-click="currentTab = 'api-download'">Bulk Download</a>
     </li>
     <li ng-class="{'active':currentTab == 'api-documentation'}">
-      <a data-toggle="tab" ng-click="currentTab = 'api-documentation'">Documentation</a>
+      <a data-toggle="tab" ng-click="currentTab = 'api-documentation'">API Documentation</a>
     </li>
-    <li ng-class="{'active':currentTab == 'api-about'}">
+    <!-- <li ng-class="{'active':currentTab == 'api-about'}">
       <a data-toggle="tab" ng-click="currentTab = 'api-about'">About the dataset</a>
-    </li>
+    </li> -->
   </ul>
 
   <!-- <tabset vertical="true" type="navType" class="col-md-6">
@@ -45,79 +45,85 @@
     </div>
   </div> -->
 
-
+  <!-- USER DATA TAB CONTENT -->
   <div class="tab-content col-md-6" data-ng-show="$state.includes('user')">
     <div class="tab-pane" ng-class="{'active':currentTab == 'api-intro'}" id="api-intro">
       <div class="teaser-panel lead">
         <h3>Introduction: User Data</h3>
-        <p>info on user data</p>
+        <p>This is a growing and evolving dataset comprised of user submitted data. Visitors to this <a href="/">URL</a> are invited to answer a simple survey about their water bill.  Data received is formatted and made available both graphically, and through API and bulk download options.</p>
             
         <h3>Data Stats: User Data</h3>
-        <ul>
-          <li>some details on user data</li>
-        </ul>
+        <p>(coming soon!) As this dataset evolves, we plan to publish updates on user participation, and observations on the progress of the experiment.</p>
       </div>
     </div><!-- .tab-pane -->
 
     <div class="tab-pane" ng-class="{'active':currentTab == 'api-download'}" id="api-download">
       <div class="teaser-panel lead">
-        <h3>API | Bulk Download</h3>
-        <dl>
-          <dt>Endpoint</dt><dd>http://ca-groundwater-levels.statewater.org/api/v1/bills</dd>
-        </dl>
-
-
-        <p>[Endpoint: http://api.statewater.org/ca/watertable/v1] (parameters)
-          [MongoDB: http://dropbox.com/linky-linky], CSV, GeoJSON
-              
-          Technical: 30 years of CASGEM groundwater elevation level data, improved for use with modern web technologies. Intended primarly for exploratory visualizations. Updated quarterly. Last updated July 2013.</p>
+        <h3>Bulk Download</h3>
+          <p>MongoDB: <a href="https://www.dropbox.com/home/data/data-groundwater-levels/mongodb/dump">Download</a> from Dropbox</p>
       </div>
     </div><!-- .tab-pane -->  
 
     <div class="tab-pane" ng-class="{'active':currentTab == 'api-documentation'}" id="api-documentation">
       <div class="teaser-panel lead">
         <h3>API Documentation</h3>
+
+        <dl>
+          <dt>Endpoint</dt><dd>http://finalURL/api/v1/bills</dd>          
+        </dl>
+
         <blockquote>
           <pre>
             {
-              _id: "53582638a190fd0000000002",
-              
+              _id: "5364098b6c11da2b74000002",
               properties: {
-                userloc: "Irvine, CA, United States",
-                streetaddr: "Irvine, CA, USA",
-                city: "Irvine",
-                county: "Orange County",
+                userloc: "Corte Madera, CA, United States",
+                streetaddr: "Corte Madera, CA, USA",
+                city: "Corte Madera",
+                county: "Marin County",
                 state: "CA",
                 country: "US",
                 postal: null,
-                hsize: 3,
-                util: "KLH",
-                bill: 352.45,
-                sdate: "2014-03-01T08:00:00.000Z",
-                edate: "2014-03-31T07:00:00.000Z",
-                billtype: "frate",
-                pday: 12,
-                pcappday: 4,
-                tstamp: "2014-04-30T06:22:06.243Z"
+                hsize: 2,
+                util: "Marin Municipal Water District",
+                bill: 66.41,
+                sdate: "2014-01-07T08:00:00.000Z",
+                edate: "2014-03-06T08:00:00.000Z",
+                billtype: "mrate",
+                used: 12,
+                units: "ccf",
+                billperiod: 58,
+                pcappday: 0.57,
+                tstamp: "2014-05-02T21:48:46.419Z"
               },
-              
               type: "Feature",
-              
               geometry: {
-                coordinates: [
-                  -117.79469419999998,
-                  33.6839473
-                ],
-                
-                type: "Point"
+              coordinates: [
+                -122.52747549999998,
+                37.9254806
+              ],
+              type: "Point"
               }
             }
           </pre>
         </blockquote>
+
+<!--         <dl>
+          <dt>userloc</dt><dd>Google Places API: data.formatted_address</dd>
+          <dt>userloc</dt><dd>Google Places API: data.formatted_address</dd>
+          <dt>Endpoint</dt><dd>http://finalURL/api/v1/bills</dd>
+          <dt>Endpoint</dt><dd>http://finalURL/api/v1/bills</dd>
+          <dt>Endpoint</dt><dd>http://finalURL/api/v1/bills</dd>
+          <dt>Endpoint</dt><dd>http://finalURL/api/v1/bills</dd>
+          <dt>Endpoint</dt><dd>http://finalURL/api/v1/bills</dd>
+
+        </dl> -->
+
+
       </div>
     </div><!-- .tab-pane -->  
 
-    <div class="tab-pane" ng-class="{'active':currentTab == 'api-about'}" id="api-about">
+    <!-- <div class="tab-pane" ng-class="{'active':currentTab == 'api-about'}" id="api-about">
       <div class="teaser-panel lead">
         <h3>About the Dataset</h3>
         <p>What is being measured
@@ -128,10 +134,140 @@
           Original Data Source
           Roadmap</p>
         <p>[Disclaimer | #disclaimer]</p>
-      </div><!-- .teaser-panel -->
-    </div><!-- .tab-pane -->
+      </div>
+    </div> -->
   
   </div><!-- .tab-content -->
+
+
+  <!-- AGENCY DATA TAB CONTENT -->
+  <div class="tab-content col-md-6" data-ng-show="$state.includes('agency')">
+    <div class="tab-pane" ng-class="{'active':currentTab == 'api-intro'}" id="api-intro">
+      <div class="teaser-panel lead">
+        <h3>Introduction: Agency Data</h3>
+        
+      </div>
+    </div><!-- .tab-pane -->
+
+    <div class="tab-pane" ng-class="{'active':currentTab == 'api-download'}" id="api-download">
+      <div class="teaser-panel lead">
+        <h3>Bulk Download: Agency Data</h3>
+          <p>MongoDB: <a href="https://www.dropbox.com/home/data/data-groundwater-levels/mongodb/dump">Download</a> from Dropbox</p>
+      </div>
+    </div><!-- .tab-pane -->  
+
+    <div class="tab-pane" ng-class="{'active':currentTab == 'api-documentation'}" id="api-documentation">
+      <div class="teaser-panel lead">
+        <h3>API Documentation: Agency Data</h3>
+
+        <dl>
+          <dt>Endpoint</dt><dd>http://finalURL/api/v1/agency</dd>          
+        </dl>
+
+        <blockquote>
+          <pre>
+            {
+              _id: "535fd4dfe7f99de4d3577b79",
+              type: "Feature",
+              properties: {
+                streetaddr: "Cross Loop, Boulder Creek, CA 95006, USA",
+                city: "Boulder Creek",
+                county: "Santa Cruz County",
+                state: "CA",
+                postal: "95006",
+                country: "US",
+                corporate_id: "157",
+                utility_type: "SWR",
+                utility_me: "Big Basin Sanitation Company",
+                utility_city: "BOULDER CREEK",
+                utility_state: "CA",
+                utility_zip: "95006",
+                cpcn_date: "",
+                service_area_description: "Service in Big Basin Woods Subdivision located approximately 3 miles northeast of Boulder Creek",
+                quantity_rate: "2.26",
+                service_charge: "27.95",
+                flat_rate: "48.84",
+                agency: "CPUC"
+              },
+              geometry: {
+                type: "Point",
+                coordinates: [
+                  -122.127636,
+                  37.141085
+                ]
+              }
+            }
+          </pre>
+        </blockquote>
+
+<!--         <dl>
+          <dt>userloc</dt><dd>Google Places API: data.formatted_address</dd>
+          <dt>userloc</dt><dd>Google Places API: data.formatted_address</dd>
+          <dt>Endpoint</dt><dd>http://finalURL/api/v1/bills</dd>
+          <dt>Endpoint</dt><dd>http://finalURL/api/v1/bills</dd>
+          <dt>Endpoint</dt><dd>http://finalURL/api/v1/bills</dd>
+          <dt>Endpoint</dt><dd>http://finalURL/api/v1/bills</dd>
+          <dt>Endpoint</dt><dd>http://finalURL/api/v1/bills</dd>
+
+        </dl> -->
+
+
+      </div>
+    </div><!-- .tab-pane -->  
+
+    <!-- <div class="tab-pane" ng-class="{'active':currentTab == 'api-about'}" id="api-about">
+      <div class="teaser-panel lead">
+        <h3>About the Dataset</h3>
+        <p>What is being measured
+          (repurpose / shorten from blog posts)
+          Fields
+          Methods
+          [Data cleanup scripts]
+          Original Data Source
+          Roadmap</p>
+        <p>[Disclaimer | #disclaimer]</p>
+      </div>
+    </div> -->
+  
+  </div><!-- .tab-content -->
+
+
+
 </div><!-- .row -->
 
+
+<div class="row row-group" id="about" name="about">
+  <h2 class="bar-title">About</h2>
+
+  <ul class="nav nav-tabs nav-stacked col-md-6">
+    <li ng-class="{'active':currentTab == 'ncwa'}">
+      <a data-toggle="tab" ng-click="currentTab = 'ncwa'">New California Water Atlas</a>
+    </li>
+    <li ng-class="{'active':currentTab == 'disclaimer'}">
+      <a data-toggle="tab" ng-click="currentTab = 'disclaimer'">Disclaimer</a>
+    </li>
+  </ul>
+
+  <div class="tab-content col-md-6">
+    
+    <div class="tab-pane" ng-class="{'active':currentTab == 'ncwa'}" id="ncwa">
+      <div class="teaser-panel lead">
+        <h3>New California Water Atlas</h3>
+        <p>This project is the product of the <a href="">New California Water Atlas</a>. Sponsored by the <a href="">Resource Renewal Institute</a>, and the <a href="">California Public Utilities Commission</a>.</p>
+      </div>
+    </div><!-- .tab-pane -->
+
+
+    <div class="tab-pane" ng-class="{'active':currentTab == 'disclaimer'}" id="disclaimer">
+      <div class="teaser-panel lead">
+        <h3>Disclaimer</h3>
+        <p>The New California Water Atlas does not make representations as to the accuracy or completeness of any information on this site or found by following any link on this site. The New California Water Atlas will not be liable for any errors or omissions in this information nor for the availability of this information. The New California Water Atlas will not be liable for any losses, injuries, or damages from the display or use of this information. This policy is subject to change at any time.</p>
+
+        <p>We are publishing information in an experimental format that can be more readily used by web programmers. We have described our methods of obtaining & transforming the data. We provide this data as a service to the public who wishes to learn more about the water in their state.</p>
+      </div>
+    </div><!-- .tab-pane -->
+  
+
+  </div><!-- .tab-content -->
+</div><!-- .row -->
 

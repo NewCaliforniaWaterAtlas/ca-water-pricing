@@ -129,7 +129,7 @@ app.controller('mainController', [ '$scope', 'billService', 'timeService', '$sta
 					$scope.entries = data; // assign our new list of entries
 				});
 		}
-		alert('Thank You!');
+		// alert('Thank You!');
 	};
 
 	// DELETE ==================================================================
@@ -305,6 +305,10 @@ app.controller('barsController1', ['$scope', function ($scope){
 }]);
 
 
+
+//  Modals ======================================================================	
+
+
 app.controller('myModal', ['$scope', function ($scope) {
   
   $scope.modalShown = false;
@@ -314,29 +318,6 @@ app.controller('myModal', ['$scope', function ($scope) {
 
 }]);
 
-
-// app.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
-  
-//   $scope.ok = function () {
-//     $modalInstance.close();
-//   };
-
-//   $scope.cancel = function () {
-//     $modalInstance.dismiss('cancel');
-//   };
-
-// }]);
-
-// app.controller('teamModal', ['$scope', '$modal', function ($scope, $modal) {
-  
-// 	$scope.open = function () {
-// 	  var modalInstance = $modal.open({
-//       templateUrl: 'team-modal.html',
-//       controller: ModalInstanceCtrl
-//     });
-//   }
-
-// }]);
 
 var involvedModal = function($scope, $modal) {
 	
@@ -387,6 +368,17 @@ var teamModal = function($scope, $modal) {
 	$scope.open = function () {
 	  var modalInstance = $modal.open({
       templateUrl: 'team-modal.html',
+      controller: ModalInstanceCtrl
+    });
+  };
+
+};
+
+var thankyouModal = function($scope, $modal) {
+	
+	$scope.open = function () {
+	  var modalInstance = $modal.open({
+      templateUrl: 'thankyou-modal.html',
       controller: ModalInstanceCtrl
     });
   };

@@ -240,9 +240,12 @@
 							</div><!-- .row -->					
 						</div><!-- formData2 -->
 				    
-				    <div class="row">
+				    <div class="row" ng-controller="thankyouModal">
 				    	<button type="button" class="btn btn-default btn-lg" ng-click="step = 1; billHelp = !billHelp">Back</button>
-				    	<a type="submit" class="btn btn-success btn-lg" ng-disabled="formData.$invalid" ng-click="createBill()" ui-sref="user" role="button">Submit</a>
+				    	<a type="submit" class="btn btn-success btn-lg" ng-disabled="formData.$invalid" ng-click="createBill(); open();" ui-sref="user" role="button">Submit</a>
+					    <script type="text/ng-template" id="thankyou-modal.html">
+								<div ng-include="'views/templates/thankyou-modal.html'"></div>
+					    </script>
 				    </div><!-- .row -->
 				  </div><!-- step==2 -->
 	
@@ -261,7 +264,7 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<h1 class="quote-title">Why is this important?</h1>
-				<p class="lead">If I care about water in the State (and my water bill), then I should have a basic understanding of whether my bill is fair, or my water supply is sustainable. We do not worry about where our coffee comes from, or care, but we DO need to know about our water supply. Our water has been reliable for decades, but underinvestment and climate change mean our systems are more vulnerable to shocks. Bad luck also counts: that's what people in Charleston, WV found out when chemicals got in their water. Californians have had water shortages and pollution before, and we should try to avoid those problems in the future.</p>
+				<p class="lead">If I care about water in the State (and my water bill), then I should have a basic understanding of whether my bill is fair, or my water supply is sustainable. We do not worry about where our coffee comes from, or care, but we DO need to know about our water supply. Our water has been reliable for decades, but underinvestment and climate change mean our systems are more vulnerable to shocks.  Californians have had water shortages and pollution before, and we should try to avoid those problems in the future.</p>
 			</div>
 
 			<div class="col-sm-6">
@@ -277,12 +280,12 @@
 
 		<div class="row row-break">
 			<div class="col-sm-6">
-				<img src="../../img/assets/icon_1132/icon_1132.svg" id="" class="img-responsive water-icons center-block" alt="water resilience">
+				<img src="../../img/assets/icon_1132/icon_1132.svg" id="water-cycle-icon" class="img-responsive water-icons center-block" alt="water resilience">
 			</div>
 
 			<div class="col-sm-6">
 				<h1 class="quote-title">What outcomes might this project inspire?</h1>
-				<p class="lead">Your curiosity will help everyone, since data on water prices and water use helps us understand where water services and supplies are at risk. Understanding can move people to act much more quickly to reduce the risks.</p>
+				<p class="lead">Your curiosity will help everyone, since information on water prices and water use helps us understand where water services and supplies are at risk. Understanding can move people to act much more quickly to reduce the risks.  Information on water pricing is not widely available in California, and there are no central repositories that collect pricing data that are available to the public.  With your participation we can provide critical information to address future challenges.</p>
 			</div>
 		</div>
 
@@ -310,7 +313,7 @@
 		<div class="row row-break">
 			<div class="col-sm-6 tb-wrap tb-project-text">
 				<div class="tb-cell theask-text-med">
-					<p>Do not have water bill data to submit? That's OK. You can still view information submitted by users <a ui-sref="user">here</a>.</p>
+					<p>Do not have water bill information to submit? That's OK. You can still view information submitted by users <a ui-sref="user">here</a>.</p>
 				</div>
 			</div>
 

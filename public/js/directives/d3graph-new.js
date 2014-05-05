@@ -46,6 +46,14 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
 
           if (data) {  
             
+            var points = data;
+            var billType = _.groupBy(points, function(obj) {
+              return obj.properties.billtype;
+            });
+
+            // var frate = billType.frate;
+            var mrate = billType.mrate;
+
             // set axes, as well as details on their ticks
             var xAxis = d3.svg.axis()
               .scale(x)
@@ -86,7 +94,7 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
 
                 },
                 cy: function(d) { return y(+d.properties.bill); },
-                r: function(d) { return d.properties.pcappday * 30; }
+                r: function(d) { return d.properties.pcappday * 10; }
               })
               .attr("tooltip-append-to-body", true)
               .attr("tooltip", function(d){
@@ -108,7 +116,7 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
 
               circle.transition()
               .duration(800).style("opacity", 1)
-              .attr("r", 30).ease("elastic");
+              .attr("r", 20).ease("elastic");
 
               // append lines to bubbles that will be used to show the precise data points.
               // translate their location based on margins
@@ -150,7 +158,7 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
               // go back to original size and opacity
               circle.transition()
               .duration(800).style("opacity", .5)
-              .attr("r", function(d) { return d.properties.pcappday * 30; }).ease("elastic");
+              .attr("r", function(d) { return d.properties.pcappday * 10; }).ease("elastic");
 
               // fade out guide lines, then remove them
               d3.selectAll(".guide").transition().duration(100).styleTween("opacity", 
