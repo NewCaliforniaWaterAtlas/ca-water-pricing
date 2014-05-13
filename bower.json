@@ -32,7 +32,9 @@
     "d3": "~3.4.4",
     "ngAutocomplete": "~1.0.0",
     "ngstorage": "~0.3.0",
-    "bootstrap": "~3.1.1"
+    "bootstrap": "~3.1.1",
+    "fontawesome": "~4.0.3",
+    "mapboxjs": "git://github.com/platanus/bower-mapboxjs.git#~1.6.1"
   },
   "resolutions": {
     "bootstrap": "~3.1.1"

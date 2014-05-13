@@ -11,7 +11,6 @@ Todo
 * database backup and monitoring
 * configure uptime robot
 * highlight “you” circle marker
-* bundle assets w/ browserify
 * add leaflet hash
 * apply caching configured for palmer controller to agency controller
 * add definition of "ccf" on agency page
@@ -22,3 +21,4 @@ Todo
 * title for scatterplot
 * round service charge in detail panel for agency data
 * add "I shared my water bill" on CAWaterAtlas for Twitter and Facebook to thankyou modal
+* add error pages

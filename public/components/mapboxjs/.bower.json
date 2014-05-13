@@ -1,0 +1,25 @@
+{
+  "name": "mapboxjs",
+  "version": "1.6.1",
+  "authors": [
+    "Mapbox"
+  ],
+  "description": "Mapbox Javascript API Builded",
+  "main": "mapbox.js",
+  "keywords": [
+    "mapbox"
+  ],
+  "license": "See https://raw2.github.com/mapbox/mapbox.js/master/LICENSE.md",
+  "homepage": "https://github.com/mapbox/mapbox.js",
+  "ignore": [],
+  "_release": "1.6.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.6.1",
+    "commit": "39977ec2f2dd1963b9e2071b6b173913874bce7c"
+  },
+  "_source": "git://github.com/platanus/bower-mapboxjs.git",
+  "_target": "~1.6.1",
+  "_originalSource": "git://github.com/platanus/bower-mapboxjs.git",
+  "_direct": true
+}

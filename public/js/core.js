@@ -3,7 +3,7 @@
 // var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'ngAutocomplete', 'ngStorage', 'leaflet-directive']);
 var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'ngAutocomplete', 'ngStorage']);
 
-app.config( function ($stateProvider, $urlRouterProvider, $locationProvider) {
+app.config( ['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
 	
 	$urlRouterProvider.otherwise('/');
 	
@@ -38,4 +38,4 @@ app.config( function ($stateProvider, $urlRouterProvider, $locationProvider) {
  //  	$locationProvider.html5Mode(true).hashPrefix('!');
 	// }
 
-});
+}]);
