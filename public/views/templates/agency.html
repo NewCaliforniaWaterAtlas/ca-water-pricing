@@ -12,7 +12,12 @@
 				<span class="ctrmrate counters pull-right" tooltip-placement="top" tooltip="{{record}} CPUC records">{{record}}</span>
 			</h2>
 
-			<div mapagency id="map" points="records | filter:searchrecords"></div>
+			<div mapagency id="map" points="records | filter:searchrecords">
+				<div class="info">
+					<div ng-include="'views/templates/pdsi-legend.html'"></div>
+				</div>
+			</div>
+
 		</div>
 		
 		<div class="detail-wrap col-sm-3">	  
@@ -40,7 +45,7 @@
 		    		
 		    		<hr>
 						
-						<div ng-include="'views/templates/pdsi-legend.html'"></div>
+						<!-- <div ng-include="'views/templates/pdsi-legend.html'"></div> -->
 
 		    	</div>
 		    </tab>

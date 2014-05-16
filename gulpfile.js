@@ -11,9 +11,10 @@ var clean = require('gulp-clean');
 var notify = require('gulp-notify');
 var cache = require('gulp-cache');
 var livereload = require('gulp-livereload');
+var changed = require('gulp-changed');
 
 
-gulp.task('css', function () {
+gulp.task('styles', function () {
 	var stream =  gulp.src([
 		'public/components/bootstrap/dist/css/bootstrap.css',
 		'public/components/fontawesome/css/font-awesome.css',
@@ -21,6 +22,7 @@ gulp.task('css', function () {
 		'public/components/leaflet.fullscreen/dist/leaflet.fullscreen.css',
 		'public/css/custom/style.css'
 	], {base: 'public/'})
+	.pipe(changed('public/build/css'))
 	.pipe(replace('/*!', '/*'))
 	.pipe(concat('site.css'))
 	.pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
@@ -60,6 +62,7 @@ gulp.task('scripts', function () {
 		'public/js/directives/click-banner.js'
 
 	], {base: 'public/'})
+	.pipe(changed('public/build/js'))
 	// .pipe(jshint('.jshintrc'))
 	// .pipe(jshint.reporter('default'))
 	.pipe(concat('site.js'))
@@ -71,4 +74,24 @@ gulp.task('scripts', function () {
 	return stream;
 });
 
+gulp.task('default', function() {
+  gulp.start('styles', 'scripts');
+});
+
+// watches
+
+gulp.task('styles:watch', function() {
+  // Watch .css files
+  gulp.watch('public/css/custom/**/*.css', ['styles']);
+});
+
+gulp.task('scripts:watch', function() {
+  // Watch .js files
+  gulp.watch('public/js/**/*.js', ['scripts']);
+});
+
+
+gulp.task('watch', function() {
+  gulp.start('styles:watch', 'scripts:watch');
+});
 

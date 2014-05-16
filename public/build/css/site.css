@@ -8347,11 +8347,11 @@ ol.carousel-indicators {
 }
 
 .ctrmrate {
-  background-color: #9abab4;
+  background-color: #a4ad50;
 }
 
 .ctrfrate {
-  background-color: #a4ad50;
+  background-color: #e4da56;
 }
 
 .counters-small {
@@ -8649,10 +8649,10 @@ span#bill-panel-pday {
   /*font-family: 'Questrial', sans-serif;*/
 }
 
-.legend-scale {
+/*.legend-scale {
   position: absolute;
   bottom: 0;
-}
+}*/
 
 /*.form-control {
   border-radius: 0px;
@@ -8696,7 +8696,7 @@ span#bill-panel-pday {
 
 .my-legend .legend-title {
   text-align: left;
-  margin-bottom: 8px;
+  /*margin-bottom: 8px;*/
   font-weight: bold;
   font-size: 90%;
 }
@@ -8746,11 +8746,18 @@ span#bill-panel-pday {
 }*/
 
 .info {
+  position: absolute;
+  width: 33%;
   padding: 6px 8px;
   background: white;
   background: rgba(255,255,255,0.8);
   -webkit-box-shadow: 0 0 15px rgba(0,0,0,0.2);
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  z-index: 1000;
+  left: 0;
+  bottom: 0;
+  margin-left: 10px;
+  margin-bottom: 10px;
   /*border-radius: 5px;*/
 }
 
@@ -8789,8 +8796,10 @@ a.leaflet-popup-close-button {
 
 .leaflet-popup-content-wrapper {
   padding: 20px 15px 10px 15px;
-  background-color: #dbd7ca;
+  /*background-color: #dbd7ca;*/
+  background-color: #fff;
   border-radius: 0px;
+  z-index: 2000;
 }
 
 .leaflet-popup-content {

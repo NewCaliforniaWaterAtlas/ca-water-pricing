@@ -419,4 +419,3 @@ angular.module("template/accordion/accordion.html", []).run(["$templateCache", f
     "<div class=\"entries-group\" ng-transclude></div>");
 }]);
 
-

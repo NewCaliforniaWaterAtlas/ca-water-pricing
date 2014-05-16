@@ -34497,7 +34497,7 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 						return {
 					    radius: (frate.properties.pcappday * 10),
 						  color: "#fff",
-						  fillColor: "#a4ad50",
+						  fillColor: "#e4da56",
 						  fillOpacity: 0.95,
 						  opacity: 1,
 						  weight: 3
@@ -34508,7 +34508,7 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 						return {
 					    radius: (mrate.properties.pcappday * 10),
 						  color: "#fff",
-						  fillColor: "#9abab4",
+						  fillColor: "#a4ad50",
 						  fillOpacity: 0.95,
 						  opacity: 1,
 						  weight: 3
@@ -34556,6 +34556,11 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 					  	layer.feature.properties.units = "";
 					  }
 
+					  // layer.setStyle({
+					  //   weight: 5,
+					  //   color: "red"
+					  // });
+
 					  // document.getElementById('bill-panel-pday').innerHTML = layer.options.pday;
 						document.getElementById('bill-panel-streetaddr').innerHTML = layer.feature.properties.streetaddr;
 						document.getElementById('bill-panel-util').innerHTML = layer.feature.properties.util;
@@ -34569,7 +34574,6 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 					  	var submit = moment.utc(layer.feature.properties.tstamp).format('MM/DD/YYYY');
 					  	document.getElementById('bill-panel-submit').innerHTML = submit;
 					  });
-
 					});
 
 
@@ -35080,9 +35084,9 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
 
               .style("fill", function(d) { 
                 if (d.properties.billtype == "mrate") {
-                  return "#9abab4";
-                } else {
                   return "#a4ad50";
+                } else {
+                  return "#e4da56";
                 }
               });
 

@@ -103,9 +103,9 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
 
               .style("fill", function(d) { 
                 if (d.properties.billtype == "mrate") {
-                  return "#9abab4";
-                } else {
                   return "#a4ad50";
+                } else {
+                  return "#e4da56";
                 }
               });
 

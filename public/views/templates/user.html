@@ -10,9 +10,11 @@
 			<span class="ctrfrate counters pull-right" tooltip-placement="top" tooltip="{{frate}} fixed rate bills">{{frate}}</span>
 			<span class="ctrmrate counters pull-right" tooltip-placement="top" tooltip="{{mrate}} metered rate bills">{{mrate}}</span>
 		</h2>
-		<!-- <input type="text" ng-model="searchEntries"> -->
-		<!-- <ul id='map-ui'></ul> -->
-		<div mapuser id="map" userdata="entries | filter:searchentries"></div>
+		<div mapuser id="map" userdata="entries | filter:searchentries">
+			<div class="info">
+				<div ng-include="'views/templates/pdsi-legend.html'"></div>
+			</div>
+		</div>
 	</div>
 	
 	<div class="detail-wrap col-sm-3">	  
@@ -43,7 +45,7 @@
 	    		
 	    		<hr>
 					
-					<div ng-include="'views/templates/pdsi-legend.html'"></div>
+					<!-- <div ng-include="'views/templates/pdsi-legend.html'"></div> -->
 
 	    	</div>
 	    </tab>
