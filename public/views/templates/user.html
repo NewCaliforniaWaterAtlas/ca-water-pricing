@@ -45,6 +45,7 @@
 	    		
 	    		<hr>
 					
+					<img src="../../img/assets/legend1.svg" id="" class="img-responsive" alt="bill marker legend">
 					<!-- <div ng-include="'views/templates/pdsi-legend.html'"></div> -->
 
 	    	</div>
@@ -127,7 +128,6 @@
 	
 	<div id="graph-wrap1" class="col-sm-6">
 	  <div d3-graph id="chartContainer" data="entries | filter:searchentries"></div>
-		<h5 class="text-muted">Residential Demand</h5>
 	</div>
 
 	<!-- <div id="graph-wrap2" class="col-sm-3" ng-controller="barsController1">	  
@@ -146,12 +146,9 @@
 	  <!-- <d3-donut data="entries"></d3-donut> -->
 	</div>
 
-<!-- 	<div  id="graph-wrap3" class="col-sm-3">
-		<div class="summary-panel">
-			<p><span class="text-muted">Average Cost: </span><b id="bill-panel-hsize" class="panel-items">${{average(pcappdayArr)}} /p/day</b></p>
-			<p><span class="text-muted">Average Usage: </span><b id="bill-panel-hsize" class="panel-items">{{average(usedArr).toFixed()}} gal/p/day</b></p>
-		</div>
-	</div> -->
+	<div  id="graph-wrap3" class="col-sm-3">
+		<img src="../../img/assets/ccf_legend.svg" id="" class="img-responsive" alt="ccf legend">
+	</div>
 
 </div> <!-- end row -->
 

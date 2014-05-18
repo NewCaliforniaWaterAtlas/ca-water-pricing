@@ -136,7 +136,7 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 					    radius: (frate.properties.pcappday * 10),
 						  color: "#fff",
 						  fillColor: "#e4da56",
-						  fillOpacity: 0.95,
+						  fillOpacity: 0.85,
 						  opacity: 1,
 						  weight: 3
 						};
@@ -147,7 +147,7 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 					    radius: (mrate.properties.pcappday * 10),
 						  color: "#fff",
 						  fillColor: "#a4ad50",
-						  fillOpacity: 0.95,
+						  fillOpacity: 0.85,
 						  opacity: 1,
 						  weight: 3
 						};

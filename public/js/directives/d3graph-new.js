@@ -52,7 +52,7 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
             });
 
             // var frate = billType.frate;
-            var mrate = billType.mrate;
+            var mrate = billType.mrate; 
 
             // set axes, as well as details on their ticks
             var xAxis = d3.svg.axis()
@@ -77,12 +77,11 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
 
             var circles =
             groups.selectAll("circle")
-              .data(data)
+              .data(mrate)
               .enter().append("circle")
               .attr("class", "circles")
               .attr({
-                cx: function(d) { 
-                  
+                cx: function(d) {
                   if (d.properties.units == "ccf") {
                     // ccf to gallon conversion
                     return x( +d.properties.used * 748.051948 / d.properties.hsize );
@@ -91,7 +90,6 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
                   } else {
                     return;
                   }  
-
                 },
                 cy: function(d) { return y(+d.properties.bill); },
                 r: function(d) { return d.properties.pcappday * 10; }
@@ -107,16 +105,20 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
                 } else {
                   return "#e4da56";
                 }
-              });
+              })
+              .attr("opacity", "0.85")
 
             // what to do when we mouse over a bubble
             var mouseOn = function() { 
               var circle = d3.select(this);
-              // transition to increase size/opacity of bubble
+              
+              circle.attr("stroke", "#1c75bc")
+                .attr("stroke-width", 5);
 
-              circle.transition()
-              .duration(800).style("opacity", 1)
-              .attr("r", 20).ease("elastic");
+              // transition to increase size/opacity of bubble
+              // circle.transition()
+              // .duration(800).style("opacity", 1)
+              // .attr("r", 20).ease("elastic");
 
               // append lines to bubbles that will be used to show the precise data points.
               // translate their location based on margins
@@ -125,11 +127,13 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
               .append("line")
                 .attr("x1", circle.attr("cx"))
                 .attr("x2", circle.attr("cx"))
-                .attr("y1", +circle.attr("cy") + 26)
+                .attr("y1", +circle.attr("cy") + 26 )
                 .attr("y2", h - margin.t - margin.b)
                 .attr("transform", "translate(40,20)")
-                .style("stroke", circle.style("fill"))
-                .transition().delay(200).duration(400).styleTween("opacity", function() { return d3.interpolate(0, .5); });
+                // .style("stroke", circle.style("fill"))
+                .style("stroke", "#999")
+                .style("stroke-dasharray", "3,3")
+                .transition().delay(200).duration(400).styleTween("opacity", function() { return d3.interpolate(0, .75); });
 
               svg.append("g")
                 .attr("class", "guide")
@@ -139,8 +143,10 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
                 .attr("y1", circle.attr("cy"))
                 .attr("y2", circle.attr("cy"))
                 .attr("transform", "translate(40,30)")
-                .style("stroke", circle.style("fill"))
-                .transition().delay(200).duration(400).styleTween("opacity", function() { return d3.interpolate(0, .5); });
+                // .style("stroke", circle.style("fill"))
+                .style("stroke", "#999")
+                .style("stroke-dasharray", "3,3")
+                .transition().delay(200).duration(400).styleTween("opacity", function() { return d3.interpolate(0, .75); });
 
               // function to move mouseover item to front of SVG stage, in case
               // another bubble overlaps it
@@ -155,10 +161,15 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
             var mouseOff = function() {
               var circle = d3.select(this);
 
-              // go back to original size and opacity
-              circle.transition()
-              .duration(800).style("opacity", .5)
-              .attr("r", function(d) { return d.properties.pcappday * 10; }).ease("elastic");
+
+              // go back to original appearance
+              circle.attr("stroke", "none")
+                .attr("stroke-width", 0);
+
+              // // go back to original size and opacity
+              // circle.transition()
+              // .duration(800).style("opacity", .5)
+              // .attr("r", function(d) { return d.properties.pcappday * 10; }).ease("elastic");
 
               // fade out guide lines, then remove them
               d3.selectAll(".guide").transition().duration(100).styleTween("opacity", 
@@ -197,7 +208,13 @@ app.directive('d3Graph', ['d3Service', '$window', '$compile', function (d3Servic
               .attr("transform", "rotate(-90)")
               .text("Total Water Bill (USD)");
 
-
+            svg.append("text")
+              .attr("x", w / 2 )
+              .attr("y", 275)
+              .attr("class", "text-muted")
+              .style("text-anchor", "middle")
+              .text("RESIDENTIAL DEMAND (metered users)");
+            
             element.removeAttr("d3-graph");
             $compile(element)(scope);
 
