@@ -143,7 +143,7 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 						return {
 					    radius: rad * 2,
 					    // radius: feature.properties.quantity_rate != ""  ? feature.properties.quantity_rate*2 : 2,
-					    fillColor: "#9abab4",
+					    fillColor: "#cc6633",
 					    color: "#fff",
 					    weight: 3,
 					    opacity: 1,
@@ -178,12 +178,12 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 						  	var val = Math.floor( data * 10 ) / 10;
 						  	quantVal = val;
 							  layer.bindPopup(
-							  	"<p class='tt-title'>" + layer.feature.properties.city +  ", " + layer.feature.properties.state + ": " + "</p>" +  "<span class='ctrmrate tt-highlight counters pull-right'>$ " + quantVal + " /ccf" + "</span>"
+							  	"<p class='tt-title'>" + layer.feature.properties.city +  ", " + layer.feature.properties.state + ": " + "</p>" +  "<span class='ctrarate tt-highlight counters pull-right'>$ " + quantVal + " /ccf" + "</span>"
 							  ).openPopup();
 					  	}	else {
 					  		notVal = "no data";
 							  layer.bindPopup(
-							  	"<p class='tt-title'>" + layer.feature.properties.city +  ", " + layer.feature.properties.state + ": " + "</p>" +  "<span class='ctrmrate tt-highlight counters pull-right'>" + notVal + "</span>"
+							  	"<p class='tt-title'>" + layer.feature.properties.city +  ", " + layer.feature.properties.state + ": " + "</p>" +  "<span class='ctrarate tt-highlight counters pull-right'>" + notVal + "</span>"
 							  ).openPopup();
 					  	}
 					  }

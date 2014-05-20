@@ -452,7 +452,7 @@ ol.carousel-indicators {
   padding-left: 13px;
 }
 
-.ctrmrate, .ctrfrate {
+.ctrmrate, .ctrfrate, .ctrarate {
   color: #fff;
 }
 
@@ -462,6 +462,10 @@ ol.carousel-indicators {
 
 .ctrfrate {
   background-color: #e4da56;
+}
+
+.ctrarate {
+  background-color: #cc6633;
 }
 
 .counters-small {

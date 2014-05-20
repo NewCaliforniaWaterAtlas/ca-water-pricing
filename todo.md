@@ -13,12 +13,9 @@ Todo
 * highlight “you” circle marker
 * add leaflet hash
 * apply caching configured for palmer controller to agency controller
-* add definition of "ccf" on agency page
 * make scatterplot responsive (see bar chart directive)
 * save higher resolution click banner
 * fix bill sample background
-* only show metered values in scatterplot
-* title for scatterplot
 * round service charge in detail panel for agency data
 * add "I shared my water bill" on CAWaterAtlas for Twitter and Facebook to thankyou modal
 * add error pages

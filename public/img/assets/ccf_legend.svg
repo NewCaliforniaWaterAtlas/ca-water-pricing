@@ -16,48 +16,69 @@
 <g id="circles">
 	<g>
 		<g>
-			<circle style="fill:none;stroke:#58595B;stroke-miterlimit:10;stroke-dasharray:1.9836,1.9836;" cx="24" cy="-147" r="12"/>
+			<circle style="fill:none;stroke:#58595B;stroke-miterlimit:10;stroke-dasharray:1.9836,1.9836;" cx="351" cy="-147" r="12"/>
 		</g>
 		<g>
-			<circle style="fill:none;stroke:#58595B;stroke-miterlimit:10;stroke-dasharray:1.9837,1.9837;" cx="24" cy="-159" r="24"/>
+			<circle style="fill:none;stroke:#58595B;stroke-miterlimit:10;stroke-dasharray:1.9837,1.9837;" cx="351" cy="-159" r="24"/>
 		</g>
-		<line style="fill:none;stroke:#A7A9AC;stroke-miterlimit:10;" x1="34" y1="-158.5" x2="73" y2="-158.5"/>
-		<line style="fill:none;stroke:#A7A9AC;stroke-miterlimit:10;" x1="34" y1="-183.5" x2="73" y2="-183.5"/>
-		<rect x="77.7" y="-185.9" style="fill:none;" width="75.2" height="19.1"/>
-		<text transform="matrix(1 0 0 1 77.6665 -177.1152)" style="fill:#808285; font-family:'Muli'; font-size:12;">$2.00 (USD)/</text>
-		<rect x="164.4" y="-185.9" style="fill:none;" width="26.9" height="19.1"/>
-		<text transform="matrix(1 0 0 1 164.416 -177.1152)" style="fill:#808285; font-family:'Muli'; font-size:12;">/day</text>
+		<line style="fill:none;stroke:#A7A9AC;stroke-miterlimit:10;" x1="361" y1="-158.5" x2="400" y2="-158.5"/>
+		<line style="fill:none;stroke:#A7A9AC;stroke-miterlimit:10;" x1="361" y1="-183.5" x2="400" y2="-183.5"/>
+		<rect x="404.7" y="-185.9" style="fill:none;" width="75.2" height="19.1"/>
+		<text transform="matrix(1 0 0 1 404.666 -177.1152)" style="fill:#808285; font-family:'Muli'; font-size:12;">$2.00 (USD)/</text>
+		<rect x="491.4" y="-185.9" style="fill:none;" width="26.9" height="19.1"/>
+		<text transform="matrix(1 0 0 1 491.416 -177.1152)" style="fill:#808285; font-family:'Muli'; font-size:12;">/day</text>
 		<g>
-			<path style="fill:#808285;" d="M159.7-176.3h-5.9c-1.1,0-1.8-0.6-1.8-1.7c0-1.5,0.4-3.8,2.3-3.8c0.2,0,1.1,0.9,2.4,0.9
-				s2.2-0.9,2.4-0.9c2,0,2.3,2.3,2.3,3.8C161.5-177,160.8-176.3,159.7-176.3z M156.8-181.5c-1.4,0-2.6-1.2-2.6-2.6s1.2-2.6,2.6-2.6
-				s2.6,1.2,2.6,2.6S158.2-181.5,156.8-181.5z"/>
+			<path style="fill:#808285;" d="M486.7-176.3h-5.9c-1.1,0-1.8-0.6-1.8-1.7c0-1.5,0.4-3.8,2.3-3.8c0.2,0,1.1,0.9,2.4,0.9
+				s2.2-0.9,2.4-0.9c2,0,2.3,2.3,2.3,3.8C488.5-177,487.8-176.3,486.7-176.3z M483.8-181.5c-1.4,0-2.6-1.2-2.6-2.6s1.2-2.6,2.6-2.6
+				s2.6,1.2,2.6,2.6S485.2-181.5,483.8-181.5z"/>
 		</g>
-		<rect x="77.7" y="-159.7" style="fill:none;" width="75.2" height="19.1"/>
-		<text transform="matrix(1 0 0 1 77.6665 -150.918)" style="fill:#808285; font-family:'Muli'; font-size:12;">$1.00 (USD)/</text>
-		<rect x="164.4" y="-159.7" style="fill:none;" width="26.9" height="19.1"/>
-		<text transform="matrix(1 0 0 1 164.416 -150.918)" style="fill:#808285; font-family:'Muli'; font-size:12;">/day</text>
+		<rect x="404.7" y="-159.7" style="fill:none;" width="75.2" height="19.1"/>
+		<text transform="matrix(1 0 0 1 404.666 -150.918)" style="fill:#808285; font-family:'Muli'; font-size:12;">$1.00 (USD)/</text>
+		<rect x="491.4" y="-159.7" style="fill:none;" width="26.9" height="19.1"/>
+		<text transform="matrix(1 0 0 1 491.416 -150.918)" style="fill:#808285; font-family:'Muli'; font-size:12;">/day</text>
 		<g>
-			<path style="fill:#808285;" d="M159.7-150.1h-5.9c-1.1,0-1.8-0.6-1.8-1.7c0-1.5,0.4-3.8,2.3-3.8c0.2,0,1.1,0.9,2.4,0.9
-				s2.2-0.9,2.4-0.9c2,0,2.3,2.3,2.3,3.8C161.5-150.8,160.8-150.1,159.7-150.1z M156.8-155.3c-1.4,0-2.6-1.2-2.6-2.6
-				s1.2-2.6,2.6-2.6s2.6,1.2,2.6,2.6S158.2-155.3,156.8-155.3z"/>
+			<path style="fill:#808285;" d="M486.7-150.1h-5.9c-1.1,0-1.8-0.6-1.8-1.7c0-1.5,0.4-3.8,2.3-3.8c0.2,0,1.1,0.9,2.4,0.9
+				s2.2-0.9,2.4-0.9c2,0,2.3,2.3,2.3,3.8C488.5-150.8,487.8-150.1,486.7-150.1z M483.8-155.3c-1.4,0-2.6-1.2-2.6-2.6
+				s1.2-2.6,2.6-2.6s2.6,1.2,2.6,2.6S485.2-155.3,483.8-155.3z"/>
 		</g>
 	</g>
 	<g>
-		<circle style="fill:#A4AD50;" cx="24" cy="-113" r="12"/>
-		<rect x="48" y="-117.1" style="fill:none;" width="104.3" height="19.1"/>
-		<text transform="matrix(1 0 0 1 48 -108.3047)" style="fill:#939598; font-family:'Muli'; font-size:12;">Metered Users</text>
+		<circle style="fill:#A4AD50;" cx="351" cy="-113" r="12"/>
+		<rect x="375" y="-117.1" style="fill:none;" width="104.3" height="19.1"/>
+		<text transform="matrix(1 0 0 1 375 -108.3047)" style="fill:#939598; font-family:'Muli'; font-size:12;">Metered Users</text>
 	</g>
 	<g>
-		<circle style="fill:#E4DA56;" cx="24" cy="-81" r="12"/>
-		<rect x="48" y="-85.1" style="fill:none;" width="104.3" height="19.1"/>
-		<text transform="matrix(1 0 0 1 48 -76.3047)" style="fill:#939598; font-family:'Muli'; font-size:12;">Flat Rate Users</text>
+		<circle style="fill:#E4DA56;" cx="351" cy="-81" r="12"/>
+		<rect x="375" y="-85.1" style="fill:none;" width="104.3" height="19.1"/>
+		<text transform="matrix(1 0 0 1 375 -76.3047)" style="fill:#939598; font-family:'Muli'; font-size:12;">Flat Rate Users</text>
 	</g>
-	<rect y="-57.1" style="fill:none;" width="232.5" height="32.1"/>
-	<text transform="matrix(1 0 0 1 0 -48.3047)"><tspan x="0" y="0" style="fill:#939598; font-family:'Muli'; font-size:12;">Note: flate rate billing does not take into </tspan><tspan x="0" y="14.4" style="fill:#939598; font-family:'Muli'; font-size:12;">account water consumption.</tspan></text>
-	<rect y="10.3" style="fill:none;" width="248.6" height="19.1"/>
-	<text transform="matrix(1 0 0 1 68.644 20.5088)" style="fill:#939598; font-family:'Muli'; font-size:14;">WHAT IS A CCF?  </text>
+	<rect x="327" y="-57.1" style="fill:none;" width="232.5" height="32.1"/>
+	<text transform="matrix(1 0 0 1 327 -48.3047)"><tspan x="0" y="0" style="fill:#939598; font-family:'Muli'; font-size:12;">Note: flate rate billing does not take into </tspan><tspan x="0" y="14.4" style="fill:#939598; font-family:'Muli'; font-size:12;">account water consumption</tspan></text>
+	<g>
+		<g>
+			<circle style="fill:none;stroke:#58595B;stroke-miterlimit:10;stroke-dasharray:1.963,1.963;" cx="25" cy="-145" r="10"/>
+		</g>
+		<g>
+			<circle style="fill:none;stroke:#58595B;stroke-miterlimit:10;stroke-dasharray:2.0133,2.0133;" cx="25" cy="-160" r="25"/>
+		</g>
+		<line style="fill:none;stroke:#A7A9AC;stroke-miterlimit:10;" x1="35" y1="-153.5" x2="74" y2="-153.5"/>
+		<line style="fill:none;stroke:#A7A9AC;stroke-miterlimit:10;" x1="35" y1="-183.5" x2="74" y2="-183.5"/>
+		<rect x="78.7" y="-185.9" style="fill:none;" width="75.2" height="19.1"/>
+		<text transform="matrix(1 0 0 1 78.6665 -177.1152)" style="fill:#808285; font-family:'Muli'; font-size:12;">5 CCF</text>
+		<rect x="78.7" y="-154.7" style="fill:none;" width="75.2" height="19.1"/>
+		<text transform="matrix(1 0 0 1 78.6665 -145.918)" style="fill:#808285; font-family:'Muli'; font-size:12;">1 CCF</text>
+	</g>
+	<g>
+		<circle style="fill:#CC6633;" cx="25" cy="-98" r="12"/>
+		<rect x="49" y="-102.1" style="fill:none;" width="184.2" height="19.1"/>
+		<text transform="matrix(1 0 0 1 49 -93.3047)" style="fill:#939598; font-family:'Muli'; font-size:12;">Agency Surveyed User</text>
+	</g>
+	<rect x="1" y="-57.1" style="fill:none;" width="232.5" height="32.1"/>
+	<text transform="matrix(1 0 0 1 1 -48.3047)"><tspan x="0" y="0" style="fill:#939598; font-family:'Muli'; font-size:12;">Note: agency data is as is and varies </tspan><tspan x="0" y="14.4" style="fill:#939598; font-family:'Muli'; font-size:12;">widely</tspan></text>
+	<rect y="10.3" style="fill:none;" width="233.1" height="19.1"/>
+	<text transform="matrix(1 0 0 1 44.4604 20.5088)" style="fill:#939598; font-family:'Muli'; font-size:14;">WHAT IS A CCF/HCF?  </text>
 	<rect y="41.3" style="fill:none;" width="262.7" height="19.1"/>
-	<text transform="matrix(1 0 0 1 0 52.9443)"><tspan x="0" y="0" style="fill:#231F20; font-family:'Muli'; font-size:16;">1</tspan><tspan x="9.3" y="0" style="fill:#939598; font-family:'Muli'; font-size:16;"> CCF = </tspan><tspan x="65.5" y="0" style="fill:#231F20; font-family:'Muli'; font-size:16;">100</tspan><tspan x="93.4" y="0" style="fill:#939598; font-family:'Muli'; font-size:16;"> Cubic Feet =   </tspan></text>
+	<text transform="matrix(1 0 0 1 0 52.9443)"><tspan x="0" y="0" style="fill:#231F20; font-family:'Muli'; font-size:16;">1</tspan><tspan x="9.3" y="0" style="fill:#939598; font-family:'Muli'; font-size:16;"> CCF/HCF = </tspan><tspan x="103" y="0" style="fill:#231F20; font-family:'Muli'; font-size:16;">100</tspan><tspan x="130.9" y="0" style="fill:#939598; font-family:'Muli'; font-size:16;"> Cubic Feet =   </tspan></text>
 	<g>
 		<rect y="95.3" style="fill:none;" width="35.2" height="19.1"/>
 		<text transform="matrix(1 0 0 1 0 106.9971)" style="fill:#231F20; font-family:'Muli'; font-size:16;">748  </text>

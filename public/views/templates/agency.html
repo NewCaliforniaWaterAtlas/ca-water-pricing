@@ -9,7 +9,7 @@
 		<!-- <div id="map-wrap" class="col-sm-9" ng-controller="palmerCache"> -->
 		
 			<h2 class="bar-title">Find How Water is Priced: Agency Data
-				<span class="ctrmrate counters pull-right" tooltip-placement="top" tooltip="{{record}} CPUC records">{{record}}</span>
+				<span class="ctrarate counters pull-right" tooltip-placement="top" tooltip="{{record}} CPUC records">{{record}}</span>
 			</h2>
 
 			<div mapagency id="map" points="records | filter:searchrecords">
@@ -44,7 +44,7 @@
 						</div>
 		    		
 		    		<hr>
-						
+						<img src="../../img/assets/legend2.svg" id="" class="img-responsive" alt="agency marker legend">
 						<!-- <div ng-include="'views/templates/pdsi-legend.html'"></div> -->
 
 		    	</div>
@@ -68,10 +68,10 @@
 					        <accordion-heading>
 					          <p>{{record.properties.streetaddr}}:</p>
 					          <div ng-if="record.properties.quantity_rate !== ''">
-					          	<p class="ctrmrate counters-small text-inline">${{record.properties.quantity_rate}} /ccf</p><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
+					          	<p class="ctrarate counters-small text-inline">${{record.properties.quantity_rate}} /ccf</p><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
 					          </div>
 					          <div ng-if="record.properties.quantity_rate == ''">
-					          	<p class="ctrmrate counters-small text-inline">${{record.properties.flat_rate}}</p><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
+					          	<p class="ctrarate counters-small text-inline">${{record.properties.flat_rate}}</p><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
 					          </div>
 					        </accordion-heading>
 
@@ -104,13 +104,15 @@
 
 	<div class="row">
 		
-		<div id="graph-wrap2" class="col-sm-4">
+		<div id="graph-wrap2" class="col-sm-6">
 		  <!-- <d3-graph id="chartContainer" data="entries"></d3-graph> -->
 		</div>
+
+		<div id="graph-wrap2" class="col-sm-3">
+		</div>
 		
-		<div id="graph-wrap3" class="col-sm-4">
-		  <!-- <d3-donut data="[82, 62, 10, 32]"></d3-donut> -->
-		  <!-- <d3-donut data="entries"></d3-donut> -->
+		<div id="graph-wrap3" class="col-sm-3">
+			<img src="../../img/assets/ccf_legend.svg" id="" class="img-responsive" alt="ccf legend">
 		</div>
 	
 	</div>
