@@ -8567,10 +8567,10 @@ img#clickbanner {
   height: 220px;
 }
 
-.detail-panel-inner-search {
+/*.detail-panel-inner-search {
   overflow: scroll;
   height: 390px;
-}
+}*/
 
 #search {
   padding-top: 9px;

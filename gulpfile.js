@@ -91,7 +91,7 @@ gulp.task('scripts:watch', function() {
 });
 
 
-gulp.task('watch', function() {
+gulp.task('watchall', function() {
   gulp.start('styles:watch', 'scripts:watch');
 });
 

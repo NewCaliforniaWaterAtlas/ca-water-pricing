@@ -16,6 +16,5 @@ Todo
 * make scatterplot responsive (see bar chart directive)
 * save higher resolution click banner
 * fix bill sample background
-* round service charge in detail panel for agency data
+* round service charge in detail panel for agency data and add no data for highlighted values
 * add "I shared my water bill" on CAWaterAtlas for Twitter and Facebook to thankyou modal
-* add error pages
