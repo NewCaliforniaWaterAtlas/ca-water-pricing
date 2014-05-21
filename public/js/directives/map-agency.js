@@ -147,7 +147,7 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 					    color: "#fff",
 					    weight: 3,
 					    opacity: 1,
-					    fillOpacity: 0.9
+					    fillOpacity: 0.85
 						};
 					}
 					
@@ -206,7 +206,9 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 					  var lat = layer.feature.geometry.coordinates[1];
 					  var lng = layer.feature.geometry.coordinates[0];
 					  var quantVal;
-					  var notVal;
+					  var flatVal;
+					  var serviceVal;
+					  var notVal = "no data";
 					  var quantProp = layer.feature.properties.quantity_rate;
 
 					  function panelVals (data) {
@@ -215,7 +217,6 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 						  	quantVal = val;	
 					  		document.getElementById('bill-panel-quantity-rate').innerHTML = "$ " + quantVal + " /ccf";
 					  	} else {
-					  		notVal = "no data";
 					  		document.getElementById('bill-panel-quantity-rate').innerHTML = notVal;
 					  	}
 					  }
@@ -224,14 +225,12 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 					  if (layer.feature.properties.flat_rate !== "") {
 					  	document.getElementById('bill-panel-flat-rate').innerHTML = "$ " + layer.feature.properties.flat_rate;
 					  } else {
-				  		notVal = "no data";
 				  		document.getElementById('bill-panel-flat-rate').innerHTML = notVal;
 					  }
 
 					  if (layer.feature.properties.service_charge !== "") {
 					  	document.getElementById('bill-panel-service-charge').innerHTML = "$ " + layer.feature.properties.service_charge;
 					  } else {
-				  		notVal = "no data";
 				  		document.getElementById('bill-panel-service-charge').innerHTML = notVal;
 					  }
 

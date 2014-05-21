@@ -34,7 +34,8 @@
     "ngstorage": "~0.3.0",
     "bootstrap": "~3.1.1",
     "fontawesome": "~4.0.3",
-    "mapboxjs": "git://github.com/platanus/bower-mapboxjs.git#~1.6.1"
+    "mapboxjs": "git://github.com/platanus/bower-mapboxjs.git#~1.6.1",
+    "nsPopover": "~5.0.4"
   },
   "resolutions": {
     "bootstrap": "~3.1.1"

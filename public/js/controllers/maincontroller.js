@@ -402,6 +402,7 @@ var searchAccordion = function ($scope) {
   $scope.oneAtATime = true;
 }
 
+
 // override accordion templates
 angular.module("template/accordion/accordion-group.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("template/accordion/accordion-group.html",
