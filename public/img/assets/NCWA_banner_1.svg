@@ -2,12 +2,56 @@
 <!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="100px" height="180px" viewBox="0 0 100 180" enable-background="new 0 0 100 180" xml:space="preserve">
-<rect fill="#9ABAB4" width="100" height="180"/>
+	 width="100px" height="180px" viewBox="0 0 100 180" style="enable-background:new 0 0 100 180;" xml:space="preserve">
+<rect style="fill:#9ABAB4;" width="100" height="180"/>
 <g>
-	<text transform="matrix(1 0 0 1 7 46.832)"><tspan x="0" y="0" fill="#FFFFFF" font-family="'Questrial-Regular'" font-size="37.2082" letter-spacing="1">N</tspan><tspan x="28.799" y="0" fill="#FFFFFF" font-family="'Questrial-Regular'" font-size="37.2082" letter-spacing="1">e</tspan><tspan x="51.384" y="0" fill="#FFFFFF" font-family="'Questrial-Regular'" font-size="37.2082">w</tspan></text>
-	<text transform="matrix(1 0 0 1 7 98.6006)"><tspan x="0" y="0" fill="#FFFFFF" font-family="'Questrial-Regular'" font-size="59.8566" letter-spacing="2">C</tspan><tspan x="44.293" y="0" fill="#FFFFFF" font-family="'Questrial-Regular'" font-size="59.8566">A</tspan></text>
-	<text transform="matrix(1 0 0 1 7 127.7188)"><tspan x="0" y="0" fill="#FFFFFF" font-family="'Questrial-Regular'" font-size="29.1194">W</tspan><tspan x="28.362" y="0" fill="#FFFFFF" font-family="'Questrial-Regular'" font-size="29.1194" letter-spacing="1">a</tspan><tspan x="47.144" y="0" fill="#FFFFFF" font-family="'Questrial-Regular'" font-size="29.1194" letter-spacing="1">t</tspan><tspan x="57.801" y="0" fill="#FFFFFF" font-family="'Questrial-Regular'" font-size="29.1194" letter-spacing="1">e</tspan><tspan x="75.477" y="0" fill="#FFFFFF" font-family="'Questrial-Regular'" font-size="29.1194">r</tspan></text>
-	<text transform="matrix(1 0 0 1 7 156.8389)"><tspan x="0" y="0" fill="#FFFFFF" font-family="'Questrial-Regular'" font-size="35.5904">A</tspan><tspan x="24.343" y="0" fill="#FFFFFF" font-family="'Questrial-Regular'" font-size="35.5904" letter-spacing="1">tla</tspan><tspan x="69.756" y="0" fill="#FFFFFF" font-family="'Questrial-Regular'" font-size="35.5904">s</tspan></text>
+	<g>
+		<path style="fill:#FFFFFF;" d="M31.3,22.2v24.6H28L12.8,26v20.8H10V22.2h3.2l15.2,20.7V22.2H31.3z"/>
+		<path style="fill:#FFFFFF;" d="M46.5,44.6c2.5,0,4.3-1,5.4-3.1H55c-0.6,1.7-1.7,3.1-3.1,4.1c-1.4,1-3.2,1.6-5.4,1.6
+			c-2.8,0-5.1-0.9-6.8-2.8c-1.7-1.8-2.6-4.1-2.6-6.8c0-2.8,0.8-5,2.5-6.8c1.7-1.9,4-2.8,6.8-2.8c2.8,0,5,0.9,6.8,2.8
+			c1.6,1.8,2.5,4.1,2.5,6.8v1.1H39.9c0.2,1.7,0.9,3.1,2,4.2C43.2,44,44.7,44.6,46.5,44.6z M46.3,30.5c-1.7,0-3.2,0.5-4.3,1.6
+			c-1.1,1-1.8,2.3-2,4h12.7c-0.2-1.6-0.9-3-2-4C49.4,31,48,30.5,46.3,30.5z"/>
+		<path style="fill:#FFFFFF;" d="M72.4,32l-4.7,14.8h-3.2l-5.8-18.6h3l4.5,15.1l4.7-15.1h3.1l4.7,15.1l4.5-15.1h3l-5.8,18.6h-3.2
+			L72.4,32z"/>
+	</g>
+	<g>
+		<path style="fill:#FFFFFF;" d="M29.5,94.7c2.8,0,5.3-0.7,7.5-2.2c2.1-1.4,3.7-3.4,4.8-5.8h4.7c-1.3,3.8-3.5,6.7-6.5,8.9
+			c-3.2,2.3-7,3.5-11.4,3.5c-5.8,0-10.5-2-14.1-5.9c-3.4-3.8-5.1-8.6-5.1-14.4c0-5.8,1.7-10.6,5.1-14.4c3.6-4,8.3-5.9,14.1-5.9
+			c4.4,0,8.2,1.2,11.4,3.5c3,2.2,5.2,5.1,6.5,8.9h-4.7c-1-2.4-2.6-4.4-4.8-5.8c-2.1-1.4-4.6-2.2-7.5-2.2c-2.8,0-5.2,0.4-7.1,1.2
+			c-1.9,0.8-3.5,1.9-4.7,3.4c-2.6,2.9-3.9,6.7-3.9,11.3c0,4.6,1.3,8.4,3.9,11.3C20.4,93.2,24.4,94.7,29.5,94.7z"/>
+		<path style="fill:#FFFFFF;" d="M90.7,98.6h-5l-4.8-11.5H61.3l-4.8,11.5h-5L68.3,59h5.6L90.7,98.6z M79.2,83l-8.1-19.3L63,83H79.2z
+			"/>
+	</g>
+	<g>
+		<path style="fill:#FFFFFF;" d="M15.7,127.7h-2.5l-6-19.3h2.3l5,16.2l5.2-16.2h2.5l5.2,16.2l5-16.2h2.3l-6,19.3h-2.5l-5.2-16.2
+			L15.7,127.7z"/>
+		<path style="fill:#FFFFFF;" d="M48.6,125.4c-1.2,1.7-2.9,2.6-5.2,2.6c-2.1,0-3.8-0.7-5.1-2.2c-1.3-1.4-1.9-3.2-1.9-5.3
+			c0-2.1,0.6-3.9,1.9-5.3c1.3-1.5,3.1-2.2,5.3-2.2c2.2,0,3.9,0.9,5.1,2.6v-2.4h2.2v14.6h-2.2V125.4z M43.7,126
+			c1.6,0,2.8-0.5,3.7-1.6c0.9-1,1.3-2.3,1.3-3.9c0-1.6-0.4-2.9-1.3-3.9c-0.9-1.1-2.2-1.6-3.7-1.6c-1.6,0-2.8,0.5-3.8,1.6
+			c-0.9,1-1.4,2.3-1.4,3.9c0,1.6,0.5,2.9,1.4,3.9C40.9,125.4,42.1,126,43.7,126z"/>
+		<path style="fill:#FFFFFF;" d="M57.6,127.7v-12.6h-3v-1.9h3v-5.2h2.2v5.2h3.3v1.9h-3.3v12.6H57.6z"/>
+		<path style="fill:#FFFFFF;" d="M73.2,126c2,0,3.4-0.8,4.2-2.4h2.4c-0.5,1.3-1.3,2.4-2.4,3.2s-2.5,1.2-4.2,1.2
+			c-2.2,0-4-0.7-5.4-2.2c-1.3-1.4-2-3.2-2-5.3c0-2.2,0.6-3.9,1.9-5.3c1.4-1.5,3.1-2.2,5.3-2.2c2.2,0,3.9,0.7,5.3,2.2
+			c1.3,1.4,1.9,3.2,1.9,5.3v0.9H68c0.2,1.3,0.7,2.4,1.6,3.3C70.6,125.5,71.8,126,73.2,126z M73,114.9c-1.3,0-2.5,0.4-3.4,1.3
+			c-0.9,0.8-1.4,1.8-1.6,3.1H78c-0.2-1.3-0.7-2.3-1.6-3.1C75.5,115.3,74.4,114.9,73,114.9z"/>
+		<path style="fill:#FFFFFF;" d="M92.1,112.9v2.2h-0.3c-1.6,0-2.9,0.6-3.8,1.9c-0.9,1.2-1.4,2.6-1.4,4.3v6.4h-2.2v-14.6h2.2v3.6
+			c0.5-1.5,1.5-2.6,3-3.3c0.6-0.3,1.4-0.5,2.3-0.5H92.1z"/>
+	</g>
+	<g>
+		<path style="fill:#FFFFFF;" d="M30.5,156.8h-3l-2.9-6.8H12.9l-2.9,6.8h-3l10-23.6h3.3L30.5,156.8z M23.6,147.5l-4.8-11.5L14,147.5
+			H23.6z"/>
+		<path style="fill:#FFFFFF;" d="M35.6,156.8v-15.4h-3.6V139h3.6v-6.4h2.7v6.4h4.1v2.3h-4.1v15.4H35.6z"/>
+		<path style="fill:#FFFFFF;" d="M49.7,156.8H47v-24.9h2.7V156.8z"/>
+		<path style="fill:#FFFFFF;" d="M70,154c-1.4,2.1-3.5,3.1-6.4,3.1c-2.6,0-4.7-0.9-6.3-2.7c-1.6-1.8-2.3-3.9-2.3-6.5
+			s0.8-4.8,2.3-6.5c1.6-1.8,3.8-2.7,6.4-2.7c2.7,0,4.7,1.1,6.2,3.2V139h2.7v17.8H70V154z M64,154.7c1.9,0,3.4-0.7,4.6-2
+			c1.1-1.3,1.6-2.8,1.6-4.8s-0.5-3.5-1.6-4.8c-1.1-1.3-2.6-2-4.6-2c-1.9,0-3.4,0.7-4.6,2c-1.1,1.3-1.7,2.8-1.7,4.8s0.6,3.5,1.7,4.8
+			C60.5,154,62.1,154.7,64,154.7z"/>
+		<path style="fill:#FFFFFF;" d="M89.5,143.8c-0.2-1.9-1.7-2.8-4.5-2.8c-2.7,0-4.1,0.9-4.1,2.6c0,0.7,0.3,1.3,0.9,1.6
+			c0.6,0.4,1.3,0.7,2.2,0.9c0.9,0.2,1.8,0.5,2.9,0.7c1,0.2,2,0.5,2.9,0.9c0.9,0.4,1.6,0.9,2.2,1.5s0.9,1.5,0.9,2.6
+			c0,1.7-0.7,3.1-2,4c-1.3,0.9-3.1,1.4-5.3,1.4c-2.4,0-4.3-0.6-5.7-1.8c-1.3-1-2-2.4-2.1-4.1h2.8c0.2,1.6,1.1,2.7,2.8,3.3
+			c0.6,0.2,1.2,0.3,1.8,0.3s1.2,0,1.7-0.1s1-0.2,1.5-0.4c1.1-0.5,1.7-1.2,1.7-2.3c0-0.7-0.3-1.3-0.9-1.7c-0.6-0.4-1.3-0.7-2.2-1
+			c-0.9-0.2-1.8-0.5-2.9-0.7c-1-0.2-2-0.5-2.9-0.8s-1.6-0.8-2.2-1.5c-0.6-0.6-0.9-1.5-0.9-2.6c0-1.6,0.6-2.9,1.8-3.8
+			c1.2-0.9,2.9-1.3,5.2-1.3c2.2,0,3.9,0.5,5.2,1.6c1,0.9,1.6,2,1.8,3.5H89.5z"/>
+	</g>
 </g>
 </svg>
