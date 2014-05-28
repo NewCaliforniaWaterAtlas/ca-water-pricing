@@ -9,7 +9,7 @@ app.factory('billService', ['$http', function($http) {
 			return $http.post('/api/v1/bills', billData);
 		},
 		delete : function(id) {
-			return $http.delete('/api/v1/bills/' + id);
+			return $http.['delete']('/api/v1/bills/' + id);
 		}
 	}
 }]);
