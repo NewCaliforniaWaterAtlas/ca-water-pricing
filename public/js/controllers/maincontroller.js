@@ -134,13 +134,13 @@ app.controller('mainController', [ '$scope', 'billService', 'timeService', '$sta
 
 	// DELETE ==================================================================
 	// delete a entry after checking it
-	$scope.deleteBill = function(id) {
-		billService.['delete'](id)
-			// if successful creation, call our get function to get all the new entries
-			.success(function(data) {
-				$scope.entries = data; // assign our new list of entries
-			});
-	};
+	// $scope.deleteBill = function(id) {
+	// 	billService.delete(id)
+	// 		// if successful creation, call our get function to get all the new entries
+	// 		.success(function(data) {
+	// 			$scope.entries = data; // assign our new list of entries
+	// 		});
+	// };
 
 }]); // end mainController
 
