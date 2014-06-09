@@ -242,7 +242,7 @@
 				    
 				    <div class="row" ng-controller="thankyouModal">
 				    	<button type="button" class="btn btn-default btn-lg" ng-click="step = 1; billHelp = !billHelp">Back</button>
-				    	<a type="submit" class="btn btn-success btn-lg" ng-disabled="formData.$invalid" ng-click="createBill(); open();" ui-sref="user" role="button">Submit</a>
+				    	<a type="submit" class="btn btn-success btn-lg" ng-disabled="formData.$invalid" ng-click="createBill(); open();" href="#/user" role="button">Submit</a>
 					    <script type="text/ng-template" id="thankyou-modal.html">
 								<div ng-include="'views/templates/thankyou-modal.html'"></div>
 					    </script>

@@ -9,8 +9,8 @@ app.config( ['$stateProvider', '$urlRouterProvider', '$locationProvider', functi
 	
 	$stateProvider
 		.state('index', {
-			// url: '/',
-			url: '',
+			url: '/',
+			// url: '',
 			templateUrl: 'views/templates/home.html', 
 			controller: 'myModal'
 		})
@@ -34,8 +34,9 @@ app.config( ['$stateProvider', '$urlRouterProvider', '$locationProvider', functi
 		// 	controller: 'mapController'
 		// });
 
-	// if (window.history && window.history.pushState) {
- //  	$locationProvider.html5Mode(true).hashPrefix('!');
-	// }
+	if (window.history && window.history.pushState) {
+  	// $locationProvider.html5Mode(true).hashPrefix('!');
+  	$locationProvider.html5Mode(true);
+	}
 
 }]);
