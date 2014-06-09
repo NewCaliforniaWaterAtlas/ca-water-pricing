@@ -2,7 +2,6 @@ Todo
 ------
 
 * swap out google geocoder for map quest: http://open.mapquestapi.com/geocoding/
-* configure html5mode to get hashes out of routes. NGINX congif is key here
 * add capcha?
 * modify url sting to query most recent NOAA PDSI data 
 * get API key for google places

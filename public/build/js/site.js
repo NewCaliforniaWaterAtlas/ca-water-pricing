@@ -33774,7 +33774,6 @@ app.config( ['$stateProvider', '$urlRouterProvider', '$locationProvider', functi
 	$stateProvider
 		.state('index', {
 			url: '/',
-			// url: '',
 			templateUrl: 'views/templates/home.html', 
 			controller: 'myModal'
 		})
@@ -33791,7 +33790,6 @@ app.config( ['$stateProvider', '$urlRouterProvider', '$locationProvider', functi
 			controller: 'billsController'
 		});
 
-
 		// .state('test', {
 		// 	url: '/test',
 		// 	templateUrl: 'views/templates/test.html', 
@@ -33799,7 +33797,6 @@ app.config( ['$stateProvider', '$urlRouterProvider', '$locationProvider', functi
 		// });
 
 	if (window.history && window.history.pushState) {
-  	// $locationProvider.html5Mode(true).hashPrefix('!');
   	$locationProvider.html5Mode(true);
 	}
 
