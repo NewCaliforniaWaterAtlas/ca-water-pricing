@@ -5,12 +5,9 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'ngAutocomplete', 
 
 app.config( ['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
 	
-	// if (window.history && window.history.pushState) {
- //  	$locationProvider.html5Mode(true);
- //  	$locationProvider.hashPrefix('!');
-	// }
-
-	// $locationProvider.html5Mode(true).hashPrefix('!');
+	if (window.history && window.history.pushState) {
+  	$locationProvider.html5Mode(true).hashPrefix('!');
+	}
 
 	$stateProvider
 		.state('index', {
