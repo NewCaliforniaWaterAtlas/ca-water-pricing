@@ -1,0 +1,40 @@
+{
+  "name": "nsPopover",
+  "version": "5.0.4",
+  "homepage": "https://github.com/nohros/nsPopover",
+  "description": "Popover for angularjs library",
+  "authors": [
+    "Neylor Ohmaly <nohros.ceo@gmail.com>"
+  ],
+  "main": [
+    "src/nsPopover.js",
+    "sass/ns-popover.scss"
+  ],
+  "keywords": [
+    "angularjs",
+    "popover",
+    "nsPopover"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "test",
+    "tests",
+    ".idea"
+  ],
+  "dependencies": {
+    "angular": "~1.2.9"
+  },
+  "_release": "5.0.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "5.0.4",
+    "commit": "5554b89eac47f3849695f2cad5ddb91b85fde92d"
+  },
+  "_source": "git://github.com/nohros/nsPopover.git",
+  "_target": "~5.0.4",
+  "_originalSource": "nsPopover"
+}

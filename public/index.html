@@ -1,16 +1,26 @@
 <!doctype html>
 
-<!-- ASSIGN OUR ANGULAR MODULE -->
-<html ng-app="app">
+<!--[if IE 8]>
+<html class="no-js lt-ie9" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="app"> 
+<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" ng-app="app">
+<!--<![endif]-->
 	<head>
 		<!-- META -->
 		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
-		<base href="/"></base>
+		<!-- <base href="/"></base> -->
+
 		<title>New California Water Atlas: California Water Pricing</title>
 
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Questrial|Muli:300,400,400italic,300italic|Rosario:400,700,400italic,700italic' type='text/css'>
 		<link rel="stylesheet" href="build/css/site.min.css">
+		<!--[if IE 8]>
+			<script src="components/es5-shim/es5-shim.min.js"></script>
+			<script src="components/json3/lib.json3.min.js"></script>
+		<![endif]-->
 
 	</head>
 

@@ -35,9 +35,8 @@
     "bootstrap": "~3.1.1",
     "fontawesome": "~4.0.3",
     "mapboxjs": "git://github.com/platanus/bower-mapboxjs.git#~1.6.1",
-    "nsPopover": "~5.0.4"
-  },
-  "resolutions": {
-    "bootstrap": "~3.1.1"
+    "nsPopover": "~5.0.4",
+    "es5-shim": "~3.4.0",
+    "json3": "~3.3.1"
   }
 }
