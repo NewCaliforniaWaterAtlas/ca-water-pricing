@@ -1,0 +1,22 @@
+<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
+  <url>
+    <loc>http://ca-pricing.statewater.org/api/v1/agency</loc>
+    <lastmod>2014-06-11</lastmod>
+  </url>
+  <url>
+    <loc>http://ca-pricing.statewater.org/api/v1/bills</loc>
+    <lastmod>2014-06-11</lastmod>
+  </url>
+  <url>
+    <loc>http://ca-pricing.statewater.org/agency</loc>
+    <lastmod>2014-06-11</lastmod>
+  </url>
+  <url>
+    <loc>http://ca-pricing.statewater.org/user</loc>
+    <lastmod>2014-06-11</lastmod>
+  </url>
+  <url>
+    <loc>http://ca-pricing.statewater.org/</loc>
+    <lastmod>2014-06-11</lastmod>
+  </url>
+</urlset>

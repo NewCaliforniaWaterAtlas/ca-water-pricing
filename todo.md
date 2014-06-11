@@ -14,3 +14,4 @@ Todo
 * save higher resolution click banner
 * round service charge in detail panel for agency data and add no data for highlighted values
 * add "I shared my water bill" on CAWaterAtlas for Twitter and Facebook to thankyou modal
+* angular SEO
