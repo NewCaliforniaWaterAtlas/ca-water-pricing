@@ -43,6 +43,7 @@
     "leaflet-omnivore": "0.0.1",
     "simplify-geojson": "0.0.2",
     "moment": "~2.5.1",
-    "d3": "~3.4.4"
+    "d3": "~3.4.4",
+    "connect-modrewrite": "~0.7.6"
   }
 }

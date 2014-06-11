@@ -6,6 +6,7 @@ var mongoose = require('mongoose'); // mongoose for mongodb
 var port  	 = process.env.PORT || 8080; // set the port
 var database = require('./config/database'); // load the database config
 var chromelogger = require('chromelogger');
+var modRewrite = require('connect-modrewrite');
 
 // configuration ===============================================================
 // connect to mongoDB database with mongoose ORM
@@ -18,6 +19,13 @@ app.configure(function() {
 	app.use(express.bodyParser()); // pull information from html in POST
 	app.use(express.methodOverride()); // simulate DELETE and PUT
 	app.use(chromelogger.middleware); // log to chromelogger
+
+  app.use(modRewrite([
+    '^/test$ /index.html',
+    '^/test/\\d*$ /index.html [L]',
+    '^/test/\\d*/\\d*$ /flag.html [L]'
+  ]));
+
 });
 
 // routes ======================================================================
