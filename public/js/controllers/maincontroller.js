@@ -141,6 +141,10 @@ app.controller('mainController', [ '$scope', 'billService', 'timeService', '$sta
 	// 			$scope.entries = data; // assign our new list of entries
 	// 		});
 	// };
+  $scope.setFormStep = function(step, showBillHelp) {
+    $scope.step = step;
+    $scope.billHelp = showBillHelp;
+  };
 
 }]); // end mainController
 

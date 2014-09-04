@@ -77,7 +77,7 @@
 							  <p ng-show="formData1.hsize.$invalid && !formData1.hsize.$pristine && !formData1.hsize.$focused" class="help-block">Your Household size is required.</p>
 							</div>
 						</div>
-				    <button type="button" class="btn btn-default btn-lg" ng-disabled="formData1.$invalid" ng-click="step = 2; billHelp = !billHelp">Next</button>
+				    <button type="button" class="btn btn-default btn-lg" ng-disabled="formData1.$invalid" ng-click="setFormStep(2, true)">Next</button>
 				  </div>
 	
 				  <div ng-show="step==2">
@@ -241,7 +241,7 @@
 						</div><!-- formData2 -->
 				    
 				    <div class="row" ng-controller="thankyouModal">
-				    	<button type="button" class="btn btn-default btn-lg" ng-click="step = 1; billHelp = !billHelp">Back</button>
+				    	<button type="button" class="btn btn-default btn-lg" ng-click="setFormStep(1, false)">Back</button>
 				    	<a type="submit" class="btn btn-success btn-lg" ng-disabled="formData.$invalid" ng-click="createBill(); open();" href="#/user" role="button">Submit</a>
 					    <script type="text/ng-template" id="thankyou-modal.html">
 								<div ng-include="'views/templates/thankyou-modal.html'"></div>
