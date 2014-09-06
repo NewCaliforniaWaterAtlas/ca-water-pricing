@@ -91,7 +91,7 @@ app.directive('mapuser', [ '$window','mapService','timeService', function ($wind
 
 				var baseLayers = {
 			    "Base Map": tonerTiles.addTo(map),
-			    "Satelitte": googleTiles
+			    "Satellite": googleTiles
 				};
 
 				var overlays = {

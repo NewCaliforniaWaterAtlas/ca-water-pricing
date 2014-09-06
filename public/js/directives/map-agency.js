@@ -90,7 +90,7 @@ app.directive('mapagency', [ '$window','mapService', function ($window, mapServi
 
 				var baseLayers = {
 			    "Base Map": tonerTiles.addTo(map),
-			    "Satelitte": googleTiles
+			    "Satellite": googleTiles
 				};
 
 				var overlays = {
